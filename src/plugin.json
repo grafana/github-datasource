@@ -1,0 +1,34 @@
+{
+  "type": "datasource",
+  "name": "Google Sheets",
+  "id": "google-sheets-datasource",
+  "backend": true,
+  "executable": "gfx_sheets",
+  "metrics": true,
+
+  "info": {
+    "description": "Show data from google sheets",
+    "author": {
+      "name": "Grafana Labs",
+      "url": "https://grafana.com"
+    },
+    "keywords": [],
+    "logos": {
+      "small": "img/sheets.svg",
+      "large": "img/sheets.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/google-sheets-datasource"
+      }
+    ],
+    "screenshots": [],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaVersion": "6.7.x",
+    "plugins": []
+  }
+}

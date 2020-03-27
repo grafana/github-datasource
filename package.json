@@ -1,0 +1,27 @@
+{
+  "name": "google-sheets-datasource",
+  "version": "0.9.0-dev",
+  "description": "Load data from google sheets in grafana",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "test:e2e": "grafana-e2e run",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch"
+  },
+  "repository": "github:grafana/google-sheets-datasource",
+  "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@grafana/data": "next",
+    "@grafana/e2e": "next",
+    "@grafana/runtime": "next",
+    "@grafana/toolkit": "next",
+    "@grafana/ui": "next",
+    "@types/lodash": "latest",
+    "@types/react-dropzone": "^5.1.0"
+  },
+  "dependencies": {
+    "react-dropzone": "^10.2.1"
+  }
+}

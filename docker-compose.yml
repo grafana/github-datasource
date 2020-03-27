@@ -1,0 +1,18 @@
+version: '3'
+services:
+  grafana:
+    image: grafana/grafana:master
+    ports:
+      - '3090:3000'
+    volumes:
+      - ./:/var/lib/grafana/plugins/google-sheets-datasource
+      - grafana-storage:/var/lib/grafana
+      # - ./provisioning:/etc/grafana/provisioning
+    environment:
+      - COMPOSE_INTERACTIVE_NO_CLI=1
+      - TERM=linux
+      - GF_LOG_LEVEL=debug
+      - GF_DATAPROXY_LOGGING=true
+      - GF_FEATURE_TOGGLES_ENABLE=expressions inspect transformations newEdit
+volumes:
+  grafana-storage:
