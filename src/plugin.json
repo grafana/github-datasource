@@ -1,13 +1,12 @@
 {
   "type": "datasource",
-  "name": "Google Sheets",
-  "id": "google-sheets-datasource",
+  "name": "Github Stats",
+  "id": "grafana-github-datsource",
   "backend": true,
-  "executable": "gfx_sheets",
+  "executable": "gfx_github",
   "metrics": true,
-
   "info": {
-    "description": "Show data from google sheets",
+    "description": "Show data about github issues/pull requests",
     "author": {
       "name": "Grafana Labs",
       "url": "https://grafana.com"
@@ -20,7 +19,7 @@
     "links": [
       {
         "name": "Website",
-        "url": "https://github.com/grafana/google-sheets-datasource"
+        "url": "https://github.com/grafana/grafana-github-datasource"
       }
     ],
     "screenshots": [],

@@ -1,7 +1,7 @@
 {
-  "name": "google-sheets-datasource",
-  "version": "0.9.0-dev",
-  "description": "Load data from google sheets in grafana",
+  "name": "grafana-github-datasource",
+  "version": "0.0.1",
+  "description": "loads data from github issues/Pr's to Grafana",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
@@ -9,7 +9,7 @@
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch"
   },
-  "repository": "github:grafana/google-sheets-datasource",
+  "repository": "github:grafana/grafana-github-datasource",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {

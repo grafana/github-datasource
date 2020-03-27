@@ -8,7 +8,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/golang/protobuf v1.3.3 // indirect; indirect	github.com/grafana/grafana-plugin-sdk-go v0.28.0
-	github.com/grafana/grafana-plugin-sdk-go v0.29.0
+	github.com/grafana/grafana-plugin-sdk-go v0.33.0
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/magefile/mage v1.9.0
 	github.com/mitchellh/go-testing-interface v1.0.0 // indirect

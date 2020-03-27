@@ -5,7 +5,7 @@ services:
     ports:
       - '3090:3000'
     volumes:
-      - ./:/var/lib/grafana/plugins/google-sheets-datasource
+      - ./:/var/lib/grafana/plugins/grafana-github-datasoure
       - grafana-storage:/var/lib/grafana
       # - ./provisioning:/etc/grafana/provisioning
     environment:

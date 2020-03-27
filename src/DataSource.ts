@@ -1,6 +1,5 @@
 import { DataSourceInstanceSettings, SelectableValue } from '@grafana/data';
 import { DataSourceWithBackend, getBackendSrv } from '@grafana/runtime';
-
 import { SheetsQuery, SheetsSourceOptions } from './types';
 
 export enum HealthStatus {
@@ -33,6 +32,7 @@ export class DataSource extends DataSourceWithBackend<SheetsQuery, SheetsSourceO
     return getBackendSrv()
       .get(`/api/datasources/${this.id}/health`)
       .then(v => {
+        console.log('asdfasdf', v);
         return v as HealthCheckResult;
       })
       .catch(err => {
