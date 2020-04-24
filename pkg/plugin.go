@@ -5,12 +5,11 @@ import (
 	"os"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/prometheus/client_golang/prometheus"
+	"github.com/shurcooL/githubv4"
+	"golang.org/x/oauth2"
 
 	"context"
 )
-
-const metricNamespace = "sheets_datasource"
 
 func main() {
 	// Setup the plugin environment
@@ -18,7 +17,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	ds := Init(mux)
-	//httpResourceHandler := httpadapter.New(mux)
+	// httpResourceHandler := httpadapter.New(mux)
 
 	err := backend.Serve(backend.ServeOpts{
 		QueryDataHandler:   ds,
@@ -29,31 +28,27 @@ func main() {
 		backend.Logger.Error(err.Error())
 		os.Exit(1)
 	}
+
 }
 
-type GithubStatsDatasource struct {
-}
-
+// QueryData .....
 func (plugin *GithubStatsDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return nil, nil
 }
 
+// CheckHealth .....
 func (plugin *GithubStatsDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return &backend.CheckHealthResult{Status: backend.HealthStatusOk}, nil
 }
 
 // Init creates the google sheets datasource and sets up all the routes
 func Init(mux *http.ServeMux) *GithubStatsDatasource {
-	queriesTotal := prometheus.NewCounterVec(
-		prometheus.CounterOpts{
-			Name:      "data_query_total",
-			Help:      "data query counter",
-			Namespace: metricNamespace,
-		},
-		[]string{"scenario"},
+	// fix me
+	src := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: os.Getenv("GITHUB_ACCESS_TOKEN")},
 	)
-	prometheus.MustRegister(queriesTotal)
+	httpClient := oauth2.NewClient(context.Background(), src)
 
-	ds := &GithubStatsDatasource{}
+	ds := &GithubStatsDatasource{client: githubv4.NewClient(httpClient)}
 	return ds
 }
