@@ -19,6 +19,6 @@ func LoadSettings(settings backend.DataSourceInstanceSettings) (Settings, error)
 	}
 
 	// s.AccessToken = settings.DecryptedSecureJSONData["access_token"]
-	s.AccessToken = "df27c85c5c16d969c08bdf137853565b338c0240"
+	s.AccessToken = ""
 	return s, nil
 }

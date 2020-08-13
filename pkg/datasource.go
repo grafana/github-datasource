@@ -36,8 +36,8 @@ func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 	return &Datasource{
 		client: githubv4.NewClient(httpClient),
 		oauthConfig: &oauth2.Config{
-			ClientID:     "dd372c64898d6e07b3d4",
-			ClientSecret: "f650d0e2c735668444156bc4fb44ab913b21461c",
+			ClientID:     "",
+			ClientSecret: "",
 			Scopes:       []string{"repo", "read:org"},
 			Endpoint:     github.Endpoint,
 		},
