@@ -1,5 +1,7 @@
 # Grafana GitHub datasource
 
+⚠️ Work in Progress⚠️
+
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
 
 ## Features
@@ -25,5 +27,10 @@ The GitHub datasource allows GitHub API data to be visually represented in Grafa
 * [ ] Response Caching
 
 ### Frontend
+* [ ] Visualize queries
+* [ ] Template variables
+* [ ] Alerts / Notification Channels
 * [ ] Annotations
-
+* [ ] Authorize requests
+  * [-] OAuth
+  * [ ] Personal Access Token
