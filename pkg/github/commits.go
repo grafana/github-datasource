@@ -52,13 +52,6 @@ type QueryListCommitsInRange struct {
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
-// Commit represents a git commit from GitHub's API
-type Commit struct {
-	PushedDate githubv4.DateTime
-	Message    githubv4.String
-	Author     GitActor
-}
-
 // ListCommitsOptions provides options when retrieving commits
 type ListCommitsOptions struct {
 	Repository string
