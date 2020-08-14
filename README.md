@@ -32,5 +32,5 @@ The GitHub datasource allows GitHub API data to be visually represented in Grafa
 * [ ] Alerts / Notification Channels
 * [ ] Annotations
 * [ ] Authorize requests
-  * [-] OAuth
+  * [ ] OAuth
   * [ ] Personal Access Token
