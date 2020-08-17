@@ -1,25 +1,37 @@
-# Grafana Github datasource
+# Grafana GitHub datasource
 
-⚠️ Work in Progress ⚠️ 
+⚠️ Work in Progress⚠️
 
-Purpose of this plugin is to dogfood our backend plugin SDK. This plugin might or might not end up being published. 
+The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
 
-## Development
+## Features
 
-You need to install the following first:
+### Backend
+* [x] Releases
+  * [x] List all
+  * [x] List within time range
+  * [ ] Filter by author
+  * [ ] Filter by semver
+* [x] Commits
+  * [x] List all
+  * [x] List within time range
+  * [ ] Filter by author
+* [ ] Deploys
+* [x] Repositories
+  * [x] List all
+* [x] Issues
+  * [x] List all
+  * [x] List within time range
+    * [x] Opened at
+    * [x] Closed at
+* [x] Organizations
+* [ ] Response Caching
 
-* [Mage](https://magefile.org/)
-* [Yarn](https://yarnpkg.com/)
-* [Docker Compose](https://docs.docker.com/compose/)
-
-```
-mage watch
-```
-
-In another terminal
-```
-docker-compose up
-```
-
-To restart after backend changes:
-`./scripts/restart-plugin.sh`
+### Frontend
+* [ ] Visualize queries
+* [ ] Template variables
+* [ ] Alerts / Notification Channels
+* [ ] Annotations
+* [ ] Authorize requests
+  * [ ] OAuth
+  * [ ] Personal Access Token

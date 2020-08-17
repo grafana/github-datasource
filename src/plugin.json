@@ -1,7 +1,7 @@
 {
   "type": "datasource",
   "name": "Github Stats",
-  "id": "grafana-github-datsource",
+  "id": "grafana-github-datasource",
   "backend": true,
   "executable": "gfx_github",
   "metrics": true,
@@ -27,7 +27,7 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaVersion": "6.7.x",
+    "grafanaVersion": "7.0.x",
     "plugins": []
   }
 }
