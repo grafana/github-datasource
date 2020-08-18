@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	dserrors "github.com/grafana/grafana-github-datasource/pkg/errors"
-	"github.com/grafana/grafana-github-datasource/pkg/github"
 	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
@@ -15,9 +15,7 @@ import (
 
 // GithubHandler is the plugin entrypoint and implements all of the necessary handler functions for dataqueries, healthchecks, and resources.
 type GithubHandler struct {
-	// The instance manager can help with lifecycle management
-	// of datasource instances in plugins. It's not a requirement
-	// but a best practice that we recommend that you follow.
+	// The instance manager can help with lifecycle management of datasource instances in plugins. It's not a requirement but a best practice that we recommend that you follow.
 	im instancemgmt.InstanceManager
 }
 
@@ -31,8 +29,8 @@ func (cr *GithubHandler) QueryData(ctx context.Context, req *backend.QueryDataRe
 		return nil, err
 	}
 
-	if val, ok := h.(*github.Datasource); ok {
-		return HandleQueryData(ctx, val, req)
+	if val, ok := h.(*GitHubDataSource); ok {
+		return val.HandleQueryData(ctx, req)
 	}
 	return nil, dserrors.ErrorBadDatasource
 }
@@ -42,15 +40,13 @@ func (cr *GithubHandler) QueryData(ctx context.Context, req *backend.QueryDataRe
 // datasource configuration page which allows users to verify that
 // a datasource is working as expected.
 func (cr *GithubHandler) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
-	h, err := cr.im.Get(req.PluginContext)
-	if err != nil {
-		return nil, err
-	}
+	var status = backend.HealthStatusOk
+	var message = "Data source is working"
 
-	if val, ok := h.(*github.Datasource); ok {
-		return CheckHealth(ctx, val, req)
-	}
-	return nil, dserrors.ErrorBadDatasource
+	return &backend.CheckHealthResult{
+		Status:  status,
+		Message: message,
+	}, nil
 }
 
 func (cr *GithubHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -61,17 +57,12 @@ func (cr *GithubHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	// if err != nil {
-	// 	crdb.WriteResourceError(w, http.StatusInternalServerError, err)
-	// 	return
-	// }
-
-	if ds, ok := h.(*github.Datasource); ok {
+	if ds, ok := h.(*GitHubDataSource); ok {
 		MustGetRouter(ds).ServeHTTP(w, r)
 		return
 	}
 
-	panic(dserrors.ErrorBadDatasource)
+	panic(errors.New("internal datasource failed to assert to CRDBDatasource"))
 }
 
 // newDatasource returns datasource.ServeOpts.
@@ -96,5 +87,5 @@ func newDataSourceInstance(settings backend.DataSourceInstanceSettings) (instanc
 		return nil, err
 	}
 
-	return github.NewDatasource(context.TODO(), datasourceSettings), nil
+	return NewGitHubDatasource(context.TODO(), datasourceSettings), nil
 }

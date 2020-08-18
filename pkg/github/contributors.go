@@ -5,9 +5,6 @@ import (
 	"time"
 )
 
-// A Contributor is a user that has contributed to a repository
-type Contributor User
-
 // ListContributorsOptions are the available arguments when listing contributor
 type ListContributorsOptions struct {
 	Repository string

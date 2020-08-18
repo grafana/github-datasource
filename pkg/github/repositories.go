@@ -6,12 +6,6 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-// Repository is a code repository
-type Repository struct {
-	NameWithOwner string
-	URL           string
-}
-
 // QueryListRepositories is the GraphQL query for retrieving a list of repositories for an organization
 type QueryListRepositories struct {
 	Organization struct {

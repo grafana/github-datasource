@@ -16,11 +16,6 @@ type QueryListOrganizations struct {
 	}
 }
 
-// An Organization is a single GitHub organization
-type Organization struct {
-	Name string
-}
-
 // GetAllOrganizations lists the available organizations for the client
 func GetAllOrganizations(ctx context.Context, client Client) ([]Organization, error) {
 	var (

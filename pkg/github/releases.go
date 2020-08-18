@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )
 
@@ -11,12 +12,46 @@ import (
 type Release struct {
 	ID           string
 	Name         string
+	Author       User
 	IsDraft      bool
 	IsPrerelease bool
 	CreatedAt    githubv4.DateTime
 	PublishedAt  githubv4.DateTime
 	TagName      string
 	URL          string
+}
+
+// Releases is a slice of GitHub releases
+type Releases []Release
+
+// ToDataFrame converts the list of Releases to a Grafana DataFrame
+func (c Releases) ToDataFrame() (data.Frames, error) {
+	frame := data.NewFrame(
+		"releases",
+		data.NewField("name", nil, []string{}),
+		data.NewField("created_by", nil, []string{}),
+		data.NewField("is_draft", nil, []bool{}),
+		data.NewField("is_prerelease", nil, []bool{}),
+		data.NewField("tag", nil, []string{}),
+		data.NewField("url", nil, []string{}),
+		data.NewField("created_at", nil, []time.Time{}),
+		data.NewField("published_at", nil, []time.Time{}),
+	)
+
+	for _, v := range c {
+		frame.AppendRow(
+			v.Name,
+			v.Author.Login,
+			v.IsDraft,
+			v.IsPrerelease,
+			v.TagName,
+			v.URL,
+			v.CreatedAt.Time,
+			v.PublishedAt.Time,
+		)
+	}
+
+	return data.Frames{frame}, nil
 }
 
 // QueryListReleases is the GraphQL query for listing GitHub releases in a repository
@@ -36,7 +71,7 @@ type ListReleasesOptions struct {
 }
 
 // GetAllReleases retrieves every release from a repository
-func GetAllReleases(ctx context.Context, client Client, opts ListReleasesOptions) ([]Release, error) {
+func GetAllReleases(ctx context.Context, client Client, opts ListReleasesOptions) (Releases, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -63,7 +98,7 @@ func GetAllReleases(ctx context.Context, client Client, opts ListReleasesOptions
 }
 
 // GetReleasesInRange retrieves every release from the repository and then returns the ones that fall within the given time range.
-func GetReleasesInRange(ctx context.Context, client Client, opts ListReleasesOptions, from time.Time, to time.Time) ([]Release, error) {
+func GetReleasesInRange(ctx context.Context, client Client, opts ListReleasesOptions, from time.Time, to time.Time) (Releases, error) {
 	releases, err := GetAllReleases(ctx, client, opts)
 	if err != nil {
 		return nil, err

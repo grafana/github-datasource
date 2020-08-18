@@ -34,16 +34,6 @@ type QueryListIssues struct {
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
-// Issue represents a GitHub issue in a repository
-type Issue struct {
-	Title    string
-	ClosedAt githubv4.DateTime
-	Closed   bool
-	Author   struct {
-		User `graphql:"... on User"`
-	}
-}
-
 // ListIssuesOptions provides options when retrieving issues
 type ListIssuesOptions struct {
 	Repository string

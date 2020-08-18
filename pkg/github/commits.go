@@ -88,7 +88,7 @@ func GetAllCommits(ctx context.Context, client Client, opts ListCommitsOptions) 
 }
 
 // GetCommitsInRange lists all commits in a repository within a time range.
-func GetCommitsInRange(ctx context.Context, client Client, opts ListCommitsOptions, from time.Time, to time.Time) ([]Commit, error) {
+func GetCommitsInRange(ctx context.Context, client Client, opts ListCommitsOptions, from time.Time, to time.Time) (Commits, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
