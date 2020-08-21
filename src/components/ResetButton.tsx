@@ -8,7 +8,7 @@ interface Props {
 
 export default (props: Props) => {
   return (
-    <Button variant="secondary" type="button" {...props} >
+    <Button variant="secondary" type="button" {...props}>
       Reset
     </Button>
   );

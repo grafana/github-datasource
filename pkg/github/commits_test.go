@@ -5,13 +5,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 )
 
 func TestGetAllCommits(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListCommitsOptions{
+		opts = models.ListCommitsOptions{
 			Repository: "test",
 			Ref:        "master",
 			Owner:      "kminehart-test",
@@ -34,7 +35,7 @@ func TestGetAllCommits(t *testing.T) {
 func TestListCommits(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListCommitsOptions{
+		opts = models.ListCommitsOptions{
 			Repository: "grafana",
 			Ref:        "master",
 			Owner:      "grafana",

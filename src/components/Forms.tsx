@@ -17,14 +17,20 @@ export const QueryField: FunctionComponent<Partial<Props>> = ({ label, labelWidt
   </>
 );
 
+export const QueryRowTerminator = () => {
+  return (
+    <div className="gf-form gf-form--grow">
+      <div className="gf-form-label gf-form-label--grow" />
+    </div>
+  );
+}
+
 export const QueryInlineField = ({ ...props }) => {
   return (
-    <div className={'gf-form-inline'}>
+    <QueryEditorRow>
       <QueryField {...props} />
-      <div className="gf-form gf-form--grow">
-        <div className="gf-form-label gf-form-label--grow" />
-      </div>
-    </div>
+      <QueryRowTerminator />
+    </QueryEditorRow>
   );
 };
 

@@ -1,22 +1,20 @@
 import React, { useMemo, useState } from 'react';
-import { Input, Button, } from '@grafana/ui';
+import { Input, Button } from '@grafana/ui';
 import { QueryInlineField } from './Forms';
 import { ConfigEditorProps } from '../types';
-import { 
-  onUpdateDatasourceSecureJsonDataOption,
-  onUpdateDatasourceResetOption,
-} from '@grafana/data';
+import { onUpdateDatasourceSecureJsonDataOption, onUpdateDatasourceResetOption } from '@grafana/data';
 import ResetButton from './ResetButton';
 
-
 const copyToClipboard = async (text: string) => {
-  navigator.clipboard.writeText(text).then(function() {
-    // TODO: toast, successful copy
-  }, function(err) {
-    console.error(err);
-  });
-}
-
+  navigator.clipboard.writeText(text).then(
+    function() {
+      // TODO: toast, successful copy
+    },
+    function(err) {
+      console.error(err);
+    }
+  );
+};
 
 export default (props: ConfigEditorProps) => {
   const clientIDSet = useMemo(() => {
@@ -39,8 +37,18 @@ export default (props: ConfigEditorProps) => {
 
   return (
     <>
-      <QueryInlineField label="Grafana Root URL" labelWidth={12} tooltip="The root URL of your Grafana instance used for the Authorization callback">
-        <Input css="" width={56} value={rootURL} placeholder="https://grafana.com" onChange={(e) => setRootURL(e.currentTarget.value)} />
+      <QueryInlineField
+        label="Grafana Root URL"
+        labelWidth={12}
+        tooltip="The root URL of your Grafana instance used for the Authorization callback"
+      >
+        <Input
+          css=""
+          width={56}
+          value={rootURL}
+          placeholder="https://grafana.com"
+          onChange={e => setRootURL(e.currentTarget.value)}
+        />
       </QueryInlineField>
       <QueryInlineField label="Authorization Callback" labelWidth={12}>
         <Input css="" width={56} disabled value={authCallbackURL} />
@@ -81,7 +89,11 @@ export default (props: ConfigEditorProps) => {
         />
         <ResetButton disabled={!accessTokenSet} onClick={onUpdateDatasourceResetOption(props, 'oauthAccessToken')} />
       </QueryInlineField>
-      <QueryInlineField label="Authorize Github" labelWidth={12} tooltip='Authorizing to GitHub using OAuth 2.0 requires "Client ID" and "Client Secret" to be set.'>
+      <QueryInlineField
+        label="Authorize Github"
+        labelWidth={12}
+        tooltip='Authorizing to GitHub using OAuth 2.0 requires "Client ID" and "Client Secret" to be set.'
+      >
         <Button type="button" variant="primary" disabled={!(clientIDSet && clientSecretSet)}>
           Authorize
         </Button>

@@ -47,7 +47,7 @@ func (cr *GithubHandler) CheckHealth(ctx context.Context, req *backend.CheckHeal
 		return nil, err
 	}
 
-	if val, ok := h.(*github.Datasource); ok {
+	if val, ok := h.(models.Datasource); ok {
 		return CheckHealth(ctx, val, req)
 	}
 	return nil, dserrors.ErrorBadDatasource
@@ -67,7 +67,10 @@ func (cr *GithubHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// }
 
 	if ds, ok := h.(*github.Datasource); ok {
-		MustGetRouter(ds).ServeHTTP(w, r)
+		MustGetRouter(Handlers{
+			OAuth2: ds,
+			Labels: ds,
+		}).ServeHTTP(w, r)
 		return
 	}
 

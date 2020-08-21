@@ -4,8 +4,51 @@ import (
 	"context"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )
+
+// Commit represents a git commit from GitHub's API
+type Commit struct {
+	OID           string
+	PushedDate    githubv4.DateTime
+	AuthoredDate  githubv4.DateTime
+	CommittedDate githubv4.DateTime
+	Message       githubv4.String
+	Author        GitActor
+}
+
+// Commits is a slice of git commits
+type Commits []Commit
+
+// ToDataFrame converts the list of commits to a Grafana DataFrame
+func (c Commits) Frame() data.Frames {
+	frame := data.NewFrame(
+		"commits",
+		data.NewField("id", nil, []string{}),
+		data.NewField("author", nil, []string{}),
+		data.NewField("author_login", nil, []string{}),
+		data.NewField("author_email", nil, []string{}),
+		data.NewField("author_company", nil, []string{}),
+		data.NewField("commited_at", nil, []time.Time{}),
+		data.NewField("pushed_at", nil, []time.Time{}),
+	)
+
+	for _, v := range c {
+		frame.AppendRow(
+			v.OID,
+			v.Author.Name,
+			v.Author.User.Login,
+			v.Author.Email,
+			v.Author.User.Company,
+			v.CommittedDate.Time,
+			v.PushedDate.Time,
+		)
+	}
+
+	return data.Frames{frame}
+}
 
 // QueryListCommits is the object representation of the graphql query for retrieving a paginated list of commits for a project
 // query {
@@ -52,15 +95,8 @@ type QueryListCommitsInRange struct {
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
-// ListCommitsOptions provides options when retrieving commits
-type ListCommitsOptions struct {
-	Repository string
-	Owner      string
-	Ref        string
-}
-
 // GetAllCommits lists every commit in a project. This function is slow and very prone to rate limiting.
-func GetAllCommits(ctx context.Context, client Client, opts ListCommitsOptions) ([]Commit, error) {
+func GetAllCommits(ctx context.Context, client Client, opts models.ListCommitsOptions) ([]Commit, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -88,7 +124,7 @@ func GetAllCommits(ctx context.Context, client Client, opts ListCommitsOptions) 
 }
 
 // GetCommitsInRange lists all commits in a repository within a time range.
-func GetCommitsInRange(ctx context.Context, client Client, opts ListCommitsOptions, from time.Time, to time.Time) (Commits, error) {
+func GetCommitsInRange(ctx context.Context, client Client, opts models.ListCommitsOptions, from time.Time, to time.Time) (Commits, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),

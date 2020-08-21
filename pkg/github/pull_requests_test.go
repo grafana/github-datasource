@@ -9,47 +9,45 @@ import (
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 )
 
-func TestGetAllTags(t *testing.T) {
+func TestGetAllReleases(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = models.ListTagsOptions{
+		opts = models.ListReleasesOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 		}
 	)
 
-	testVariables := testutil.GetTestVariablesFunction("name", "owner", "cursor")
+	testVariables := testutil.GetTestVariablesFunction("name", "owner")
 
 	client := testutil.NewTestClient(t,
 		testVariables,
-		testutil.GetTestQueryFunction(&QueryListTags{}),
+		testutil.GetTestQueryFunction(&QueryListReleases{}),
 	)
 
-	_, err := GetAllTags(ctx, client, opts)
+	_, err := GetAllReleases(ctx, client, opts)
 	if err != nil {
 		t.Fatal(err)
 	}
 }
 
-func TestListTags(t *testing.T) {
+func TestListReleases(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = models.ListTagsOptions{
+		opts = models.ListReleasesOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 		}
-		from = time.Now().Add(-30 * 24 * time.Hour)
-		to   = time.Now()
 	)
 
-	testVariables := testutil.GetTestVariablesFunction("name", "owner", "cursor")
+	testVariables := testutil.GetTestVariablesFunction("name", "owner")
 
 	client := testutil.NewTestClient(t,
 		testVariables,
-		testutil.GetTestQueryFunction(&QueryListTags{}),
+		testutil.GetTestQueryFunction(&QueryListReleases{}),
 	)
 
-	_, err := GetTagsInRange(ctx, client, opts, from, to)
+	_, err := GetReleasesInRange(ctx, client, opts, time.Now().Add(-30*24*time.Hour), time.Now())
 	if err != nil {
 		t.Fatal(err)
 	}

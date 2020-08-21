@@ -5,48 +5,28 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 )
 
-func TestGetAllReleases(t *testing.T) {
+func TestListPullRequests(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListReleasesOptions{
+		opts = models.ListPullRequestsInRangeOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
+			TimeField:  models.PullRequestClosedAt,
 		}
 	)
 
-	testVariables := testutil.GetTestVariablesFunction("name", "owner")
+	testVariables := testutil.GetTestVariablesFunction("search", "cursor")
 
 	client := testutil.NewTestClient(t,
 		testVariables,
-		testutil.GetTestQueryFunction(&QueryListReleases{}),
+		testutil.GetTestQueryFunction(&QueryListPullRequests{}),
 	)
 
-	_, err := GetAllReleases(ctx, client, opts)
-	if err != nil {
-		t.Fatal(err)
-	}
-}
-
-func TestListReleases(t *testing.T) {
-	var (
-		ctx  = context.Background()
-		opts = ListReleasesOptions{
-			Repository: "grafana",
-			Owner:      "grafana",
-		}
-	)
-
-	testVariables := testutil.GetTestVariablesFunction("name", "owner")
-
-	client := testutil.NewTestClient(t,
-		testVariables,
-		testutil.GetTestQueryFunction(&QueryListReleases{}),
-	)
-
-	_, err := GetReleasesInRange(ctx, client, opts, time.Now().Add(-30*24*time.Hour), time.Now())
+	_, err := GetPullRequestsInRange(ctx, client, opts, time.Now().Add(-30*24*time.Hour), time.Now())
 	if err != nil {
 		t.Fatal(err)
 	}

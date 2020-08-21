@@ -3,8 +3,22 @@ package github
 import (
 	"context"
 
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )
+
+// An Organization is a single GitHub organization
+type Organization struct {
+	Name string
+}
+
+// Organizations is a slice of GitHub Organizations
+type Organizations []Organization
+
+// ToDataFrame converts the list of Organizations to a Grafana DataFrame
+func (c Organizations) ToDataFrame() data.Frames {
+	return data.Frames{}
+}
 
 // QueryListOrganizations is the GraphQL query for listing organizations
 type QueryListOrganizations struct {
