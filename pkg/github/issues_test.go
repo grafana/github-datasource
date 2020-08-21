@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 	"github.com/shurcooL/githubv4"
 )
@@ -15,7 +16,7 @@ func TestGetIssues(t *testing.T) {
 	)
 
 	t.Run("With no filters", func(t *testing.T) {
-		opts := ListIssuesOptions{
+		opts := models.ListIssuesOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 		}
@@ -33,17 +34,17 @@ func TestGetIssues(t *testing.T) {
 
 		client := testutil.NewTestClient(t,
 			testIssueVariables,
-			testutil.GetTestQueryFunction(&QueryListIssues{}),
+			testutil.GetTestQueryFunction(&QueryGetIssues{}),
 		)
 
-		_, err := ListIssues(ctx, client, opts)
+		_, err := GetAllIssues(ctx, client, opts)
 		if err != nil {
 			t.Fatal(err)
 		}
 	})
 
 	t.Run("With a 'since' filter", func(t *testing.T) {
-		opts := ListIssuesOptions{
+		opts := models.ListIssuesOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 			Filters: &githubv4.IssueFilters{
@@ -71,10 +72,10 @@ func TestGetIssues(t *testing.T) {
 
 		client := testutil.NewTestClient(t,
 			testIssueVariables,
-			testutil.GetTestQueryFunction(&QueryListIssues{}),
+			testutil.GetTestQueryFunction(&QueryGetIssues{}),
 		)
 
-		_, err := ListIssues(ctx, client, opts)
+		_, err := GetAllIssues(ctx, client, opts)
 		if err != nil {
 			t.Fatal(err)
 		}

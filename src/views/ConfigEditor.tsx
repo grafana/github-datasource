@@ -34,9 +34,7 @@ export default (props: ConfigEditorProps) => {
           );
         })}
       </TabsBar>
-      <TabContent>
-        {activeTab.component(props)}
-      </TabContent>
+      <TabContent>{activeTab.component(props)}</TabContent>
     </>
   );
 };

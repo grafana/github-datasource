@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )
 
@@ -13,6 +15,37 @@ type Tag struct {
 	Target struct {
 		Commit Commit `graphql:"... on Commit"`
 	}
+}
+
+type Tags []Tag
+
+func (t Tags) Frame() data.Frames {
+	frame := data.NewFrame(
+		"tags",
+		data.NewField("name", nil, []string{}),
+		data.NewField("id", nil, []string{}),
+		data.NewField("author", nil, []string{}),
+		data.NewField("author_login", nil, []string{}),
+		data.NewField("author_email", nil, []string{}),
+		data.NewField("author_company", nil, []string{}),
+		data.NewField("commited_at", nil, []time.Time{}),
+		data.NewField("pushed_at", nil, []time.Time{}),
+	)
+
+	for _, v := range t {
+		frame.AppendRow(
+			v.Name,
+			v.Target.Commit.OID,
+			v.Target.Commit.Author.Name,
+			v.Target.Commit.Author.User.Login,
+			v.Target.Commit.Author.Email,
+			v.Target.Commit.Author.User.Company,
+			v.Target.Commit.CommittedDate.Time,
+			v.Target.Commit.PushedDate.Time,
+		)
+	}
+
+	return data.Frames{frame}
 }
 
 // QueryListTags is the GraphQL query for listing GitHub tags in a repository
@@ -44,14 +77,8 @@ type QueryListTags struct {
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
-// ListTagsOptions is the available options when listing tags
-type ListTagsOptions struct {
-	Owner      string
-	Repository string
-}
-
 // GetAllTags retrieves every tag from a repository
-func GetAllTags(ctx context.Context, client Client, opts ListTagsOptions) ([]Tag, error) {
+func GetAllTags(ctx context.Context, client Client, opts models.ListTagsOptions) (Tags, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -78,7 +105,7 @@ func GetAllTags(ctx context.Context, client Client, opts ListTagsOptions) ([]Tag
 }
 
 // GetTagsInRange retrieves every tag from the repository and then returns the ones that fall within the given time range.
-func GetTagsInRange(ctx context.Context, client Client, opts ListTagsOptions, from time.Time, to time.Time) ([]Tag, error) {
+func GetTagsInRange(ctx context.Context, client Client, opts models.ListTagsOptions, from time.Time, to time.Time) (Tags, error) {
 	tags, err := GetAllTags(ctx, client, opts)
 	if err != nil {
 		return nil, err

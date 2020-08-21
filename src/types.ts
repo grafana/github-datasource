@@ -1,30 +1,9 @@
-import { DataQuery, DataSourceJsonData, DataSourcePluginOptionsEditorProps } from '@grafana/data';
+import { DataSourceJsonData, DataSourcePluginOptionsEditorProps } from '@grafana/data';
 
-export enum QueryType {
-  Commits,
-  Issues,
-  Contributors,
-  Tags,
-  Releases,
-  PullRequests,
-  GraphQL,
-}
-
-export interface IssueFilter {
-  assignee?: string;
-  createdBy?: string;
-  labels?: string[];
-  mentioned?: string;
-  milestone?: string;
-  since?: string;
-}
-
-export interface GitHubQuery extends DataQuery {
-  type: QueryType; 
-  owner?: string;
-  repository?: string;
-  ref?: string;
-  issueFilters?: IssueFilter[];
+export interface Label {
+  color: string;
+  description: string;
+  name: string;
 }
 
 export interface DataSourceOptions {}

@@ -3,14 +3,29 @@ package github
 import (
 	"context"
 	"time"
+
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 )
 
-// ListContributorsOptions are the available arguments when listing contributor
-type ListContributorsOptions struct {
-	Repository string
-	Owner      string
-	Ref        string
+// A GitActor is a user that has performed a git action, like a commit
+type GitActor struct {
+	Name  string
+	Email string
+	User  User
 }
+
+// A User is a GitHub user
+type User struct {
+	ID      string
+	Login   string
+	Name    string
+	Company string
+	Email   string
+	URL     string
+}
+
+// Users is a slice of GitHub users
+type Users []User
 
 // GetAuthors reduces the list of commits into a list of authors
 func GetAuthors(commits []Commit) []GitActor {
@@ -31,8 +46,8 @@ func GetAuthors(commits []Commit) []GitActor {
 }
 
 // GetAllContributors lists all of the git contributors in a a repository
-func GetAllContributors(ctx context.Context, client Client, opts ListContributorsOptions) ([]GitActor, error) {
-	commits, err := GetAllCommits(ctx, client, ListCommitsOptions{
+func GetAllContributors(ctx context.Context, client Client, opts models.ListContributorsOptions) ([]GitActor, error) {
+	commits, err := GetAllCommits(ctx, client, models.ListCommitsOptions{
 		Repository: opts.Repository,
 		Owner:      opts.Owner,
 		Ref:        opts.Ref,
@@ -45,8 +60,8 @@ func GetAllContributors(ctx context.Context, client Client, opts ListContributor
 }
 
 // GetContributorsInRange lists all commits in a repository within a time range.
-func GetContributorsInRange(ctx context.Context, client Client, opts ListContributorsOptions, from time.Time, to time.Time) ([]GitActor, error) {
-	commits, err := GetCommitsInRange(ctx, client, ListCommitsOptions{
+func GetContributorsInRange(ctx context.Context, client Client, opts models.ListContributorsOptions, from time.Time, to time.Time) ([]GitActor, error) {
+	commits, err := GetCommitsInRange(ctx, client, models.ListCommitsOptions{
 		Repository: opts.Repository,
 		Owner:      opts.Owner,
 		Ref:        opts.Ref,

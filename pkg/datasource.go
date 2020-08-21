@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"net/http"
 
 	"context"
 
@@ -12,29 +11,14 @@ import (
 	"github.com/pkg/errors"
 )
 
-type QueryHandlerFunc func(context.Context, *models.Query, backend.DataQuery) (backend.DataResponse, error)
-
-// The Datasource type handles the requests sent to the datasource backend
-type Datasource interface {
-	HandleIssuesQuery(context.Context, *models.Query, backend.DataQuery) (backend.DataResponse, error)
-	HandleCommitsQuery(context.Context, *models.Query, backend.DataQuery) (backend.DataResponse, error)
-	HandleTagsQuery(context.Context, *models.Query, backend.DataQuery) (backend.DataResponse, error)
-	HandleReleasesQuery(context.Context, *models.Query, backend.DataQuery) (backend.DataResponse, error)
-	HandleContributorsQuery(context.Context, *models.Query, backend.DataQuery) (backend.DataResponse, error)
-}
-
-type OAuth2Client interface {
-	HandleAuth(http.ResponseWriter, *http.Request)
-	HandleAuthCallback(http.ResponseWriter, *http.Request)
-}
-
-func getQueryHandler(d Datasource, q models.QueryType) (QueryHandlerFunc, error) {
-	m := map[models.QueryType]QueryHandlerFunc{
+func getQueryHandler(d models.Datasource, q models.QueryType) (models.QueryHandlerFunc, error) {
+	m := map[models.QueryType]models.QueryHandlerFunc{
 		models.QueryTypeCommits:      d.HandleCommitsQuery,
 		models.QueryTypeIssues:       d.HandleIssuesQuery,
 		models.QueryTypeContributors: d.HandleContributorsQuery,
 		models.QueryTypeTags:         d.HandleTagsQuery,
 		models.QueryTypeReleases:     d.HandleReleasesQuery,
+		models.QueryTypePullRequests: d.HandlePullRequestsQuery,
 	}
 
 	if val, ok := m[q]; ok {
@@ -45,7 +29,7 @@ func getQueryHandler(d Datasource, q models.QueryType) (QueryHandlerFunc, error)
 }
 
 // HandleQueryData handles the `QueryData` request for the Github datasource
-func HandleQueryData(ctx context.Context, d Datasource, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func HandleQueryData(ctx context.Context, d models.Datasource, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	responses := backend.Responses{}
 	for _, v := range req.Queries {
 		query := &models.Query{}
@@ -58,12 +42,14 @@ func HandleQueryData(ctx context.Context, d Datasource, req *backend.QueryDataRe
 		if err != nil {
 			return nil, err
 		}
+		response := backend.DataResponse{}
 
-		response, err := handler(ctx, query, v)
+		f, err := handler(ctx, query, v)
 		if err != nil {
 			response.Error = err
 		}
 
+		response.Frames = f.Frame()
 		responses[v.RefID] = response
 	}
 
@@ -73,6 +59,6 @@ func HandleQueryData(ctx context.Context, d Datasource, req *backend.QueryDataRe
 }
 
 // CheckHealth ensures that the datasource settings are able to retrieve data from GitHub
-func CheckHealth(ctx context.Context, d Datasource, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+func CheckHealth(ctx context.Context, d models.Datasource, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return &backend.CheckHealthResult{Status: backend.HealthStatusOk}, nil
 }

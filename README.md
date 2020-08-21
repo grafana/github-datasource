@@ -22,9 +22,13 @@ The GitHub datasource allows GitHub API data to be visually represented in Grafa
 * [x] Issues
   * [x] List all
   * [x] List within time range
+  * [x] Filter
+    * [x] By Assignee
     * [x] Opened at
     * [x] Closed at
+    * [x] By labels
 * [x] Organizations
+* [ ] Milestones
 * [ ] Response Caching
 
 ### Frontend

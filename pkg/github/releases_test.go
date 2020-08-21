@@ -5,13 +5,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 )
 
 func TestGetAllReleases(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListReleasesOptions{
+		opts = models.ListReleasesOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 		}
@@ -33,7 +34,7 @@ func TestGetAllReleases(t *testing.T) {
 func TestListReleases(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListReleasesOptions{
+		opts = models.ListReleasesOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 		}

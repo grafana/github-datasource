@@ -5,13 +5,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 )
 
 func TestGetAllTags(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListTagsOptions{
+		opts = models.ListTagsOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 		}
@@ -33,7 +34,7 @@ func TestGetAllTags(t *testing.T) {
 func TestListTags(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListTagsOptions{
+		opts = models.ListTagsOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 		}

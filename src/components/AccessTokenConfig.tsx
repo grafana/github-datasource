@@ -4,10 +4,7 @@ import ResetButton from './ResetButton';
 import { ConfigEditorProps } from '../types';
 
 import { Input } from '@grafana/ui';
-import {
-  onUpdateDatasourceSecureJsonDataOption,
-  onUpdateDatasourceResetOption,
-} from '@grafana/data';
+import { onUpdateDatasourceSecureJsonDataOption, onUpdateDatasourceResetOption } from '@grafana/data';
 
 export default (props: ConfigEditorProps) => {
   const accessTokenSet = useMemo(() => {

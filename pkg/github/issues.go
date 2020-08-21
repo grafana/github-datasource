@@ -2,11 +2,55 @@ package github
 
 import (
 	"context"
+	"log"
+	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )
 
-// QueryListIssues is the object representation of the graphql query for retrieving a paginated list of issues for a project
+// Issue represents a GitHub issue in a repository
+type Issue struct {
+	Title     string
+	ClosedAt  githubv4.DateTime
+	CreatedAt githubv4.DateTime
+	Closed    bool
+	Author    struct {
+		User `graphql:"... on User"`
+	}
+}
+
+// Issues is a slice of GitHub issues
+type Issues []Issue
+
+// Frame converts the list of issues to a Grafana DataFrame
+func (c Issues) Frame() data.Frames {
+	frame := data.NewFrame(
+		"issues",
+		data.NewField("title", nil, []string{}),
+		data.NewField("author", nil, []string{}),
+		data.NewField("author_company", nil, []string{}),
+		data.NewField("closed", nil, []bool{}),
+		data.NewField("created_at", nil, []time.Time{}),
+		data.NewField("closed_at", nil, []time.Time{}),
+	)
+
+	for _, v := range c {
+		frame.AppendRow(
+			v.Title,
+			v.Author.User.Login,
+			v.Author.User.Company,
+			v.Closed,
+			v.CreatedAt.Time,
+			v.ClosedAt.Time,
+		)
+	}
+
+	return data.Frames{frame}
+}
+
+// QueryGetIssues is the object representation of the graphql query for retrieving a paginated list of issues for a project
 // {
 //   repository(name: "grafana", owner: "grafana") {
 //     issues(first: 100, filters: {}) {
@@ -25,24 +69,17 @@ import (
 //     }
 //   }
 // }
-type QueryListIssues struct {
+type QueryGetIssues struct {
 	Repository struct {
 		Issues struct {
-			Nodes    []Issue
+			Nodes    Issues
 			PageInfo PageInfo
 		} `graphql:"issues(first: 100, after: $cursor, filterBy: $filters)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
-// ListIssuesOptions provides options when retrieving issues
-type ListIssuesOptions struct {
-	Repository string
-	Owner      string
-	Filters    *githubv4.IssueFilters
-}
-
-// ListIssues lists issues in a project. This function is slow and very prone to rate limiting.
-func ListIssues(ctx context.Context, client Client, opts ListIssuesOptions) ([]Issue, error) {
+// GetAllIssues lists issues in a project. This function is slow and very prone to rate limiting.
+func GetAllIssues(ctx context.Context, client Client, opts models.ListIssuesOptions) (Issues, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor":  (*githubv4.String)(nil),
@@ -55,7 +92,7 @@ func ListIssues(ctx context.Context, client Client, opts ListIssuesOptions) ([]I
 	)
 
 	for {
-		q := &QueryListIssues{}
+		q := &QueryGetIssues{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, err
 		}
@@ -67,4 +104,30 @@ func ListIssues(ctx context.Context, client Client, opts ListIssuesOptions) ([]I
 	}
 
 	return issues, nil
+}
+
+// GetIssuesInRange lists issues in a project given a time range.
+func GetIssuesInRange(ctx context.Context, client Client, opts models.ListIssuesOptions, from time.Time, to time.Time) (Issues, error) {
+	if opts.Filters == nil {
+		opts.Filters = &githubv4.IssueFilters{}
+	}
+
+	opts.Filters.Since = &githubv4.DateTime{Time: from}
+
+	issues, err := GetAllIssues(ctx, client, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	filtered := []Issue{}
+
+	for i, v := range issues {
+		if v.CreatedAt.After(from) && v.CreatedAt.Before(to) {
+			filtered = append(filtered, issues[i])
+		}
+	}
+
+	log.Printf("got %d issues, filtered to %d", len(issues), len(filtered))
+
+	return filtered, nil
 }

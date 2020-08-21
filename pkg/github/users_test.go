@@ -5,13 +5,14 @@ import (
 	"testing"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 )
 
 func TestGetAllContributors(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListContributorsOptions{
+		opts = models.ListContributorsOptions{
 			Repository: "grafana",
 			Ref:        "master",
 			Owner:      "grafana",
@@ -35,7 +36,7 @@ func TestGetAllContributors(t *testing.T) {
 func TestGetContributorsInRange(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListContributorsOptions{
+		opts = models.ListContributorsOptions{
 			Repository: "grafana",
 			Ref:        "master",
 			Owner:      "grafana",

@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )
@@ -24,8 +25,8 @@ type Release struct {
 // Releases is a slice of GitHub releases
 type Releases []Release
 
-// ToDataFrame converts the list of Releases to a Grafana DataFrame
-func (c Releases) ToDataFrame() (data.Frames, error) {
+// Frame converts the list of Releases to a Grafana DataFrame
+func (c Releases) Frame() data.Frames {
 	frame := data.NewFrame(
 		"releases",
 		data.NewField("name", nil, []string{}),
@@ -51,7 +52,7 @@ func (c Releases) ToDataFrame() (data.Frames, error) {
 		)
 	}
 
-	return data.Frames{frame}, nil
+	return data.Frames{frame}
 }
 
 // QueryListReleases is the GraphQL query for listing GitHub releases in a repository
@@ -64,14 +65,8 @@ type QueryListReleases struct {
 	} `graphql:"repository(owner: $owner, name: $name)"`
 }
 
-// ListReleasesOptions is the available options when listing releases
-type ListReleasesOptions struct {
-	Owner      string
-	Repository string
-}
-
 // GetAllReleases retrieves every release from a repository
-func GetAllReleases(ctx context.Context, client Client, opts ListReleasesOptions) (Releases, error) {
+func GetAllReleases(ctx context.Context, client Client, opts models.ListReleasesOptions) (Releases, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -98,7 +93,7 @@ func GetAllReleases(ctx context.Context, client Client, opts ListReleasesOptions
 }
 
 // GetReleasesInRange retrieves every release from the repository and then returns the ones that fall within the given time range.
-func GetReleasesInRange(ctx context.Context, client Client, opts ListReleasesOptions, from time.Time, to time.Time) (Releases, error) {
+func GetReleasesInRange(ctx context.Context, client Client, opts models.ListReleasesOptions, from time.Time, to time.Time) (Releases, error) {
 	releases, err := GetAllReleases(ctx, client, opts)
 	if err != nil {
 		return nil, err
