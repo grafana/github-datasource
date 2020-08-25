@@ -2,18 +2,13 @@ package github
 
 import (
 	"context"
-	"path/filepath"
 	"testing"
 	"time"
 
 	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/shurcooL/githubv4"
 )
-
-var UpdateGoldenFiles bool = true
 
 func TestGetAllCommits(t *testing.T) {
 	var (
@@ -119,11 +114,8 @@ func TestCommitsDataframe(t *testing.T) {
 			},
 		},
 	}
-	dr := backend.DataResponse{
-		Frames: commits.Frame(),
-	}
 
-	if err := experimental.CheckGoldenDataResponse(filepath.Join("testdata", "commits.golden.txt"), &dr, UpdateGoldenFiles); err != nil {
+	if err := testutil.CheckGoldenFramer("commits", commits); err != nil {
 		t.Fatal(err)
 	}
 }

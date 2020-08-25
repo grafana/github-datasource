@@ -2,14 +2,11 @@ package github
 
 import (
 	"context"
-	"path/filepath"
 	"testing"
 	"time"
 
 	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 	"github.com/shurcooL/githubv4"
 )
 
@@ -108,11 +105,7 @@ func TestPullRequestsDataFrame(t *testing.T) {
 		},
 	}
 
-	dr := backend.DataResponse{
-		Frames: pullRequests.Frame(),
-	}
-
-	if err := experimental.CheckGoldenDataResponse(filepath.Join("testdata", "pullRequests.golden.txt"), &dr, UpdateGoldenFiles); err != nil {
+	if err := testutil.CheckGoldenFramer("pull_requests", pullRequests); err != nil {
 		t.Fatal(err)
 	}
 }
