@@ -9,7 +9,7 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, DataSourceOpt
   }
 
   async getLabels(repository: string, owner: string, query?: string): Promise<Label[]> {
-    return this.getResource("labels", {
+    return this.getResource('labels', {
       repository,
       owner,
       query,

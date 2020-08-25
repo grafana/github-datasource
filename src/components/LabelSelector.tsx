@@ -17,9 +17,10 @@ export default (props: Props) => {
         return {
           label: value.name,
           value: value,
-        }
+        };
       })}
       value={props.value}
-      onChange={(values) => props.onChange(values?.map(item => item.value!))} />
+      onChange={values => props.onChange(values?.map(item => item.value!))}
+    />
   );
-}
+};

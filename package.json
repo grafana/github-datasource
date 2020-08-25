@@ -6,7 +6,7 @@
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "test:e2e": "grafana-e2e run",
-    "dev": "grafana-toolkit plugin:dev",
+    "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch"
   },
   "repository": "github:grafana/grafana-github-datasource",
@@ -18,10 +18,6 @@
     "@grafana/runtime": "next",
     "@grafana/toolkit": "next",
     "@grafana/ui": "next",
-    "@types/lodash": "latest",
-    "@types/react-dropzone": "^5.1.0"
-  },
-  "dependencies": {
-    "react-dropzone": "^10.2.1"
+    "@types/lodash": "latest"
   }
 }
