@@ -8,7 +8,7 @@ import { QueryInlineField, QueryEditorRow } from '../components/Forms';
 import LabelSelector from '../components/LabelSelector';
 import QueryEditorRepository from './QueryEditorRepository';
 import { Label } from '../types';
-import { IssuesOptions, IssueTimeField } from '../query';
+import { IssuesOptions, IssueTimeField, IssueFilters } from '../query';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { DataSource } from '../DataSource';
 
@@ -53,7 +53,7 @@ interface ToggleInputFieldProps {
   options: IssuesOptions;
   label: string;
   tooltip?: string;
-  filter: string;
+  filter: keyof IssueFilters;
 }
 
 export const ToggleInputField = (props: ToggleInputFieldProps) => {

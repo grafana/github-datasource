@@ -22,7 +22,6 @@ export enum IssueTimeField {
 }
 
 export interface IssueFilters {
-  [index: string]: string | string[] | undefined;
   assignee?: string;
   createdBy?: string;
   labels?: string[];

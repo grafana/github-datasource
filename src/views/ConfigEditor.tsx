@@ -1,40 +1,87 @@
-import React, { ReactNode, useState } from 'react';
-import { TabsBar, TabContent, Tab } from '@grafana/ui';
-// import OAuth2Config from '../components/OAuth2Config';
-import AccessTokenConfig from '../components/AccessTokenConfig';
-import { ConfigEditorProps } from '../types';
+import React, { PureComponent } from 'react';
+import { DataSourcePluginOptionsEditorProps, onUpdateDatasourceJsonDataOption } from '@grafana/data';
+import { InlineFormLabel, Input, LegacyForms } from '@grafana/ui';
+import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
 
-interface TabListItem {
-  label: string;
-  key: string;
-  component: (props: ConfigEditorProps) => ReactNode;
+export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
+
+export class ConfigEditor extends PureComponent<ConfigEditorProps> {
+  onSettingReset = (prop: string) => (event: any) => {
+    this.onSettingUpdate(prop, false)({ target: { value: undefined } });
+  };
+
+  onSettingUpdate = (prop: string, set = true) => (event: any) => {
+    const { onOptionsChange, options } = this.props;
+    onOptionsChange({
+      ...options,
+      secureJsonData: {
+        ...options.secureJsonData,
+        [prop]: event.target.value,
+      },
+      secureJsonFields: {
+        ...options.secureJsonFields,
+        [prop]: set,
+      },
+    });
+  };
+
+  render() {
+    const {
+      options: { jsonData, secureJsonData, secureJsonFields },
+    } = this.props;
+    const secureSettings = (secureJsonData || {}) as GithubSecureJsonData;
+    return (
+      <div className="gf-form-group">
+        <h3 className="page-heading">Github settings</h3>
+        {/* <div className="gf-form">
+          <LegacyForms.FormField
+            label="API URL"
+            labelWidth={11}
+            inputWidth={27}
+            tooltip={'URL to Datadog API'}
+            onChange={onUpdateDatasourceJsonDataOption(this.props, 'url')}
+            value={jsonData.url || 'https://api.datadoghq.com'}
+            placeholder="https://api.datadoghq.com"
+          />
+        </div> */}
+        <div className="gf-form">
+          <LegacyForms.SecretFormField
+            label="Access Token"
+            inputWidth={27}
+            labelWidth={10}
+            onChange={this.onSettingUpdate('accessToken', false)}
+            onBlur={this.onSettingUpdate('accessToken')}
+            value={secureSettings.accessToken || ''}
+            placeholder="Github Personal Access Token"
+            onReset={this.onSettingReset('accessToken')}
+            isConfigured={secureJsonFields!['accessToken']}
+          />
+        </div>
+        <div className="gf-form">
+          <InlineFormLabel className="width-10">Default Owner</InlineFormLabel>
+          <Input
+            css=""
+            className="width-9"
+            value={jsonData.owner}
+            placeholder="username or organization"
+            onChange={onUpdateDatasourceJsonDataOption(this.props, 'owner')}
+          />
+        </div>
+        <div className="gf-form">
+          <InlineFormLabel className="width-10" tooltip="The repository name">
+            Repository
+          </InlineFormLabel>
+          <Input
+            css=""
+            className="width-9"
+            value={jsonData.repository}
+            placeholder="the repo name"
+            onChange={onUpdateDatasourceJsonDataOption(this.props, 'repository')}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
-const tabs: TabListItem[] = [
-  { label: 'Access Token', key: 'access_token', component: props => <AccessTokenConfig {...props} /> },
-  // { label: 'OAuth', key: 'oauth', component: props => <OAuth2Config {...props} /> },
-];
-
-export default (props: ConfigEditorProps) => {
-  const [activeTab, setActiveTab] = useState<TabListItem>(tabs[0]);
-
-  return (
-    <>
-      <TabsBar>
-        {tabs.map((tab, index) => {
-          return (
-            <Tab
-              css=""
-              key={index}
-              label={tab.label}
-              active={tab === activeTab}
-              tabIndex={index}
-              onChangeTab={() => setActiveTab(tab)}
-            />
-          );
-        })}
-      </TabsBar>
-      <TabContent>{activeTab.component(props)}</TabContent>
-    </>
-  );
-};
+export default ConfigEditor;
