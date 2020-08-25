@@ -31,9 +31,10 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
     } = this.props;
     const secureSettings = (secureJsonData || {}) as GithubSecureJsonData;
     return (
-      <div className="gf-form-group">
-        <h3 className="page-heading">Github settings</h3>
-        {/* <div className="gf-form">
+      <>
+        <div className="gf-form-group">
+          <h3 className="page-heading">Service Account Access</h3>
+          {/* <div className="gf-form">
           <LegacyForms.FormField
             label="API URL"
             labelWidth={11}
@@ -44,42 +45,45 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
             placeholder="https://api.datadoghq.com"
           />
         </div> */}
-        <div className="gf-form">
-          <LegacyForms.SecretFormField
-            label="Access Token"
-            inputWidth={27}
-            labelWidth={10}
-            onChange={this.onSettingUpdate('accessToken', false)}
-            onBlur={this.onSettingUpdate('accessToken')}
-            value={secureSettings.accessToken || ''}
-            placeholder="Github Personal Access Token"
-            onReset={this.onSettingReset('accessToken')}
-            isConfigured={secureJsonFields!['accessToken']}
-          />
+          <div className="gf-form">
+            <LegacyForms.SecretFormField
+              label="Access Token"
+              inputWidth={27}
+              labelWidth={10}
+              onChange={this.onSettingUpdate('accessToken', false)}
+              onBlur={this.onSettingUpdate('accessToken')}
+              value={secureSettings.accessToken || ''}
+              placeholder="Github Personal Access Token"
+              onReset={this.onSettingReset('accessToken')}
+              isConfigured={secureJsonFields!['accessToken']}
+            />
+          </div>
         </div>
-        <div className="gf-form">
-          <InlineFormLabel className="width-10">Default Owner</InlineFormLabel>
-          <Input
-            css=""
-            className="width-9"
-            value={jsonData.owner}
-            placeholder="username or organization"
-            onChange={onUpdateDatasourceJsonDataOption(this.props, 'owner')}
-          />
+
+        <div className="gf-form-group">
+          <h3 className="page-heading">Default Query Options</h3>
+          <div className="gf-form">
+            <InlineFormLabel className="width-10">Owner</InlineFormLabel>
+            <Input
+              css=""
+              className="width-9"
+              value={jsonData.owner}
+              placeholder="username or organization"
+              onChange={onUpdateDatasourceJsonDataOption(this.props, 'owner')}
+            />
+          </div>
+          <div className="gf-form">
+            <InlineFormLabel className="width-10">Repository</InlineFormLabel>
+            <Input
+              css=""
+              className="width-9"
+              value={jsonData.repository}
+              placeholder="the repo name"
+              onChange={onUpdateDatasourceJsonDataOption(this.props, 'repository')}
+            />
+          </div>
         </div>
-        <div className="gf-form">
-          <InlineFormLabel className="width-10" tooltip="The repository name">
-            Repository
-          </InlineFormLabel>
-          <Input
-            css=""
-            className="width-9"
-            value={jsonData.repository}
-            placeholder="the repo name"
-            onChange={onUpdateDatasourceJsonDataOption(this.props, 'repository')}
-          />
-        </div>
-      </div>
+      </>
     );
   }
 }
