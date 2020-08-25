@@ -15,8 +15,8 @@ type Organization struct {
 // Organizations is a slice of GitHub Organizations
 type Organizations []Organization
 
-// ToDataFrame converts the list of Organizations to a Grafana DataFrame
-func (c Organizations) ToDataFrame() data.Frames {
+// Frames converts the list of Organizations to a Grafana DataFrame
+func (c Organizations) Frames() data.Frames {
 	return data.Frames{}
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, InlineFormLabel } from '@grafana/ui';
 
-import { QueryEditorRow, QueryRowTerminator } from '../components/Forms';
+import { QueryEditorRow } from '../components/Forms';
 import { RepositoryOptions } from '../query';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
@@ -47,7 +47,6 @@ export default (props: Props) => {
           })
         }
       />
-      <QueryRowTerminator />
     </QueryEditorRow>
   );
 }

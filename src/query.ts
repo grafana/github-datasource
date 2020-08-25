@@ -16,7 +16,13 @@ export enum PullRequestTimeField {
   MergedAt,
 }
 
+export enum IssueTimeField {
+  CreatedAt,
+  ClosedAt,
+}
+
 export interface IssueFilters {
+  [index: string]: string | string[] | undefined;
   assignee?: string;
   createdBy?: string;
   labels?: string[];
@@ -33,6 +39,7 @@ export interface ReleasesOptions extends RepositoryOptions {}
 export interface TagsOptions extends RepositoryOptions {}
 export interface PullRequestsOptions extends RepositoryOptions {
   timeField?: PullRequestTimeField;
+  query?: string;
 }
 export interface ContributorsOptions extends RepositoryOptions {
   gitRef?: string;
@@ -41,7 +48,9 @@ export interface CommitsOptions extends RepositoryOptions {
   gitRef?: string;
 }
 export interface IssuesOptions extends RepositoryOptions {
+  timeField?: IssueTimeField;
   filters?: IssueFilters;
+  query?: string;
 }
 
 export interface GitHubQuery extends DataQuery {

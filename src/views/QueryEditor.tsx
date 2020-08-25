@@ -80,7 +80,7 @@ export default (props: Props) => {
         />
       </QueryInlineField>
       {queryEditor ? (
-        queryEditor.component(props, (value: any) => onChange(queryEditor.optionsKey, value))
+        queryEditor.component(props, (value: any) => onChange(queryEditor.optionsKey, !!value ? value : undefined))
       ) : (
         <span>Unsupported Query Type</span>
       )}
