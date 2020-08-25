@@ -136,7 +136,7 @@ func GetTagsInRange(ctx context.Context, client Client, opts models.ListTagsOpti
 	filtered := []Tag{}
 
 	for i, v := range tags {
-		if v.Target.Commit.CommittedDate.After(from) && v.Target.Commit.CommittedDate.Before(to) {
+		if v.Tagger.Date.After(from) && v.Tagger.Date.Before(to) {
 			filtered = append(filtered, tags[i])
 		}
 	}
