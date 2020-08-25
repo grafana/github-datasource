@@ -36,10 +36,15 @@ func (c Releases) Frame() data.Frames {
 		data.NewField("tag", nil, []string{}),
 		data.NewField("url", nil, []string{}),
 		data.NewField("created_at", nil, []time.Time{}),
-		data.NewField("published_at", nil, []time.Time{}),
+		data.NewField("published_at", nil, []*time.Time{}),
 	)
 
 	for _, v := range c {
+		var publishedAt *time.Time
+		if !v.PublishedAt.IsZero() {
+			publishedAt = &v.PublishedAt.Time
+		}
+
 		frame.AppendRow(
 			v.Name,
 			v.Author.Login,
@@ -48,7 +53,7 @@ func (c Releases) Frame() data.Frames {
 			v.TagName,
 			v.URL,
 			v.CreatedAt.Time,
-			v.PublishedAt.Time,
+			publishedAt,
 		)
 	}
 

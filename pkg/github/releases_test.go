@@ -2,11 +2,15 @@ package github
 
 import (
 	"context"
+	"path/filepath"
 	"testing"
 	"time"
 
 	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental"
+	"github.com/shurcooL/githubv4"
 )
 
 func TestGetAllReleases(t *testing.T) {
@@ -49,6 +53,60 @@ func TestListReleases(t *testing.T) {
 
 	_, err := GetReleasesInRange(ctx, client, opts, time.Now().Add(-30*24*time.Hour), time.Now())
 	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestReleasesDataFrame(t *testing.T) {
+	createdAt, err := time.Parse(time.RFC3339, "2020-08-25T16:21:56+00:00")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	user := User{
+		ID:      "1",
+		Login:   "exampleUser",
+		Name:    "Example User",
+		Company: "ACME Corp",
+		Email:   "user@example.com",
+	}
+
+	releases := Releases{
+		Release{
+			ID:           "1",
+			Name:         "Release #1",
+			Author:       user,
+			IsDraft:      true,
+			IsPrerelease: false,
+			CreatedAt: githubv4.DateTime{
+				Time: createdAt,
+			},
+			PublishedAt: githubv4.DateTime{},
+			TagName:     "v1.0.0",
+			URL:         "https://example.com/v1.0.0",
+		},
+		Release{
+			ID:           "1",
+			Name:         "Release #2",
+			Author:       user,
+			IsDraft:      true,
+			IsPrerelease: false,
+			CreatedAt: githubv4.DateTime{
+				Time: createdAt,
+			},
+			PublishedAt: githubv4.DateTime{
+				Time: createdAt.Add(time.Hour),
+			},
+			TagName: "v1.1.0",
+			URL:     "https://example.com/v1.1.0",
+		},
+	}
+
+	dr := backend.DataResponse{
+		Frames: releases.Frame(),
+	}
+
+	if err := experimental.CheckGoldenDataResponse(filepath.Join("testdata", "releases.golden.txt"), &dr, UpdateGoldenFiles); err != nil {
 		t.Fatal(err)
 	}
 }

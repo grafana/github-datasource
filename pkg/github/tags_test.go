@@ -2,11 +2,15 @@ package github
 
 import (
 	"context"
+	"path/filepath"
 	"testing"
 	"time"
 
 	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental"
+	"github.com/shurcooL/githubv4"
 )
 
 func TestGetAllTags(t *testing.T) {
@@ -51,6 +55,81 @@ func TestListTags(t *testing.T) {
 
 	_, err := GetTagsInRange(ctx, client, opts, from, to)
 	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestTagsDataFrames(t *testing.T) {
+	committedAt, err := time.Parse(time.RFC3339, "2020-08-25T16:21:56+00:00")
+	if err != nil {
+		t.Fatal(err)
+	}
+	user := GitActor{
+		Name:  "firstCommitter",
+		Email: "first@example.com",
+		User: User{
+			ID:      "1",
+			Login:   "firstCommitter",
+			Name:    "First Committer",
+			Company: "ACME Corp",
+			Email:   "first@example.com",
+		},
+	}
+
+	commit1 := Commit{
+		OID: "",
+		PushedDate: githubv4.DateTime{
+			Time: committedAt.Add(time.Minute * 2),
+		},
+		AuthoredDate: githubv4.DateTime{
+			Time: committedAt,
+		},
+		CommittedDate: githubv4.DateTime{
+			Time: committedAt,
+		},
+		Message: "commit #1",
+		Author:  user,
+	}
+
+	commit2 := Commit{
+		OID: "",
+		PushedDate: githubv4.DateTime{
+			Time: committedAt.Add(time.Hour * 2),
+		},
+		AuthoredDate: githubv4.DateTime{
+			Time: committedAt.Add(time.Hour),
+		},
+		CommittedDate: githubv4.DateTime{
+			Time: committedAt.Add(time.Hour),
+		},
+		Message: "commit #2",
+		Author:  user,
+	}
+
+	tags := Tags{
+		Tag{
+			Name: "",
+			Target: struct {
+				Commit Commit "graphql:\"... on Commit\""
+			}{
+				Commit: commit1,
+			},
+		},
+		Tag{
+			Name: "",
+			Target: struct {
+				Commit Commit "graphql:\"... on Commit\""
+			}{
+				Commit: commit2,
+			},
+		},
+	}
+
+	dr := backend.DataResponse{
+		Frames: tags.Frame(),
+	}
+
+	if err := experimental.CheckGoldenDataResponse(filepath.Join("testdata", "tags.golden.txt"), &dr, UpdateGoldenFiles); err != nil {
 		t.Fatal(err)
 	}
 }
