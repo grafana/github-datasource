@@ -36,3 +36,29 @@ func (d *Datasource) HandleGetLabels(w http.ResponseWriter, r *http.Request) {
 
 	httputil.WriteResponse(w, labels)
 }
+
+func handleGetMilestones(ctx context.Context, client Client, r *http.Request) (Milestones, error) {
+	q := r.URL.Query()
+	opts := models.ListMilestonesOptions{
+		Repository: q.Get("repository"),
+		Owner:      q.Get("owner"),
+		Query:      q.Get("query"),
+	}
+
+	milestones, err := GetAllMilestones(ctx, client, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	return milestones, nil
+}
+
+func (d *Datasource) HandleGetMilestones(w http.ResponseWriter, r *http.Request) {
+	milestones, err := handleGetMilestones(r.Context(), d.client, r)
+	if err != nil {
+		httputil.WriteError(w, http.StatusBadRequest, err)
+		return
+	}
+
+	httputil.WriteResponse(w, milestones)
+}

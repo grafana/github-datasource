@@ -23,17 +23,20 @@ export const QueryRowTerminator = () => {
       <div className="gf-form-label gf-form-label--grow" />
     </div>
   );
-}
+};
+
 
 export const QueryInlineField = ({ ...props }) => {
   return (
     <QueryEditorRow>
       <QueryField {...props} />
-      <QueryRowTerminator />
     </QueryEditorRow>
   );
 };
 
 export const QueryEditorRow = (props: any) => {
-  return <div className="gf-form-inline">{props.children}</div>;
+  return <div className="gf-form-inline">
+    {props.children}
+    <QueryRowTerminator />
+  </div>;
 };

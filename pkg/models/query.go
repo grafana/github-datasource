@@ -22,6 +22,20 @@ const (
 	QueryTypeGraphQL
 )
 
+// PullRequestTimeField defines what time field to filter pull requests by (closed, opened, merged...)
+type IssueTimeField uint32
+
+const (
+	// IssueCreatedAt is used when filtering when an Issue was opened
+	IssueCreatedAt IssueTimeField = iota
+	// IssuetClosedAt is used when filtering when an Issue was closed
+	IssuetClosedAt
+)
+
+func (d IssueTimeField) String() string {
+	return [...]string{"created", "closed"}[d]
+}
+
 // ListCommitsOptions provides options when retrieving commits
 type ListCommitsOptions struct {
 	Repository string `json:"repository"`
@@ -34,13 +48,19 @@ type ListIssuesOptions struct {
 	Repository string                 `json:"repository"`
 	Owner      string                 `json:"owner"`
 	Filters    *githubv4.IssueFilters `json:"filters"`
+	Query      *string                `json:"query,omitempty"`
+	TimeField  IssueTimeField         `json:"timeField"`
 }
 
+// PullRequestTimeField defines what time field to filter pull requests by (closed, opened, merged...)
 type PullRequestTimeField uint32
 
 const (
+	// PullRequestClosedAt is used when filtering when a Pull Request was closed
 	PullRequestClosedAt PullRequestTimeField = iota
+	// PullRequestCreatedAt is used when filtering when a Pull Request was opened
 	PullRequestCreatedAt
+	// PullRequestMergedAt is used when filtering when a Pull Request was merged
 	PullRequestMergedAt
 )
 
@@ -76,6 +96,36 @@ type ListPullRequestsInRangeOptions struct {
 
 	// TimeField defines what time field to filter by
 	TimeField PullRequestTimeField `json:"timeField"`
+
+	Query *string `json:"query,omitempty"`
+
+	// Mentions string
+	// Author   string
+	// // Involves finds issues that in some way involve a certain user.
+	// // The involves qualifier is a logical OR between the author, assignee, mentions, and commenter qualifiers for a single user.
+	// // In other words, this qualifier finds issues and pull requests that were either created by a certain user, assigned to that user, mention that user,
+	// // or were commented on by that user.
+	// // Source: https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-by-a-user-thats-involved-in-an-issue-or-pull-request
+	// Involves  string
+	// Linked    *bool
+	// Labels    []string
+	// Milestone string
+	// Status    githubv4.StatusState
+	// Head      string
+	// Base      string
+	// IsDraft   bool
+}
+
+// ListMilestonesOptions is provided when listing Labels in a repository
+type ListMilestonesOptions struct {
+	// Repository is the name of the repository being queried (ex: grafana)
+	Repository string `json:"repository"`
+
+	// Owner is the owner of the repository (ex: grafana)
+	Owner string `json:"owner"`
+
+	// Query searches milestones by name and description
+	Query string `json:"query"`
 }
 
 // ListLabelsOptions is provided when listing Labels in a repository

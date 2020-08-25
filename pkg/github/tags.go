@@ -9,7 +9,7 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-// Tag is a GitHub tag. Every tag has an associated tag.
+// Tag is a GitHub tag. Every tag has an associated commit
 type Tag struct {
 	Name   string
 	Target struct {
@@ -17,9 +17,11 @@ type Tag struct {
 	}
 }
 
+// Tags is a list of GitHub tags
 type Tags []Tag
 
-func (t Tags) Frame() data.Frames {
+// Frames converts the list of tags to a Grafana DataFrame
+func (t Tags) Frames() data.Frames {
 	frame := data.NewFrame(
 		"tags",
 		data.NewField("name", nil, []string{}),

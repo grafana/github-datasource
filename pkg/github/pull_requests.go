@@ -31,13 +31,15 @@ type QueryListPullRequests struct {
 	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
 }
 
+type PullRequestAuthor struct {
+	User User `graphql:"... on User"`
+}
+
 // PullRequest is a GitHub pull request
 type PullRequest struct {
-	Title  string
-	State  string
-	Author struct {
-		User User `graphql:"... on User"`
-	}
+	Title     string
+	State     githubv4.PullRequestState
+	Author    PullRequestAuthor
 	Closed    bool
 	IsDraft   bool
 	Locked    bool
@@ -47,14 +49,14 @@ type PullRequest struct {
 	UpdatedAt githubv4.DateTime
 	MergedAt  githubv4.DateTime
 	Mergeable githubv4.MergeableState
-	MergedBy  struct {
-		User User `graphql:"... on User"`
-	}
+	MergedBy  *PullRequestAuthor
 }
 
+// PullRequests is a list of GitHub Pull Requests
 type PullRequests []PullRequest
 
-func (p PullRequests) Frame() data.Frames {
+// Frames converts the list of Pull Requests to a Grafana DataFrame
+func (p PullRequests) Frames() data.Frames {
 	frame := data.NewFrame(
 		"pull_requests",
 		data.NewField("title", nil, []string{}),
@@ -66,16 +68,30 @@ func (p PullRequests) Frame() data.Frames {
 		data.NewField("is_draft", nil, []bool{}),
 		data.NewField("locked", nil, []bool{}),
 		data.NewField("merged", nil, []bool{}),
-		data.NewField("closed_at", nil, []time.Time{}),
-		data.NewField("merged_at", nil, []time.Time{}),
+		data.NewField("mergeable", nil, []string{}),
+		data.NewField("closed_at", nil, []*time.Time{}),
+		data.NewField("merged_at", nil, []*time.Time{}),
 		data.NewField("updated_at", nil, []time.Time{}),
 		data.NewField("created_at", nil, []time.Time{}),
 	)
 
 	for _, v := range p {
+		var (
+			closedAt *time.Time
+			mergedAt *time.Time
+		)
+
+		if !v.ClosedAt.IsZero() {
+			closedAt = &v.ClosedAt.Time
+		}
+
+		if !v.MergedAt.IsZero() {
+			mergedAt = &v.MergedAt.Time
+		}
+
 		frame.AppendRow(
 			v.Title,
-			v.State,
+			string(v.State),
 			v.Author.User.Login,
 			v.Author.User.Email,
 			v.Author.User.Company,
@@ -83,8 +99,9 @@ func (p PullRequests) Frame() data.Frames {
 			v.IsDraft,
 			v.Locked,
 			v.Merged,
-			v.ClosedAt.Time,
-			v.MergedAt.Time,
+			string(v.Mergeable),
+			closedAt,
+			mergedAt,
 			v.UpdatedAt.Time,
 			v.CreatedAt.Time,
 		)
@@ -96,16 +113,20 @@ func (p PullRequests) Frame() data.Frames {
 
 // GetPullRequestsInRange uses the graphql search endpoint API to find pull requests in the given time range.
 func GetPullRequestsInRange(ctx context.Context, client Client, opts models.ListPullRequestsInRangeOptions, from time.Time, to time.Time) (PullRequests, error) {
-	search := strings.Join([]string{
+	search := []string{
 		"is:pr",
 		fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository),
 		fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339)),
-	}, " ")
+	}
+
+	if opts.Query != nil {
+		search = append(search, *opts.Query)
+	}
 
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
-			"query":  githubv4.String(search),
+			"query":  githubv4.String(strings.Join(search, " ")),
 		}
 
 		pullRequests = []PullRequest{}
