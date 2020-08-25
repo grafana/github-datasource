@@ -26,8 +26,8 @@ type Issue struct {
 // Issues is a slice of GitHub issues
 type Issues []Issue
 
-// Frame converts the list of issues to a Grafana DataFrame
-func (c Issues) Frame() data.Frames {
+// Frames converts the list of issues to a Grafana DataFrame
+func (c Issues) Frames() data.Frames {
 	frame := data.NewFrame(
 		"issues",
 		data.NewField("title", nil, []string{}),

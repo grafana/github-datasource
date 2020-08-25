@@ -25,8 +25,8 @@ type Release struct {
 // Releases is a slice of GitHub releases
 type Releases []Release
 
-// Frame converts the list of Releases to a Grafana DataFrame
-func (c Releases) Frame() data.Frames {
+// Frames converts the list of Releases to a Grafana DataFrame
+func (c Releases) Frames() data.Frames {
 	frame := data.NewFrame(
 		"releases",
 		data.NewField("name", nil, []string{}),

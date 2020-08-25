@@ -22,8 +22,8 @@ type Commit struct {
 // Commits is a slice of git commits
 type Commits []Commit
 
-// ToDataFrame converts the list of commits to a Grafana DataFrame
-func (c Commits) Frame() data.Frames {
+// Frames converts the list of commits to a Grafana DataFrame
+func (c Commits) Frames() data.Frames {
 	frame := data.NewFrame(
 		"commits",
 		data.NewField("id", nil, []string{}),

@@ -55,8 +55,8 @@ type PullRequest struct {
 // PullRequests is a list of GitHub Pull Requests
 type PullRequests []PullRequest
 
-// Frame converts the list of Pull Requests to a Grafana DataFrame
-func (p PullRequests) Frame() data.Frames {
+// Frames converts the list of Pull Requests to a Grafana DataFrame
+func (p PullRequests) Frames() data.Frames {
 	frame := data.NewFrame(
 		"pull_requests",
 		data.NewField("title", nil, []string{}),

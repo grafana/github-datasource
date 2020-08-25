@@ -13,7 +13,7 @@ const UpdateGoldenFiles bool = true
 
 func CheckGoldenFramer(name string, f dfutil.Framer) error {
 	dr := backend.DataResponse{
-		Frames: f.Frame(),
+		Frames: f.Frames(),
 	}
 	return experimental.CheckGoldenDataResponse(filepath.Join("testdata", fmt.Sprintf("%s.golden.txt", name)), &dr, UpdateGoldenFiles)
 }

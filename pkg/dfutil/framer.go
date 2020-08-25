@@ -6,13 +6,13 @@ import (
 )
 
 type Framer interface {
-	Frame() data.Frames
+	Frames() data.Frames
 }
 
 // FrameResponse creates a backend.DataResponse that contains the Framer's data.Frames
 func FrameResponse(f Framer) backend.DataResponse {
 	return backend.DataResponse{
-		Frames: f.Frame(),
+		Frames: f.Frames(),
 	}
 }
 
