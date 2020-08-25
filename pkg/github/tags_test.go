@@ -61,6 +61,12 @@ func TestTagsDataFrames(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	createdAt, err := time.Parse(time.RFC3339, "2020-08-25T16:21:56+00:00")
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	user := GitActor{
 		Name:  "firstCommitter",
 		Email: "first@example.com",
@@ -105,18 +111,40 @@ func TestTagsDataFrames(t *testing.T) {
 
 	tags := Tags{
 		Tag{
-			Name: "",
+			Name: "v1.0.0",
+			Tagger: struct {
+				Date githubv4.DateTime
+				User User
+			}{
+				Date: githubv4.DateTime{
+					Time: createdAt,
+				},
+				User: user.User,
+			},
 			Target: struct {
+				OID    string
 				Commit Commit "graphql:\"... on Commit\""
 			}{
+				OID:    "",
 				Commit: commit1,
 			},
 		},
 		Tag{
-			Name: "",
+			Name: "v1.1.0",
+			Tagger: struct {
+				Date githubv4.DateTime
+				User User
+			}{
+				Date: githubv4.DateTime{
+					Time: createdAt,
+				},
+				User: user.User,
+			},
 			Target: struct {
+				OID    string
 				Commit Commit "graphql:\"... on Commit\""
 			}{
+				OID:    "",
 				Commit: commit2,
 			},
 		},
