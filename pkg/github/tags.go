@@ -12,7 +12,12 @@ import (
 // Tag is a GitHub tag. Every tag has an associated tag.
 type Tag struct {
 	Name   string
+	Tagger struct {
+		Date githubv4.DateTime
+		User User
+	}
 	Target struct {
+		OID    string
 		Commit Commit `graphql:"... on Commit"`
 	}
 }
@@ -28,18 +33,20 @@ func (t Tags) Frame() data.Frames {
 		data.NewField("author_login", nil, []string{}),
 		data.NewField("author_email", nil, []string{}),
 		data.NewField("author_company", nil, []string{}),
-		data.NewField("commited_at", nil, []time.Time{}),
 		data.NewField("pushed_at", nil, []time.Time{}),
+		data.NewField("commited_at", nil, []time.Time{}),
+		data.NewField("commit_pushed_at", nil, []time.Time{}),
 	)
 
 	for _, v := range t {
 		frame.AppendRow(
 			v.Name,
 			v.Target.Commit.OID,
-			v.Target.Commit.Author.Name,
-			v.Target.Commit.Author.User.Login,
+			v.Tagger.User.Name,
+			v.Tagger.User.Login,
 			v.Target.Commit.Author.Email,
 			v.Target.Commit.Author.User.Company,
+			v.Tagger.Date,
 			v.Target.Commit.CommittedDate.Time,
 			v.Target.Commit.PushedDate.Time,
 		)
@@ -49,18 +56,22 @@ func (t Tags) Frame() data.Frames {
 }
 
 // QueryListTags is the GraphQL query for listing GitHub tags in a repository
-// {
 //   repository(name: "grafana", owner: "grafana") {
-//     refs(refPrefix: "refs/tags/", first: 100) {
+//     refs(refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}, first: 10, query: "") {
 //       nodes {
-//         name
 //         target {
-//           ... on Commit {
-//             message
-//             pushedDate
-//             author {
-//               name
-//               email
+//           oid
+//           ... on Tag {
+//             name
+//             tagger {
+//               date
+//             }
+//             target {
+//               oid
+//               ... on Commit {
+//                 committedDate
+//                 pushedDate
+//               }
 //             }
 //           }
 //         }
@@ -71,9 +82,13 @@ func (t Tags) Frame() data.Frames {
 type QueryListTags struct {
 	Repository struct {
 		Refs struct {
-			Nodes    []Tag
+			Nodes []struct {
+				Target struct {
+					Tag Tag `graphql:"... on Tag"`
+				}
+			}
 			PageInfo PageInfo
-		} `graphql:"refs(refPrefix: \"refs/tags/\", first: 100, after: $cursor)"`
+		} `graphql:"refs(refPrefix: \"refs/tags/\", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}, first: 100, after: $cursor)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
@@ -94,7 +109,12 @@ func GetAllTags(ctx context.Context, client Client, opts models.ListTagsOptions)
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, err
 		}
-		tags = append(tags, q.Repository.Refs.Nodes...)
+		t := make([]Tag, len(q.Repository.Refs.Nodes))
+		for i, v := range q.Repository.Refs.Nodes {
+			t[i] = v.Target.Tag
+		}
+
+		tags = append(tags, t...)
 		if !q.Repository.Refs.PageInfo.HasNextPage {
 			break
 		}
