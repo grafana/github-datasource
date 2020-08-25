@@ -1,4 +1,5 @@
 import { DataQuery } from '@grafana/data';
+import { RepositoryOptions } from './types';
 
 export enum QueryType {
   Commits,
@@ -22,17 +23,11 @@ export enum IssueTimeField {
 }
 
 export interface IssueFilters {
-  [index: string]: string | string[] | undefined;
   assignee?: string;
   createdBy?: string;
   labels?: string[];
   mentioned?: string;
   milestone?: string;
-}
-
-export interface RepositoryOptions {
-  repository?: string;
-  owner?: string;
 }
 
 export interface ReleasesOptions extends RepositoryOptions {}

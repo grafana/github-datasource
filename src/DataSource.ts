@@ -1,10 +1,10 @@
 import { DataSourceInstanceSettings } from '@grafana/data';
 import { DataSourceWithBackend } from '@grafana/runtime';
-import { DataSourceOptions, Label } from './types';
+import { GithubDataSourceOptions, Label } from './types';
 import { GitHubQuery } from './query';
 
-export class DataSource extends DataSourceWithBackend<GitHubQuery, DataSourceOptions> {
-  constructor(instanceSettings: DataSourceInstanceSettings<DataSourceOptions>) {
+export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
+  constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
     super(instanceSettings);
   }
 

@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback } from 'react';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { Select } from '@grafana/ui';
 import { DataSource } from '../DataSource';
-import { DataSourceOptions } from '../types';
+import { GithubDataSourceOptions } from '../types';
 import { GitHubQuery, QueryType } from '../query';
 import { QueryInlineField } from '../components/Forms';
 
@@ -12,7 +12,7 @@ import QueryEditorIssues from './QueryEditorIssues';
 import QueryEditorPullRequests from './QueryEditorPullRequests';
 import QueryEditorTags from './QueryEditorTags';
 
-export type Props = QueryEditorProps<DataSource, GitHubQuery, DataSourceOptions>;
+export type Props = QueryEditorProps<DataSource, GitHubQuery, GithubDataSourceOptions>;
 
 const queryEditors: {
   [key: number]: { component: (props: Props, onChange: (val: any) => void) => ReactNode; optionsKey: string };

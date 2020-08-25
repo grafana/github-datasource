@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, InlineFormLabel } from '@grafana/ui';
 
 import { QueryEditorRow } from '../components/Forms';
-import { RepositoryOptions } from '../query';
+import { RepositoryOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
 interface Props extends RepositoryOptions {
