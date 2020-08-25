@@ -8,20 +8,20 @@ import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
 interface Props extends CommitsOptions {
   onChange: (value: CommitsOptions) => void;
-};
+}
 
 export default (props: Props) => {
   return (
     <>
       <QueryEditorRepository {...props} />
-      <QueryInlineField labelWidth={LeftColumnWidth} label='Ref (Branch / Tag)'>
+      <QueryInlineField labelWidth={LeftColumnWidth} label="Ref (Branch / Tag)">
         <Input
-          css=''
+          css=""
           width={RightColumnWidth}
           value={props.gitRef}
-          onChange={el => props.onChange({...props, gitRef: el.currentTarget.value})}
+          onChange={el => props.onChange({ ...props, gitRef: el.currentTarget.value })}
         />
       </QueryInlineField>
     </>
   );
-}
+};

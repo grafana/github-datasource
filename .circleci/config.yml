@@ -25,6 +25,7 @@ jobs:
       - run:
           name: Build and test frontend
           command:  |
+            rm -rf node_modules/@grafana/data/node_modules
             npx grafana-toolkit plugin:ci-build
             npx grafana-toolkit plugin:ci-build --finish
       - save_cache:

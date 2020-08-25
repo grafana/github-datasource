@@ -25,7 +25,6 @@ export const QueryRowTerminator = () => {
   );
 };
 
-
 export const QueryInlineField = ({ ...props }) => {
   return (
     <QueryEditorRow>
@@ -35,8 +34,10 @@ export const QueryInlineField = ({ ...props }) => {
 };
 
 export const QueryEditorRow = (props: any) => {
-  return <div className="gf-form-inline">
-    {props.children}
-    <QueryRowTerminator />
-  </div>;
+  return (
+    <div className="gf-form-inline">
+      {props.children}
+      <QueryRowTerminator />
+    </div>
+  );
 };

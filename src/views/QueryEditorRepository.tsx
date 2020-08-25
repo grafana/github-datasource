@@ -7,7 +7,7 @@ import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
 interface Props extends RepositoryOptions {
   onChange: (value: RepositoryOptions) => void;
-};
+}
 
 export default (props: Props) => {
   return (
@@ -17,7 +17,7 @@ export default (props: Props) => {
         tooltip="The owner (organization or user) of the GitHub repository (example: 'grafana')"
         width={LeftColumnWidth}
       >
-      Owner
+        Owner
       </InlineFormLabel>
       <Input
         css=""
@@ -30,11 +30,8 @@ export default (props: Props) => {
           })
         }
       />
-      <InlineFormLabel
-        className="query-keyword"
-        tooltip="The name of the GitHub repository"
-        width={LeftColumnWidth}>
-        Repository 
+      <InlineFormLabel className="query-keyword" tooltip="The name of the GitHub repository" width={LeftColumnWidth}>
+        Repository
       </InlineFormLabel>
       <Input
         css=""
@@ -49,4 +46,4 @@ export default (props: Props) => {
       />
     </QueryEditorRow>
   );
-}
+};
