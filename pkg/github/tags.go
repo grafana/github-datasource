@@ -48,7 +48,7 @@ func (t Tags) Frames() data.Frames {
 			v.Tagger.User.Login,
 			v.Target.Commit.Author.Email,
 			v.Target.Commit.Author.User.Company,
-			v.Tagger.Date,
+			v.Tagger.Date.Time,
 			v.Target.Commit.CommittedDate.Time,
 			v.Target.Commit.PushedDate.Time,
 		)

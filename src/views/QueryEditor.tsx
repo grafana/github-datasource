@@ -10,12 +10,19 @@ import QueryEditorReleases from './QueryEditorReleases';
 import QueryEditorCommits from './QueryEditorCommits';
 import QueryEditorIssues from './QueryEditorIssues';
 import QueryEditorPullRequests from './QueryEditorPullRequests';
+import QueryEditorTags from './QueryEditorTags';
 
 export type Props = QueryEditorProps<DataSource, GitHubQuery, DataSourceOptions>;
 
 const queryEditors: {
   [key: number]: { component: (props: Props, onChange: (val: any) => void) => ReactNode; optionsKey: string };
 } = {
+  [QueryType.Tags]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorTags {...(props.query.tagsOptions || {})} onChange={onChange} />
+    ),
+    optionsKey: 'tagsOptions',
+  },
   [QueryType.Releases]: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorReleases {...(props.query.releasesOptions || {})} onChange={onChange} />
