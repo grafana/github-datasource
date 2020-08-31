@@ -19,10 +19,9 @@ func TestGetAllContributors(t *testing.T) {
 
 	testVariables := testutil.GetTestVariablesFunction("name", "owner")
 
-	// Listing contributors just list commits :)
 	client := testutil.NewTestClient(t,
 		testVariables,
-		testutil.GetTestQueryFunction(&QueryListCommits{}),
+		testutil.GetTestQueryFunction(&QueryListContributors{}),
 	)
 
 	_, err := GetAllContributors(ctx, client, opts)
@@ -46,7 +45,7 @@ func TestGetContributorsWithQuery(t *testing.T) {
 
 	client := testutil.NewTestClient(t,
 		testVariables,
-		testutil.GetTestQueryFunction(&QueryListCommitsInRange{}),
+		testutil.GetTestQueryFunction(&QueryListContributors{}),
 	)
 
 	_, err := GetAllContributors(ctx, client, opts)
