@@ -18,12 +18,12 @@ import QueryEditorLabels from './QueryEditorLabels';
 
 interface Props extends QueryEditorProps<DataSource, GitHubQuery, GithubDataSourceOptions> {
   queryTypes?: string[];
-} 
+}
 export const LeftColumnWidth = 10;
 export const RightColumnWidth = 36;
 
 const queryEditors: {
-  [key:string]: { component: (props: Props, onChange: (val: any) => void) => ReactNode; optionsKey: string };
+  [key: string]: { component: (props: Props, onChange: (val: any) => void) => ReactNode; optionsKey: string };
 } = {
   [QueryType.Labels]: {
     component: (props: Props, onChange: (val: any) => void) => (
@@ -38,9 +38,7 @@ const queryEditors: {
     optionsKey: 'contributorsOptions',
   },
   [QueryType.Tags]: {
-    component: (props: Props, _: (val: any) => void) => (
-      <QueryEditorTags {...(props.query.tagsOptions || {})}  />
-    ),
+    component: (props: Props, _: (val: any) => void) => <QueryEditorTags {...(props.query.tagsOptions || {})} />,
     optionsKey: 'tagsOptions',
   },
   [QueryType.Releases]: {
@@ -57,7 +55,13 @@ const queryEditors: {
   },
   [QueryType.Issues]: {
     component: (props: Props, onChange: (val: any) => void) => (
-      <QueryEditorIssues {...(props.query.issuesOptions || {})} onChange={onChange} datasource={props.datasource} owner={props.query.owner || ''} repository={props.query.repository || ''}/>
+      <QueryEditorIssues
+        {...(props.query.issuesOptions || {})}
+        onChange={onChange}
+        datasource={props.datasource}
+        owner={props.query.owner || ''}
+        repository={props.query.repository || ''}
+      />
     ),
     optionsKey: 'issuesOptions',
   },
@@ -69,28 +73,28 @@ const queryEditors: {
   },
 };
 
-const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType)
-  .map((v) => {
-    return {
-      label: v.replace("_", " "),
-      value: v,
-    };
-  });
+const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType).map(v => {
+  return {
+    label: v.replace('_', ' '),
+    value: v,
+  };
+});
 
 export default (props: Props) => {
   const onChange = useCallback(
     (value: GitHubQuery) => {
       props.onChange(value);
 
-      if(isValid(value)) {
+      if (isValid(value)) {
         props.onRunQuery();
       }
     },
-    [props.onChange]);
+    [props.onChange]
+  );
 
   const onKeyChange = useCallback(
     (key: string, value: any) => {
-        onChange({
+      onChange({
         ...props.query,
         [key]: value,
       });
@@ -111,12 +115,16 @@ export default (props: Props) => {
         />
       </QueryInlineField>
 
-      <QueryEditorRepository repository={props.query.repository} owner={props.query.owner} onChange={(repo => {
-        onChange({
-          ...props.query,
-          ...repo,
-        })
-      })} />
+      <QueryEditorRepository
+        repository={props.query.repository}
+        owner={props.query.owner}
+        onChange={repo => {
+          onChange({
+            ...props.query,
+            ...repo,
+          });
+        }}
+      />
 
       {queryEditor ? (
         queryEditor.component(props, (value: any) => onKeyChange(queryEditor.optionsKey, !!value ? value : undefined))

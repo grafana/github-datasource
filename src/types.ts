@@ -22,16 +22,16 @@ export interface GithubSecureJsonData {
 }
 
 export enum QueryType {
-  Commits = "Commits",
-  Issues = "Issues",
-  Contributors = "Contributors",
-  Tags = "Tags",
-  Releases = "Releases",
-  Pull_Requests = "Pull_Requests",
-  Labels = "Labels",
-  Repositories = "Repositories",
-  Organizations = "Organizations",
-  GraphQL = "GraphQL",
+  Commits = 'Commits',
+  Issues = 'Issues',
+  Contributors = 'Contributors',
+  Tags = 'Tags',
+  Releases = 'Releases',
+  Pull_Requests = 'Pull_Requests',
+  Labels = 'Labels',
+  Repositories = 'Repositories',
+  Organizations = 'Organizations',
+  GraphQL = 'GraphQL',
 }
 
 export enum PullRequestTimeField {
@@ -59,7 +59,6 @@ export interface PullRequestsOptions {
   timeField?: PullRequestTimeField;
   query?: string;
 }
-
 
 export interface CommitsOptions {
   gitRef?: string;
