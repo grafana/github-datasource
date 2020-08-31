@@ -2,6 +2,7 @@ import {
   DataSourceInstanceSettings,
   MetricFindValue,
   DataQueryRequest,
+  DataQueryResponse,
   DataFrame,
   DataFrameView,
   ScopedVars,
@@ -44,13 +45,13 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
       },
     } as DataQueryRequest;
 
-    const res = await this.query(request)
-      .toPromise()
-      .catch(err => {
-        throw err;
-      });
-    const columns = res.data[0]?.fields.map((f: any) => f.name) || [];
-    return columns;
+    try {
+      const res = await this.query(request).toPromise();
+      const columns = res.data[0]?.fields.map((f: any) => f.name) || [];
+      return columns;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   async metricFindQuery(query: GitHubVariableQuery, options: any): Promise<MetricFindValue[]> {
@@ -69,11 +70,14 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
       rangeRaw: options.rangeRaw,
     } as DataQueryRequest;
 
-    const res = await this.query(request)
-      .toPromise()
-      .catch(err => {
-        throw err;
-      });
+    let res: DataQueryResponse;
+
+    try {
+      res = await this.query(request).toPromise();
+    } catch (err) {
+      return Promise.reject(err);
+    }
+
     if (!res || !res.data || res.data.length < 0) {
       return [];
     }
