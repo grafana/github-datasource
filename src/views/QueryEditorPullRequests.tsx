@@ -3,9 +3,8 @@ import React from 'react';
 import { Input, Select } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
 
-import QueryEditorRepository from './QueryEditorRepository';
 import { QueryInlineField } from '../components/Forms';
-import { PullRequestsOptions, PullRequestTimeField } from '../query';
+import { PullRequestsOptions, PullRequestTimeField } from '../types';
 
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
@@ -25,7 +24,6 @@ const timeFieldOptions: Array<SelectableValue<PullRequestTimeField>> = Object.ke
 export default (props: Props) => {
   return (
     <>
-      <QueryEditorRepository {...props} />
       <QueryInlineField
         labelWidth={LeftColumnWidth}
         label="Query"

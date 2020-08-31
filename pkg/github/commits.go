@@ -96,7 +96,7 @@ type QueryListCommitsInRange struct {
 }
 
 // GetAllCommits lists every commit in a project. This function is slow and very prone to rate limiting.
-func GetAllCommits(ctx context.Context, client Client, opts models.ListCommitsOptions) ([]Commit, error) {
+func GetAllCommits(ctx context.Context, client Client, opts models.ListCommitsOptions) (Commits, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),

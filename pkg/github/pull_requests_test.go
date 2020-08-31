@@ -13,7 +13,7 @@ import (
 func TestListPullRequests(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = models.ListPullRequestsInRangeOptions{
+		opts = models.ListPullRequestsOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 			TimeField:  models.PullRequestClosedAt,
@@ -61,11 +61,10 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			Author: PullRequestAuthor{
 				User: firstUser,
 			},
-			Closed:   false,
-			IsDraft:  false,
-			Locked:   false,
-			Merged:   false,
-			ClosedAt: githubv4.DateTime{},
+			Closed:  true,
+			IsDraft: false,
+			Locked:  false,
+			Merged:  true,
 			CreatedAt: githubv4.DateTime{
 				Time: openedAt,
 			},
@@ -73,7 +72,10 @@ func TestPullRequestsDataFrame(t *testing.T) {
 				Time: openedAt,
 			},
 			MergedAt: githubv4.DateTime{
-				Time: time.Time{},
+				Time: openedAt.Add(-100 * time.Minute),
+			},
+			ClosedAt: githubv4.DateTime{
+				Time: openedAt.Add(-100 * time.Minute),
 			},
 			Mergeable: githubv4.MergeableStateMergeable,
 			MergedBy:  nil,
@@ -84,18 +86,20 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			Author: PullRequestAuthor{
 				User: secondUser,
 			},
-			Closed:   true,
-			IsDraft:  false,
-			Locked:   false,
-			Merged:   true,
-			ClosedAt: githubv4.DateTime{},
+			Closed:  true,
+			IsDraft: false,
+			Locked:  false,
+			Merged:  true,
+			MergedAt: githubv4.DateTime{
+				Time: openedAt.Add(-100 * time.Minute),
+			},
+			ClosedAt: githubv4.DateTime{
+				Time: openedAt.Add(-100 * time.Minute),
+			},
 			CreatedAt: githubv4.DateTime{
 				Time: openedAt,
 			},
 			UpdatedAt: githubv4.DateTime{
-				Time: openedAt.Add(time.Hour * 2),
-			},
-			MergedAt: githubv4.DateTime{
 				Time: openedAt.Add(time.Hour * 2),
 			},
 			Mergeable: githubv4.MergeableStateMergeable,

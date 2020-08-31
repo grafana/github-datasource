@@ -2,9 +2,10 @@ package github
 
 import (
 	"context"
-	"time"
 
 	"github.com/grafana/grafana-github-datasource/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/shurcooL/githubv4"
 )
 
 // A GitActor is a user that has performed a git action, like a commit
@@ -12,6 +13,34 @@ type GitActor struct {
 	Name  string
 	Email string
 	User  User
+}
+
+type GitActors []GitActor
+
+func (g GitActors) Frames() data.Frames {
+	frame := data.NewFrame(
+		"users",
+		data.NewField("name", nil, []string{}),
+		data.NewField("git_name", nil, []string{}),
+		data.NewField("login", nil, []string{}),
+		data.NewField("email", nil, []string{}),
+		data.NewField("git_email", nil, []string{}),
+		data.NewField("company", nil, []string{}),
+		data.NewField("url", nil, []string{}),
+	)
+	for _, v := range g {
+		frame.AppendRow(
+			v.User.Name,
+			v.Name,
+			v.User.Login,
+			v.User.Email,
+			v.Email,
+			v.User.Company,
+			v.User.URL,
+		)
+	}
+
+	return data.Frames{frame}
 }
 
 // A User is a GitHub user
@@ -27,49 +56,61 @@ type User struct {
 // Users is a slice of GitHub users
 type Users []User
 
-// GetAuthors reduces the list of commits into a list of authors
-func GetAuthors(commits []Commit) []GitActor {
-	authorMap := map[string]GitActor{}
-	for _, v := range commits {
-		if _, ok := authorMap[v.Author.User.ID]; !ok {
-			authorMap[v.Author.Email] = v.Author
-		}
-	}
-	authors := make([]GitActor, len(authorMap))
-	i := 0
-	for k := range authorMap {
-		authors[i] = authorMap[k]
-		i++
+func (u Users) Frames() data.Frames {
+	frame := data.NewFrame(
+		"users",
+		data.NewField("name", nil, []string{}),
+		data.NewField("login", nil, []string{}),
+		data.NewField("email", nil, []string{}),
+		data.NewField("company", nil, []string{}),
+		data.NewField("url", nil, []string{}),
+	)
+	for _, v := range u {
+		frame.AppendRow(
+			v.Name,
+			v.Login,
+			v.Email,
+			v.Company,
+			v.URL,
+		)
 	}
 
-	return authors
+	return data.Frames{frame}
+}
+
+// QueryListContributors is the GraphQL query for lising contributors (or rather, mentionable users in a repository)
+type QueryListContributors struct {
+	Repository struct {
+		Users struct {
+			Nodes    Users
+			PageInfo PageInfo
+		} `graphql:"mentionableUsers(query: $query, first: 100, after: $cursor)"`
+	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
 // GetAllContributors lists all of the git contributors in a a repository
-func GetAllContributors(ctx context.Context, client Client, opts models.ListContributorsOptions) ([]GitActor, error) {
-	commits, err := GetAllCommits(ctx, client, models.ListCommitsOptions{
-		Repository: opts.Repository,
-		Owner:      opts.Owner,
-		Ref:        opts.Ref,
-	})
-	if err != nil {
-		return nil, err
+func GetAllContributors(ctx context.Context, client Client, opts models.ListContributorsOptions) (Users, error) {
+	var (
+		variables = map[string]interface{}{
+			"cursor": (*githubv4.String)(nil),
+			"name":   githubv4.String(opts.Repository),
+			"owner":  githubv4.String(opts.Owner),
+			"query":  (*githubv4.String)(opts.Query),
+		}
+		users = []User{}
+	)
+
+	for i := 0; i < PageNumberLimit; i++ {
+		q := &QueryListContributors{}
+		if err := client.Query(ctx, q, variables); err != nil {
+			return nil, err
+		}
+		users = append(users, q.Repository.Users.Nodes...)
+		if !q.Repository.Users.PageInfo.HasNextPage {
+			break
+		}
+		variables["cursor"] = q.Repository.Users.PageInfo.EndCursor
 	}
 
-	return GetAuthors(commits), nil
-}
-
-// GetContributorsInRange lists all commits in a repository within a time range.
-func GetContributorsInRange(ctx context.Context, client Client, opts models.ListContributorsOptions, from time.Time, to time.Time) ([]GitActor, error) {
-	commits, err := GetCommitsInRange(ctx, client, models.ListCommitsOptions{
-		Repository: opts.Repository,
-		Owner:      opts.Owner,
-		Ref:        opts.Ref,
-	}, from, to)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return GetAuthors(commits), nil
+	return users, nil
 }

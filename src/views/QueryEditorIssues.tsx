@@ -6,13 +6,13 @@ import { SelectableValue } from '@grafana/data';
 import { ToggleField } from '../components/ToggleField';
 import { QueryInlineField, QueryEditorRow } from '../components/Forms';
 import LabelSelector from '../components/LabelSelector';
-import QueryEditorRepository from './QueryEditorRepository';
-import { Label } from '../types';
-import { IssuesOptions, IssueTimeField, IssueFilters } from '../query';
+import { Label, IssuesOptions, IssueTimeField, IssueFilters } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { DataSource } from '../DataSource';
 
 interface Props extends IssuesOptions {
+  owner: string;
+  repository: string;
   datasource: DataSource;
   onChange: (value: IssuesOptions) => void;
 }
@@ -210,7 +210,6 @@ export default (props: Props) => {
 
   return (
     <>
-      <QueryEditorRepository {...props} />
       <TabsBar>
         {tabs.map((tab, index) => {
           return (

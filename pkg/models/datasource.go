@@ -17,4 +17,5 @@ type Datasource interface {
 	HandleReleasesQuery(context.Context, *Query, backend.DataQuery) (dfutil.Framer, error)
 	HandleContributorsQuery(context.Context, *Query, backend.DataQuery) (dfutil.Framer, error)
 	HandlePullRequestsQuery(context.Context, *Query, backend.DataQuery) (dfutil.Framer, error)
+	HandleLabelsQuery(context.Context, *Query, backend.DataQuery) (dfutil.Framer, error)
 }
