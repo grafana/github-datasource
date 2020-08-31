@@ -1,3 +1,3 @@
-import QueryEditorRepository from './QueryEditorRepository';
+import React from 'react';
 
-export default QueryEditorRepository;
+export default () => <></>;

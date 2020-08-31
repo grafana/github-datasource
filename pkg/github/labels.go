@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/grafana/grafana-github-datasource/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/pkg/errors"
 	"github.com/shurcooL/githubv4"
 )
@@ -36,6 +37,26 @@ type Label struct {
 }
 
 type Labels []Label
+
+// Frames converts the list of labels to a Grafana DataFrame
+func (a Labels) Frames() data.Frames {
+	frame := data.NewFrame(
+		"labels",
+		data.NewField("color", nil, []string{}),
+		data.NewField("name", nil, []string{}),
+		data.NewField("description", nil, []string{}),
+	)
+
+	for _, v := range a {
+		frame.AppendRow(
+			v.Color,
+			v.Name,
+			v.Description,
+		)
+	}
+
+	return data.Frames{frame}
+}
 
 func GetAllLabels(ctx context.Context, client Client, opts models.ListLabelsOptions) (Labels, error) {
 	var (

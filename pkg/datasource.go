@@ -12,14 +12,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-func getQueryHandler(d models.Datasource, q models.QueryType) (models.QueryHandlerFunc, error) {
-	m := map[models.QueryType]models.QueryHandlerFunc{
+func getQueryHandler(d models.Datasource, q string) (models.QueryHandlerFunc, error) {
+	m := map[string]models.QueryHandlerFunc{
 		models.QueryTypeCommits:      d.HandleCommitsQuery,
 		models.QueryTypeIssues:       d.HandleIssuesQuery,
 		models.QueryTypeContributors: d.HandleContributorsQuery,
 		models.QueryTypeTags:         d.HandleTagsQuery,
 		models.QueryTypeReleases:     d.HandleReleasesQuery,
 		models.QueryTypePullRequests: d.HandlePullRequestsQuery,
+		models.QueryTypeLabels:       d.HandleLabelsQuery,
 	}
 
 	if val, ok := m[q]; ok {
@@ -38,9 +39,9 @@ func processQuery(ctx context.Context, d models.Datasource, v backend.DataQuery)
 		return nil, errors.Wrap(dserrors.ErrorBadQuery, err.Error())
 	}
 
-	handler, err := getQueryHandler(d, query.QueryType)
+	handler, err := getQueryHandler(d, v.QueryType)
 	if err != nil {
-		return nil, errors.Wrapf(err, "could not get query handler for querytype '%d'", query.QueryType)
+		return nil, errors.Wrapf(err, "could not get query handler for querytype '%s'", v.QueryType)
 	}
 
 	return handler(ctx, query, v)

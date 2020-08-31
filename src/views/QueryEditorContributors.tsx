@@ -2,22 +2,22 @@ import React from 'react';
 import { Input } from '@grafana/ui';
 
 import { QueryInlineField } from '../components/Forms';
-import { CommitsOptions } from '../types';
+import { ContributorsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
-interface Props extends CommitsOptions {
-  onChange: (value: CommitsOptions) => void;
+interface Props extends ContributorsOptions {
+  onChange: (value: ContributorsOptions) => void;
 }
 
 export default (props: Props) => {
   return (
     <>
-      <QueryInlineField labelWidth={LeftColumnWidth} label="Ref (Branch / Tag)">
+      <QueryInlineField labelWidth={LeftColumnWidth} label="Query (optional)">
         <Input
           css=""
           width={RightColumnWidth}
-          value={props.gitRef}
-          onChange={el => props.onChange({ ...props, gitRef: el.currentTarget.value })}
+          value={props.query}
+          onChange={el => props.onChange({ ...props, query: el.currentTarget.value })}
         />
       </QueryInlineField>
     </>

@@ -1,28 +1,33 @@
 package models
 
-import "github.com/shurcooL/githubv4"
-
-// QueryType refers to the type of data being queried
-type QueryType uint32
-
-const (
-	// QueryTypeCommits ...
-	QueryTypeCommits QueryType = iota
-	// QueryTypeIssues ...
-	QueryTypeIssues
-	// QueryTypeContributors ...
-	QueryTypeContributors
-	// QueryTypeTags ...
-	QueryTypeTags
-	// QueryTypeReleases ...
-	QueryTypeReleases
-	// QueryTypePullRequests ...
-	QueryTypePullRequests
-	// QueryTypeGraphQL ...
-	QueryTypeGraphQL
+import (
+	"github.com/shurcooL/githubv4"
 )
 
-// PullRequestTimeField defines what time field to filter pull requests by (closed, opened, merged...)
+const (
+	// QueryTypeCommits is sent by the frontend when querying commits in a GitHub repository
+	QueryTypeCommits = "Commits"
+	// QueryTypeIssues is used when querying issues in a GitHub repository
+	QueryTypeIssues = "Issues"
+	// QueryTypeContributors is used when querying contributors in a GitHub repository
+	QueryTypeContributors = "Contributors"
+	// QueryTypeTags is used when querying tags in a GitHub repository
+	QueryTypeTags = "Tags"
+	// QueryTypeReleases is used when querying releases in a GitHub repository
+	QueryTypeReleases = "Releases"
+	// QueryTypePullRequests is used when querying pull requests in a GitHub repository
+	QueryTypePullRequests = "Pull_Requests"
+	// QueryTypeLabels is used when querying labels in a GitHub repository
+	QueryTypeLabels = "Labels"
+	// QueryTypeRepositories is used when querying for a GitHub repository
+	QueryTypeRepositories = "Repositories"
+	// QueryTypeOrganizations is used when querying for GitHub organizations
+	QueryTypeOrganizations = "Organizations"
+	// QueryTypeGraphQL is used when sending an ad-hoc graphql query
+	QueryTypeGraphQL = "GraphQL"
+)
+
+// IssueTimeField defines what time field to filter issues by (closed, opened...)
 type IssueTimeField uint32
 
 const (
@@ -43,6 +48,14 @@ type ListCommitsOptions struct {
 	Ref        string `json:"gitRef"`
 }
 
+func CommitsOptionsWithRepo(opt ListCommitsOptions, owner string, repo string) ListCommitsOptions {
+	return ListCommitsOptions{
+		Owner:      owner,
+		Repository: repo,
+		Ref:        opt.Ref,
+	}
+}
+
 // ListIssuesOptions provides options when retrieving issues
 type ListIssuesOptions struct {
 	Repository string                 `json:"repository"`
@@ -50,6 +63,16 @@ type ListIssuesOptions struct {
 	Filters    *githubv4.IssueFilters `json:"filters"`
 	Query      *string                `json:"query,omitempty"`
 	TimeField  IssueTimeField         `json:"timeField"`
+}
+
+func IssueOptionsWithRepo(opt ListIssuesOptions, owner string, repo string) ListIssuesOptions {
+	return ListIssuesOptions{
+		Owner:      owner,
+		Repository: repo,
+		Filters:    opt.Filters,
+		Query:      opt.Query,
+		TimeField:  opt.TimeField,
+	}
 }
 
 // PullRequestTimeField defines what time field to filter pull requests by (closed, opened, merged...)
@@ -68,26 +91,8 @@ func (d PullRequestTimeField) String() string {
 	return [...]string{"closed", "created", "merged"}[d]
 }
 
-// ListPullRequestsOptions are the available options when listing pull requests
-type ListPullRequestsOptions struct {
-	// Repository is the name of the repository being queried (ex: grafana)
-	Repository string `json:"repository"`
-
-	// Owner is the owner of the repository (ex: grafana)
-	Owner string `json:"owner"`
-}
-
-// ListReleasesOptions are the available options when listing releases
-type ListReleasesOptions struct {
-	// Repository is the name of the repository being queried (ex: grafana)
-	Repository string `json:"repository"`
-
-	// Owner is the owner of the repository (ex: grafana)
-	Owner string `json:"owner"`
-}
-
 // ListPullRequestsInRangeOptions are the available options when listing pull requests in a time range
-type ListPullRequestsInRangeOptions struct {
+type ListPullRequestsOptions struct {
 	// Repository is the name of the repository being queried (ex: grafana)
 	Repository string `json:"repository"`
 
@@ -98,22 +103,24 @@ type ListPullRequestsInRangeOptions struct {
 	TimeField PullRequestTimeField `json:"timeField"`
 
 	Query *string `json:"query,omitempty"`
+}
 
-	// Mentions string
-	// Author   string
-	// // Involves finds issues that in some way involve a certain user.
-	// // The involves qualifier is a logical OR between the author, assignee, mentions, and commenter qualifiers for a single user.
-	// // In other words, this qualifier finds issues and pull requests that were either created by a certain user, assigned to that user, mention that user,
-	// // or were commented on by that user.
-	// // Source: https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests#search-by-a-user-thats-involved-in-an-issue-or-pull-request
-	// Involves  string
-	// Linked    *bool
-	// Labels    []string
-	// Milestone string
-	// Status    githubv4.StatusState
-	// Head      string
-	// Base      string
-	// IsDraft   bool
+func PullRequestOptionsWithRepo(opt ListPullRequestsOptions, owner string, repo string) ListPullRequestsOptions {
+	return ListPullRequestsOptions{
+		Owner:      owner,
+		Repository: repo,
+		Query:      opt.Query,
+		TimeField:  opt.TimeField,
+	}
+}
+
+// ListReleasesOptions are the available options when listing releases
+type ListReleasesOptions struct {
+	// Repository is the name of the repository being queried (ex: grafana)
+	Repository string `json:"repository"`
+
+	// Owner is the owner of the repository (ex: grafana)
+	Owner string `json:"owner"`
 }
 
 // ListMilestonesOptions is provided when listing Labels in a repository
@@ -157,7 +164,7 @@ type ListContributorsOptions struct {
 	// Owner is the owner of the repository (ex: grafana)
 	Owner string `json:"owner"`
 
-	Ref string `json:"gitRef"`
+	Query *string `json:"query,omitempty"`
 }
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -165,12 +172,13 @@ type ListContributorsOptions struct {
 // For example, listing commits can be filtered by author, but filtering contributors by author
 // doesn't provide much value, but is included in the query schema anyways.
 type Query struct {
-	// QueryType is the type of data being queried
-	QueryType           QueryType                      `json:"type"`
-	PullRequestsOptions ListPullRequestsInRangeOptions `json:"pullRequestsOptions"`
-	CommitsOptions      ListCommitsOptions             `json:"commitsOptions"`
-	TagsOptions         ListTagsOptions                `json:"tagsOptions"`
-	ReleasesOptions     ListReleasesOptions            `json:"releasesOptions"`
-	ContributorsOptions ListContributorsOptions        `json:"contributorsOptions"`
-	IssuesOptions       ListIssuesOptions              `json:"issuesOptions"`
+	Repository          string                  `json:"repository"`
+	Owner               string                  `json:"owner"`
+	PullRequestsOptions ListPullRequestsOptions `json:"pullRequestsOptions"`
+	CommitsOptions      ListCommitsOptions      `json:"commitsOptions"`
+	TagsOptions         ListTagsOptions         `json:"tagsOptions"`
+	LabelsOptions       ListLabelsOptions       `json:"labelsOptions"`
+	ReleasesOptions     ListReleasesOptions     `json:"releasesOptions"`
+	ContributorsOptions ListContributorsOptions `json:"contributorsOptions"`
+	IssuesOptions       ListIssuesOptions       `json:"issuesOptions"`
 }

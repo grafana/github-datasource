@@ -13,7 +13,7 @@ import (
 func TestListPullRequests(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = models.ListPullRequestsInRangeOptions{
+		opts = models.ListPullRequestsOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
 			TimeField:  models.PullRequestClosedAt,

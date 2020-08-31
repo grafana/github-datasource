@@ -68,9 +68,8 @@ func (cr *GithubHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	if ds, ok := h.(*github.Datasource); ok {
 		MustGetRouter(Handlers{
-			OAuth2:     ds,
-			Labels:     ds,
-			Milestones: ds,
+			Labels:     ds.HandleGetLabels,
+			Milestones: ds.HandleGetMilestones,
 		}).ServeHTTP(w, r)
 		return
 	}

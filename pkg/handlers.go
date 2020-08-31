@@ -6,31 +6,21 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type OAuth2Client interface {
-	HandleAuth(http.ResponseWriter, *http.Request)
-	HandleAuthCallback(http.ResponseWriter, *http.Request)
-}
-
-type LabelsHandler interface {
-	HandleGetLabels(http.ResponseWriter, *http.Request)
-}
-
-type MilestonesHandler interface {
-	HandleGetMilestones(http.ResponseWriter, *http.Request)
-}
+type ChoicesHandler http.HandlerFunc
 
 type Handlers struct {
-	OAuth2     OAuth2Client
-	Labels     LabelsHandler
-	Milestones MilestonesHandler
+	Choices    http.HandlerFunc
+	Labels     http.HandlerFunc
+	Milestones http.HandlerFunc
 }
 
 func MustGetRouter(h Handlers) *mux.Router {
 	router := mux.NewRouter()
-	router.Path("/labels").Methods("GET").HandlerFunc(h.Labels.HandleGetLabels)
-	router.Path("/milestones").Methods("GET").HandlerFunc(h.Milestones.HandleGetMilestones)
-	router.Path("/auth").Methods("GET").HandlerFunc(h.OAuth2.HandleAuth)
-	router.Path("/auth/callback").Methods("GET").HandlerFunc(h.OAuth2.HandleAuthCallback)
+	// The "choices" endpoint is analogous to the "HandleQueryData" gRPC handler
+	// but is used for possible values for dashboard variables
+	router.Path("/choices/{queryType}").Methods("POST").HandlerFunc(h.Choices)
+	router.Path("/labels").Methods("GET").HandlerFunc(h.Labels)
+	router.Path("/milestones").Methods("GET").HandlerFunc(h.Milestones)
 
 	return router
 }
