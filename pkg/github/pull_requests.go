@@ -58,6 +58,11 @@ type PullRequests []PullRequest
 
 // Frames converts the list of Pull Requests to a Grafana DataFrame
 func (p PullRequests) Frames() data.Frames {
+	openTime := data.NewField("open_time", nil, []float64{})
+	openTime.Config = &data.FieldConfig{
+		Unit: "s", // The values are in seconds
+	}
+
 	frame := data.NewFrame(
 		"pull_requests",
 		data.NewField("title", nil, []string{}),
@@ -74,7 +79,7 @@ func (p PullRequests) Frames() data.Frames {
 		data.NewField("merged_at", nil, []*time.Time{}),
 		data.NewField("updated_at", nil, []time.Time{}),
 		data.NewField("created_at", nil, []time.Time{}),
-		data.NewField("seconds_open", nil, []float64{}),
+		openTime,
 	)
 
 	for _, v := range p {
