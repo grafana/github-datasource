@@ -1,4 +1,5 @@
 import {
+  AnnotationEvent,
   DataSourceInstanceSettings,
   MetricFindValue,
   DataQueryRequest,
@@ -31,7 +32,43 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
     });
   }
 
+  async annotationQuery(request: any): Promise<AnnotationEvent[]> {
+    const { annotation } = request.annotation;
+
+    const query = {
+      targets: [
+        {
+          ...annotation,
+          datasourceId: this.id,
+        },
+      ],
+      range: request.range,
+      interval: request.interval,
+    } as DataQueryRequest<GitHubQuery>;
+
+    const res = await this.query(query).toPromise();
+
+    if (!res || !res.data || res.data.length < 0) {
+      return [];
+    }
+
+    const view = new DataFrameView(res.data[0] as DataFrame);
+
+    const results = view.map(item => {
+      return {
+        title: `${request.annotation.name} - ${annotation.queryType}`,
+        time: item[annotation.timeField || 'name'],
+        text: item[annotation.field || 'name'],
+      };
+    });
+
+    return results;
+  }
+
   async getChoices(query: GitHubQuery): Promise<string[]> {
+    if (!isValid(query)) {
+      return [];
+    }
     const request = {
       targets: [
         {

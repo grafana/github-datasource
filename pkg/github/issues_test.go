@@ -10,78 +10,6 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-func TestGetIssues(t *testing.T) {
-	var (
-		ctx = context.Background()
-	)
-
-	t.Run("With no filters", func(t *testing.T) {
-		opts := models.ListIssuesOptions{
-			Repository: "grafana",
-			Owner:      "grafana",
-		}
-
-		testIssueVariables := func(t *testing.T, variables map[string]interface{}) {
-			if _, ok := variables["filters"]; !ok {
-				t.Fatal("the 'filters' key must always be included in the variables map")
-			}
-			if variables["filters"] != (*githubv4.IssueFilters)(nil) {
-				t.Fatal("if filters is not provided in the arguments, it should be nil in the variables")
-			}
-
-			testutil.EnsureKeysAreSet(t, variables, "name", "owner", "filters")
-		}
-
-		client := testutil.NewTestClient(t,
-			testIssueVariables,
-			testutil.GetTestQueryFunction(&QueryGetIssues{}),
-		)
-
-		_, err := GetAllIssues(ctx, client, opts)
-		if err != nil {
-			t.Fatal(err)
-		}
-	})
-
-	t.Run("With a 'since' filter", func(t *testing.T) {
-		opts := models.ListIssuesOptions{
-			Repository: "grafana",
-			Owner:      "grafana",
-			Filters: &githubv4.IssueFilters{
-				Since: &githubv4.DateTime{
-					Time: time.Now().Add(-30 * 24 * time.Hour),
-				},
-			},
-		}
-
-		testIssueVariables := func(t *testing.T, variables map[string]interface{}) {
-			filters, ok := variables["filters"]
-			if !ok {
-				t.Fatal("Filters are included in the options, but not in the variables given to the query")
-			}
-
-			switch filters.(type) {
-			case *githubv4.IssueFilters:
-				break
-			default:
-				t.Fatal("Unexpected type of variables['filters']. Expected '*githubv4.IssueFilters'")
-			}
-
-			testutil.EnsureKeysAreSet(t, variables, "name", "owner", "filters")
-		}
-
-		client := testutil.NewTestClient(t,
-			testIssueVariables,
-			testutil.GetTestQueryFunction(&QueryGetIssues{}),
-		)
-
-		_, err := GetAllIssues(ctx, client, opts)
-		if err != nil {
-			t.Fatal(err)
-		}
-	})
-}
-
 func TestSearchIssues(t *testing.T) {
 	var (
 		ctx  = context.Background()
@@ -99,7 +27,7 @@ func TestSearchIssues(t *testing.T) {
 		testutil.GetTestQueryFunction(&QuerySearchIssues{}),
 	)
 
-	_, err := SearchIssues(ctx, client, opts, time.Now().Add(-30*24*time.Hour), time.Now())
+	_, err := GetIssuesInRange(ctx, client, opts, time.Now().Add(-30*24*time.Hour), time.Now())
 	if err != nil {
 		t.Fatal(err)
 	}

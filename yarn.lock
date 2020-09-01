@@ -1773,6 +1773,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/grafana@github:CorpGlory/types-grafana.git":
+  version "4.6.3"
+  resolved "https://codeload.github.com/CorpGlory/types-grafana/tar.gz/c58c08dc33585cc234f4d69013616edc05760e21"
+
 "@types/html-minifier@*":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/html-minifier/-/html-minifier-4.0.0.tgz#2065cb9944f2d1b241146707c6935aa7b947d279"

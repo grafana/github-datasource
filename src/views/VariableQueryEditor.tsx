@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
 
-import { Select } from '@grafana/ui';
-
 import QueryEditor from './QueryEditor';
 import { DataSource } from '../DataSource';
 import { GitHubVariableQuery, DefaultQueryType, QueryType } from '../types';
 import { QueryInlineField } from '../components/Forms';
+import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
 
 interface Props {
@@ -41,22 +40,26 @@ export default (props: Props) => {
         onRunQuery={() => {}}
         queryTypes={[QueryType.Contributors, QueryType.Tags, QueryType.Releases, QueryType.Labels]}
       />
-      <QueryInlineField width={10} labelWidth={10} label="field">
-        <Select
-          width={64}
-          options={choices?.map(v => {
-            return { label: v, value: v };
-          })}
-          value={props.query.field}
-          onChange={opt =>
+      <QueryInlineField
+        width={10}
+        labelWidth={10}
+        label="Display Field"
+        tooltip="This field determines the text / value used for the variable"
+      >
+        <FieldSelect
+          onChange={value =>
             props.onChange(
               {
                 ...props.query,
-                field: opt.value,
+                field: value,
               },
               definition
             )
           }
+          options={choices || []}
+          width={64}
+          value={props.query.field}
+          loading={!choices}
         />
       </QueryInlineField>
     </>

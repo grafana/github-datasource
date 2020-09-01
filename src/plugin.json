@@ -4,6 +4,8 @@
   "id": "grafana-github-datasource",
   "backend": true,
   "executable": "gfx_github",
+  "annotations": true,
+  "alerting": true,
   "metrics": true,
   "info": {
     "description": "Show data about github issues/pull requests",

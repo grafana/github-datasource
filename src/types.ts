@@ -45,14 +45,6 @@ export enum IssueTimeField {
   ClosedAt,
 }
 
-export interface IssueFilters {
-  assignee?: string;
-  createdBy?: string;
-  labels?: string[];
-  mentioned?: string;
-  milestone?: string;
-}
-
 export interface ReleasesOptions {}
 export interface TagsOptions {}
 export interface PullRequestsOptions {
@@ -74,7 +66,6 @@ export interface LabelsOptions {
 
 export interface IssuesOptions {
   timeField?: IssueTimeField;
-  filters?: IssueFilters;
   query?: string;
 }
 
@@ -92,4 +83,8 @@ export interface GitHubVariableQuery extends GitHubQuery {
   field?: string;
 }
 
-export const DefaultQueryType = QueryType.Commits;
+export interface GitHubAnnotationQuery extends GitHubVariableQuery {
+  timeField?: string;
+}
+
+export const DefaultQueryType = QueryType.Issues;
