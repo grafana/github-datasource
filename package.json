@@ -13,6 +13,7 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@grafana/data": "next",
     "@grafana/e2e": "next",
     "@grafana/runtime": "next",
