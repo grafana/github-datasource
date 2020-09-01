@@ -12,6 +12,7 @@ import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { GithubDataSourceOptions, Label, GitHubQuery, GitHubVariableQuery } from './types';
 import { ReplaceVariables } from './variables';
 import { isValid } from './validation';
+import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 
 export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
   constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
@@ -48,21 +49,16 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
 
     const res = await this.query(query).toPromise();
 
-    if (!res || !res.data || res.data.length < 0) {
+    if (!(res?.data?.length)) {
       return [];
     }
-
-    const view = new DataFrameView(res.data[0] as DataFrame);
-
-    const results = view.map(item => {
-      return {
-        title: `${request.annotation.name} - ${annotation.queryType}`,
-        time: item[annotation.timeField || 'name'],
-        text: item[annotation.field || 'name'],
-      };
+    return getAnnotationsFromFrame(res.data[0], {
+      field: {
+        // title: `${request.annotation.name} - ${annotation.queryType}`,
+        time: annotation.timeField, // or first time field
+        text: annotation.field || 'name',
+      },
     });
-
-    return results;
   }
 
   async getChoices(query: GitHubQuery): Promise<string[]> {
