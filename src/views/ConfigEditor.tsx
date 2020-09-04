@@ -34,7 +34,11 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
       <>
         <InfoBox title="Access Token Permissions">
           <p>
-            To create a new Access Token, navigate to <a href="https://github.com/settings/tokens">Personal Access Tokens <Icon name="link" /></a> and create a click "Generate new token."
+            To create a new Access Token, navigate to{' '}
+            <a href="https://github.com/settings/tokens">
+              Personal Access Tokens <Icon name="link" />
+            </a>{' '}
+            and create a click "Generate new token."
           </p>
           <p>Ensure that your token has the following permissions:</p>
           <h4>For all repositories:</h4>

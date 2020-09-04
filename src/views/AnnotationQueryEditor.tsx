@@ -102,7 +102,7 @@ const AnnotationQueryEditor = (props: Props) => {
   );
 };
 
-coreModule.directive('annotationEditor', [
+coreModule.directive('githubAnnotationEditor', [
   'reactDirective',
   (reactDirective: any) => {
     return reactDirective(AnnotationQueryEditor, ['annotation', 'datasource', 'change']);
