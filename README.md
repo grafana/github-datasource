@@ -40,6 +40,8 @@ To create a new Access Token, navigate to [Personal Access Tokens](https://githu
 
 Annotations overlay events on a graph.
 
+![Annotations on a graph](./docs/screenshots/annotations.png)
+
 With annotations, you can display:
 
 * Commits
@@ -51,6 +53,8 @@ With annotations, you can display:
 on a graph.
 
 All annotations require that you select a field to display on the annotation, and a field that represents the time that the event occured.
+
+![Annotations editor](./docs/screenshots/annotations-editor.png)
 
 ## Variables
 
