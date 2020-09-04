@@ -38,7 +38,25 @@ To create a new Access Token, navigate to [Personal Access Tokens](https://githu
 
 ## Annotations
 
+Annotations overlay events on a graph.
+
+With annotations, you can display:
+
+* Commits
+* Issues
+* Pull Requests
+* Releases
+* Tags
+
+on a graph.
+
+All annotations require that you select a field to display on the annotation, and a field that represents the time that the event occured.
+
 ## Variables
+
+**Work in progress**
+
+Variables allow you to substitute values in a panel with pre-defined values.
 
 ## Access Token Permissions
 
@@ -68,3 +86,16 @@ We have aggressive caching enabled due to GitHub's rate limiting policies. When 
 * I am trying to use a template variable in the "Query" field and it's not working
 
 Template variables are currently not supported outside of the "Owner / Organization" and "Repository" fields.
+
+* Why are there two selection options for Pull Requests and Issue times when creating annotations?
+
+There are two times that affect an annotation:
+
+* The time range of the dashboard or panel
+* The time that should be used to display the event on the graph
+
+The first selection is used to filter the events that display on the graph. For example, if you select "closed at", only events that were "closed" in your dashboard's time range will be displayed on the graph.
+
+The second selection is used to determine where on the graph the event should be displayed.
+
+Typically these will be the same, however there are some cases where you may want them to be different.
