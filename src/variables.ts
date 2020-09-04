@@ -9,6 +9,6 @@ export const ReplaceVariables = (t: TemplateSrv, query: GitHubQuery): GitHubQuer
   return {
     ...query,
     owner: ReplaceVariable(t, query.owner),
-    repository: ReplaceVariable(t, query.owner),
+    repository: ReplaceVariable(t, query.repository),
   };
 };

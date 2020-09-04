@@ -119,9 +119,11 @@ export default (props: Props) => {
         repository={props.query.repository}
         owner={props.query.owner}
         onChange={repo => {
+          console.log(repo);
           onChange({
             ...props.query,
-            ...repo,
+            repository: repo.repository,
+            owner: repo.owner,
           });
         }}
       />
