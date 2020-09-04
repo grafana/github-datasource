@@ -121,7 +121,8 @@ export default (props: Props) => {
         onChange={repo => {
           onChange({
             ...props.query,
-            ...repo,
+            repository: repo.repository,
+            owner: repo.owner,
           });
         }}
       />

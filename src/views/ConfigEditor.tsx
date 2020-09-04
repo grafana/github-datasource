@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { DataSourcePluginOptionsEditorProps, onUpdateDatasourceJsonDataOption } from '@grafana/data';
-import { InlineFormLabel, Input, LegacyForms } from '@grafana/ui';
+import { InlineFormLabel, Input, LegacyForms, InfoBox, Icon } from '@grafana/ui';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
@@ -32,19 +32,37 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
     const secureSettings = (secureJsonData || {}) as GithubSecureJsonData;
     return (
       <>
+        <InfoBox title="Access Token Permissions">
+          <p>
+            To create a new Access Token, navigate to{' '}
+            <a href="https://github.com/settings/tokens">
+              Personal Access Tokens <Icon name="link" />
+            </a>{' '}
+            and create a click "Generate new token."
+          </p>
+          <p>Ensure that your token has the following permissions:</p>
+          <h4>For all repositories:</h4>
+          <pre>
+            <ul>
+              <li>public_repo</li>
+              <li>repo:status</li>
+              <li>repo_deployment</li>
+              <li>read:packages</li>
+            </ul>
+            <ul>
+              <li>user:read</li>
+              <li>user:email</li>
+            </ul>
+          </pre>
+          <h4>An extra setting is required for private repositories:</h4>
+          <pre>
+            <ul>
+              <li>repo (Full control of private repositories)</li>
+            </ul>
+          </pre>
+        </InfoBox>
         <div className="gf-form-group">
           <h3 className="page-heading">Service Account Access</h3>
-          {/* <div className="gf-form">
-          <LegacyForms.FormField
-            label="API URL"
-            labelWidth={11}
-            inputWidth={27}
-            tooltip={'URL to Datadog API'}
-            onChange={onUpdateDatasourceJsonDataOption(this.props, 'url')}
-            value={jsonData.url || 'https://api.datadoghq.com'}
-            placeholder="https://api.datadoghq.com"
-          />
-        </div> */}
           <div className="gf-form">
             <LegacyForms.SecretFormField
               label="Access Token"
@@ -59,7 +77,6 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
             />
           </div>
         </div>
-
         <div className="gf-form-group">
           <h3 className="page-heading">Default Query Options</h3>
           <div className="gf-form">

@@ -1,9 +1,8 @@
-package main
+package plugin
 
 import (
-	"encoding/json"
-
 	"context"
+	"encoding/json"
 
 	"github.com/grafana/grafana-github-datasource/pkg/dfutil"
 	dserrors "github.com/grafana/grafana-github-datasource/pkg/errors"
@@ -12,8 +11,22 @@ import (
 	"github.com/pkg/errors"
 )
 
-func getQueryHandler(d models.Datasource, q string) (models.QueryHandlerFunc, error) {
-	m := map[string]models.QueryHandlerFunc{
+type QueryHandlerFunc func(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+
+// The Datasource type handles the requests sent to the datasource backend
+type Datasource interface {
+	HandleIssuesQuery(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+	HandleCommitsQuery(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+	HandleTagsQuery(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+	HandleReleasesQuery(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+	HandleContributorsQuery(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+	HandlePullRequestsQuery(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+	HandleLabelsQuery(context.Context, *models.Query, backend.DataQuery) (dfutil.Framer, error)
+	CheckHealth(context.Context) error
+}
+
+func getQueryHandler(d Datasource, q string) (QueryHandlerFunc, error) {
+	m := map[string]QueryHandlerFunc{
 		models.QueryTypeCommits:      d.HandleCommitsQuery,
 		models.QueryTypeIssues:       d.HandleIssuesQuery,
 		models.QueryTypeContributors: d.HandleContributorsQuery,
@@ -30,7 +43,7 @@ func getQueryHandler(d models.Datasource, q string) (models.QueryHandlerFunc, er
 	return nil, dserrors.ErrorQueryTypeUnimplemented
 }
 
-func processQuery(ctx context.Context, d models.Datasource, v backend.DataQuery) (dfutil.Framer, error) {
+func processQuery(ctx context.Context, d Datasource, v backend.DataQuery) (dfutil.Framer, error) {
 	var (
 		query = &models.Query{}
 	)
@@ -48,7 +61,7 @@ func processQuery(ctx context.Context, d models.Datasource, v backend.DataQuery)
 }
 
 // HandleQueryData handles the `QueryData` request for the Github datasource
-func HandleQueryData(ctx context.Context, d models.Datasource, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func HandleQueryData(ctx context.Context, d Datasource, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	responses := backend.Responses{}
 	for _, v := range req.Queries {
 		responses[v.RefID] = dfutil.FrameResponseWithError(processQuery(ctx, d, v))
@@ -60,6 +73,12 @@ func HandleQueryData(ctx context.Context, d models.Datasource, req *backend.Quer
 }
 
 // CheckHealth ensures that the datasource settings are able to retrieve data from GitHub
-func CheckHealth(ctx context.Context, d models.Datasource, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+func CheckHealth(ctx context.Context, d Datasource, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+	if err := d.CheckHealth(ctx); err != nil {
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: err.Error(),
+		}, nil
+	}
 	return &backend.CheckHealthResult{Status: backend.HealthStatusOk}, nil
 }

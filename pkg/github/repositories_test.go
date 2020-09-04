@@ -4,13 +4,14 @@ import (
 	"context"
 	"testing"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-github-datasource/pkg/testutil"
 )
 
 func TestGetAllRepositories(t *testing.T) {
 	var (
 		ctx  = context.Background()
-		opts = ListRepositoriesOptions{
+		opts = models.ListRepositoriesOptions{
 			Organization: "grafana",
 		}
 	)

@@ -6,14 +6,14 @@ import (
 	"github.com/grafana/grafana-github-datasource/pkg/dfutil"
 	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/pkg/errors"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
 )
 
 // Datasource handles requests to GitHub
 type Datasource struct {
-	client      *githubv4.Client
-	oauthConfig *oauth2.Config
+	client *githubv4.Client
 }
 
 func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
@@ -80,6 +80,19 @@ func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.Query,
 	return GetAllLabels(ctx, d.client, opt)
 }
 
+// CheckHealth calls frequently used endpoints to determine if the client has sufficient privileges
+func (d *Datasource) CheckHealth(ctx context.Context) error {
+	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
+		Organization: "grafana",
+	})
+
+	if err != nil {
+		return errors.Wrap(err, "failed to list repositories in the Grafana organization")
+	}
+
+	return nil
+}
+
 func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: settings.AccessToken},
@@ -88,7 +101,6 @@ func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 	httpClient := oauth2.NewClient(ctx, src)
 
 	return &Datasource{
-		client:      githubv4.NewClient(httpClient),
-		oauthConfig: GetOAuthConfig(settings.ClientID, settings.ClientSecret),
+		client: githubv4.NewClient(httpClient),
 	}
 }

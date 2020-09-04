@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 
+	"github.com/grafana/grafana-github-datasource/pkg/models"
 	"github.com/shurcooL/githubv4"
 )
 
@@ -16,13 +17,8 @@ type QueryListRepositories struct {
 	} `graphql:"organization(login: $name)"`
 }
 
-// ListRepositoriesOptions is the options for listing repositories
-type ListRepositoriesOptions struct {
-	Organization string
-}
-
 // GetAllRepositories retrieves all available repositories for an organization
-func GetAllRepositories(ctx context.Context, client Client, opts ListRepositoriesOptions) ([]Repository, error) {
+func GetAllRepositories(ctx context.Context, client Client, opts models.ListRepositoriesOptions) ([]Repository, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -31,7 +27,7 @@ func GetAllRepositories(ctx context.Context, client Client, opts ListRepositorie
 
 		repos = []Repository{}
 	)
-	for {
+	for i := 0; i < PageNumberLimit; i++ {
 		q := &QueryListRepositories{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, err
