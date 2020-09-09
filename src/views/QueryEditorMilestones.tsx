@@ -13,11 +13,7 @@ interface Props extends MilestonesOptions {
 export default (props: Props) => {
   return (
     <>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
-        label="Query"
-        tooltip="Query milestones by title"
-      >
+      <QueryInlineField labelWidth={LeftColumnWidth} label="Query" tooltip="Query milestones by title">
         <Input
           css=""
           value={props.query}

@@ -6,16 +6,16 @@ export const ReplaceVariable = (t: TemplateSrv, value?: string): string | undefi
 };
 
 export const ReplaceVariables = (t: TemplateSrv, query: GitHubQuery): GitHubQuery => {
-  Object.keys(query).map(key => {
-    if(typeof query[key] === 'string') {
-      query[key] = ReplaceVariable(t, query[key])
+  Object.keys(query).forEach(key => {
+    if (typeof query[key] === 'string') {
+      query[key] = ReplaceVariable(t, query[key]);
     }
   });
 
-  if(query.options) {
+  if (query.options) {
     const { options } = query;
-    Object.keys(options).map(key => {
-      if(typeof options[key] === 'string') {
+    Object.keys(options).forEach(key => {
+      if (typeof options[key] === 'string') {
         options[key] = ReplaceVariable(t, options[key]);
       }
     });

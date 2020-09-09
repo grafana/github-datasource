@@ -37,13 +37,13 @@ export enum QueryType {
 }
 
 export enum PackageType {
-	NPM      = "NPM",
-	RUBYGEMS = "RUBYGEMS",
-	MAVEN    = "MAVEN",
-	DOCKER   = "DOCKER",
-	DEBIAN   = "DEBIAN",
-	NUGET    = "NUGET",
-	PYPI     = "PYPI",
+  NPM = 'NPM',
+  RUBYGEMS = 'RUBYGEMS',
+  MAVEN = 'MAVEN',
+  DOCKER = 'DOCKER',
+  DEBIAN = 'DEBIAN',
+  NUGET = 'NUGET',
+  PYPI = 'PYPI',
 }
 
 export enum PullRequestTimeField {
@@ -95,7 +95,14 @@ export interface MilestonesOptions extends Indexable {
 }
 
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
-  options?: PullRequestsOptions | ReleasesOptions | LabelsOptions | TagsOptions | CommitsOptions | IssuesOptions | ContributorsOptions;
+  options?:
+    | PullRequestsOptions
+    | ReleasesOptions
+    | LabelsOptions
+    | TagsOptions
+    | CommitsOptions
+    | IssuesOptions
+    | ContributorsOptions;
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {

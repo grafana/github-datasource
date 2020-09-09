@@ -25,7 +25,7 @@ export const LeftColumnWidth = 10;
 export const RightColumnWidth = 36;
 
 const queryEditors: {
-  [key: string]: { component: (props: Props, onChange: (val: any) => void) => ReactNode; };
+  [key: string]: { component: (props: Props, onChange: (val: any) => void) => ReactNode };
 } = {
   [QueryType.Labels]: {
     component: (props: Props, onChange: (val: any) => void) => (
@@ -41,9 +41,7 @@ const queryEditors: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorTags {...(props.query.options || {})} />,
   },
   [QueryType.Releases]: {
-    component: (props: Props, _: (val: any) => void) => (
-      <QueryEditorReleases {...(props.query.options || {})} />
-    ),
+    component: (props: Props, _: (val: any) => void) => <QueryEditorReleases {...(props.query.options || {})} />,
   },
   [QueryType.Commits]: {
     component: (props: Props, onChange: (val: any) => void) => (
@@ -52,26 +50,17 @@ const queryEditors: {
   },
   [QueryType.Milestones]: {
     component: (props: Props, onChange: (val: any) => void) => (
-      <QueryEditorMilestones
-        {...(props.query.options || {})}
-        onChange={onChange}
-      />
+      <QueryEditorMilestones {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   [QueryType.Issues]: {
     component: (props: Props, onChange: (val: any) => void) => (
-      <QueryEditorIssues
-        {...(props.query.options || {})}
-        onChange={onChange}
-      />
+      <QueryEditorIssues {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   [QueryType.Packages]: {
     component: (props: Props, onChange: (val: any) => void) => (
-      <QueryEditorPackages
-        {...(props.query.options || {})}
-        onChange={onChange}
-      />
+      <QueryEditorPackages {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   [QueryType.Pull_Requests]: {

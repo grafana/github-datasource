@@ -23,10 +23,7 @@ const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageTy
 export default (props: Props) => {
   return (
     <>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
-        label="Package type"
-      >
+      <QueryInlineField labelWidth={LeftColumnWidth} label="Package type">
         <Select
           options={packageTypeOptions}
           value={props.packageType || DefaultPackageType}
@@ -39,11 +36,7 @@ export default (props: Props) => {
           }
         />
       </QueryInlineField>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
-        label="Names"
-        tooltip="Search for packages by their names"
-      >
+      <QueryInlineField labelWidth={LeftColumnWidth} label="Names" tooltip="Search for packages by their names">
         <Input
           css=""
           value={props.query}
