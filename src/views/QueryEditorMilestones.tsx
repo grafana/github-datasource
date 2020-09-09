@@ -3,11 +3,11 @@ import React from 'react';
 import { Input } from '@grafana/ui';
 
 import { QueryInlineField } from '../components/Forms';
-import { IssuesOptions } from '../types';
+import { MilestonesOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
-interface Props extends IssuesOptions {
-  onChange: (value: IssuesOptions) => void;
+interface Props extends MilestonesOptions {
+  onChange: (value: MilestonesOptions) => void;
 }
 
 export default (props: Props) => {
@@ -16,7 +16,7 @@ export default (props: Props) => {
       <QueryInlineField
         labelWidth={LeftColumnWidth}
         label="Query"
-        tooltip="For more information, visit https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests"
+        tooltip="Query milestones by title"
       >
         <Input
           css=""

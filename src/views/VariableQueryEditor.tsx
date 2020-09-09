@@ -38,7 +38,7 @@ export default (props: Props) => {
           )
         }
         onRunQuery={() => {}}
-        queryTypes={[QueryType.Contributors, QueryType.Tags, QueryType.Releases, QueryType.Labels]}
+        queryTypes={[QueryType.Contributors, QueryType.Tags, QueryType.Releases, QueryType.Labels, QueryType.Milestones]}
       />
       <QueryInlineField
         width={10}

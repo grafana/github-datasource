@@ -52,7 +52,7 @@ const AnnotationQueryEditor = (props: Props) => {
           })
         }
         onRunQuery={() => {}}
-        queryTypes={[QueryType.Commits, QueryType.Releases, QueryType.Pull_Requests, QueryType.Issues]}
+        queryTypes={[QueryType.Commits, QueryType.Releases, QueryType.Pull_Requests, QueryType.Issues, QueryType.Milestones]}
       />
 
       {/* Only display the field selection items when the user has created an actual query */}

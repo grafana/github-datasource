@@ -16,38 +16,57 @@ type Instance struct {
 	Handlers   Handlers
 }
 
-func (i *Instance) HandleIssuesQuery(ctx context.Context, q *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+// HandleIssuesQuery ...
+func (i *Instance) HandleIssuesQuery(ctx context.Context, q *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleIssuesQuery(ctx, q, req)
 }
 
-func (i *Instance) HandleCommitsQuery(ctx context.Context, q *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+// HandleCommitsQuery ...
+func (i *Instance) HandleCommitsQuery(ctx context.Context, q *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleCommitsQuery(ctx, q, req)
 }
 
-func (i *Instance) HandleTagsQuery(ctx context.Context, q *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+// HandleTagsQuery ...
+func (i *Instance) HandleTagsQuery(ctx context.Context, q *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleTagsQuery(ctx, q, req)
 }
 
-func (i *Instance) HandleReleasesQuery(ctx context.Context, q *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+// HandleReleasesQuery ...
+func (i *Instance) HandleReleasesQuery(ctx context.Context, q *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleReleasesQuery(ctx, q, req)
 }
 
-func (i *Instance) HandleContributorsQuery(ctx context.Context, q *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+// HandleContributorsQuery ...
+func (i *Instance) HandleContributorsQuery(ctx context.Context, q *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleContributorsQuery(ctx, q, req)
 }
 
-func (i *Instance) HandlePullRequestsQuery(ctx context.Context, q *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+// HandlePullRequestsQuery ...
+func (i *Instance) HandlePullRequestsQuery(ctx context.Context, q *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandlePullRequestsQuery(ctx, q, req)
 }
 
-func (i *Instance) HandleLabelsQuery(ctx context.Context, q *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+// HandleLabelsQuery ...
+func (i *Instance) HandleLabelsQuery(ctx context.Context, q *models.LabelsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleLabelsQuery(ctx, q, req)
 }
 
+// HandlePackagesQuery ...
+func (i *Instance) HandlePackagesQuery(ctx context.Context, q *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	return i.Datasource.HandlePackagesQuery(ctx, q, req)
+}
+
+// HandleMilestonesQuery ...
+func (i *Instance) HandleMilestonesQuery(ctx context.Context, q *models.MilestonesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	return i.Datasource.HandleMilestonesQuery(ctx, q, req)
+}
+
+// CheckHealth ...
 func (i *Instance) CheckHealth(ctx context.Context) error {
 	return i.Datasource.CheckHealth(ctx)
 }
 
+// NewGitHubInstance creates a new GitHubInstance using the settings to determine if things like the Caching Wrapper should be enabled
 func NewGitHubInstance(ctx context.Context, settings models.Settings) *Instance {
 	var (
 		gh = github.NewDatasource(ctx, settings)
