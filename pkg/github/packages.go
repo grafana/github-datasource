@@ -2,7 +2,6 @@ package github
 
 import (
 	"context"
-	"log"
 	"strings"
 
 	"github.com/grafana/grafana-github-datasource/pkg/models"
@@ -128,12 +127,6 @@ func GetAllPackages(ctx context.Context, client Client, opts models.ListPackages
 
 		packages = Packages{}
 	)
-
-	log.Println(opts.PackageType)
-	log.Println(opts.PackageType)
-	log.Println(opts.PackageType)
-	log.Println(opts.PackageType)
-	log.Println(opts.PackageType)
 
 	for {
 		q := &QueryListPackages{}
