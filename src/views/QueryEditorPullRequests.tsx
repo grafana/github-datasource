@@ -22,7 +22,7 @@ const timeFieldOptions: Array<SelectableValue<PullRequestTimeField>> = Object.ke
   });
 
 export default (props: Props) => {
-  const [ query, setQuery ] = useState<string>(props.query || '');
+  const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
       <QueryInlineField

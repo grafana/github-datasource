@@ -10,7 +10,7 @@ interface Props extends LabelsOptions {
 }
 
 export default (props: Props) => {
-  const [ query, setQuery ] = useState<string>(props.query || '');
+  const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Query (optional)">

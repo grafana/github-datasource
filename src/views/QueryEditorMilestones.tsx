@@ -11,7 +11,7 @@ interface Props extends MilestonesOptions {
 }
 
 export default (props: Props) => {
-  const [ query, setQuery ] = useState<string>(props.query || '');
+  const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Query" tooltip="Query milestones by title">

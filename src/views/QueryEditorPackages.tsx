@@ -21,7 +21,7 @@ const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageTy
 });
 
 export default (props: Props) => {
-  const [ names, setNames ] = useState<string>(props.names || '');
+  const [names, setNames] = useState<string>(props.names || '');
 
   return (
     <>
@@ -38,7 +38,11 @@ export default (props: Props) => {
           }
         />
       </QueryInlineField>
-      <QueryInlineField labelWidth={LeftColumnWidth} label="Names" tooltip="Search for packages using a comma delimited list of names">
+      <QueryInlineField
+        labelWidth={LeftColumnWidth}
+        label="Names"
+        tooltip="Search for packages using a comma delimited list of names"
+      >
         <Input
           css=""
           value={names}
