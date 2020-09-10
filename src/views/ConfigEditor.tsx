@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { DataSourcePluginOptionsEditorProps, onUpdateDatasourceJsonDataOption } from '@grafana/data';
-import { InlineFormLabel, Input, LegacyForms, InfoBox, Icon } from '@grafana/ui';
+import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
+import { LegacyForms, InfoBox, Icon } from '@grafana/ui';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
@@ -27,7 +27,7 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
 
   render() {
     const {
-      options: { jsonData, secureJsonData, secureJsonFields },
+      options: { secureJsonData, secureJsonFields },
     } = this.props;
     const secureSettings = (secureJsonData || {}) as GithubSecureJsonData;
     return (
@@ -77,7 +77,7 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
             />
           </div>
         </div>
-        <div className="gf-form-group">
+        {/*<div className="gf-form-group">
           <h3 className="page-heading">Default Query Options</h3>
           <div className="gf-form">
             <InlineFormLabel className="width-10">Owner</InlineFormLabel>
@@ -99,7 +99,7 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
               onChange={onUpdateDatasourceJsonDataOption(this.props, 'repository')}
             />
           </div>
-        </div>
+        </div>*/}
       </>
     );
   }
