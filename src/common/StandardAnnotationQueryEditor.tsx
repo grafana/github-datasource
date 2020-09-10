@@ -107,7 +107,7 @@ export default class StandardAnnotationQueryEditor extends PureComponent<Props, 
         rowStyle = 'alert-warning';
         icon = 'exclamation-triangle';
         text = 'No events found';
-        if(frame?.fields?.length) {
+        if (frame?.fields?.length) {
           text += ` (from ${frame?.fields.length} fields)`;
         }
       } else {
