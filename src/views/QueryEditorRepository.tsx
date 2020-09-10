@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, InlineFormLabel } from '@grafana/ui';
 
 import { QueryEditorRow } from '../components/Forms';
@@ -10,6 +10,9 @@ interface Props extends RepositoryOptions {
 }
 
 export default (props: Props) => {
+  const [repository, setRepository] = useState<string>(props.repository || '');
+  const [owner, setOwner] = useState<string>(props.owner || '');
+
   return (
     <QueryEditorRow>
       <InlineFormLabel
@@ -22,8 +25,9 @@ export default (props: Props) => {
       <Input
         css=""
         width={RightColumnWidth}
-        value={props.owner}
-        onChange={el =>
+        value={owner}
+        onChange={el => setOwner(el.currentTarget.value)}
+        onBlur={el =>
           props.onChange({
             ...props,
             owner: el.currentTarget.value,
@@ -36,8 +40,9 @@ export default (props: Props) => {
       <Input
         css=""
         width={RightColumnWidth}
-        value={props.repository}
-        onChange={el =>
+        value={repository}
+        onChange={el => setRepository(el.currentTarget.value)}
+        onBlur={el =>
           props.onChange({
             ...props,
             repository: el.currentTarget.value,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Input, Select } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
@@ -21,6 +21,8 @@ const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageTy
 });
 
 export default (props: Props) => {
+  const [names, setNames] = useState<string>(props.names || '');
+
   return (
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Package type">
@@ -36,15 +38,20 @@ export default (props: Props) => {
           }
         />
       </QueryInlineField>
-      <QueryInlineField labelWidth={LeftColumnWidth} label="Names" tooltip="Search for packages by their names">
+      <QueryInlineField
+        labelWidth={LeftColumnWidth}
+        label="Names"
+        tooltip="Search for packages using a comma delimited list of names"
+      >
         <Input
           css=""
-          value={props.query}
+          value={names}
           width={RightColumnWidth * 2 + LeftColumnWidth}
-          onChange={el =>
+          onChange={el => setNames(el.currentTarget.value)}
+          onBlur={el =>
             props.onChange({
-              ...props,
-              query: el.currentTarget.value,
+              ...props.query,
+              names: el.currentTarget.value,
             })
           }
         />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@grafana/ui';
 
 import { QueryInlineField } from '../components/Forms';
@@ -10,14 +10,16 @@ interface Props extends LabelsOptions {
 }
 
 export default (props: Props) => {
+  const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Query (optional)">
         <Input
           css=""
           width={RightColumnWidth}
-          value={props.query}
-          onChange={el => props.onChange({ ...props, query: el.currentTarget.value })}
+          value={query}
+          onChange={el => setQuery(el.currentTarget.value)}
+          onBlur={el => props.onChange({ ...props, query: el.currentTarget.value })}
         />
       </QueryInlineField>
     </>

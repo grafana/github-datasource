@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Input } from '@grafana/ui';
 
@@ -11,14 +11,16 @@ interface Props extends MilestonesOptions {
 }
 
 export default (props: Props) => {
+  const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Query" tooltip="Query milestones by title">
         <Input
           css=""
-          value={props.query}
+          value={query}
           width={RightColumnWidth * 2 + LeftColumnWidth}
-          onChange={el =>
+          onChange={el => setQuery(el.currentTarget.value)}
+          onBlur={el =>
             props.onChange({
               ...props,
               query: el.currentTarget.value,

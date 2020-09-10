@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@grafana/ui';
 
 import { QueryInlineField } from '../components/Forms';
@@ -10,14 +10,16 @@ interface Props extends CommitsOptions {
 }
 
 export default (props: Props) => {
+  const [ref, setRef] = useState<string>(props.gitRef || '');
   return (
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Ref (Branch / Tag)">
         <Input
           css=""
           width={RightColumnWidth}
-          value={props.gitRef}
-          onChange={el => props.onChange({ ...props, gitRef: el.currentTarget.value })}
+          value={ref}
+          onChange={el => setRef(el.currentTarget.value)}
+          onBlur={el => props.onChange({ ...props, gitRef: el.currentTarget.value })}
         />
       </QueryInlineField>
     </>
