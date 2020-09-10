@@ -1,6 +1,6 @@
 {
   "name": "grafana-github-datasource",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "loads data from github issues/Pr's to Grafana",
   "scripts": {
     "build": "grafana-toolkit plugin:build",

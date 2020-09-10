@@ -29,8 +29,6 @@ workflows:
       - publish_github_release:
           requires:
             - approve_release
-          context:
-            - Plugins
           filters: *filter-only-release
 
 executors:
