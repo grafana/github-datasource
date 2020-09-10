@@ -10,6 +10,7 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
+// QueryListPackages is the GraphQL query for listing GitHub packages
 // {
 //   repository(name: "grafana", owner: "grafana") {
 //     packages(names: "", packageType: "", first: 10) {
@@ -60,10 +61,12 @@ type QueryListPackages struct {
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
+// PackageStatistics is a common object used in package versions and packages themselves
 type PackageStatistics struct {
 	DownloadsTotalCount int64
 }
 
+// PackageVersion is the version of a package. A package can have several versions.
 type PackageVersion struct {
 	PreRelease bool
 	Platform   string
@@ -71,6 +74,7 @@ type PackageVersion struct {
 	Statistics PackageStatistics
 }
 
+// Package represents a GitHub Package
 type Package struct {
 	Name        string
 	PackageType githubv4.PackageType
@@ -78,8 +82,10 @@ type Package struct {
 	Versions    []PackageVersion
 }
 
+// Packages is a list of GitHub packages
 type Packages []Package
 
+// Frames converts a list of Packages to a Grafana Data Frame
 func (p Packages) Frames() data.Frames {
 	frame := data.NewFrame(
 		"packages",

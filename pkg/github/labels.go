@@ -30,12 +30,14 @@ type QueryListLabels struct {
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
+// Label is a GitHub label used in Issues / Pull Requests
 type Label struct {
 	Color       string `json:"color"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
 }
 
+// Labels is a list of GitHub labels
 type Labels []Label
 
 // Frames converts the list of labels to a Grafana DataFrame
@@ -58,6 +60,7 @@ func (a Labels) Frames() data.Frames {
 	return data.Frames{frame}
 }
 
+// GetAllLabels gets all labels from a GitHub repository
 func GetAllLabels(ctx context.Context, client Client, opts models.ListLabelsOptions) (Labels, error) {
 	var (
 		variables = map[string]interface{}{

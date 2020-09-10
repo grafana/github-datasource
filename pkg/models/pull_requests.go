@@ -16,7 +16,7 @@ func (d PullRequestTimeField) String() string {
 	return [...]string{"closed", "created", "merged"}[d]
 }
 
-// ListPullRequestsInRangeOptions are the available options when listing pull requests in a time range
+// ListPullRequestsOptions are the available options when listing pull requests in a time range
 type ListPullRequestsOptions struct {
 	// Repository is the name of the repository being queried (ex: grafana)
 	Repository string `json:"repository"`
@@ -30,6 +30,7 @@ type ListPullRequestsOptions struct {
 	Query *string `json:"query,omitempty"`
 }
 
+// PullRequestOptionsWithRepo adds the Owner and Repository options to a ListPullRequestsOptions type
 func PullRequestOptionsWithRepo(opt ListPullRequestsOptions, owner string, repo string) ListPullRequestsOptions {
 	return ListPullRequestsOptions{
 		Owner:      owner,

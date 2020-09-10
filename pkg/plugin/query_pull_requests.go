@@ -16,6 +16,7 @@ func (s *Server) handlePullRequestsQuery(ctx context.Context, q backend.DataQuer
 	return dfutil.FrameResponseWithError(s.Datasource.HandlePullRequestsQuery(ctx, query, q))
 }
 
+// HandlePullRequests handles the plugin query for github PullRequests
 func (s *Server) HandlePullRequests(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handlePullRequestsQuery),

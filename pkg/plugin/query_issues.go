@@ -16,6 +16,7 @@ func (s *Server) handleIssuesQuery(ctx context.Context, q backend.DataQuery) bac
 	return dfutil.FrameResponseWithError(s.Datasource.HandleIssuesQuery(ctx, query, q))
 }
 
+// HandleIssues handles the plugin query for github Issues
 func (s *Server) HandleIssues(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleIssuesQuery),

@@ -16,6 +16,7 @@ func (s *Server) handleCommitsQuery(ctx context.Context, q backend.DataQuery) ba
 	return dfutil.FrameResponseWithError(s.Datasource.HandleCommitsQuery(ctx, query, q))
 }
 
+// HandleCommits handles the plugin query for github Commits
 func (s *Server) HandleCommits(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleCommitsQuery),

@@ -7,16 +7,12 @@ import (
 
 // TypesAreEqual compares the types a and b. If they are not equal, then false is returned. If they are equal, then true is returned.
 func TypesAreEqual(a interface{}, b interface{}) bool {
-	if reflect.TypeOf(a) != reflect.TypeOf(b) {
-		return false
-	}
-
-	return true
+	return reflect.TypeOf(a) != reflect.TypeOf(b)
 }
 
 // EnsureTypeEquality uses the test object and fails the test if the types are not equal
 func EnsureTypeEquality(t *testing.T, actual interface{}, expected interface{}) {
-	if TypesAreEqual(actual, expected) == false {
+	if !TypesAreEqual(actual, expected) {
 		t.Errorf("Types are not equal. Expected '%s', received '%s", reflect.TypeOf(actual).String(), reflect.TypeOf(expected).String())
 	}
 }

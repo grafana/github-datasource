@@ -36,46 +36,55 @@ type Query struct {
 	Owner      string `json:"owner"`
 }
 
+// PullRequestsQuery is used when querying for GitHub Pull Requests
 type PullRequestsQuery struct {
 	Query
 	Options ListPullRequestsOptions `json:"options"`
 }
 
+// CommitsQuery is used when querying for GitHub commits
 type CommitsQuery struct {
 	Query
 	Options ListCommitsOptions `json:"options"`
 }
 
+// TagsQuery is used when querying for GitHub tags
 type TagsQuery struct {
 	Query
 	Options ListTagsOptions `json:"options"`
 }
 
+// LabelsQuery is used when querying for GitHub issue labels
 type LabelsQuery struct {
 	Query
 	Options ListLabelsOptions `json:"options"`
 }
 
+// ReleasesQuery is used when querying for GitHub issue labels
 type ReleasesQuery struct {
 	Query
 	Options ListReleasesOptions `json:"options"`
 }
 
+// ContributorsQuery is used when querying for GitHub contributors
 type ContributorsQuery struct {
 	Query
 	Options ListContributorsOptions `json:"options"`
 }
 
+// IssuesQuery is used when querying for GitHub issues
 type IssuesQuery struct {
 	Query
 	Options ListIssuesOptions `json:"options"`
 }
 
+// PackagesQuery is used when querying for GitHub packages, including NPM, Maven, PyPi, Rubygems, and Docker
 type PackagesQuery struct {
 	Query
 	Options ListPackagesOptions `json:"options"`
 }
 
+// MilestonesQuery is used when querying for GitHub milestones
 type MilestonesQuery struct {
 	Query
 	Options ListMilestonesOptions `json:"options"`
