@@ -1,0 +1,102 @@
+// NOTE this should go away when we depend on 7.2
+
+import { DataQuery, TimeRange, DataFrame, PanelData } from '@grafana/data';
+
+/**
+ * @alpha -- any value other than `field` is experimental
+ */
+export enum AnnotationEventFieldSource {
+  Field = 'field', // Default -- find the value with a matching key
+  Text = 'text', // Write a constant string into the value
+  Skip = 'skip', // Do not include the field
+}
+
+export interface AnnotationEventFieldMapping {
+  source?: AnnotationEventFieldSource; // defautls to 'field'
+  value?: string;
+  regex?: string;
+}
+
+export type AnnotationEventMappings = Partial<Record<keyof AnnotationEvent, AnnotationEventFieldMapping>>;
+
+export interface AnnotationEvent {
+  id?: string;
+  annotation?: any;
+  dashboardId?: number;
+  panelId?: number;
+  userId?: number;
+  login?: string;
+  email?: string;
+  avatarUrl?: string;
+  time?: number;
+  timeEnd?: number;
+  isRegion?: boolean;
+  title?: string;
+  text?: string;
+  type?: string;
+  tags?: string[];
+
+  // Currently used to merge annotations from alerts and dashboard
+  source?: any; // source.type === 'dashboard'
+}
+
+export interface AnnotationQuery<TQuery extends DataQuery = DataQuery> {
+  datasource: string;
+  enable: boolean;
+  name: string;
+  iconColor: string;
+
+  // Standard datasource query
+  target?: TQuery;
+
+  // Convert a dataframe to an AnnotationEvent
+  mappings?: AnnotationEventMappings;
+}
+
+export interface AnnotationQueryOptions {
+  dashboard: any;
+  panel: any;
+  range: TimeRange;
+}
+
+export interface AnnotationQueryResponse {
+  /**
+   * All the data flattened to a single frame
+   */
+  frame?: DataFrame;
+
+  /**
+   * The processed annotation events
+   */
+  events?: AnnotationEvent[];
+
+  /**
+   * The original panel response
+   */
+  panelData?: PanelData;
+}
+
+/**
+ * Since Grafana 7.2
+ *
+ * This offers a generic approach to annotation processing
+ */
+export interface AnnotationSupport<TQuery extends DataQuery = DataQuery, TAnno = AnnotationQuery<TQuery>> {
+  /**
+   * This hook lets you manipulate any existing stored values before running them though the processor.
+   * This is particularly helpful when dealing with migrating old formats.  ie query as a string vs object
+   */
+  prepareAnnotation?(json: any): TAnno;
+
+  /**
+   * Convert the stored JSON model to a standard datasource query object.
+   * This query will be executed in the datasource and the results converted into events.
+   * Returning an undefined result will quietly skip query execution
+   */
+  prepareQuery?(anno: TAnno): TQuery | undefined;
+
+  /**
+   * When the standard frame > event processing is insufficient, this allows explicit control of the mappings
+   */
+  processEvents?(anno: TAnno, data: DataFrame): AnnotationEvent[] | undefined;
+}

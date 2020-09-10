@@ -12,7 +12,7 @@ import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { GithubDataSourceOptions, Label, GitHubQuery, GitHubVariableQuery } from './types';
 import { ReplaceVariables } from './variables';
 import { isValid } from './validation';
-import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
+import { executeAnnotationQuery } from 'common/standardAnnotationSupport';
 
 export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
   constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
@@ -34,31 +34,11 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
   }
 
   async annotationQuery(request: any): Promise<AnnotationEvent[]> {
-    const { annotation } = request.annotation;
-
-    const query = {
-      targets: [
-        {
-          ...annotation,
-          datasourceId: this.id,
-        },
-      ],
-      range: request.range,
-      interval: request.interval,
-    } as DataQueryRequest<GitHubQuery>;
-
-    const res = await this.query(query).toPromise();
-
-    if (!res?.data?.length) {
-      return [];
-    }
-    return getAnnotationsFromFrame(res.data[0], {
-      field: {
-        // title: `${request.annotation.name} - ${annotation.queryType}`,
-        time: annotation.timeField, // or first time field
-        text: annotation.field || 'name',
-      },
-    });
+    return executeAnnotationQuery(request, this, request.annotation)
+      .toPromise()
+      .then(rsp => {
+        return rsp.events ?? [];
+      });
   }
 
   async getChoices(query: GitHubQuery): Promise<string[]> {

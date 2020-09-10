@@ -109,8 +109,4 @@ export interface GitHubVariableQuery extends GitHubQuery {
   field?: string;
 }
 
-export interface GitHubAnnotationQuery extends GitHubVariableQuery {
-  timeField?: string;
-}
-
 export const DefaultQueryType = QueryType.Issues;
