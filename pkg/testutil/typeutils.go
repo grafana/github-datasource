@@ -7,7 +7,7 @@ import (
 
 // TypesAreEqual compares the types a and b. If they are not equal, then false is returned. If they are equal, then true is returned.
 func TypesAreEqual(a interface{}, b interface{}) bool {
-	return reflect.TypeOf(a) != reflect.TypeOf(b)
+	return reflect.TypeOf(a) == reflect.TypeOf(b)
 }
 
 // EnsureTypeEquality uses the test object and fails the test if the types are not equal
