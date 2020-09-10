@@ -16,6 +16,7 @@ func (s *Server) handleTagsQuery(ctx context.Context, q backend.DataQuery) backe
 	return dfutil.FrameResponseWithError(s.Datasource.HandleTagsQuery(ctx, query, q))
 }
 
+// HandleTags handles the plugin query for github tags
 func (s *Server) HandleTags(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleTagsQuery),

@@ -8,9 +8,6 @@ import (
 	"github.com/grafana/grafana-github-datasource/pkg/models"
 )
 
-func (d *Datasource) HandleAuth(http.ResponseWriter, *http.Request)         {}
-func (d *Datasource) HandleAuthCallback(http.ResponseWriter, *http.Request) {}
-
 func handleGetLabels(ctx context.Context, client Client, r *http.Request) (Labels, error) {
 	q := r.URL.Query()
 	opts := models.ListLabelsOptions{
@@ -27,6 +24,7 @@ func handleGetLabels(ctx context.Context, client Client, r *http.Request) (Label
 	return labels, nil
 }
 
+// HandleGetLabels is the HTTP handler for the resource call for getting GitHub labels
 func (d *Datasource) HandleGetLabels(w http.ResponseWriter, r *http.Request) {
 	labels, err := handleGetLabels(r.Context(), d.client, r)
 	if err != nil {
@@ -53,6 +51,7 @@ func handleGetMilestones(ctx context.Context, client Client, r *http.Request) (M
 	return milestones, nil
 }
 
+// HandleGetMilestones is the HTTP handler for the resource call for getting GitHub milestones
 func (d *Datasource) HandleGetMilestones(w http.ResponseWriter, r *http.Request) {
 	milestones, err := handleGetMilestones(r.Context(), d.client, r)
 	if err != nil {

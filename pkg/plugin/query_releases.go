@@ -16,6 +16,7 @@ func (s *Server) handleReleasesQuery(ctx context.Context, q backend.DataQuery) b
 	return dfutil.FrameResponseWithError(s.Datasource.HandleReleasesQuery(ctx, query, q))
 }
 
+// HandleReleases handles the plugin query for github Releases
 func (s *Server) HandleReleases(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleReleasesQuery),

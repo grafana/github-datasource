@@ -75,6 +75,7 @@ func (c *CachedDatasource) saveCache(req backend.DataQuery, f dfutil.Framer, err
 	return f, err
 }
 
+// HandleIssuesQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleIssuesQuery(ctx context.Context, q *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -84,6 +85,7 @@ func (c *CachedDatasource) HandleIssuesQuery(ctx context.Context, q *models.Issu
 	return c.saveCache(req, f, err)
 }
 
+// HandleCommitsQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleCommitsQuery(ctx context.Context, q *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -93,6 +95,7 @@ func (c *CachedDatasource) HandleCommitsQuery(ctx context.Context, q *models.Com
 	return c.saveCache(req, f, err)
 }
 
+// HandleTagsQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleTagsQuery(ctx context.Context, q *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -102,6 +105,7 @@ func (c *CachedDatasource) HandleTagsQuery(ctx context.Context, q *models.TagsQu
 	return c.saveCache(req, f, err)
 }
 
+// HandleReleasesQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleReleasesQuery(ctx context.Context, q *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -111,6 +115,7 @@ func (c *CachedDatasource) HandleReleasesQuery(ctx context.Context, q *models.Re
 	return c.saveCache(req, f, err)
 }
 
+// HandleContributorsQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleContributorsQuery(ctx context.Context, q *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -120,6 +125,7 @@ func (c *CachedDatasource) HandleContributorsQuery(ctx context.Context, q *model
 	return c.saveCache(req, f, err)
 }
 
+// HandlePullRequestsQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandlePullRequestsQuery(ctx context.Context, q *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -130,6 +136,7 @@ func (c *CachedDatasource) HandlePullRequestsQuery(ctx context.Context, q *model
 
 }
 
+// HandleLabelsQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleLabelsQuery(ctx context.Context, q *models.LabelsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -139,6 +146,7 @@ func (c *CachedDatasource) HandleLabelsQuery(ctx context.Context, q *models.Labe
 	return c.saveCache(req, f, err)
 }
 
+// HandlePackagesQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandlePackagesQuery(ctx context.Context, q *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -148,6 +156,7 @@ func (c *CachedDatasource) HandlePackagesQuery(ctx context.Context, q *models.Pa
 	return c.saveCache(req, f, err)
 }
 
+// HandleMilestonesQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleMilestonesQuery(ctx context.Context, q *models.MilestonesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {
 		return value, err
@@ -157,6 +166,7 @@ func (c *CachedDatasource) HandleMilestonesQuery(ctx context.Context, q *models.
 	return c.saveCache(req, f, err)
 }
 
+// CheckHealth forwards the request to the datasource and does not perform any caching
 func (c *CachedDatasource) CheckHealth(ctx context.Context) error {
 	return c.datasource.CheckHealth(ctx)
 }
@@ -177,7 +187,9 @@ func getCacheKey(req backend.DataQuery) (string, error) {
 	}
 
 	h := sha256.New()
-	h.Write(b.Bytes())
+	if _, err := h.Write(b.Bytes()); err != nil {
+		return "", err
+	}
 
 	return hex.EncodeToString(h.Sum(nil)), nil
 }
@@ -196,10 +208,8 @@ func (c *CachedDatasource) startCleanup() {
 	t := time.NewTicker(CacheCleanupInterval)
 
 	for {
-		select {
-		case <-t.C:
-			c.Cleanup()
-		}
+		<-t.C
+		c.Cleanup()
 	}
 }
 

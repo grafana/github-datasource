@@ -56,6 +56,7 @@ func (cr *Handler) CheckHealth(ctx context.Context, req *backend.CheckHealthRequ
 	}, dserrors.ErrorBadDatasource
 }
 
+// ServeHTTP is the main HTTP handler for serving resource calls
 func (cr *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	pluginCtx := httpadapter.PluginConfigFromContext(r.Context())
 
@@ -65,7 +66,7 @@ func (cr *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if ds, ok := h.(*Instance); ok {
-		MustGetRouter(ds.Handlers).ServeHTTP(w, r)
+		GetRouter(ds.Handlers).ServeHTTP(w, r)
 		return
 	}
 

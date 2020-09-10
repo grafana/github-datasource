@@ -44,8 +44,10 @@ type Milestone struct {
 	Title     string
 }
 
+// Milestones is a list of GitHub milestones
 type Milestones []Milestone
 
+// Frames converts the list of GitHub Milestones to a Grafana data frame
 func (m Milestones) Frames() data.Frames {
 	frame := data.NewFrame(
 		"milestones",

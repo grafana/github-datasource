@@ -15,8 +15,10 @@ type GitActor struct {
 	User  User
 }
 
+// GitActors is a list of GitHub users
 type GitActors []GitActor
 
+// Frames converts the list of actors to a grafana data frame
 func (g GitActors) Frames() data.Frames {
 	frame := data.NewFrame(
 		"users",
@@ -56,6 +58,7 @@ type User struct {
 // Users is a slice of GitHub users
 type Users []User
 
+// Frames converts the list of GitHub users to a Grafana Data Frame
 func (u Users) Frames() data.Frames {
 	frame := data.NewFrame(
 		"users",

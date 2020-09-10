@@ -16,16 +16,19 @@ type Datasource struct {
 	client *githubv4.Client
 }
 
+// HandleIssuesQuery is the query handler for listing GitHub Issues
 func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.IssueOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return GetIssuesInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleCommitsQuery is the query handler for listing GitHub Commits
 func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.CommitsOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return GetCommitsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleTagsQuery is the query handler for listing GitHub Tags
 func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListTagsOptions{
 		Repository: query.Repository,
@@ -39,6 +42,7 @@ func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuer
 	return GetTagsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleReleasesQuery is the query handler for listing GitHub Releases
 func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListReleasesOptions{
 		Repository: query.Repository,
@@ -51,6 +55,7 @@ func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.Rele
 	return GetReleasesInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandlePullRequestsQuery is the query handler for listing GitHub PullRequests
 func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.PullRequestOptionsWithRepo(query.Options, query.Owner, query.Repository)
 
@@ -60,6 +65,7 @@ func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.
 	return GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleContributorsQuery is the query handler for listing GitHub Contributors
 func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListContributorsOptions{
 		Owner:      query.Owner,
@@ -70,6 +76,7 @@ func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.
 	return GetAllContributors(ctx, d.client, opt)
 }
 
+// HandleLabelsQuery is the query handler for listing GitHub Labels
 func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.LabelsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListLabelsOptions{
 		Repository: query.Repository,
@@ -80,6 +87,7 @@ func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.Labels
 	return GetAllLabels(ctx, d.client, opt)
 }
 
+// HandleMilestonesQuery is the query handler for listing GitHub Milestones
 func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.MilestonesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListMilestonesOptions{
 		Repository: query.Repository,
@@ -90,6 +98,7 @@ func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.Mi
 	return GetAllMilestones(ctx, d.client, opt)
 }
 
+// HandlePackagesQuery is the query handler for listing GitHub Packages
 func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
 
@@ -109,6 +118,7 @@ func (d *Datasource) CheckHealth(ctx context.Context) error {
 	return nil
 }
 
+// NewDatasource creates a new datasource for handling queries
 func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: settings.AccessToken},

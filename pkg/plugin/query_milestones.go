@@ -16,6 +16,7 @@ func (s *Server) handleMilestonesQuery(ctx context.Context, q backend.DataQuery)
 	return dfutil.FrameResponseWithError(s.Datasource.HandleMilestonesQuery(ctx, query, q))
 }
 
+// HandleMilestones handles the plugin query for github Milestones
 func (s *Server) HandleMilestones(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleMilestonesQuery),
