@@ -20,7 +20,7 @@ const timeFieldOptions: Array<SelectableValue<IssueTimeField>> = Object.keys(Iss
     };
   });
 
-const defaultTimeField = IssueTimeField.ClosedAt;
+const defaultTimeField = 0 as IssueTimeField;
 
 export default (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
