@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Input } from '@grafana/ui';
 
@@ -11,6 +11,7 @@ interface Props extends IssuesOptions {
 }
 
 export default (props: Props) => {
+  const [ query, setQuery ] = useState<string>(props.query || '');
   return (
     <>
       <QueryInlineField
@@ -20,9 +21,10 @@ export default (props: Props) => {
       >
         <Input
           css=""
-          value={props.query}
+          value={query}
           width={RightColumnWidth * 2 + LeftColumnWidth}
-          onChange={el =>
+          onChange={el => setQuery(el.currentTarget.value)}
+          onBlur={el =>
             props.onChange({
               ...props,
               query: el.currentTarget.value,

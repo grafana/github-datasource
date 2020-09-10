@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Input, Select } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
@@ -22,6 +22,7 @@ const timeFieldOptions: Array<SelectableValue<PullRequestTimeField>> = Object.ke
   });
 
 export default (props: Props) => {
+  const [ query, setQuery ] = useState<string>(props.query || '');
   return (
     <>
       <QueryInlineField
@@ -31,9 +32,10 @@ export default (props: Props) => {
       >
         <Input
           css=""
-          value={props.query}
+          value={query}
           width={RightColumnWidth}
-          onChange={el =>
+          onChange={el => setQuery(el.currentTarget.value)}
+          onBlur={el =>
             props.onChange({
               ...props,
               query: el.currentTarget.value,
