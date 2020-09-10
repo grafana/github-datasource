@@ -21,6 +21,10 @@ const (
 	QueryTypeOrganizations = "Organizations"
 	// QueryTypeGraphQL is used when sending an ad-hoc graphql query
 	QueryTypeGraphQL = "GraphQL"
+	// QueryTypePackages is used when querying for NPM / Docker / etc packages
+	QueryTypePackages = "Packages"
+	// QueryTypeMilestones is used when querying for milestones in a repository
+	QueryTypeMilestones = "Milestones"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -28,13 +32,51 @@ const (
 // For example, listing commits can be filtered by author, but filtering contributors by author
 // doesn't provide much value, but is included in the query schema anyways.
 type Query struct {
-	Repository          string                  `json:"repository"`
-	Owner               string                  `json:"owner"`
-	PullRequestsOptions ListPullRequestsOptions `json:"pullRequestsOptions"`
-	CommitsOptions      ListCommitsOptions      `json:"commitsOptions"`
-	TagsOptions         ListTagsOptions         `json:"tagsOptions"`
-	LabelsOptions       ListLabelsOptions       `json:"labelsOptions"`
-	ReleasesOptions     ListReleasesOptions     `json:"releasesOptions"`
-	ContributorsOptions ListContributorsOptions `json:"contributorsOptions"`
-	IssuesOptions       ListIssuesOptions       `json:"issuesOptions"`
+	Repository string `json:"repository"`
+	Owner      string `json:"owner"`
+}
+
+type PullRequestsQuery struct {
+	Query
+	Options ListPullRequestsOptions `json:"options"`
+}
+
+type CommitsQuery struct {
+	Query
+	Options ListCommitsOptions `json:"options"`
+}
+
+type TagsQuery struct {
+	Query
+	Options ListTagsOptions `json:"options"`
+}
+
+type LabelsQuery struct {
+	Query
+	Options ListLabelsOptions `json:"options"`
+}
+
+type ReleasesQuery struct {
+	Query
+	Options ListReleasesOptions `json:"options"`
+}
+
+type ContributorsQuery struct {
+	Query
+	Options ListContributorsOptions `json:"options"`
+}
+
+type IssuesQuery struct {
+	Query
+	Options ListIssuesOptions `json:"options"`
+}
+
+type PackagesQuery struct {
+	Query
+	Options ListPackagesOptions `json:"options"`
+}
+
+type MilestonesQuery struct {
+	Query
+	Options ListMilestonesOptions `json:"options"`
 }

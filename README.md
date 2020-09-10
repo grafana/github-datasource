@@ -2,6 +2,10 @@
 
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
 
+## Github API V4 (graphql)
+
+This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
+
 ## Features
 
 ### Backend

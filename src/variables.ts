@@ -6,9 +6,21 @@ export const ReplaceVariable = (t: TemplateSrv, value?: string): string | undefi
 };
 
 export const ReplaceVariables = (t: TemplateSrv, query: GitHubQuery): GitHubQuery => {
-  return {
-    ...query,
-    owner: ReplaceVariable(t, query.owner),
-    repository: ReplaceVariable(t, query.repository),
-  };
+  Object.keys(query).forEach(key => {
+    if (typeof query[key] === 'string') {
+      query[key] = ReplaceVariable(t, query[key]);
+    }
+  });
+
+  if (query.options) {
+    const { options } = query;
+    Object.keys(options).forEach(key => {
+      if (typeof options[key] === 'string') {
+        options[key] = ReplaceVariable(t, options[key]);
+      }
+    });
+    query.options = options;
+  }
+
+  return query;
 };

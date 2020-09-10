@@ -49,7 +49,7 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
 
     const res = await this.query(query).toPromise();
 
-    if (!(res?.data?.length)) {
+    if (!res?.data?.length) {
       return [];
     }
     return getAnnotationsFromFrame(res.data[0], {

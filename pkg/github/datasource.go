@@ -16,17 +16,17 @@ type Datasource struct {
 	client *githubv4.Client
 }
 
-func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.IssueOptionsWithRepo(query.IssuesOptions, query.Owner, query.Repository)
+func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.IssueOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return GetIssuesInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
-func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.CommitsOptionsWithRepo(query.CommitsOptions, query.Owner, query.Repository)
+func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.CommitsOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return GetCommitsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
-func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListTagsOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
@@ -39,7 +39,7 @@ func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.Query, r
 	return GetTagsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
-func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListReleasesOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
@@ -51,8 +51,8 @@ func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.Quer
 	return GetReleasesInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
-func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.PullRequestOptionsWithRepo(query.PullRequestsOptions, query.Owner, query.Repository)
+func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.PullRequestOptionsWithRepo(query.Options, query.Owner, query.Repository)
 
 	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
 		return GetAllPullRequests(ctx, d.client, opt)
@@ -60,24 +60,40 @@ func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.
 	return GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
-func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListContributorsOptions{
 		Owner:      query.Owner,
 		Repository: query.Repository,
-		Query:      query.ContributorsOptions.Query,
+		Query:      query.Options.Query,
 	}
 
 	return GetAllContributors(ctx, d.client, opt)
 }
 
-func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.Query, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.LabelsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListLabelsOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
-		Query:      query.LabelsOptions.Query,
+		Query:      query.Options.Query,
 	}
 
 	return GetAllLabels(ctx, d.client, opt)
+}
+
+func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.MilestonesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListMilestonesOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		Query:      query.Options.Query,
+	}
+
+	return GetAllMilestones(ctx, d.client, opt)
+}
+
+func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+
+	return GetAllPackages(ctx, d.client, opt)
 }
 
 // CheckHealth calls frequently used endpoints to determine if the client has sufficient privileges
