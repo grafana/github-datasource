@@ -14,11 +14,11 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/grafana": "github:CorpGlory/types-grafana.git",
-    "@grafana/data": "latest",
-    "@grafana/e2e": "latest",
-    "@grafana/runtime": "latest",
-    "@grafana/toolkit": "latest",
-    "@grafana/ui": "latest",
+    "@grafana/data": "next",
+    "@grafana/e2e": "next",
+    "@grafana/runtime": "next",
+    "@grafana/toolkit": "next",
+    "@grafana/ui": "next",
     "@types/lodash": "latest"
   }
 }
