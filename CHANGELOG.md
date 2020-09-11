@@ -2,7 +2,7 @@
 
 ## Entries
 
-## [1.0.2] 2020-09-11
+## [1.0.3] 2020-09-11
 
 - Add the ability to disable time field filtering for pull requests ( fixes #57 )
 
