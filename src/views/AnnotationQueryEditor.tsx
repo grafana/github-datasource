@@ -24,7 +24,7 @@ const AnnotationQueryEditor = (props: Props) => {
     if (isValid(props.annotation.annotation)) {
       setChoices(await props.datasource.getChoices(props.annotation.annotation));
     }
-  }, [props.annotation.annotation]);
+  }, [props.annotation.annotation, props.datasource]);
 
   const onChange = useCallback(
     (query: GitHubAnnotationQuery) => {
@@ -37,7 +37,7 @@ const AnnotationQueryEditor = (props: Props) => {
         },
       });
     },
-    [props.change]
+    [props, annotation.annotation]
   );
 
   return (

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 
-	"github.com/grafana/grafana-github-datasource/pkg/dfutil"
+	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 )

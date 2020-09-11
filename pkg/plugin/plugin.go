@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	dserrors "github.com/grafana/grafana-github-datasource/pkg/errors"
+	dserrors "github.com/grafana/github-datasource/pkg/errors"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
