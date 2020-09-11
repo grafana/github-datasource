@@ -30,7 +30,9 @@ workflows:
       - code_coverage_frontend:
           requires:
             - build_frontend
-      - build_backend
+      - build_backend:
+          requires:
+            - yarn_install
       - code_coverage_backend:
           requires:
             - build_backend
