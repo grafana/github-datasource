@@ -1,0 +1,46 @@
+{
+  "type": "datasource",
+  "name": "Github Stats",
+  "id": "grafana-github-datasource",
+  "backend": true,
+  "executable": "gfx_github",
+  "annotations": true,
+  "alerting": true,
+  "metrics": true,
+  "info": {
+    "description": "Show data about github issues/pull requests",
+    "author": {
+      "name": "Grafana Labs",
+      "url": "https://grafana.com"
+    },
+    "keywords": [
+      "github",
+      "datasource"
+    ],
+    "logos": {
+      "small": "img/github.svg",
+      "large": "img/github.svg"
+    },
+    "links": [
+      {
+        "name": "Website",
+        "url": "https://github.com/grafana/github-datasource"
+      }
+    ],
+    "screenshots": [],
+    "version": "1.0.1",
+    "updated": "2020-09-11",
+    "build": {
+      "time": 1599842995659,
+      "repo": "git@github.com:grafana/github-datasource.git",
+      "branch": "v1.0.x",
+      "hash": "52165a9241e5b2b5050c16addea20a38acc8d96b",
+      "number": 162
+    }
+  },
+  "dependencies": {
+    "grafanaDependency": ">=7.1.0",
+    "grafanaVersion": "7.1.x",
+    "plugins": []
+  }
+}
