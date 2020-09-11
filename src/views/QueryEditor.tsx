@@ -86,7 +86,7 @@ export default (props: Props) => {
         props.onRunQuery();
       }
     },
-    [props.onChange]
+    [props]
   );
 
   const onKeyChange = useCallback(
@@ -96,7 +96,7 @@ export default (props: Props) => {
         [key]: value,
       });
     },
-    [onChange]
+    [onChange, props.query]
   );
 
   const queryEditor = queryEditors[props.query.queryType || DefaultQueryType];
