@@ -10,6 +10,8 @@ const (
 	PullRequestCreatedAt
 	// PullRequestMergedAt is used when filtering when a Pull Request was merged
 	PullRequestMergedAt
+	// PullRequestNone is used when the results are not filtered by time. Without any other filters, using this could easily cause an access token to be rate limited
+	PullRequestNone
 )
 
 func (d PullRequestTimeField) String() string {

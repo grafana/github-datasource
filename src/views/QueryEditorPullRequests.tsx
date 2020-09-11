@@ -48,7 +48,7 @@ export default (props: Props) => {
       <QueryInlineField
         labelWidth={LeftColumnWidth}
         label="Time Field"
-        tooltip="The time field to filter on th time range"
+        tooltip="The time field to filter on the time range. WARNING: If selecting 'None', be mindful of the amount of data being queried. On larger repositories, querying all pull requests could easily cause rate limiting"
       >
         <Select
           width={RightColumnWidth}

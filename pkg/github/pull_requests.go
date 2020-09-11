@@ -167,10 +167,10 @@ func GetAllPullRequests(ctx context.Context, client Client, opts models.ListPull
 
 // GetPullRequestsInRange uses the graphql search endpoint API to find pull requests in the given time range.
 func GetPullRequestsInRange(ctx context.Context, client Client, opts models.ListPullRequestsOptions, from time.Time, to time.Time) (PullRequests, error) {
-	search := []string{
-		fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339)),
+	search := []string{}
+	if opts.TimeField != models.PullRequestNone {
+		search = []string{fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339))}
 	}
-
 	if opts.Query != nil {
 		search = append(search, *opts.Query)
 	}
