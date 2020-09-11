@@ -1,8 +1,7 @@
 import { GitHubQuery } from './types';
 
 export const isValid = (query: GitHubQuery): boolean => {
-  if (!query.owner || !query.repository) {
-    return false;
-  }
-  return true;
+  // The current requirement is that the query has a querytype
+  // TODO: have each option implement a validation function
+  return !!query.queryType;
 };

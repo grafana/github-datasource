@@ -23,11 +23,11 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
 
   // Only execute queries that have a query type
   filterQuery = (query: GitHubQuery) => {
-    return !!query.queryType;
+    return isValid(query);
   };
 
-  applyTemplateVariables(query: GitHubQuery, _: ScopedVars): Record<string, any> {
-    return replaceVariables(this.templateSrv, query);
+  applyTemplateVariables(query: GitHubQuery, scoped: ScopedVars): Record<string, any> {
+    return replaceVariables(this.templateSrv, query, scoped);
   }
 
   async getLabels(repository: string, owner: string, query?: string): Promise<Label[]> {
@@ -67,9 +67,6 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
   }
 
   async getChoices(query: GitHubQuery): Promise<string[]> {
-    if (!isValid(query)) {
-      return [];
-    }
     const request = {
       targets: [
         {
@@ -93,10 +90,6 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
   }
 
   async metricFindQuery(query: GitHubVariableQuery, options: any): Promise<MetricFindValue[]> {
-    if (!isValid(query)) {
-      return [];
-    }
-
     const request = {
       targets: [
         {
