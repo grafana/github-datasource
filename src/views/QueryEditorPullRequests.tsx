@@ -21,6 +21,8 @@ const timeFieldOptions: Array<SelectableValue<PullRequestTimeField>> = Object.ke
     };
   });
 
+const defaultTimeField = timeFieldOptions[0].value;
+
 export default (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
@@ -51,7 +53,7 @@ export default (props: Props) => {
         <Select
           width={RightColumnWidth}
           options={timeFieldOptions}
-          value={props.timeField}
+          value={props.timeField || defaultTimeField}
           onChange={opt =>
             props.onChange({
               ...props,
