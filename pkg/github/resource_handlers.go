@@ -4,8 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/grafana/grafana-github-datasource/pkg/httputil"
-	"github.com/grafana/grafana-github-datasource/pkg/models"
+	"github.com/grafana/github-datasource/pkg/httputil"
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 func handleGetLabels(ctx context.Context, client Client, r *http.Request) (Labels, error) {

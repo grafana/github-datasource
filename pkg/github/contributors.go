@@ -3,7 +3,7 @@ package github
 import (
 	"context"
 
-	"github.com/grafana/grafana-github-datasource/pkg/models"
+	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )

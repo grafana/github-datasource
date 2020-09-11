@@ -21,7 +21,7 @@ export default (props: Props) => {
     if (isValid(props.query)) {
       setChoices(await props.datasource.getChoices(props.query));
     }
-  }, [props.query]);
+  }, [props.query, props.datasource]);
 
   return (
     <>
