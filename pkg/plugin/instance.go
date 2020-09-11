@@ -16,7 +16,7 @@ type Instance struct {
 	Handlers   Handlers
 }
 
-// HandleIssuesQuery ...
+// HandleRepositoriesQuery ...
 func (i *Instance) HandleRepositoriesQuery(ctx context.Context, q *models.RepositoriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleRepositoriesQuery(ctx, q, req)
 }
