@@ -50,6 +50,7 @@ export enum PullRequestTimeField {
   ClosedAt,
   CreatedAt,
   MergedAt,
+  None,
 }
 
 export enum IssueTimeField {
