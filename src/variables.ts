@@ -1,14 +1,14 @@
 import { GitHubQuery } from './types';
 import { TemplateSrv } from '@grafana/runtime';
 
-export const ReplaceVariable = (t: TemplateSrv, value?: string): string | undefined => {
+export const replaceVariable = (t: TemplateSrv, value?: string): string | undefined => {
   return !!value ? t.replace(value) : value;
 };
 
-export const ReplaceVariables = (t: TemplateSrv, query: GitHubQuery): GitHubQuery => {
+export const replaceVariables = (t: TemplateSrv, query: GitHubQuery): GitHubQuery => {
   Object.keys(query).forEach(key => {
     if (typeof query[key] === 'string') {
-      query[key] = ReplaceVariable(t, query[key]);
+      query[key] = replaceVariable(t, query[key]);
     }
   });
 
@@ -16,7 +16,7 @@ export const ReplaceVariables = (t: TemplateSrv, query: GitHubQuery): GitHubQuer
     const { options } = query;
     Object.keys(options).forEach(key => {
       if (typeof options[key] === 'string') {
-        options[key] = ReplaceVariable(t, options[key]);
+        options[key] = replaceVariable(t, options[key]);
       }
     });
     query.options = options;

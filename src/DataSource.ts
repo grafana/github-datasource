@@ -10,7 +10,7 @@ import {
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { GithubDataSourceOptions, Label, GitHubQuery, GitHubVariableQuery } from './types';
-import { ReplaceVariables } from './variables';
+import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 
@@ -21,8 +21,13 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
 
   templateSrv = getTemplateSrv();
 
+  // Only execute queries that have a query type
+  filterQuery = (query: GitHubQuery) => {
+    return !!query.queryType;
+  };
+
   applyTemplateVariables(query: GitHubQuery, _: ScopedVars): Record<string, any> {
-    return ReplaceVariables(this.templateSrv, query);
+    return replaceVariables(this.templateSrv, query);
   }
 
   async getLabels(repository: string, owner: string, query?: string): Promise<Label[]> {
