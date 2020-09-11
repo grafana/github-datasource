@@ -39,6 +39,7 @@ export default (props: Props) => {
         }
         onRunQuery={() => {}}
         queryTypes={[
+          QueryType.Repositories,
           QueryType.Contributors,
           QueryType.Tags,
           QueryType.Releases,

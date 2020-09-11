@@ -16,6 +16,16 @@ type Datasource struct {
 	client *githubv4.Client
 }
 
+// HandleRepositoriesQuery is the query handler for listing GitHub Repositories
+func (d *Datasource) HandleRepositoriesQuery(ctx context.Context, query *models.RepositoriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListRepositoriesOptions{
+		Owner:      query.Owner,
+		Repository: query.Repository,
+	}
+
+	return GetAllRepositories(ctx, d.client, opt)
+}
+
 // HandleIssuesQuery is the query handler for listing GitHub Issues
 func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.IssueOptionsWithRepo(query.Options, query.Owner, query.Repository)
@@ -108,7 +118,7 @@ func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.Pack
 // CheckHealth calls frequently used endpoints to determine if the client has sufficient privileges
 func (d *Datasource) CheckHealth(ctx context.Context) error {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
-		Organization: "grafana",
+		Owner: "grafana",
 	})
 
 	if err != nil {

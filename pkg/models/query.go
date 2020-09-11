@@ -72,6 +72,11 @@ type ContributorsQuery struct {
 	Options ListContributorsOptions `json:"options"`
 }
 
+// RepositoriesQuery is used when querying for GitHub repositories
+type RepositoriesQuery struct {
+	Query
+}
+
 // IssuesQuery is used when querying for GitHub issues
 type IssuesQuery struct {
 	Query
