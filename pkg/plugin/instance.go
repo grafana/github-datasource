@@ -16,6 +16,11 @@ type Instance struct {
 	Handlers   Handlers
 }
 
+// HandleRepositoriesQuery ...
+func (i *Instance) HandleRepositoriesQuery(ctx context.Context, q *models.RepositoriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	return i.Datasource.HandleRepositoriesQuery(ctx, q, req)
+}
+
 // HandleIssuesQuery ...
 func (i *Instance) HandleIssuesQuery(ctx context.Context, q *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	return i.Datasource.HandleIssuesQuery(ctx, q, req)

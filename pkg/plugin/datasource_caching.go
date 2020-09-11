@@ -75,6 +75,16 @@ func (c *CachedDatasource) saveCache(req backend.DataQuery, f dfutil.Framer, err
 	return f, err
 }
 
+// HandleRepositoriesQuery is the cache wrapper for the issue query handler
+func (c *CachedDatasource) HandleRepositoriesQuery(ctx context.Context, q *models.RepositoriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleRepositoriesQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // HandleIssuesQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleIssuesQuery(ctx context.Context, q *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {

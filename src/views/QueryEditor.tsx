@@ -27,6 +27,9 @@ export const RightColumnWidth = 36;
 const queryEditors: {
   [key: string]: { component: (props: Props, onChange: (val: any) => void) => ReactNode };
 } = {
+  [QueryType.Repositories]: {
+    component: (_: Props, onChange: (val: any) => void) => <></>,
+  },
   [QueryType.Labels]: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorLabels {...(props.query.options || {})} onChange={onChange} />
