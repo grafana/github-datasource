@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/grafana/grafana-github-datasource/pkg/models"
-	"github.com/grafana/grafana-github-datasource/pkg/testutil"
+	"github.com/grafana/github-datasource/pkg/models"
+	"github.com/grafana/github-datasource/pkg/testutil"
 )
 
 func TestListMilestones(t *testing.T) {
