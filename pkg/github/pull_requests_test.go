@@ -56,10 +56,15 @@ func TestPullRequestsDataFrame(t *testing.T) {
 
 	pullRequests := PullRequests{
 		PullRequest{
-			Title: "PullRequest #1",
-			State: githubv4.PullRequestStateOpen,
+			Number: 1,
+			Title:  "PullRequest #1",
+			URL:    "https://github.com/grafana/github-datasource/pulls/1",
+			State:  githubv4.PullRequestStateOpen,
 			Author: PullRequestAuthor{
 				User: firstUser,
+			},
+			Repository: Repository{
+				NameWithOwner: "grafana/github-datasource",
 			},
 			Closed:  true,
 			IsDraft: false,
@@ -81,10 +86,15 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			MergedBy:  nil,
 		},
 		PullRequest{
-			Title: "PullRequest #2",
-			State: githubv4.PullRequestStateOpen,
+			Number: 2,
+			Title:  "PullRequest #2",
+			URL:    "https://github.com/grafana/github-datasource/pulls/2",
+			State:  githubv4.PullRequestStateOpen,
 			Author: PullRequestAuthor{
 				User: secondUser,
+			},
+			Repository: Repository{
+				NameWithOwner: "grafana/github-datasource",
 			},
 			Closed:  true,
 			IsDraft: false,
@@ -112,4 +122,37 @@ func TestPullRequestsDataFrame(t *testing.T) {
 	if err := testutil.CheckGoldenFramer("pull_requests", pullRequests); err != nil {
 		t.Fatal(err)
 	}
+}
+
+func TestBuildQuery(t *testing.T) {
+	t.Run("Searching pull requests with a Repository and organization should use the repo field", func(t *testing.T) {
+		opts := models.ListPullRequestsOptions{
+			Owner:      "grafana",
+			Repository: "github-datasource",
+		}
+
+		var (
+			result = buildQuery(opts)
+			expect = "is:pr repo:grafana/github-datasource"
+		)
+
+		if result != expect {
+			t.Fatalf("Unexpected result from buildQuery. Expected '%s', received '%s'", expect, result)
+		}
+	})
+
+	t.Run("Issue #61 - Searching pull requests without a Repository should search the entire org", func(t *testing.T) {
+		opts := models.ListPullRequestsOptions{
+			Owner:      "test",
+			Repository: "",
+		}
+
+		var (
+			result = buildQuery(opts)
+			expect = "is:pr org:test"
+		)
+		if result != expect {
+			t.Fatalf("Unexpected result from buildQuery. Expected '%s', received '%s'", expect, result)
+		}
+	})
 }

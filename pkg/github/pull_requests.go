@@ -38,19 +38,22 @@ type PullRequestAuthor struct {
 
 // PullRequest is a GitHub pull request
 type PullRequest struct {
-	Title     string
-	State     githubv4.PullRequestState
-	Author    PullRequestAuthor
-	Closed    bool
-	IsDraft   bool
-	Locked    bool
-	Merged    bool
-	ClosedAt  githubv4.DateTime
-	CreatedAt githubv4.DateTime
-	UpdatedAt githubv4.DateTime
-	MergedAt  githubv4.DateTime
-	Mergeable githubv4.MergeableState
-	MergedBy  *PullRequestAuthor
+	Number     int64
+	Title      string
+	URL        string
+	State      githubv4.PullRequestState
+	Author     PullRequestAuthor
+	Closed     bool
+	IsDraft    bool
+	Locked     bool
+	Merged     bool
+	ClosedAt   githubv4.DateTime
+	CreatedAt  githubv4.DateTime
+	UpdatedAt  githubv4.DateTime
+	MergedAt   githubv4.DateTime
+	Mergeable  githubv4.MergeableState
+	MergedBy   *PullRequestAuthor
+	Repository Repository
 }
 
 // PullRequests is a list of GitHub Pull Requests
@@ -65,7 +68,10 @@ func (p PullRequests) Frames() data.Frames {
 
 	frame := data.NewFrame(
 		"pull_requests",
+		data.NewField("number", nil, []int64{}),
 		data.NewField("title", nil, []string{}),
+		data.NewField("url", nil, []string{}),
+		data.NewField("repository", nil, []string{}),
 		data.NewField("state", nil, []string{}),
 		data.NewField("author_login", nil, []string{}),
 		data.NewField("author_email", nil, []string{}),
@@ -102,7 +108,10 @@ func (p PullRequests) Frames() data.Frames {
 		}
 
 		frame.AppendRow(
+			v.Number,
 			v.Title,
+			v.URL,
+			v.Repository.NameWithOwner,
 			string(v.State),
 			v.Author.User.Login,
 			v.Author.User.Email,
@@ -125,19 +134,10 @@ func (p PullRequests) Frames() data.Frames {
 
 // GetAllPullRequests uses the graphql search endpoint API to search all pull requests in the repository
 func GetAllPullRequests(ctx context.Context, client Client, opts models.ListPullRequestsOptions) (PullRequests, error) {
-	search := []string{
-		"is:pr",
-		fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository),
-	}
-
-	if opts.Query != nil {
-		search = append(search, *opts.Query)
-	}
-
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
-			"query":  githubv4.String(strings.Join(search, " ")),
+			"query":  githubv4.String(buildQuery(opts)),
 		}
 
 		pullRequests = []PullRequest{}
@@ -167,19 +167,39 @@ func GetAllPullRequests(ctx context.Context, client Client, opts models.ListPull
 
 // GetPullRequestsInRange uses the graphql search endpoint API to find pull requests in the given time range.
 func GetPullRequestsInRange(ctx context.Context, client Client, opts models.ListPullRequestsOptions, from time.Time, to time.Time) (PullRequests, error) {
-	search := []string{}
+	var q string
+
 	if opts.TimeField != models.PullRequestNone {
-		search = []string{fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339))}
-	}
-	if opts.Query != nil {
-		search = append(search, *opts.Query)
+		q = fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339))
 	}
 
-	q := strings.Join(search, " ")
+	if opts.Query != nil {
+		q = fmt.Sprintf("%s %s", *opts.Query, q)
+	}
+
 	return GetAllPullRequests(ctx, client, models.ListPullRequestsOptions{
 		Repository: opts.Repository,
 		Owner:      opts.Owner,
 		TimeField:  opts.TimeField,
 		Query:      &q,
 	})
+}
+
+// buildQuery builds the "query" field for Pull Request searches
+func buildQuery(opts models.ListPullRequestsOptions) string {
+	search := []string{
+		"is:pr",
+	}
+
+	if opts.Repository == "" {
+		search = append(search, fmt.Sprintf("org:%s", opts.Owner))
+	} else {
+		search = append(search, fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository))
+	}
+
+	if opts.Query != nil {
+		search = append(search, *opts.Query)
+	}
+
+	return strings.Join(search, " ")
 }

@@ -97,7 +97,7 @@ func GetAllRepositories(ctx context.Context, client Client, opts models.ListRepo
 		repos = []Repository{}
 	)
 
-	for i := 0; i < PageNumberLimit; i++ {
+	for {
 		q := &QueryListRepositories{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, err
