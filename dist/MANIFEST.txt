@@ -1,0 +1,31 @@
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "plugin": "grafana-github-datasource",
+  "version": "1.0.5",
+  "files": {
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "README.md": "4cbab1c5a1337163f6ded461ae5fff9af2a492893d9184e3e228a307844ab4cf",
+    "gfx_github_darwin_amd64": "82a3340e6faca7a85e7dbb54dfcbe059595f70ad06961eb907a5f18085dd395d",
+    "gfx_github_linux_arm64": "83618acd8f4232d37a4fe2334d8f691657a4c8153a388c5d006856db75e00053",
+    "module.js": "a1b6ce86c12f4aa44f723ea3163182aa44893a3f19125df3a7e3c4a8ad6dc0c8",
+    "module.js.LICENSE.txt": "0d8f66cd4afb566cb5b7e1540c68f43b939d3eba12ace290f18abc4f4cb53ed0",
+    "module.js.map": "9d3d8494631d4ce2bfa324e04b72cbd59ccc9a038ff5670e15969743156a342c",
+    "partials/annotations.editor.html": "dc91670aa0395cc1c64a4901d10125767bac5a88cc8c613a73a8f1765b224787",
+    "plugin.json": "34bb90635f921d0d772d6c6fe5f2cf7d48708e59e20bcf8aca04382903a605d0"
+  },
+  "time": 1600175591690,
+  "keyId": "7e4d0c6a708866e7"
+}
+-----BEGIN PGP SIGNATURE-----
+Version: OpenPGP.js v4.10.1
+Comment: https://openpgpjs.org
+
+wqEEARMKAAYFAl9gvecACgkQfk0ManCIZucq1QII/cgJ/KzLS14h8bh4Cnom
+a+nkt2DKAD2GvOSwUXl7zM83D6Bu80knhDZ/ZLsIp6dybdUdMdtU7LLaDlxg
+CeDKiXECCQFqFhkGfndcyFfcwdSaR7wXAetUJ/DjQOlqZRfGKfaXy69/Goko
+u7tcgWfFjhbM52dWdWNFjL4Q726NfehLGAfC6g==
+=QSuW
+-----END PGP SIGNATURE-----
