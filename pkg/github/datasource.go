@@ -3,7 +3,6 @@ package github
 import (
 	"context"
 
-	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/pkg/errors"
@@ -17,7 +16,7 @@ type Datasource struct {
 }
 
 // HandleRepositoriesQuery is the query handler for listing GitHub Repositories
-func (d *Datasource) HandleRepositoriesQuery(ctx context.Context, query *models.RepositoriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleRepositoriesQuery(ctx context.Context, query *models.RepositoriesQuery, req backend.DataQuery) (Repositories, error) {
 	opt := models.ListRepositoriesOptions{
 		Owner:      query.Owner,
 		Repository: query.Repository,
@@ -27,19 +26,19 @@ func (d *Datasource) HandleRepositoriesQuery(ctx context.Context, query *models.
 }
 
 // HandleIssuesQuery is the query handler for listing GitHub Issues
-func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (Issues, error) {
 	opt := models.IssueOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return GetIssuesInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
 // HandleCommitsQuery is the query handler for listing GitHub Commits
-func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.CommitsQuery, req backend.DataQuery) (Commits, error) {
 	opt := models.CommitsOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return GetCommitsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
 // HandleTagsQuery is the query handler for listing GitHub Tags
-func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuery, req backend.DataQuery) (Tags, error) {
 	opt := models.ListTagsOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
@@ -53,7 +52,7 @@ func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuer
 }
 
 // HandleReleasesQuery is the query handler for listing GitHub Releases
-func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.ReleasesQuery, req backend.DataQuery) (Releases, error) {
 	opt := models.ListReleasesOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
@@ -66,7 +65,7 @@ func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.Rele
 }
 
 // HandlePullRequestsQuery is the query handler for listing GitHub PullRequests
-func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (PullRequests, error) {
 	opt := models.PullRequestOptionsWithRepo(query.Options, query.Owner, query.Repository)
 
 	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
@@ -76,7 +75,7 @@ func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.
 }
 
 // HandleContributorsQuery is the query handler for listing GitHub Contributors
-func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.ContributorsQuery, req backend.DataQuery) (Users, error) {
 	opt := models.ListContributorsOptions{
 		Owner:      query.Owner,
 		Repository: query.Repository,
@@ -87,7 +86,7 @@ func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.
 }
 
 // HandleLabelsQuery is the query handler for listing GitHub Labels
-func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.LabelsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.LabelsQuery, req backend.DataQuery) (Labels, error) {
 	opt := models.ListLabelsOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
@@ -98,7 +97,7 @@ func (d *Datasource) HandleLabelsQuery(ctx context.Context, query *models.Labels
 }
 
 // HandleMilestonesQuery is the query handler for listing GitHub Milestones
-func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.MilestonesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.MilestonesQuery, req backend.DataQuery) (Milestones, error) {
 	opt := models.ListMilestonesOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
@@ -109,7 +108,7 @@ func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.Mi
 }
 
 // HandlePackagesQuery is the query handler for listing GitHub Packages
-func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.PackagesQuery, req backend.DataQuery) (Packages, error) {
 	opt := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
 
 	return GetAllPackages(ctx, d.client, opt)

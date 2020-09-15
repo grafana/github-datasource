@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
+	"github.com/grafana/github-datasource/pkg/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/pkg/errors"
@@ -61,119 +62,130 @@ func (c *CachedDatasource) getCache(req backend.DataQuery) (dfutil.Framer, error
 	return nil, errors.Wrap(ErrNoValue, key)
 }
 
-func (c *CachedDatasource) saveCache(req backend.DataQuery, f dfutil.Framer, err error) (dfutil.Framer, error) {
-	// don't store cached values if an error was returned
+func log(err error) {
 	if err != nil {
-		return f, err
+		backend.Logger.Error(err.Error())
 	}
+}
+
+func (c *CachedDatasource) saveCache(req backend.DataQuery, f dfutil.Framer) error {
 	key, err := getCacheKey(req)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	c.cache[key] = newCachedResult(f)
-	return f, err
+	return nil
 }
 
 // HandleRepositoriesQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleRepositoriesQuery(ctx context.Context, q *models.RepositoriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleRepositoriesQuery(ctx context.Context, q *models.RepositoriesQuery, req backend.DataQuery) (github.Repositories, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Repositories), err
 	}
 
-	f, err := c.datasource.HandleRepositoriesQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleRepositoriesQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandleIssuesQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleIssuesQuery(ctx context.Context, q *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleIssuesQuery(ctx context.Context, q *models.IssuesQuery, req backend.DataQuery) (github.Issues, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Issues), err
 	}
 
-	f, err := c.datasource.HandleIssuesQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleIssuesQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandleCommitsQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleCommitsQuery(ctx context.Context, q *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleCommitsQuery(ctx context.Context, q *models.CommitsQuery, req backend.DataQuery) (github.Commits, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Commits), err
 	}
 
-	f, err := c.datasource.HandleCommitsQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleCommitsQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandleTagsQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleTagsQuery(ctx context.Context, q *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleTagsQuery(ctx context.Context, q *models.TagsQuery, req backend.DataQuery) (github.Tags, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Tags), err
 	}
 
-	f, err := c.datasource.HandleTagsQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleTagsQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandleReleasesQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleReleasesQuery(ctx context.Context, q *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleReleasesQuery(ctx context.Context, q *models.ReleasesQuery, req backend.DataQuery) (github.Releases, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Releases), err
 	}
 
-	f, err := c.datasource.HandleReleasesQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleReleasesQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandleContributorsQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleContributorsQuery(ctx context.Context, q *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleContributorsQuery(ctx context.Context, q *models.ContributorsQuery, req backend.DataQuery) (github.Users, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Users), err
 	}
 
-	f, err := c.datasource.HandleContributorsQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleContributorsQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandlePullRequestsQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandlePullRequestsQuery(ctx context.Context, q *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandlePullRequestsQuery(ctx context.Context, q *models.PullRequestsQuery, req backend.DataQuery) (github.PullRequests, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.PullRequests), err
 	}
 
-	f, err := c.datasource.HandlePullRequestsQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
-
+	res, err := c.datasource.HandlePullRequestsQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandleLabelsQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleLabelsQuery(ctx context.Context, q *models.LabelsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleLabelsQuery(ctx context.Context, q *models.LabelsQuery, req backend.DataQuery) (github.Labels, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Labels), err
 	}
 
-	f, err := c.datasource.HandleLabelsQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleLabelsQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandlePackagesQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandlePackagesQuery(ctx context.Context, q *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandlePackagesQuery(ctx context.Context, q *models.PackagesQuery, req backend.DataQuery) (github.Packages, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Packages), err
 	}
 
-	f, err := c.datasource.HandlePackagesQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandlePackagesQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // HandleMilestonesQuery is the cache wrapper for the issue query handler
-func (c *CachedDatasource) HandleMilestonesQuery(ctx context.Context, q *models.MilestonesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+func (c *CachedDatasource) HandleMilestonesQuery(ctx context.Context, q *models.MilestonesQuery, req backend.DataQuery) (github.Milestones, error) {
 	if value, err := c.getCache(req); err == nil {
-		return value, err
+		return value.(github.Milestones), err
 	}
 
-	f, err := c.datasource.HandleMilestonesQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	res, err := c.datasource.HandleMilestonesQuery(ctx, q, req)
+	log(c.saveCache(req, res))
+	return res, err
 }
 
 // CheckHealth forwards the request to the datasource and does not perform any caching

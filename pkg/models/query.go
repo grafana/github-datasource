@@ -32,8 +32,22 @@ const (
 // For example, listing commits can be filtered by author, but filtering contributors by author
 // doesn't provide much value, but is included in the query schema anyways.
 type Query struct {
-	Repository string `json:"repository"`
-	Owner      string `json:"owner"`
+	Repository   string       `json:"repository"`
+	Owner        string       `json:"owner"`
+	Aggregations Aggregations `json:"aggregations"`
+}
+
+// AggregationType defines the type of aggregation being used (Sum, Count, Max, Min)
+type AggregationType string
+
+var (
+	AggregationCount AggregationType = "count"
+)
+
+// Aggregations allow users to create simple aggregations of GitHub data.
+type Aggregations struct {
+	Type    AggregationType `json:"type"`
+	GroupBy string          `json:"groupBy"`
 }
 
 // PullRequestsQuery is used when querying for GitHub Pull Requests

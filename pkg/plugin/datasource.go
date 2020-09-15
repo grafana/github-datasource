@@ -3,23 +3,23 @@ package plugin
 import (
 	"context"
 
-	"github.com/grafana/github-datasource/pkg/dfutil"
+	"github.com/grafana/github-datasource/pkg/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
 // The Datasource type handles the requests sent to the datasource backend
 type Datasource interface {
-	HandleRepositoriesQuery(context.Context, *models.RepositoriesQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandleIssuesQuery(context.Context, *models.IssuesQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandleCommitsQuery(context.Context, *models.CommitsQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandleTagsQuery(context.Context, *models.TagsQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandleReleasesQuery(context.Context, *models.ReleasesQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandleContributorsQuery(context.Context, *models.ContributorsQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandlePullRequestsQuery(context.Context, *models.PullRequestsQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandleLabelsQuery(context.Context, *models.LabelsQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandlePackagesQuery(context.Context, *models.PackagesQuery, backend.DataQuery) (dfutil.Framer, error)
-	HandleMilestonesQuery(context.Context, *models.MilestonesQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleRepositoriesQuery(context.Context, *models.RepositoriesQuery, backend.DataQuery) (github.Repositories, error)
+	HandleIssuesQuery(context.Context, *models.IssuesQuery, backend.DataQuery) (github.Issues, error)
+	HandleCommitsQuery(context.Context, *models.CommitsQuery, backend.DataQuery) (github.Commits, error)
+	HandleTagsQuery(context.Context, *models.TagsQuery, backend.DataQuery) (github.Tags, error)
+	HandleReleasesQuery(context.Context, *models.ReleasesQuery, backend.DataQuery) (github.Releases, error)
+	HandleContributorsQuery(context.Context, *models.ContributorsQuery, backend.DataQuery) (github.Users, error)
+	HandlePullRequestsQuery(context.Context, *models.PullRequestsQuery, backend.DataQuery) (github.PullRequests, error)
+	HandleLabelsQuery(context.Context, *models.LabelsQuery, backend.DataQuery) (github.Labels, error)
+	HandlePackagesQuery(context.Context, *models.PackagesQuery, backend.DataQuery) (github.Packages, error)
+	HandleMilestonesQuery(context.Context, *models.MilestonesQuery, backend.DataQuery) (github.Milestones, error)
 	CheckHealth(context.Context) error
 }
 
