@@ -113,3 +113,36 @@ func TestPullRequestsDataFrame(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestBuildQuery(t *testing.T) {
+	t.Run("Searching pull requests with a Repository and organization should use the repo field", func(t *testing.T) {
+		opts := models.ListPullRequestsOptions{
+			Owner:      "grafana",
+			Repository: "github-datasource",
+		}
+
+		var (
+			result = buildQuery(opts)
+			expect = "is:pr repo:grafana/github-datasource"
+		)
+
+		if result != expect {
+			t.Fatalf("Unexpected result from buildQuery. Expected '%s', received '%s'", expect, result)
+		}
+	})
+
+	t.Run("Issue #61 - Searching pull requests without a Repository should search the entire org", func(t *testing.T) {
+		opts := models.ListPullRequestsOptions{
+			Owner:      "test",
+			Repository: "",
+		}
+
+		var (
+			result = buildQuery(opts)
+			expect = "is:pr org:test"
+		)
+		if result != expect {
+			t.Fatalf("Unexpected result from buildQuery. Expected '%s', received '%s'", expect, result)
+		}
+	})
+}

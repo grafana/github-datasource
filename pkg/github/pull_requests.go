@@ -125,19 +125,10 @@ func (p PullRequests) Frames() data.Frames {
 
 // GetAllPullRequests uses the graphql search endpoint API to search all pull requests in the repository
 func GetAllPullRequests(ctx context.Context, client Client, opts models.ListPullRequestsOptions) (PullRequests, error) {
-	search := []string{
-		"is:pr",
-		fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository),
-	}
-
-	if opts.Query != nil {
-		search = append(search, *opts.Query)
-	}
-
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
-			"query":  githubv4.String(strings.Join(search, " ")),
+			"query":  githubv4.String(buildQuery(opts)),
 		}
 
 		pullRequests = []PullRequest{}
@@ -167,19 +158,39 @@ func GetAllPullRequests(ctx context.Context, client Client, opts models.ListPull
 
 // GetPullRequestsInRange uses the graphql search endpoint API to find pull requests in the given time range.
 func GetPullRequestsInRange(ctx context.Context, client Client, opts models.ListPullRequestsOptions, from time.Time, to time.Time) (PullRequests, error) {
-	search := []string{}
+	var q string
+
 	if opts.TimeField != models.PullRequestNone {
-		search = []string{fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339))}
-	}
-	if opts.Query != nil {
-		search = append(search, *opts.Query)
+		q = fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339))
 	}
 
-	q := strings.Join(search, " ")
+	if opts.Query != nil {
+		q = fmt.Sprintf("%s %s", *opts.Query, q)
+	}
+
 	return GetAllPullRequests(ctx, client, models.ListPullRequestsOptions{
 		Repository: opts.Repository,
 		Owner:      opts.Owner,
 		TimeField:  opts.TimeField,
 		Query:      &q,
 	})
+}
+
+// buildQuery builds the "query" field for Pull Request searches
+func buildQuery(opts models.ListPullRequestsOptions) string {
+	search := []string{
+		"is:pr",
+	}
+
+	if opts.Repository == "" {
+		search = append(search, fmt.Sprintf("org:%s", opts.Owner))
+	} else {
+		search = append(search, fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository))
+	}
+
+	if opts.Query != nil {
+		search = append(search, *opts.Query)
+	}
+
+	return strings.Join(search, " ")
 }
