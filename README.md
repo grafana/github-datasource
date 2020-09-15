@@ -74,6 +74,13 @@ All annotations require that you select a field to display on the annotation, an
 
 Variables allow you to substitute values in a panel with pre-defined values.
 
+![Creating Variables](./docs/screenshots/variables-create.png)
+
+You can reference them inside queries, allowing users to configure parameters such as `Query` or `Repository`.
+
+![Using Variables inside queries](./docs/screenshots/using-variables.png)
+
+
 ## Access Token Permissions
 
 For all repositories:
@@ -91,19 +98,15 @@ An extra setting is required for private repositories
 
 ## Frequently Asked Questions
 
-* I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?
+* **I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?**
 
 No. This requires changes in Grafana first. See [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
 
-* Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?
+* **Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?**
 
 We have aggressive caching enabled due to GitHub's rate limiting policies. When selecting a time range like "Last hour", a combination of the queries for each panel and the time range is cached temporarily.
 
-* I am trying to use a template variable in the "Query" field and it's not working
-
-Template variables are currently not supported outside of the "Owner / Organization" and "Repository" fields.
-
-* Why are there two selection options for Pull Requests and Issue times when creating annotations?
+* **Why are there two selection options for Pull Requests and Issue times when creating annotations?**
 
 There are two times that affect an annotation:
 
