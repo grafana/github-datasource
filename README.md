@@ -72,7 +72,7 @@ All annotations require that you select a field to display on the annotation, an
 
 **Work in progress**
 
-Variables allow you to substitute values in a panel with pre-defined values.
+[Variables](https://grafana.com/docs/grafana/latest/variables/templates-and-variables/) allow you to substitute values in a panel with pre-defined values.
 
 ![Creating Variables](./docs/screenshots/variables-create.png)
 
