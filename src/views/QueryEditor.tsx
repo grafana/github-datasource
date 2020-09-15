@@ -75,7 +75,7 @@ const queryEditors: {
 
 const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType).map(v => {
   return {
-    label: v.replace('/_/gi', ' '),
+    label: v.replace(/_/gi, ' '),
     value: v,
   };
 });

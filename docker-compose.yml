@@ -5,7 +5,7 @@ services:
     ports:
       - '3090:3000'
     volumes:
-      - ./:/var/lib/grafana/plugins/grafana-github-datasoure
+      - ./:/var/lib/grafana/plugins/grafana-github-datasource
       - grafana-storage:/var/lib/grafana
       # - ./provisioning:/etc/grafana/provisioning
     environment:
@@ -14,5 +14,6 @@ services:
       - GF_LOG_LEVEL=debug
       - GF_DATAPROXY_LOGGING=true
       - GF_FEATURE_TOGGLES_ENABLE=expressions inspect transformations newEdit
+      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-github-datasource
 volumes:
   grafana-storage:
