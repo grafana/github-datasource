@@ -38,19 +38,22 @@ type PullRequestAuthor struct {
 
 // PullRequest is a GitHub pull request
 type PullRequest struct {
-	Title     string
-	State     githubv4.PullRequestState
-	Author    PullRequestAuthor
-	Closed    bool
-	IsDraft   bool
-	Locked    bool
-	Merged    bool
-	ClosedAt  githubv4.DateTime
-	CreatedAt githubv4.DateTime
-	UpdatedAt githubv4.DateTime
-	MergedAt  githubv4.DateTime
-	Mergeable githubv4.MergeableState
-	MergedBy  *PullRequestAuthor
+	Number     int64
+	Title      string
+	URL        string
+	State      githubv4.PullRequestState
+	Author     PullRequestAuthor
+	Closed     bool
+	IsDraft    bool
+	Locked     bool
+	Merged     bool
+	ClosedAt   githubv4.DateTime
+	CreatedAt  githubv4.DateTime
+	UpdatedAt  githubv4.DateTime
+	MergedAt   githubv4.DateTime
+	Mergeable  githubv4.MergeableState
+	MergedBy   *PullRequestAuthor
+	Repository Repository
 }
 
 // PullRequests is a list of GitHub Pull Requests
@@ -65,7 +68,10 @@ func (p PullRequests) Frames() data.Frames {
 
 	frame := data.NewFrame(
 		"pull_requests",
+		data.NewField("number", nil, []int64{}),
 		data.NewField("title", nil, []string{}),
+		data.NewField("url", nil, []string{}),
+		data.NewField("repository", nil, []string{}),
 		data.NewField("state", nil, []string{}),
 		data.NewField("author_login", nil, []string{}),
 		data.NewField("author_email", nil, []string{}),
@@ -102,7 +108,10 @@ func (p PullRequests) Frames() data.Frames {
 		}
 
 		frame.AppendRow(
+			v.Number,
 			v.Title,
+			v.URL,
+			v.Repository.NameWithOwner,
 			string(v.State),
 			v.Author.User.Login,
 			v.Author.User.Email,
