@@ -2,7 +2,7 @@
 
 ## Entries
 
-## [1.0.4] 2020-09-14
+## [1.0.5] 2020-09-15
 
 - Added Pull Request ID (Number), URL, and Repository name to pull request responses ( fixes #60 )
 - Added the ability to search for all Pull Requests in an organization using the org: search term ( fixes #61 )
