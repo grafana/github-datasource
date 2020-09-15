@@ -2,6 +2,12 @@
 
 ## Entries
 
+## [1.0.4] 2020-09-14
+
+- Added Pull Request ID (Number), URL, and Repository name to pull request responses ( fixes #60 )
+- Added the ability to search for all Pull Requests in an organization using the org: search term ( fixes #61 )
+- Removed limit from repository list ( fixes #59 )
+
 ## [1.0.3] 2020-09-11
 
 - Add the ability to disable time field filtering for pull requests ( fixes #57 )
