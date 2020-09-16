@@ -3,7 +3,7 @@
 This is a very basic guide on how to set up your local environment, make the desired changes and see the result with a fresh Grafana Installation.
 
 ## Getting Started
-Clone this repository into your local environment. The code lives in the `src` folder, alongisde the [plugin.json file](https://grafana.com/docs/grafana/latest/developers/plugins/metadata/). See [this grafana tutorial](https://grafana.com/docs/grafana/latest/developers/plugins/) to understand better how a plugin is structured and installed.
+Clone this repository into your local environment. The code lives in the `src` folder, alongside the [plugin.json file](https://grafana.com/docs/grafana/latest/developers/plugins/metadata/). See [this grafana tutorial](https://grafana.com/docs/grafana/latest/developers/plugins/) to understand better how a plugin is structured and installed.
 
 ## Requirements
 
