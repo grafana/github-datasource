@@ -9,7 +9,6 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/test_coverage)](https://codeclimate.com/github/grafana/github-datasource/test_coverage)
 
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
-
 ## Github API V4 (graphql)
 
 This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
@@ -70,8 +69,6 @@ All annotations require that you select a field to display on the annotation, an
 
 ## Variables
 
-**Work in progress**
-
 [Variables](https://grafana.com/docs/grafana/latest/variables/templates-and-variables/) allow you to substitute values in a panel with pre-defined values.
 
 ![Creating Variables](./docs/screenshots/variables-create.png)
@@ -95,6 +92,13 @@ For all repositories:
 An extra setting is required for private repositories
 * `repo (Full control of private repositories)`
 
+## Sample Dashboard
+
+For documentation on importing dashboards, check out the documentation on [grafana.com](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard)
+
+To load the sample dashboard, open Grafana and click "Import Dashboard".
+
+Copy the JSON in `./dashboards/dashboard.json`, and paste it into the "Import via panel json" box.
 
 ## Frequently Asked Questions
 
