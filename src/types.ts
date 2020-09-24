@@ -12,7 +12,11 @@ export interface RepositoryOptions {
   owner?: string;
 }
 
-export interface GithubDataSourceOptions extends DataSourceJsonData, RepositoryOptions {
+export interface GithubEnterpriseOptions {
+  githubUrl?: string;
+}
+
+export interface GithubDataSourceOptions extends DataSourceJsonData, RepositoryOptions, GithubEnterpriseOptions {
   // Any global settings
 }
 

@@ -44,6 +44,7 @@ Options:
 | Access token | true |
 | Default Organization | false |
 | Default Repository | true |
+| Github Enterprise URL | false |
 
 To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and create a click "Generate new token."
 

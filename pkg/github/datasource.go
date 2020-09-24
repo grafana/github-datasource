@@ -136,7 +136,14 @@ func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 
 	httpClient := oauth2.NewClient(ctx, src)
 
-	return &Datasource{
-		client: githubv4.NewClient(httpClient),
+	if settings.GithubUrl == "" {
+		return &Datasource{
+			client: githubv4.NewClient(httpClient),
+		}
+	} else {
+		GithubUrl := settings.GithubUrl
+		return &Datasource{
+			client: githubv4.NewEnterpriseClient(GithubUrl, httpClient),
+		}
 	}
 }

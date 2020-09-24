@@ -9,6 +9,7 @@ import (
 // Settings represents the Datasource options in Grafana
 type Settings struct {
 	AccessToken    string `json:"accessToken"`
+	GithubUrl string `json:"githubUrl"`
 	CachingEnabled bool   `json:"cachingEnabled"`
 }
 
