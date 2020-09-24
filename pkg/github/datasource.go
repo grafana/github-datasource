@@ -141,9 +141,8 @@ func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 			client: githubv4.NewClient(httpClient),
 		}
 	} else {
-		GithubUrl := settings.GithubUrl
 		return &Datasource{
-			client: githubv4.NewEnterpriseClient(GithubUrl, httpClient),
+			client: githubv4.NewEnterpriseClient(settings.GithubUrl, httpClient),
 		}
 	}
 }
