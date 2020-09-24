@@ -4,9 +4,10 @@
   "description": "loads data from github issues/Pr's to Grafana",
   "scripts": {
     "build": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:build",
+    "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
     "test": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:test",
     "test:e2e": "grafana-e2e run",
-    "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
+    "test:e2e:update": "grafana-e2e run --update-screenshots",
     "watch": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev --watch"
   },
   "repository": "github:grafana/github-datasource",
@@ -14,7 +15,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/data": "7.1.5",
-    "@grafana/e2e": "next",
+    "@grafana/e2e": "canary",
     "@grafana/runtime": "7.1.5",
     "@grafana/toolkit": "^7.2.0",
     "@grafana/ui": "7.1.5",
