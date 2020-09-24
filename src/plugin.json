@@ -1,6 +1,6 @@
 {
   "type": "datasource",
-  "name": "Github Stats",
+  "name": "GitHub",
   "id": "grafana-github-datasource",
   "backend": true,
   "executable": "gfx_github",
