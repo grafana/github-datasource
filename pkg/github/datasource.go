@@ -142,7 +142,7 @@ func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 		}
 	} else {
 		return &Datasource{
-			client: githubv4.NewEnterpriseClient(settings.GithubUrl, httpClient),
+			client: githubv4.NewEnterpriseClient(settings.GithubUrl + "/api/graphql", httpClient),
 		}
 	}
 }

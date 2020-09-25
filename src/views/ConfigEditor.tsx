@@ -86,15 +86,13 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
               className="width-27"
               value={jsonData.githubUrl}
               placeholder="URL of Github Enterprise"
-              summary="URL for Github Enterprise, such as https://github.company.com/api/graphql, leave blank if using github.com"
+              summary="URL for Github Enterprise, such as https://github.company.com, leave blank if using github.com"
               onChange={onUpdateDatasourceJsonDataOption(this.props, 'githubUrl')}
             />
           </div>
         </div>
         <InfoBox title="Github Enterprise">
-          <p>
-            For Github Enterprise enter a the URL endpoint for graphql, such as https://github.company.com/api/graphql
-          </p>
+          <p>For Github Enterprise enter the URL, such as https://github.company.com</p>
           <p>Leave blank if not using Github Enterprise, which will default to github.com</p>
         </InfoBox>
         {/*<div className="gf-form-group">
