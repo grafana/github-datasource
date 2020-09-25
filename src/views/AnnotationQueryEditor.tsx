@@ -86,7 +86,7 @@ const AnnotationQueryEditor = (props: Props) => {
           <QueryInlineField
             width={10}
             labelWidth={10}
-            label="Time field"
+            label="Time Field"
             tooltip="This field is used to determine where the annotation will display on a graph"
           >
             <FieldSelect
