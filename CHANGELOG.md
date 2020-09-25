@@ -2,6 +2,11 @@
 
 ## Entries
 
+## [1.0.6] 2020-09-24
+
+- Added a message to the healthcheck success status (thanks [@vladimirdotk](https://github.com/vladimirdotk))
+- Added URL option for GitHub Enterprise Users (thanks [@bmike78](https://github.com/bmike78))
+
 ## [1.0.5] 2020-09-15
 
 - Added Pull Request ID (Number), URL, and Repository name to pull request responses ( fixes #60 )
