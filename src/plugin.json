@@ -1,12 +1,15 @@
 {
   "type": "datasource",
-  "name": "Github Stats",
+  "name": "GitHub",
   "id": "grafana-github-datasource",
   "backend": true,
   "executable": "gfx_github",
   "annotations": true,
   "alerting": true,
   "metrics": true,
+  "includes": [
+    { "type": "dashboard", "name": "GitHub (demo)", "path": "./dashboards/dashboard.json" }
+  ],
   "info": {
     "description": "Show data about github issues/pull requests",
     "author": {

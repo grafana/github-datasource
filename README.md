@@ -9,7 +9,6 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/test_coverage)](https://codeclimate.com/github/grafana/github-datasource/test_coverage)
 
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
-
 ## Github API V4 (graphql)
 
 This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
@@ -45,6 +44,7 @@ Options:
 | Access token | true |
 | Default Organization | false |
 | Default Repository | true |
+| Github Enterprise URL | false |
 
 To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and create a click "Generate new token."
 
@@ -70,9 +70,14 @@ All annotations require that you select a field to display on the annotation, an
 
 ## Variables
 
-**Work in progress**
+[Variables](https://grafana.com/docs/grafana/latest/variables/templates-and-variables/) allow you to substitute values in a panel with pre-defined values.
 
-Variables allow you to substitute values in a panel with pre-defined values.
+![Creating Variables](./docs/screenshots/variables-create.png)
+
+You can reference them inside queries, allowing users to configure parameters such as `Query` or `Repository`.
+
+![Using Variables inside queries](./docs/screenshots/using-variables.png)
+
 
 ## Access Token Permissions
 
@@ -88,22 +93,25 @@ For all repositories:
 An extra setting is required for private repositories
 * `repo (Full control of private repositories)`
 
+## Sample Dashboard
+
+For documentation on importing dashboards, check out the documentation on [grafana.com](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard)
+
+To load the sample dashboard, open Grafana and click "Import Dashboard".
+
+Copy the JSON in `./dashboards/dashboard.json`, and paste it into the "Import via panel json" box.
 
 ## Frequently Asked Questions
 
-* I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?
+* **I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?**
 
 No. This requires changes in Grafana first. See [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
 
-* Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?
+* **Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?**
 
 We have aggressive caching enabled due to GitHub's rate limiting policies. When selecting a time range like "Last hour", a combination of the queries for each panel and the time range is cached temporarily.
 
-* I am trying to use a template variable in the "Query" field and it's not working
-
-Template variables are currently not supported outside of the "Owner / Organization" and "Repository" fields.
-
-* Why are there two selection options for Pull Requests and Issue times when creating annotations?
+* **Why are there two selection options for Pull Requests and Issue times when creating annotations?**
 
 There are two times that affect an annotation:
 
