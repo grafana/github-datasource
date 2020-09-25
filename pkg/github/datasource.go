@@ -2,7 +2,7 @@ package github
 
 import (
 	"context"
-
+	"fmt"
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -140,9 +140,9 @@ func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 		return &Datasource{
 			client: githubv4.NewClient(httpClient),
 		}
-	} else {
-		return &Datasource{
-			client: githubv4.NewEnterpriseClient(settings.GithubUrl + "/api/graphql", httpClient),
-		}
+	}
+
+	return &Datasource{
+		client: githubv4.NewEnterpriseClient(fmt.Sprintf("%s/api/graphql", settings.GithubUrl), httpClient),
 	}
 }
