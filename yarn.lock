@@ -1252,10 +1252,10 @@
     tiny-invariant "^1.0.1"
     tiny-warning "^0.0.3"
 
-"@grafana/toolkit@next":
-  version "7.2.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@grafana/toolkit/-/toolkit-7.2.0-beta.1.tgz#6184abca9e283e3534e59f308f9532c92299f5e0"
-  integrity sha512-roVCxE5nYhHFvitvFmSL5lwpJqu8zu5penvDXl03DCqtcAtvXmfNeQMpv9Iwk6n/H1NaUZKdGY4b0qw4TsxfDQ==
+"@grafana/toolkit@^7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@grafana/toolkit/-/toolkit-7.2.0.tgz#b90b6b1ed36bad7c4f59baabd28b6148a4e9234e"
+  integrity sha512-bP0FeYxAQhj899exFWtOJLVFHxkLgJOMK0HNIfeYdDCtk2sn5XYeDxNhCSiEKip+1G7m+OEM1CdXMzNBjgkLtA==
   dependencies:
     "@babel/core" "7.9.0"
     "@babel/preset-env" "7.9.0"
