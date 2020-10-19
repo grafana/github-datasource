@@ -99,7 +99,7 @@ For documentation on importing dashboards, check out the documentation on [grafa
 
 To load the sample dashboard, open Grafana and click "Import Dashboard".
 
-Copy the JSON in `.src/dashboards/dashboard.json`, and paste it into the "Import via panel json" box.
+Copy the JSON in `./src/dashboards/dashboard.json`, and paste it into the "Import via panel json" box.
 
 ## Frequently Asked Questions
 
