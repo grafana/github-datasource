@@ -51,13 +51,14 @@ const AnnotationQueryEditor = (props: Props) => {
             field: annotation.annotation.field,
           })
         }
-        onRunQuery={() => {}}
+        onRunQuery={() => { }}
         queryTypes={[
           QueryType.Commits,
           QueryType.Releases,
           QueryType.Pull_Requests,
           QueryType.Issues,
           QueryType.Milestones,
+          QueryType.Tags,
         ]}
       />
 
