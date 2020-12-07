@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.7] 2020-12-07
+
+- Added Tags to the list of queryable resources in the AnnotationsQueryEditor (thanks [@nazzzzz](https://github.com/nazzzzz))
+
 ## [1.0.6] 2020-09-24
 
 - Added a message to the healthcheck success status (thanks [@vladimirdotk](https://github.com/vladimirdotk))
