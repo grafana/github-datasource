@@ -58,6 +58,7 @@ const AnnotationQueryEditor = (props: Props) => {
           QueryType.Pull_Requests,
           QueryType.Issues,
           QueryType.Milestones,
+          QueryType.Tags,
         ]}
       />
 
