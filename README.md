@@ -52,7 +52,7 @@ To create a new Access Token, navigate to [Personal Access Tokens](https://githu
 
 Annotations overlay events on a graph.
 
-![Annotations on a graph](./docs/screenshots/annotations.png)
+![Annotations on a graph](https://github.com/grafana/github-datasource/raw/master/docs/screenshots/annotations.png)
 
 With annotations, you can display:
 
@@ -66,17 +66,17 @@ on a graph.
 
 All annotations require that you select a field to display on the annotation, and a field that represents the time that the event occured.
 
-![Annotations editor](./docs/screenshots/annotations-editor.png)
+![Annotations editor](https://github.com/grafana/github-datasource/raw/master/docs/screenshots/annotations-editor.png)
 
 ## Variables
 
 [Variables](https://grafana.com/docs/grafana/latest/variables/templates-and-variables/) allow you to substitute values in a panel with pre-defined values.
 
-![Creating Variables](./docs/screenshots/variables-create.png)
+![Creating Variables](https://github.com/grafana/github-datasource/raw/master/docs/screenshots/variables-create.png)
 
 You can reference them inside queries, allowing users to configure parameters such as `Query` or `Repository`.
 
-![Using Variables inside queries](./docs/screenshots/using-variables.png)
+![Using Variables inside queries](https://github.com/grafana/github-datasource/raw/master/docs/screenshots/using-variables.png)
 
 
 ## Access Token Permissions
