@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.8] 2020-12-10
+
+- Fixed issue where screenshots were not rendering on grafana.com (thanks [@mjseaman](https://github.com/mjseaman))
+
 ## [1.0.7] 2020-12-07
 
 - Added Tags to the list of queryable resources in the AnnotationsQueryEditor (thanks [@nazzzzz](https://github.com/nazzzzz))
