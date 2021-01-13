@@ -70,7 +70,7 @@ All annotations require that you select a field to display on the annotation, an
 
 ## Variables
 
-[Variables](https://grafana.com/docs/grafana/latest/variables/templates-and-variables/) allow you to substitute values in a panel with pre-defined values.
+[Variables](https://grafana.com/docs/grafana/latest/variables/) allow you to substitute values in a panel with pre-defined values.
 
 ![Creating Variables](https://github.com/grafana/github-datasource/raw/master/docs/screenshots/variables-create.png)
 
