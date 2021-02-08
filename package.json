@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:build",
     "test": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:test",
-    "test:e2e": "grafana-e2e run",
+    "e2e": "grafana-e2e run",
+    "e2e:open": "grafana-e2e open",
     "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
     "watch": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev --watch"
   },
