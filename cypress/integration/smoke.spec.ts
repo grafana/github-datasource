@@ -1,4 +1,5 @@
 import { e2e } from '@grafana/e2e';
+import { AddAnnotationConfig } from '@grafana/e2e/src/flows';
 import { PartialConfigurePanelConfig } from '@grafana/e2e/src/flows/configurePanel';
 import { selectors } from '../../src/components/selectors';
 
@@ -65,7 +66,7 @@ e2e.scenario({
         'datasources/github.yaml',
       ])
       .then(([provision]) => addGithubDataSource(provision.datasources[0].secureJsonData.accessToken))
-      .then(({ config: { name: dataSourceName } }: any) => {
+      .then(({ config: { name: dataSourceName } }: { config: AddAnnotationConfig }) => {
         const variableName = 'owner';
 
         e2e.flows.addDashboard({
