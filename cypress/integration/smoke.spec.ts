@@ -57,7 +57,7 @@ const addGithubPanel = (variableName: string) => {
 
 e2e.scenario({
   describeName: 'Smoke tests',
-  itName: 'Login scenario, create test data source, dashboard, panel',
+  itName: 'Login, create data source, annotation, template variable, dashboard, panel',
   scenario: () => {
     e2e()
       .readProvisions([
