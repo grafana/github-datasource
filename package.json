@@ -15,7 +15,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/data": "7.1.5",
-    "@grafana/e2e": "next",
+    "@grafana/e2e": "^7.4.1",
     "@grafana/runtime": "7.1.5",
     "@grafana/toolkit": "^7.2.0",
     "@grafana/ui": "7.1.5",
