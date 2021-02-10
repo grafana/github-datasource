@@ -4,6 +4,7 @@ import { Input, InlineFormLabel } from '@grafana/ui';
 import { QueryEditorRow } from '../components/Forms';
 import { RepositoryOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { selectors } from '../components/selectors';
 
 interface Props extends RepositoryOptions {
   onChange: (value: RepositoryOptions) => void;
@@ -23,6 +24,7 @@ export default (props: Props) => {
         Owner
       </InlineFormLabel>
       <Input
+        aria-label={selectors.components.QueryEditor.Owner.input}
         css=""
         width={RightColumnWidth}
         value={owner}

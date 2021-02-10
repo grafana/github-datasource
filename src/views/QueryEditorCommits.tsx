@@ -4,6 +4,7 @@ import { Input } from '@grafana/ui';
 import { QueryInlineField } from '../components/Forms';
 import { CommitsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { selectors } from 'components/selectors';
 
 interface Props extends CommitsOptions {
   onChange: (value: CommitsOptions) => void;
@@ -15,6 +16,7 @@ export default (props: Props) => {
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Ref (Branch / Tag)">
         <Input
+          aria-label={selectors.components.QueryEditor.Ref.input}
           css=""
           width={RightColumnWidth}
           value={ref}
