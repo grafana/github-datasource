@@ -40,6 +40,7 @@ export default (props: Props) => {
         Repository
       </InlineFormLabel>
       <Input
+        aria-label={selectors.components.QueryEditor.Repository.input}
         css=""
         width={RightColumnWidth}
         value={repository}
