@@ -1,6 +1,11 @@
 import { E2ESelectors } from '@grafana/e2e-selectors';
 
 export const Components = {
+  ConfigEditor: {
+    AccessToken: {
+      input: 'Config Editor Access Token',
+    },
+  },
   QueryEditor: {
     Owner: {
       input: 'Query Editor Owner',
