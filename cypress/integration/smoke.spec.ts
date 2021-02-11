@@ -1,20 +1,19 @@
 import { e2e } from '@grafana/e2e';
-import { AddAnnotationConfig } from '@grafana/e2e/src/flows';
-import { PartialConfigurePanelConfig } from '@grafana/e2e/src/flows/configurePanel';
+import { PartialConfigurePanelConfig } from '@grafana/e2e/flows/configurePanel';
 import { selectors } from '../../src/components/selectors';
+
+const e2eSelectors = e2e.getSelectors(selectors.components);
 
 const addGithubDataSource = (accessToken: string) => {
   return e2e.flows.addDataSource({
     checkHealth: true,
     expectedAlertMessage: 'OK',
     form: () => {
-      e2e().contains('.gf-form', 'Access Token').find('input').scrollIntoView().type(accessToken);
+      e2eSelectors.ConfigEditor.AccessToken.input().scrollIntoView().type(accessToken);
     },
     type: 'GitHub',
   });
 };
-
-const e2eSelectors = e2e.getSelectors(selectors.components);
 
 const addGithubPanel = (variableName: string) => {
   const fillQueryEditor = () => {
@@ -66,7 +65,7 @@ e2e.scenario({
         'datasources/github.yaml',
       ])
       .then(([provision]) => addGithubDataSource(provision.datasources[0].secureJsonData.accessToken))
-      .then(({ config: { name: dataSourceName } }: { config: AddAnnotationConfig }) => {
+      .then(({ config: { name: dataSourceName } }) => {
         const variableName = 'owner';
 
         e2e.flows.addDashboard({
