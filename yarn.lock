@@ -1213,7 +1213,7 @@
     typescript "4.1.2"
     yaml "^1.8.3"
 
-"@grafana/e2e@^7.4.1":
+"@grafana/e2e@next":
   version "7.4.1"
   resolved "https://registry.yarnpkg.com/@grafana/e2e/-/e2e-7.4.1.tgz#c49333e8df27157bad1fa0d7a345aa2eacb80ddc"
   integrity sha512-7s9g9YkBzAIHoI1oukzplRVvrME2zhnWuDq0EwbdqbpKpgdTiztTVno4L0EYqWpKNvcKJjcB3V7/lrFKVTfeuQ==
