@@ -20,6 +20,9 @@ export const Components = {
       input: 'Query editor ref',
     },
   },
+  AnnotationEditor: {
+    container: 'Annotation editor container',
+  },
 };
 
 export const selectors: { components: E2ESelectors<typeof Components> } = {
