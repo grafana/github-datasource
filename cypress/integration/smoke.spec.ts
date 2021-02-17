@@ -72,9 +72,7 @@ e2e.scenario({
           annotations: [
             {
               dataSource: dataSourceName,
-              dataSourceForm: () => {
-                e2e().get('annotations-query-ctrl-grafana-github-datasource').contains('Query');
-              },
+              dataSourceForm: () => e2eSelectors.AnnotationEditor.container().should('be.visible'),
               name: 'Annotations',
             },
           ],
