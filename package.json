@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:build",
     "test": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:test",
-    "test:e2e": "grafana-e2e run",
+    "e2e": "grafana-e2e run",
+    "e2e:open": "grafana-e2e open",
     "dev": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev",
     "watch": "rm -rf node_modules/@grafana/data/node_modules; grafana-toolkit plugin:dev --watch"
   },
@@ -16,7 +17,7 @@
     "@grafana/data": "7.1.5",
     "@grafana/e2e": "next",
     "@grafana/runtime": "7.1.5",
-    "@grafana/toolkit": "^7.2.0",
+    "@grafana/toolkit": "7.2.0",
     "@grafana/ui": "7.1.5",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@types/lodash": "latest"

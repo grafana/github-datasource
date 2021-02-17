@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { onUpdateDatasourceJsonDataOption, DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { Input, InlineFormLabel, LegacyForms, InfoBox, Icon } from '@grafana/ui';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
+import { selectors } from 'components/selectors';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
 
@@ -65,6 +66,7 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
           <h3 className="page-heading">Service Account Access</h3>
           <div className="gf-form">
             <LegacyForms.SecretFormField
+              aria-label={selectors.components.ConfigEditor.AccessToken.input}
               label="Access Token"
               inputWidth={27}
               labelWidth={10}
