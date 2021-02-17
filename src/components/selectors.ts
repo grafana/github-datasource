@@ -3,21 +3,21 @@ import { E2ESelectors } from '@grafana/e2e-selectors';
 export const Components = {
   ConfigEditor: {
     AccessToken: {
-      input: 'Config Editor Access Token',
+      input: 'Config editor access token',
     },
   },
   QueryEditor: {
     Owner: {
-      input: 'Query Editor Owner',
+      input: 'Query editor owner',
     },
     Repository: {
-      input: 'Query Editor Repository',
+      input: 'Query editor repository',
     },
     Query: {
-      input: 'Query Editor Query',
+      input: 'Query editor query',
     },
     Ref: {
-      input: 'Query Editor Ref',
+      input: 'Query editor ref',
     },
   },
 };
