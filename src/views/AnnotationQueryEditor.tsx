@@ -9,6 +9,7 @@ import { GitHubAnnotationQuery, QueryType } from '../types';
 import { QueryInlineField } from '../components/Forms';
 import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
+import { selectors } from 'components/selectors';
 
 interface Props {
   datasource: DataSource;
@@ -41,7 +42,7 @@ const AnnotationQueryEditor = (props: Props) => {
   );
 
   return (
-    <>
+    <div aria-label={selectors.components.AnnotationEditor.container}>
       <QueryEditor
         query={annotation.annotation}
         datasource={props.datasource}
@@ -105,7 +106,7 @@ const AnnotationQueryEditor = (props: Props) => {
           </QueryInlineField>
         </>
       )}
-    </>
+    </div>
   );
 };
 
