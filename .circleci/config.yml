@@ -93,7 +93,7 @@ executors:
       - image: google/cloud-sdk
   grafana_publisher:
     docker:
-      - image: briangann/integration-grafana-publisher:latest
+      - image: grafana/integration-grafana-publisher:latest
 
 jobs:
   yarn_install:
