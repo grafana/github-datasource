@@ -1,4 +1,40 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_GITHUB",
+      "label": "GitHub",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-github-datasource",
+      "pluginName": "GitHub"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "7.4.3"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-github-datasource",
+      "name": "GitHub",
+      "version": "1.0.6"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -12,7 +48,7 @@
       },
       {
         "annotation": {
-          "datasource": "Github Stats",
+          "datasource": "$datasource",
           "field": "title",
           "options": {
             "query": ""
@@ -34,7 +70,7 @@
       },
       {
         "annotation": {
-          "datasource": "Github Stats",
+          "datasource": "$datasource",
           "field": "title",
           "options": {
             "query": "is:closed",
@@ -57,7 +93,7 @@
       },
       {
         "annotation": {
-          "datasource": "Github Stats",
+          "datasource": "$datasource",
           "field": "name",
           "owner": "$organization",
           "queryType": "Releases",
@@ -79,105 +115,18 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 38,
-  "iteration": 1600205288817,
+  "id": null,
+  "iteration": 1614797573914,
   "links": [],
   "panels": [
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "-- Grafana --",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "hiddenSeries": false,
-      "id": 20,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.3.0-2edb9d0fpre",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Annotations Demo",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_GITHUB}",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 0
       },
       "id": 4,
       "panels": [],
@@ -210,7 +159,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 8
+        "y": 1
       },
       "id": 6,
       "options": {
@@ -225,9 +174,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -280,7 +230,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 8
+        "y": 1
       },
       "id": 9,
       "options": {
@@ -295,9 +245,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "owner": "$organization",
@@ -347,7 +298,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 8
+        "y": 1
       },
       "id": 10,
       "options": {
@@ -362,9 +313,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "owner": "$organization",
@@ -390,12 +342,12 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_GITHUB}",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 5
       },
       "id": 31,
       "panels": [],
@@ -424,7 +376,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 13
+        "y": 6
       },
       "id": 29,
       "options": {
@@ -439,9 +391,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -499,7 +452,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 13
+        "y": 6
       },
       "id": 32,
       "options": {
@@ -514,9 +467,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -571,7 +525,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 13
+        "y": 6
       },
       "id": 21,
       "options": {
@@ -586,9 +540,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -643,7 +598,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 13
+        "y": 6
       },
       "id": 35,
       "options": {
@@ -658,9 +613,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -690,12 +646,12 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_GITHUB}",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 10
       },
       "id": 27,
       "panels": [],
@@ -728,7 +684,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 18
+        "y": 11
       },
       "id": 15,
       "options": {
@@ -743,9 +699,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -802,7 +759,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 18
+        "y": 11
       },
       "id": 33,
       "options": {
@@ -817,9 +774,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -873,7 +831,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 18
+        "y": 11
       },
       "id": 34,
       "options": {
@@ -888,9 +846,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -944,7 +903,7 @@
         "h": 4,
         "w": 4,
         "x": 12,
-        "y": 18
+        "y": 11
       },
       "id": 28,
       "options": {
@@ -959,9 +918,10 @@
           "fields": "",
           "values": false
         },
+        "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -990,14 +950,14 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "${DS_GITHUB}",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 15
       },
-      "id": 8,
+      "id": 37,
       "panels": [],
       "title": "Data",
       "type": "row"
@@ -1034,7 +994,7 @@
             "properties": [
               {
                 "id": "custom.width",
-                "value": 380
+                "value": 74
               }
             ]
           },
@@ -1056,14 +1016,14 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 16
       },
       "id": 2,
       "options": {
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -1078,6 +1038,166 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Commits",
+      "type": "table"
+    },
+    {
+      "datasource": "$datasource",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "title"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 323
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 16
+      },
+      "id": 12,
+      "options": {
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "options": {
+            "query": ""
+          },
+          "owner": "$organization",
+          "queryType": "Issues",
+          "refId": "A",
+          "repository": "$repository"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Issues",
+      "type": "table"
+    },
+    {
+      "datasource": "$datasource",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "number"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 44
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "title"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 259
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 25
+      },
+      "id": 13,
+      "options": {
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "options": {
+            "timeField": 1
+          },
+          "owner": "$organization",
+          "queryType": "Pull_Requests",
+          "refId": "A",
+          "repository": "$repository"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Pull Requests",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "author_company": false,
+              "author_email": false,
+              "is_draft": false,
+              "locked": false,
+              "repository": false
+            },
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
       "type": "table"
     },
     {
@@ -1134,16 +1254,19 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 25
       },
       "id": 17,
       "options": {
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
+          "options": {
+            "query": ""
+          },
           "owner": "$organization",
           "queryType": "Contributors",
           "refId": "A",
@@ -1153,6 +1276,113 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Contributors",
+      "type": "table"
+    },
+    {
+      "datasource": "$datasource",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 34
+      },
+      "id": 24,
+      "options": {
+        "showHeader": true
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "options": {
+            "query": ""
+          },
+          "owner": "$organization",
+          "queryType": "Milestones",
+          "refId": "A",
+          "repository": "$repository"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Milestones",
+      "type": "table"
+    },
+    {
+      "datasource": "$datasource",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 34
+      },
+      "id": 18,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "login"
+          }
+        ]
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "owner": "$organization",
+          "queryType": "Releases",
+          "refId": "A",
+          "repository": "$repository"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Releases",
       "type": "table"
     },
     {
@@ -1197,14 +1427,14 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 43
       },
       "id": 11,
       "options": {
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "owner": "$organization",
@@ -1247,186 +1477,13 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 32
-      },
-      "id": 18,
-      "options": {
-        "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "login"
-          }
-        ]
-      },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
-      "targets": [
-        {
-          "owner": "$organization",
-          "queryType": "Releases",
-          "refId": "A",
-          "repository": "$repository"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Releases",
-      "type": "table"
-    },
-    {
-      "datasource": "$datasource",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "title"
-            },
-            "properties": [
-              {
-                "id": "custom.width",
-                "value": 323
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 41
-      },
-      "id": 12,
-      "options": {
-        "showHeader": true,
-        "sortBy": []
-      },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
-      "targets": [
-        {
-          "options": {
-            "query": ""
-          },
-          "owner": "$organization",
-          "queryType": "Issues",
-          "refId": "A",
-          "repository": "$repository"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Issues",
-      "type": "table"
-    },
-    {
-      "datasource": "$datasource",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 41
-      },
-      "id": 13,
-      "options": {
-        "showHeader": true
-      },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
-      "targets": [
-        {
-          "options": {
-            "timeField": 1
-          },
-          "owner": "$organization",
-          "queryType": "Pull_Requests",
-          "refId": "A",
-          "repository": "$repository"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Pull Requests",
-      "type": "table"
-    },
-    {
-      "datasource": "$datasource",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 50
+        "y": 43
       },
       "id": 23,
       "options": {
         "showHeader": true
       },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
+      "pluginVersion": "7.4.3",
       "targets": [
         {
           "options": {
@@ -1443,62 +1500,10 @@
       "timeShift": null,
       "title": "Packages",
       "type": "table"
-    },
-    {
-      "datasource": "$datasource",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {
-            "align": null,
-            "filterable": false
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 50
-      },
-      "id": 24,
-      "options": {
-        "showHeader": true
-      },
-      "pluginVersion": "7.3.0-2edb9d0fpre",
-      "targets": [
-        {
-          "options": {
-            "query": ""
-          },
-          "owner": "$organization",
-          "queryType": "Milestones",
-          "refId": "A",
-          "repository": "$repository"
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Milestones",
-      "type": "table"
     }
   ],
   "refresh": false,
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1506,9 +1511,11 @@
       {
         "current": {
           "selected": false,
-          "text": "Github Stats",
-          "value": "Github Stats"
+          "text": "GitHub",
+          "value": "GitHub"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -1516,6 +1523,7 @@
         "name": "datasource",
         "options": [],
         "query": "grafana-github-datasource",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1523,33 +1531,33 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "example",
-          "value": "example"
+          "selected": false,
+          "text": "grafana",
+          "value": "grafana"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "label": "Organization",
         "name": "organization",
         "options": [
           {
             "selected": true,
-            "text": "example",
-            "value": "example"
+            "text": "grafana",
+            "value": "grafana"
           }
         ],
-        "query": "example",
+        "query": "grafana",
         "skipUrlSync": false,
         "type": "textbox"
       },
       {
         "allValue": null,
-        "current": {
-          "selected": false,
-          "text": "test",
-          "value": "test"
-        },
-        "datasource": "$datasource",
-        "definition": "Github Stats - Issues",
+        "current": {},
+        "datasource": "${DS_GITHUB}",
+        "definition": "GitHub - Repositories",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Repository",
@@ -1558,10 +1566,6 @@
         "options": [],
         "query": {
           "field": "name",
-          "options": {
-            "query": "",
-            "timeField": 0
-          },
           "owner": "$organization",
           "queryType": "Repositories",
           "repository": ""
@@ -1577,25 +1581,20 @@
         "useTags": false
       },
       {
-        "allValue": null,
-        "current": {
-          "isNone": true,
-          "selected": false,
-          "text": "None",
-          "value": ""
-        },
-        "datasource": "$datasource",
-        "definition": "Github Stats - Labels",
+        "allValue": "",
+        "current": {},
+        "datasource": "${DS_GITHUB}",
+        "definition": "GitHub - Labels",
+        "description": null,
+        "error": null,
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "Labels",
         "multi": false,
         "name": "labels",
         "options": [],
         "query": {
-          "options": {
-            "query": ""
-          },
+          "field": "name",
           "owner": "$organization",
           "queryType": "Labels",
           "repository": "$repository"
@@ -1603,7 +1602,7 @@
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
-        "sort": 0,
+        "sort": 1,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
@@ -1613,10 +1612,12 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "master",
           "value": "master"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Branch",
@@ -1636,25 +1637,19 @@
       },
       {
         "allValue": null,
-        "current": {
-          "isNone": true,
-          "selected": false,
-          "text": "None",
-          "value": ""
-        },
-        "datasource": "$datasource",
-        "definition": "Github Stats - Milestones",
+        "current": {},
+        "datasource": "${DS_GITHUB}",
+        "definition": "GitHub - Milestones",
+        "description": null,
+        "error": null,
         "hide": 0,
-        "includeAll": false,
+        "includeAll": true,
         "label": "Milestone",
         "multi": false,
         "name": "milestone",
         "options": [],
         "query": {
           "field": "title",
-          "options": {
-            "query": ""
-          },
           "owner": "$organization",
           "queryType": "Milestones",
           "repository": "$repository"
@@ -1691,6 +1686,6 @@
   },
   "timezone": "",
   "title": "GitHub Default",
-  "uid": "Qc0wcMNMx",
-  "version": 18
+  "uid": "iVcSTeyGz",
+  "version": 3
 }

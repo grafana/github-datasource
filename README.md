@@ -70,7 +70,7 @@ All annotations require that you select a field to display on the annotation, an
 
 ## Variables
 
-[Variables](https://grafana.com/docs/grafana/latest/variables/templates-and-variables/) allow you to substitute values in a panel with pre-defined values.
+[Variables](https://grafana.com/docs/grafana/latest/variables/) allow you to substitute values in a panel with pre-defined values.
 
 ![Creating Variables](https://github.com/grafana/github-datasource/raw/master/docs/screenshots/variables-create.png)
 
@@ -97,7 +97,13 @@ An extra setting is required for private repositories
 
 For documentation on importing dashboards, check out the documentation on [grafana.com](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard)
 
-To load the sample dashboard, open Grafana and click "Import Dashboard".
+The sample dashboard can be obtained from either of two places.
+
+1. From the Grafana dashboards page [located here](https://grafana.com/grafana/dashboards/14000)
+
+2. From this repository
+
+If loading it from this repository, open Grafana and click "Import Dashboard".
 
 Copy the JSON in `./src/dashboards/dashboard.json`, and paste it into the "Import via panel json" box.
 

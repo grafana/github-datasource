@@ -1,6 +1,9 @@
 node_modules/
 coverage/
 ci/
+dist/
+
+# e2e
+provisioning/
 cypress/screenshots/
 cypress/videos/
-dist/

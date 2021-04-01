@@ -3,6 +3,6 @@
   "include": ["**/*.ts"],
   "compilerOptions": {
     "baseUrl": "../node_modules",
-    "types": ["cypress"]
+    "types": ["cypress", "@grafana/e2e/cypress/support"]
   }
 }

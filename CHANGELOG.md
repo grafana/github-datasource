@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.9] 2021-04-01
+
+- Fixed issue where dashboard path was not incorrect
+
 ## [1.0.8] 2020-12-10
 
 - Fixed issue where screenshots were not rendering on grafana.com (thanks [@mjseaman](https://github.com/mjseaman))
