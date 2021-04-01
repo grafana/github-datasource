@@ -15,11 +15,12 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "@grafana/data": "~7.2.0",
-    "@grafana/e2e": "next",
+    "@grafana/e2e": "7.5.1",
     "@grafana/runtime": "~7.2.0",
     "@grafana/toolkit": "7.5.1",
     "@grafana/ui": "~7.2.0",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
-    "@types/lodash": "latest"
+    "@types/lodash": "latest",
+    "cypress": "6.4.0"
   }
 }
