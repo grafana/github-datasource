@@ -13,14 +13,14 @@ interface Props extends PackagesOptions {
 
 const DefaultPackageType = PackageType.NPM;
 
-const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageType).map(v => {
+const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageType).map((v) => {
   return {
     label: v.replace('/_/gi', ' '),
     value: v,
   };
 });
 
-export default (props: Props) => {
+const QueryEditorPackages = (props: Props) => {
   const [names, setNames] = useState<string>(props.names || '');
 
   return (
@@ -30,7 +30,7 @@ export default (props: Props) => {
           options={packageTypeOptions}
           value={props.packageType || DefaultPackageType}
           width={RightColumnWidth}
-          onChange={opt =>
+          onChange={(opt) =>
             props.onChange({
               ...props,
               packageType: opt.value as PackageType,
@@ -47,8 +47,8 @@ export default (props: Props) => {
           css=""
           value={names}
           width={RightColumnWidth * 2 + LeftColumnWidth}
-          onChange={el => setNames(el.currentTarget.value)}
-          onBlur={el =>
+          onChange={(el) => setNames(el.currentTarget.value)}
+          onBlur={(el) =>
             props.onChange({
               ...props.query,
               names: el.currentTarget.value,
@@ -59,3 +59,5 @@ export default (props: Props) => {
     </>
   );
 };
+
+export default QueryEditorPackages;

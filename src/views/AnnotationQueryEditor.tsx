@@ -46,7 +46,7 @@ const AnnotationQueryEditor = (props: Props) => {
       <QueryEditor
         query={annotation.annotation}
         datasource={props.datasource}
-        onChange={query =>
+        onChange={(query) =>
           onChange({
             ...query,
             field: annotation.annotation.field,
@@ -73,7 +73,7 @@ const AnnotationQueryEditor = (props: Props) => {
             tooltip="This field determines the text / value displayed on the annotation"
           >
             <FieldSelect
-              onChange={value =>
+              onChange={(value) =>
                 onChange({
                   ...annotation.annotation,
                   field: value,
@@ -92,7 +92,7 @@ const AnnotationQueryEditor = (props: Props) => {
             tooltip="This field is used to determine where the annotation will display on a graph"
           >
             <FieldSelect
-              onChange={value =>
+              onChange={(value) =>
                 onChange({
                   ...annotation.annotation,
                   timeField: value,

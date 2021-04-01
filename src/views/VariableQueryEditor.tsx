@@ -13,7 +13,7 @@ interface Props {
   datasource: DataSource;
 }
 
-export default (props: Props) => {
+const VariableQueryEditor = (props: Props) => {
   const definition = `${props.datasource.name} - ${props.query.queryType || DefaultQueryType}`;
   const [choices, setChoices] = useState<string[]>();
 
@@ -28,7 +28,7 @@ export default (props: Props) => {
       <QueryEditor
         query={props.query}
         datasource={props.datasource}
-        onChange={query =>
+        onChange={(query) =>
           props.onChange(
             {
               ...query,
@@ -54,7 +54,7 @@ export default (props: Props) => {
         tooltip="This field determines the text / value used for the variable"
       >
         <FieldSelect
-          onChange={value =>
+          onChange={(value) =>
             props.onChange(
               {
                 ...props.query,
@@ -72,3 +72,5 @@ export default (props: Props) => {
     </>
   );
 };
+
+export default VariableQueryEditor;

@@ -1,3 +1,5 @@
 import React from 'react';
 
-export default () => <></>;
+const QueryEditorReleases = () => <></>;
+
+export default QueryEditorReleases;

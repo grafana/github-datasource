@@ -1,5 +1,4 @@
-import { DataSourceJsonData } from '@grafana/data';
-import { DataQuery } from '@grafana/data';
+import { DataQuery, DataSourceJsonData } from '@grafana/data';
 
 export interface Label {
   color: string;

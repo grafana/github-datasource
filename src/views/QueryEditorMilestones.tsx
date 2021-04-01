@@ -10,7 +10,7 @@ interface Props extends MilestonesOptions {
   onChange: (value: MilestonesOptions) => void;
 }
 
-export default (props: Props) => {
+const QueryEditorMilestones = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
@@ -19,8 +19,8 @@ export default (props: Props) => {
           css=""
           value={query}
           width={RightColumnWidth * 2 + LeftColumnWidth}
-          onChange={el => setQuery(el.currentTarget.value)}
-          onBlur={el =>
+          onChange={(el) => setQuery(el.currentTarget.value)}
+          onBlur={(el) =>
             props.onChange({
               ...props,
               query: el.currentTarget.value,
@@ -31,3 +31,5 @@ export default (props: Props) => {
     </>
   );
 };
+
+export default QueryEditorMilestones;

@@ -24,6 +24,7 @@ interface Props extends QueryEditorProps<DataSource, GitHubQuery, GithubDataSour
 export const LeftColumnWidth = 10;
 export const RightColumnWidth = 36;
 
+/* eslint-disable react/display-name */
 const queryEditors: {
   [key: string]: { component: (props: Props, onChange: (val: any) => void) => ReactNode };
 } = {
@@ -73,14 +74,16 @@ const queryEditors: {
   },
 };
 
-const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType).map(v => {
+/* eslint-enable react/display-name */
+
+const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType).map((v) => {
   return {
     label: v.replace(/_/gi, ' '),
     value: v,
   };
 });
 
-export default (props: Props) => {
+const QueryEditor = (props: Props) => {
   const onChange = useCallback(
     (value: GitHubQuery) => {
       props.onChange(value);
@@ -109,16 +112,16 @@ export default (props: Props) => {
       <QueryInlineField label="Query Type" tooltip="What resource are you querying for?" labelWidth={LeftColumnWidth}>
         <Select
           width={RightColumnWidth}
-          options={queryTypeOptions.filter(v => queryTypes.includes(v.value!))}
+          options={queryTypeOptions.filter((v) => queryTypes.includes(v.value!))}
           value={props.query.queryType}
-          onChange={val => onKeyChange('queryType', val.value || DefaultQueryType)}
+          onChange={(val) => onKeyChange('queryType', val.value || DefaultQueryType)}
         />
       </QueryInlineField>
 
       <QueryEditorRepository
         repository={props.query.repository}
         owner={props.query.owner}
-        onChange={repo => {
+        onChange={(repo) => {
           onChange({
             ...props.query,
             ...repo,
@@ -134,3 +137,5 @@ export default (props: Props) => {
     </>
   );
 };
+
+export default QueryEditor;

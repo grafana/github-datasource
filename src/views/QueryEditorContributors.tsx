@@ -9,7 +9,7 @@ interface Props extends ContributorsOptions {
   onChange: (value: ContributorsOptions) => void;
 }
 
-export default (props: Props) => {
+const QueryEditorContributors = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
@@ -18,10 +18,12 @@ export default (props: Props) => {
           css=""
           width={RightColumnWidth}
           value={query}
-          onChange={el => setQuery(el.currentTarget.value)}
-          onBlur={el => props.onChange({ ...props, query: el.currentTarget.value })}
+          onChange={(el) => setQuery(el.currentTarget.value)}
+          onBlur={(el) => props.onChange({ ...props, query: el.currentTarget.value })}
         />
       </QueryInlineField>
     </>
   );
 };
+
+export default QueryEditorContributors;

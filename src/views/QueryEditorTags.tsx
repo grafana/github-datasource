@@ -1,3 +1,4 @@
 import React from 'react';
 
-export default () => <></>;
+const QueryEditorTags = () => <></>;
+export default QueryEditorTags;

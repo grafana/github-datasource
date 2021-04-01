@@ -7,7 +7,7 @@ export const replaceVariable = (t: TemplateSrv, value?: string, scoped: ScopedVa
 };
 
 export const replaceVariables = (t: TemplateSrv, query: GitHubQuery, scoped: ScopedVars): GitHubQuery => {
-  Object.keys(query).forEach(key => {
+  Object.keys(query).forEach((key) => {
     if (typeof query[key] === 'string') {
       query[key] = replaceVariable(t, query[key], scoped);
     }
@@ -15,7 +15,7 @@ export const replaceVariables = (t: TemplateSrv, query: GitHubQuery, scoped: Sco
 
   if (query.options) {
     const { options } = query;
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       if (typeof options[key] === 'string') {
         options[key] = replaceVariable(t, options[key], scoped);
       }

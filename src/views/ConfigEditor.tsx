@@ -39,7 +39,7 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
             <a href="https://github.com/settings/tokens">
               Personal Access Tokens <Icon name="link" />
             </a>{' '}
-            and create a click "Generate new token."
+            and create a click &quot;Generate new token.&quot;
           </p>
           <p>Ensure that your token has the following permissions:</p>
           <h4>For all repositories:</h4>
