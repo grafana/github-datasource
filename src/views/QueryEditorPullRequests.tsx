@@ -23,7 +23,7 @@ const timeFieldOptions: Array<SelectableValue<PullRequestTimeField>> = Object.ke
 
 const defaultTimeField = timeFieldOptions[0].value;
 
-export default (props: Props) => {
+const QueryEditorPullRequests = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
@@ -36,8 +36,8 @@ export default (props: Props) => {
           css=""
           value={query}
           width={RightColumnWidth}
-          onChange={el => setQuery(el.currentTarget.value)}
-          onBlur={el =>
+          onChange={(el) => setQuery(el.currentTarget.value)}
+          onBlur={(el) =>
             props.onChange({
               ...props,
               query: el.currentTarget.value,
@@ -54,7 +54,7 @@ export default (props: Props) => {
           width={RightColumnWidth}
           options={timeFieldOptions}
           value={props.timeField || defaultTimeField}
-          onChange={opt =>
+          onChange={(opt) =>
             props.onChange({
               ...props,
               timeField: opt.value,
@@ -65,3 +65,5 @@ export default (props: Props) => {
     </>
   );
 };
+
+export default QueryEditorPullRequests;

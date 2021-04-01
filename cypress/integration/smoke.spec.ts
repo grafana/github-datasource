@@ -9,7 +9,9 @@ const addGithubDataSource = (accessToken: string) => {
     checkHealth: true,
     expectedAlertMessage: 'OK',
     form: () => {
-      e2eSelectors.ConfigEditor.AccessToken.input().scrollIntoView().type(accessToken);
+      e2eSelectors.ConfigEditor.AccessToken.input()
+        .scrollIntoView()
+        .type(accessToken);
     },
     type: 'GitHub',
   });
@@ -23,11 +25,19 @@ const addGithubPanel = (variableName: string) => {
     e2e.components.QueryEditorRows.rows()
       .should('be.visible')
       .within(() => {
-        e2e.components.Select.input().first().should('be.empty').focus().type(`Releases{enter}`);
+        e2e.components.Select.input()
+          .first()
+          .should('be.empty')
+          .focus()
+          .type(`Releases{enter}`);
       });
 
-    e2eSelectors.QueryEditor.Owner.input().should('be.empty').type(`grafana{enter}`);
-    e2eSelectors.QueryEditor.Repository.input().should('be.empty').type(`grafana{enter}`);
+    e2eSelectors.QueryEditor.Owner.input()
+      .should('be.empty')
+      .type(`grafana{enter}`);
+    e2eSelectors.QueryEditor.Repository.input()
+      .should('be.empty')
+      .type(`grafana{enter}`);
   };
 
   e2e.flows
@@ -37,9 +47,16 @@ const addGithubPanel = (variableName: string) => {
         fillQueryEditor();
 
         // Switch to the Table view as we have tabular data from Github (for the screenshot)
-        e2e.components.PanelEditor.OptionsPane.open().should('be.visible').click();
-        e2e.components.OptionsGroup.toggle('Panel type').should('be.visible').click();
-        e2e.components.PluginVisualization.item('Table').scrollIntoView().should('be.visible').click();
+        e2e.components.PanelEditor.OptionsPane.open()
+          .should('be.visible')
+          .click();
+        e2e.components.OptionsGroup.toggle('Panel type')
+          .should('be.visible')
+          .click();
+        e2e.components.PluginVisualization.item('Table')
+          .scrollIntoView()
+          .should('be.visible')
+          .click();
       },
     })
     .then(({ config: { panelTitle } }: { config: PartialConfigurePanelConfig }) => {
@@ -48,7 +65,9 @@ const addGithubPanel = (variableName: string) => {
         matchScreenshot: true,
         panelTitle,
         queriesForm: () => {
-          e2eSelectors.QueryEditor.Owner.input().clear().type(`$${variableName}{enter}`);
+          e2eSelectors.QueryEditor.Owner.input()
+            .clear()
+            .type(`$${variableName}{enter}`);
         },
         visitDashboardAtStart: false,
       });

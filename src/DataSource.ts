@@ -114,7 +114,7 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
     }
 
     const view = new DataFrameView(res.data[0] as DataFrame);
-    return view.map(item => {
+    return view.map((item) => {
       return {
         text: item[query.field || 'name'],
       };

@@ -9,18 +9,20 @@ interface Props {
   width?: number;
 }
 
-export default (props: Props) => {
+const LabelSelector = (props: Props) => {
   return (
     <MultiSelect
       width={props.width}
-      options={props.options.map(value => {
+      options={props.options.map((value) => {
         return {
           label: value.name,
           value: value,
         };
       })}
       value={props.value}
-      onChange={values => props.onChange(values?.map(item => item.value!))}
+      onChange={(values) => props.onChange(values?.map((item) => item.value!))}
     />
   );
 };
+
+export default LabelSelector;

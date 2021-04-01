@@ -10,7 +10,7 @@ interface Props extends RepositoryOptions {
   onChange: (value: RepositoryOptions) => void;
 }
 
-export default (props: Props) => {
+const QueryEditorRepositories = (props: Props) => {
   const [repository, setRepository] = useState<string>(props.repository || '');
   const [owner, setOwner] = useState<string>(props.owner || '');
 
@@ -28,8 +28,8 @@ export default (props: Props) => {
         css=""
         width={RightColumnWidth}
         value={owner}
-        onChange={el => setOwner(el.currentTarget.value)}
-        onBlur={el =>
+        onChange={(el) => setOwner(el.currentTarget.value)}
+        onBlur={(el) =>
           props.onChange({
             ...props,
             owner: el.currentTarget.value,
@@ -44,8 +44,8 @@ export default (props: Props) => {
         css=""
         width={RightColumnWidth}
         value={repository}
-        onChange={el => setRepository(el.currentTarget.value)}
-        onBlur={el =>
+        onChange={(el) => setRepository(el.currentTarget.value)}
+        onBlur={(el) =>
           props.onChange({
             ...props,
             repository: el.currentTarget.value,
@@ -55,3 +55,5 @@ export default (props: Props) => {
     </QueryEditorRow>
   );
 };
+
+export default QueryEditorRepositories;

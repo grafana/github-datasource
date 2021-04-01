@@ -87,7 +87,7 @@ export function getAnnotationsFromFrame(frame: DataFrame, options?: AnnotationsF
     }
   }
   if (!hasTime) {
-    const field = frame.fields.find(f => f.type === FieldType.time);
+    const field = frame.fields.find((f) => f.type === FieldType.time);
     if (!field) {
       return []; // no time fields exist
     }
@@ -98,7 +98,7 @@ export function getAnnotationsFromFrame(frame: DataFrame, options?: AnnotationsF
   }
 
   if (!hasText) {
-    const field = frame.fields.find(f => f.type === FieldType.string);
+    const field = frame.fields.find((f) => f.type === FieldType.string);
     if (!field) {
       return []; // no text fields exist
     }

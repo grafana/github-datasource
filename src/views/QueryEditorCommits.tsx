@@ -10,7 +10,7 @@ interface Props extends CommitsOptions {
   onChange: (value: CommitsOptions) => void;
 }
 
-export default (props: Props) => {
+const QueryEditorCommits = (props: Props) => {
   const [ref, setRef] = useState<string>(props.gitRef || '');
   return (
     <>
@@ -20,10 +20,12 @@ export default (props: Props) => {
           css=""
           width={RightColumnWidth}
           value={ref}
-          onChange={el => setRef(el.currentTarget.value)}
-          onBlur={el => props.onChange({ ...props, gitRef: el.currentTarget.value })}
+          onChange={(el) => setRef(el.currentTarget.value)}
+          onBlur={(el) => props.onChange({ ...props, gitRef: el.currentTarget.value })}
         />
       </QueryInlineField>
     </>
   );
 };
+
+export default QueryEditorCommits;

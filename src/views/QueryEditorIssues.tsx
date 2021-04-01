@@ -22,7 +22,7 @@ const timeFieldOptions: Array<SelectableValue<IssueTimeField>> = Object.keys(Iss
 
 const defaultTimeField = 0 as IssueTimeField;
 
-export default (props: Props) => {
+const QueryEditorIssues = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
@@ -35,8 +35,8 @@ export default (props: Props) => {
           css=""
           value={query}
           width={RightColumnWidth * 2 + LeftColumnWidth}
-          onChange={el => setQuery(el.currentTarget.value)}
-          onBlur={el =>
+          onChange={(el) => setQuery(el.currentTarget.value)}
+          onBlur={(el) =>
             props.onChange({
               ...props,
               query: el.currentTarget.value,
@@ -53,7 +53,7 @@ export default (props: Props) => {
           width={RightColumnWidth}
           options={timeFieldOptions}
           value={props.timeField || defaultTimeField}
-          onChange={opt =>
+          onChange={(opt) =>
             props.onChange({
               ...props,
               timeField: opt.value,
@@ -64,3 +64,5 @@ export default (props: Props) => {
     </>
   );
 };
+
+export default QueryEditorIssues;

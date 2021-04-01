@@ -6,10 +6,12 @@ interface Props {
   disabled: boolean;
 }
 
-export default (props: Props) => {
+const ResetButton = (props: Props) => {
   return (
     <Button variant="secondary" type="button" {...props}>
       Reset
     </Button>
   );
 };
+
+export default ResetButton;
