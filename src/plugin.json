@@ -8,7 +8,7 @@
   "alerting": true,
   "metrics": true,
   "includes": [
-    { "type": "dashboard", "name": "GitHub (demo)", "path": "./dashboards/dashboard.json" }
+    { "type": "dashboard", "name": "GitHub (demo)", "path": "dashboards/dashboard.json" }
   ],
   "info": {
     "description": "Show data about github issues/pull requests",
