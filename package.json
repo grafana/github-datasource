@@ -14,11 +14,11 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "7.1.5",
+    "@grafana/data": "~7.2.0",
     "@grafana/e2e": "next",
-    "@grafana/runtime": "7.1.5",
-    "@grafana/toolkit": "7.2.0",
-    "@grafana/ui": "7.1.5",
+    "@grafana/runtime": "~7.2.0",
+    "@grafana/toolkit": "7.5.1",
+    "@grafana/ui": "~7.2.0",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@types/lodash": "latest"
   }
