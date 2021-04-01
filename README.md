@@ -1,8 +1,6 @@
 # Grafana GitHub datasource
 
 [![CircleCI](https://circleci.com/gh/grafana/github-datasource.svg?style=svg)](https://circleci.com/gh/grafana/github-datasource)
-[![David Dependency Status](https://david-dm.org/grafana/github-datasource.svg)](https://david-dm.org/grafana/github-datasource)
-[![David Dev Dependency Status](https://david-dm.org/grafana/github-datasource/dev-status.svg)](https://david-dm.org/grafana/github-datasource/?type=dev)
 [![Known Vulnerabilities](https://snyk.io/test/github/grafana/github-datasource/badge.svg)](https://snyk.io/test/github/grafana/github-datasource)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/maintainability)](https://codeclimate.com/github/grafana/github-datasource/maintainability)
