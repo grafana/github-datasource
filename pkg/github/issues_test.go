@@ -41,8 +41,10 @@ func TestIssuesDataframe(t *testing.T) {
 
 	issues := Issues{
 		Issue{
-			Title:    "Issue #1",
-			ClosedAt: githubv4.DateTime{},
+			Title: "Issue #1",
+			ClosedAt: githubv4.DateTime{
+				Time: time.Time{},
+			},
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
 			},
@@ -78,6 +80,28 @@ func TestIssuesDataframe(t *testing.T) {
 					Name:    "Second User",
 					Company: "ACME Corp",
 					Email:   "second@example.com",
+					URL:     "",
+				},
+			},
+		},
+		Issue{
+			Title: "Issue #3",
+			ClosedAt: githubv4.DateTime{
+				Time: time.Time{},
+			},
+			CreatedAt: githubv4.DateTime{
+				Time: createdAt,
+			},
+			Closed: false,
+			Author: struct {
+				User "graphql:\"... on User\""
+			}{
+				User: User{
+					ID:      "3",
+					Login:   "firstUser",
+					Name:    "First User",
+					Company: "ACME Corp",
+					Email:   "first@example.com",
 					URL:     "",
 				},
 			},
