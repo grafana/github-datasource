@@ -41,7 +41,8 @@ func (c Issues) Frames() data.Frames {
 	for _, v := range c {
 		var closedAt *time.Time
 		if !v.ClosedAt.Time.IsZero() {
-			closedAt = &v.ClosedAt.Time
+			t := v.ClosedAt.Time
+			closedAt = &t
 		}
 
 		frame.AppendRow(
