@@ -66,11 +66,13 @@ func (m Milestones) Frames() data.Frames {
 			dueAt    *time.Time
 		)
 		if !v.ClosedAt.Time.IsZero() {
-			closedAt = &v.ClosedAt.Time
+			t := v.ClosedAt.Time
+			closedAt = &t
 		}
 
 		if !v.DueOn.Time.IsZero() {
-			dueAt = &v.DueOn.Time
+			t := v.DueOn.Time
+			dueAt = &t
 		}
 
 		frame.AppendRow(

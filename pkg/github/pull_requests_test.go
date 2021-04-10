@@ -55,7 +55,7 @@ func TestPullRequestsDataFrame(t *testing.T) {
 	}
 
 	pullRequests := PullRequests{
-		PullRequest{
+		{
 			Number: 1,
 			Title:  "PullRequest #1",
 			URL:    "https://github.com/grafana/github-datasource/pulls/1",
@@ -85,7 +85,7 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			Mergeable: githubv4.MergeableStateMergeable,
 			MergedBy:  nil,
 		},
-		PullRequest{
+		{
 			Number: 2,
 			Title:  "PullRequest #2",
 			URL:    "https://github.com/grafana/github-datasource/pulls/2",
@@ -116,6 +116,33 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			MergedBy: &PullRequestAuthor{
 				User: firstUser,
 			},
+		},
+		{
+			Number: 3,
+			Title:  "PullRequest #2",
+			URL:    "https://github.com/grafana/github-datasource/pulls/3",
+			State:  githubv4.PullRequestStateOpen,
+			Author: PullRequestAuthor{
+				User: secondUser,
+			},
+			Repository: Repository{
+				NameWithOwner: "grafana/github-datasource",
+			},
+			Closed:  false,
+			IsDraft: false,
+			Locked:  false,
+			Merged:  false,
+			MergedAt: githubv4.DateTime{
+				Time: openedAt.Add(-100 * time.Minute),
+			},
+			ClosedAt: githubv4.DateTime{},
+			CreatedAt: githubv4.DateTime{
+				Time: openedAt,
+			},
+			UpdatedAt: githubv4.DateTime{
+				Time: openedAt.Add(time.Hour * 2),
+			},
+			Mergeable: githubv4.MergeableStateMergeable,
 		},
 	}
 
