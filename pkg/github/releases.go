@@ -42,7 +42,8 @@ func (c Releases) Frames() data.Frames {
 	for _, v := range c {
 		var publishedAt *time.Time
 		if !v.PublishedAt.IsZero() {
-			publishedAt = &v.PublishedAt.Time
+			t := v.PublishedAt.Time
+			publishedAt = &t
 		}
 
 		frame.AppendRow(
