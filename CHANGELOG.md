@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.10] 2021-04-01
+
+- Fixed issue where some time values were being renderred incorrectly
+
 ## [1.0.9] 2021-04-01
 
 - Fixed issue where dashboard path was not incorrect
