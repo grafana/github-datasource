@@ -92,19 +92,25 @@ func (p PullRequests) Frames() data.Frames {
 		var (
 			closedAt    *time.Time
 			mergedAt    *time.Time
-			secondsOpen float64 = time.Now().UTC().Sub(v.CreatedAt.UTC()).Seconds()
+			secondsOpen float64 = time.Now().UTC().Sub(v.CreatedAt.UTC()).Round(time.Second).Seconds()
 		)
 
 		if !v.ClosedAt.IsZero() {
-			closedAt = &v.ClosedAt.Time
+			t := v.ClosedAt.Time
+			closedAt = &t
 		}
 
 		if !v.MergedAt.IsZero() {
-			mergedAt = &v.MergedAt.Time
+			t := v.MergedAt.Time
+			mergedAt = &t
 		}
 
 		if closedAt != nil {
 			secondsOpen = v.ClosedAt.UTC().Sub(v.CreatedAt.UTC()).Seconds()
+		}
+
+		if mergedAt != nil {
+			secondsOpen = v.ClosedAt.UTC().Sub(v.MergedAt.UTC()).Seconds()
 		}
 
 		frame.AppendRow(
