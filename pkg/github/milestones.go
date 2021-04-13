@@ -37,11 +37,14 @@ type Milestone struct {
 	Creator struct {
 		User User `graphql:"... on User"`
 	}
-	DueOn     githubv4.DateTime
-	ClosedAt  githubv4.DateTime
-	CreatedAt githubv4.DateTime
-	State     githubv4.MilestoneState
-	Title     string
+	DueOn      githubv4.DateTime
+	ClosedAt   githubv4.DateTime
+	CreatedAt  githubv4.DateTime
+	State      githubv4.MilestoneState
+	Title      string
+	Repository struct {
+		NameWithOwner string
+	}
 }
 
 // Milestones is a list of GitHub milestones
@@ -58,6 +61,7 @@ func (m Milestones) Frames() data.Frames {
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
 		data.NewField("due_at", nil, []*time.Time{}),
+		data.NewField("repository", nil, []string{}),
 	)
 
 	for _, v := range m {
@@ -83,6 +87,7 @@ func (m Milestones) Frames() data.Frames {
 			v.CreatedAt.Time,
 			closedAt,
 			dueAt,
+			v.Repository.NameWithOwner,
 		)
 	}
 

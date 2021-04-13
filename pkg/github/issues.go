@@ -36,10 +36,10 @@ func (c Issues) Frames() data.Frames {
 		data.NewField("title", nil, []string{}),
 		data.NewField("author", nil, []string{}),
 		data.NewField("author_company", nil, []string{}),
-		data.NewField("repository", nil, []string{}),
 		data.NewField("closed", nil, []bool{}),
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
+		data.NewField("repository", nil, []string{}),
 	)
 
 	for _, v := range c {
@@ -53,10 +53,10 @@ func (c Issues) Frames() data.Frames {
 			v.Title,
 			v.Author.User.Login,
 			v.Author.User.Company,
-			v.Repository.NameWithOwner,
 			v.Closed,
 			v.CreatedAt.Time,
 			closedAt,
+			v.Repository.NameWithOwner,
 		)
 	}
 

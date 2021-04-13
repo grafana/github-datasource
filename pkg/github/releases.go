@@ -33,7 +33,6 @@ func (c Releases) Frames() data.Frames {
 	frame := data.NewFrame(
 		"releases",
 		data.NewField("name", nil, []string{}),
-		data.NewField("repository", nil, []string{}),
 		data.NewField("created_by", nil, []string{}),
 		data.NewField("is_draft", nil, []bool{}),
 		data.NewField("is_prerelease", nil, []bool{}),
@@ -41,6 +40,7 @@ func (c Releases) Frames() data.Frames {
 		data.NewField("url", nil, []string{}),
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("published_at", nil, []*time.Time{}),
+		data.NewField("repository", nil, []string{}),
 	)
 
 	for _, v := range c {
@@ -52,7 +52,6 @@ func (c Releases) Frames() data.Frames {
 
 		frame.AppendRow(
 			v.Name,
-			v.Repository.NameWithOwner,
 			v.Author.Login,
 			v.IsDraft,
 			v.IsPrerelease,
@@ -60,6 +59,7 @@ func (c Releases) Frames() data.Frames {
 			v.URL,
 			v.CreatedAt.Time,
 			publishedAt,
+			v.Repository.NameWithOwner,
 		)
 	}
 

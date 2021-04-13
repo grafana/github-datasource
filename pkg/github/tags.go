@@ -34,7 +34,6 @@ func (t Tags) Frames() data.Frames {
 		"tags",
 		data.NewField("name", nil, []string{}),
 		data.NewField("id", nil, []string{}),
-		data.NewField("repository", nil, []string{}),
 		data.NewField("author", nil, []string{}),
 		data.NewField("author_login", nil, []string{}),
 		data.NewField("author_email", nil, []string{}),
@@ -42,13 +41,13 @@ func (t Tags) Frames() data.Frames {
 		data.NewField("pushed_at", nil, []time.Time{}),
 		data.NewField("commited_at", nil, []time.Time{}),
 		data.NewField("commit_pushed_at", nil, []time.Time{}),
+		data.NewField("repository", nil, []string{}),
 	)
 
 	for _, v := range t {
 		frame.AppendRow(
 			v.Name,
 			v.Target.Commit.OID,
-			v.Repository.NameWithOwner,
 			v.Tagger.User.Name,
 			v.Tagger.User.Login,
 			v.Target.Commit.Author.Email,
@@ -56,6 +55,7 @@ func (t Tags) Frames() data.Frames {
 			v.Tagger.Date.Time,
 			v.Target.Commit.CommittedDate.Time,
 			v.Target.Commit.PushedDate.Time,
+			v.Repository.NameWithOwner,
 		)
 	}
 
