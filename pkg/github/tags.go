@@ -20,6 +20,9 @@ type Tag struct {
 		OID    string
 		Commit Commit `graphql:"... on Commit"`
 	}
+	Repository struct {
+		NameWithOwner string
+	}
 }
 
 // Tags is a list of GitHub tags
@@ -31,6 +34,7 @@ func (t Tags) Frames() data.Frames {
 		"tags",
 		data.NewField("name", nil, []string{}),
 		data.NewField("id", nil, []string{}),
+		data.NewField("repository", nil, []string{}),
 		data.NewField("author", nil, []string{}),
 		data.NewField("author_login", nil, []string{}),
 		data.NewField("author_email", nil, []string{}),
@@ -44,6 +48,7 @@ func (t Tags) Frames() data.Frames {
 		frame.AppendRow(
 			v.Name,
 			v.Target.Commit.OID,
+			v.Repository.NameWithOwner,
 			v.Tagger.User.Name,
 			v.Tagger.User.Login,
 			v.Target.Commit.Author.Email,

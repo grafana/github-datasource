@@ -20,6 +20,9 @@ type Release struct {
 	PublishedAt  githubv4.DateTime
 	TagName      string
 	URL          string
+	Repository   struct {
+		NameWithOwner string
+	}
 }
 
 // Releases is a slice of GitHub releases
@@ -30,6 +33,7 @@ func (c Releases) Frames() data.Frames {
 	frame := data.NewFrame(
 		"releases",
 		data.NewField("name", nil, []string{}),
+		data.NewField("repository", nil, []string{}),
 		data.NewField("created_by", nil, []string{}),
 		data.NewField("is_draft", nil, []bool{}),
 		data.NewField("is_prerelease", nil, []bool{}),
@@ -48,6 +52,7 @@ func (c Releases) Frames() data.Frames {
 
 		frame.AppendRow(
 			v.Name,
+			v.Repository.NameWithOwner,
 			v.Author.Login,
 			v.IsDraft,
 			v.IsPrerelease,

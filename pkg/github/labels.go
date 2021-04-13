@@ -35,6 +35,9 @@ type Label struct {
 	Color       string `json:"color"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	Repository  struct {
+		NameWithOwner string
+	}
 }
 
 // Labels is a list of GitHub labels
@@ -47,6 +50,7 @@ func (a Labels) Frames() data.Frames {
 		data.NewField("color", nil, []string{}),
 		data.NewField("name", nil, []string{}),
 		data.NewField("description", nil, []string{}),
+		data.NewField("repository", nil, []string{}),
 	)
 
 	for _, v := range a {
@@ -54,6 +58,7 @@ func (a Labels) Frames() data.Frames {
 			v.Color,
 			v.Name,
 			v.Description,
+			v.Repository.NameWithOwner,
 		)
 	}
 
