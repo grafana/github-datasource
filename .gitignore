@@ -7,3 +7,4 @@ dist/
 provisioning/
 cypress/screenshots/
 cypress/videos/
+cypress/report.json

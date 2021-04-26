@@ -1366,17 +1366,6 @@
     typescript "3.9.3"
     yaml "^1.8.3"
 
-"@grafana/e2e-selectors@7.4.1":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@grafana/e2e-selectors/-/e2e-selectors-7.4.1.tgz#ce5abc0ed7c0778748e46ee847c973a16e2a3fc0"
-  integrity sha512-FnVp5TFUImc3aolwnL/SZUtM0SXvzNFeV2PDTlQMx/wjqWjX9bvAj0yGxKjE5PGHDwrY9lJMHFD/xowkgOOT7Q==
-  dependencies:
-    "@grafana/tsconfig" "^1.0.0-rc1"
-    commander "5.0.0"
-    execa "4.0.0"
-    typescript "4.1.2"
-    yaml "^1.8.3"
-
 "@grafana/e2e-selectors@7.5.1":
   version "7.5.1"
   resolved "https://registry.yarnpkg.com/@grafana/e2e-selectors/-/e2e-selectors-7.5.1.tgz#711c7affc8b100473c8983db22d9c5ffb2bbe33e"
@@ -1388,13 +1377,13 @@
     typescript "4.1.2"
     yaml "^1.8.3"
 
-"@grafana/e2e@next":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@grafana/e2e/-/e2e-7.4.1.tgz#c49333e8df27157bad1fa0d7a345aa2eacb80ddc"
-  integrity sha512-7s9g9YkBzAIHoI1oukzplRVvrME2zhnWuDq0EwbdqbpKpgdTiztTVno4L0EYqWpKNvcKJjcB3V7/lrFKVTfeuQ==
+"@grafana/e2e@7.5.1":
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/@grafana/e2e/-/e2e-7.5.1.tgz#4589ab884200b6f62622815c667188420fcc653e"
+  integrity sha512-kDwwutprdNJotQ3xj35aUH4LTFmDrg8mxK6KLZdZvl5yBBnsqLyAnzMvmrxThezOGAHyMGWykokq2nHgBOy1og==
   dependencies:
     "@cypress/webpack-preprocessor" "4.1.3"
-    "@grafana/e2e-selectors" "7.4.1"
+    "@grafana/e2e-selectors" "7.5.1"
     "@grafana/tsconfig" "^1.0.0-rc1"
     "@mochajs/json-file-reporter" "^1.2.0"
     blink-diff "1.0.13"
@@ -4985,7 +4974,7 @@ cypress-file-upload@^4.0.7:
   dependencies:
     mime "^2.4.4"
 
-cypress@^6.3.0:
+cypress@6.4.0, cypress@^6.3.0:
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-6.4.0.tgz#432c516bf4f1a0f042a6aa1f2c3a4278fa35a8b2"
   integrity sha512-SrsPsZ4IBterudkoFYBvkQmXOVxclh1/+ytbzpV8AH/D2FA+s2Qy5ISsaRzOFsbQa4KZWoi3AKwREmF1HucYkg==
