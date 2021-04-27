@@ -5,6 +5,6 @@ dist/
 
 # e2e
 provisioning/
-cypress/screenshots/
+cypress/screenshots/actual
 cypress/videos/
 cypress/report.json
