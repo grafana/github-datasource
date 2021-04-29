@@ -53,7 +53,7 @@ func (c Issues) Frames() data.Frames {
 			v.Title,
 			v.Author.User.Login,
 			v.Author.User.Company,
-			fmt.Sprintf("%s/%s", v.Repository.Owner.Login, v.Repository.Name),
+			v.Repository.NameWithOwner,
 			v.Number,
 			v.Closed,
 			v.CreatedAt.Time,
