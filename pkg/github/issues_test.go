@@ -41,7 +41,8 @@ func TestIssuesDataframe(t *testing.T) {
 
 	issues := Issues{
 		Issue{
-			Title: "Issue #1",
+			Number: 1,
+			Title:  "Issue #1",
 			ClosedAt: githubv4.DateTime{
 				Time: time.Time{},
 			},
@@ -61,9 +62,25 @@ func TestIssuesDataframe(t *testing.T) {
 					URL:     "",
 				},
 			},
+			Repository: Repository{
+				Name: "grafana",
+				Owner: struct{ Login string }{
+					Login: "grafana",
+				},
+				NameWithOwner: "grafana/grafana",
+				URL:           "github.com/grafana/grafana",
+				ForkCount:     10,
+				IsFork:        true,
+				IsMirror:      true,
+				IsPrivate:     false,
+				CreatedAt: githubv4.DateTime{
+					Time: createdAt,
+				},
+			},
 		},
 		Issue{
-			Title: "Issue #2",
+			Number: 2,
+			Title:  "Issue #2",
 			ClosedAt: githubv4.DateTime{
 				Time: createdAt.Add(time.Hour * 6),
 			},
@@ -83,9 +100,25 @@ func TestIssuesDataframe(t *testing.T) {
 					URL:     "",
 				},
 			},
+			Repository: Repository{
+				Name: "grafana",
+				Owner: struct{ Login string }{
+					Login: "grafana",
+				},
+				NameWithOwner: "grafana/grafana",
+				URL:           "github.com/grafana/grafana",
+				ForkCount:     10,
+				IsFork:        true,
+				IsMirror:      true,
+				IsPrivate:     false,
+				CreatedAt: githubv4.DateTime{
+					Time: createdAt,
+				},
+			},
 		},
 		Issue{
-			Title: "Issue #3",
+			Number: 3,
+			Title:  "Issue #3",
 			ClosedAt: githubv4.DateTime{
 				Time: time.Time{},
 			},
@@ -103,6 +136,21 @@ func TestIssuesDataframe(t *testing.T) {
 					Company: "ACME Corp",
 					Email:   "first@example.com",
 					URL:     "",
+				},
+			},
+			Repository: Repository{
+				Name: "grafana",
+				Owner: struct{ Login string }{
+					Login: "grafana",
+				},
+				NameWithOwner: "grafana/grafana",
+				URL:           "github.com/grafana/grafana",
+				ForkCount:     10,
+				IsFork:        true,
+				IsMirror:      true,
+				IsPrivate:     false,
+				CreatedAt: githubv4.DateTime{
+					Time: createdAt,
 				},
 			},
 		},
