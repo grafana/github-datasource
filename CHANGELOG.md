@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.11] 2021-05-17
+
+- Added repository fields to the responses
+
 ## [1.0.10] 2021-04-01
 
 - Fixed issue where some time values were being renderred incorrectly
