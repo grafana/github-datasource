@@ -51,7 +51,7 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
               <li>read:packages</li>
             </ul>
             <ul>
-              <li>user:read</li>
+              <li>read:user</li>
               <li>user:email</li>
             </ul>
           </pre>
