@@ -15,13 +15,14 @@
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@grafana/data": "~7.2.0",
+    "@grafana/data": "7.5.1",
     "@grafana/e2e": "7.5.1",
-    "@grafana/runtime": "~7.2.0",
+    "@grafana/e2e-selectors": "7.5.1",
+    "@grafana/runtime": "7.5.1",
     "@grafana/toolkit": "7.5.1",
-    "@grafana/ui": "~7.2.0",
+    "@grafana/ui": "7.5.1",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@types/lodash": "latest",
-    "cypress": "6.4.0"
+    "cypress": "7.7.0"
   }
 }
