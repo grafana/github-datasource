@@ -1,25 +1,25 @@
 import {
   AnnotationEvent,
-  DataSourceInstanceSettings,
-  MetricFindValue,
-  DataQueryRequest,
-  DataQueryResponse,
   DataFrame,
   DataFrameView,
+  DataQueryRequest,
+  DataQueryResponse,
+  DataSourceInstanceSettings,
+  MetricFindValue,
   ScopedVars,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { GithubDataSourceOptions, Label, GitHubQuery, GitHubVariableQuery } from './types';
+import { GithubDataSourceOptions, GitHubQuery, GitHubVariableQuery, Label } from './types';
 import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 
 export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
+  templateSrv = getTemplateSrv();
+
   constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
     super(instanceSettings);
   }
-
-  templateSrv = getTemplateSrv();
 
   // Only execute queries that have a query type
   filterQuery = (query: GitHubQuery) => {
@@ -46,6 +46,7 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
         {
           ...annotation,
           datasourceId: this.id,
+          refId: this.name,
         },
       ],
       range: request.range,
