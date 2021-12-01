@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.12] 2021-12-01
+
+- Added refId in annotation queries
+
 ## [1.0.11] 2021-05-17
 
 - Added repository fields to the responses
@@ -20,7 +24,8 @@
 
 ## [1.0.7] 2020-12-07
 
-- Added Tags to the list of queryable resources in the AnnotationsQueryEditor (thanks [@nazzzzz](https://github.com/nazzzzz))
+- Added Tags to the list of queryable resources in the AnnotationsQueryEditor (
+  thanks [@nazzzzz](https://github.com/nazzzzz))
 
 ## [1.0.6] 2020-09-24
 
