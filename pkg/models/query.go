@@ -25,6 +25,8 @@ const (
 	QueryTypePackages = "Packages"
 	// QueryTypeMilestones is used when querying for milestones in a repository
 	QueryTypeMilestones = "Milestones"
+	//
+	QueryTypeVulnerabilities = "Vulnerabilities"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -91,6 +93,11 @@ type PackagesQuery struct {
 
 // MilestonesQuery is used when querying for GitHub milestones
 type MilestonesQuery struct {
+	Query
+	Options ListMilestonesOptions `json:"options"`
+}
+
+type VulnerabilityQuery struct {
 	Query
 	Options ListMilestonesOptions `json:"options"`
 }

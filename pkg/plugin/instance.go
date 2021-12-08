@@ -66,6 +66,11 @@ func (i *Instance) HandleMilestonesQuery(ctx context.Context, q *models.Mileston
 	return i.Datasource.HandleMilestonesQuery(ctx, q, req)
 }
 
+// HandleVulnerabilitiesQuery ...
+func (i *Instance) HandleVulnerabilitiesQuery(ctx context.Context, q *models.VulnerabilityQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	return i.Datasource.HandleVulnerabilitiesQuery(ctx, q, req)
+}
+
 // CheckHealth ...
 func (i *Instance) CheckHealth(ctx context.Context) error {
 	return i.Datasource.CheckHealth(ctx)

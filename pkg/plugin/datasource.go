@@ -20,6 +20,7 @@ type Datasource interface {
 	HandleLabelsQuery(context.Context, *models.LabelsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandlePackagesQuery(context.Context, *models.PackagesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleMilestonesQuery(context.Context, *models.MilestonesQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleVulnerabilitiesQuery(context.Context, *models.VulnerabilityQuery, backend.DataQuery) (dfutil.Framer, error)
 	CheckHealth(context.Context) error
 }
 
@@ -41,7 +42,7 @@ func CheckHealth(ctx context.Context, d Datasource, req *backend.CheckHealthRequ
 		}, nil
 	}
 	return &backend.CheckHealthResult{
-		Status: backend.HealthStatusOk,
+		Status:  backend.HealthStatusOk,
 		Message: backend.HealthStatusOk.String(),
 	}, nil
 }
