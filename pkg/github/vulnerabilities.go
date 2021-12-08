@@ -5,6 +5,8 @@ import (
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/pkg/errors"
+	"github.com/shurcooL/githubv4"
 )
 
 // QueryListLabels lists all labels in a repository
@@ -19,19 +21,37 @@ import (
 //     }
 //   }
 // }
+
+// {
+//     repository(name: "repo-name", owner: "repo-owner") {
+//         vulnerabilityAlerts(first: 100) {
+//             nodes {
+//                 createdAt
+//                 dismissedAt
+//                 securityVulnerability {
+//                     package {
+//                         name
+//                     }
+//                     advisory {
+//                         description
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
 type QueryListVulnerabilities struct {
 	Repository struct {
-		Vulnerabilities struct {
+		VulnerabilityAlerts struct {
 			Nodes    Vulnerabilities
 			PageInfo PageInfo
-		} `graphql:"xxx(first: 100, after: $cursor, query: $query)"`
+		} `graphql:"vulnerabilityAlerts(first: 100, after: $cursor)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
-// Label is a GitHub label used in Issues / Pull Requests
 type Vulnerability struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	CreatedAt githubv4.DateTime
 }
 
 // Labels is a list of GitHub labels
@@ -47,8 +67,7 @@ func (a Vulnerabilities) Frames() data.Frames {
 
 	for _, v := range a {
 		frame.AppendRow(
-			v.Name,
-			v.Description,
+			v.CreatedAt,
 		)
 	}
 
@@ -57,38 +76,29 @@ func (a Vulnerabilities) Frames() data.Frames {
 
 // GetAllVulnerabilities gets all vulnerabilities from a GitHub repository
 func GetAllVulnerabilities(ctx context.Context, client Client, opts models.ListVulnerabilitiesOptions) (Vulnerabilities, error) {
-	// var (
-	// 	variables = map[string]interface{}{
-	// 		"cursor": (*githubv4.String)(nil),
-	// 		"query":  githubv4.String(opts.Query),
-	// 		"owner":  githubv4.String(opts.Owner),
-	// 		"name":   githubv4.String(opts.Repository),
-	// 	}
+	var (
+		variables = map[string]interface{}{
+			"cursor": (*githubv4.String)(nil),
+			"owner":  githubv4.String(opts.Owner),
+			"name":   githubv4.String(opts.Repository),
+		}
 
-	// 	vuln = Vulnerabilities{}
-	// )
+		vuln = Vulnerabilities{}
+	)
 
-	// for {
-	// 	q := &QueryListVulnerabilities{}
-	// 	if err := client.Query(ctx, q, variables); err != nil {
-	// 		return nil, errors.WithStack(err)
-	// 	}
+	for {
+		q := &QueryListVulnerabilities{}
+		if err := client.Query(ctx, q, variables); err != nil {
+			return nil, errors.WithStack(err)
+		}
 
-	// 	vuln = append(vuln, q.Repository.Vulnerabilities.Nodes...)
+		vuln = append(vuln, q.Repository.VulnerabilityAlerts.Nodes...)
 
-	// 	if !q.Repository.Vulnerabilities.PageInfo.HasNextPage {
-	// 		break
-	// 	}
-	// 	variables["cursor"] = q.Repository.Vulnerabilities.PageInfo.EndCursor
-	// }
-
-	temp := []Vulnerability{}
-	v := Vulnerability{
-		Name:        "test",
-		Description: "description",
+		if !q.Repository.VulnerabilityAlerts.PageInfo.HasNextPage {
+			break
+		}
+		variables["cursor"] = q.Repository.VulnerabilityAlerts.PageInfo.EndCursor
 	}
 
-	temp = append(temp, v)
-
-	return temp, nil
+	return vuln, nil
 }

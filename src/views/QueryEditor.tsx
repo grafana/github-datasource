@@ -17,6 +17,7 @@ import QueryEditorTags from './QueryEditorTags';
 import QueryEditorContributors from './QueryEditorContributors';
 import QueryEditorLabels from './QueryEditorLabels';
 import QueryEditorPackages from './QueryEditorPackages';
+import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
 
 interface Props extends QueryEditorProps<DataSource, GitHubQuery, GithubDataSourceOptions> {
   queryTypes?: string[];
@@ -70,6 +71,11 @@ const queryEditors: {
   [QueryType.Pull_Requests]: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorPullRequests {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  [QueryType.Vulnerabilities]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorVulnerabilities {...(props.query.options || {})} onChange={onChange} />
     ),
   },
 };

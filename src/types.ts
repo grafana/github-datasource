@@ -37,6 +37,7 @@ export enum QueryType {
   GraphQL = 'GraphQL',
   Milestones = 'Milestones',
   Packages = 'Packages',
+  Vulnerabilities = 'Vulnerabilities',
 }
 
 export enum PackageType {
