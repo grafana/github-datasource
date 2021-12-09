@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"time"
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
@@ -51,7 +52,38 @@ type QueryListVulnerabilities struct {
 }
 
 type Vulnerability struct {
-	CreatedAt githubv4.DateTime
+	CreatedAt             githubv4.DateTime
+	DismissedAt           githubv4.DateTime
+	DismissReason         string
+	SecurityVulnerability securityVulnerability
+}
+
+type securityVulnerability struct {
+	Package                SecurityAdvisoryPackage
+	Advisory               SecurityAdvisory
+	FirstPatchedVersion    SecurityAdvisoryPackageVersion
+	VulnerableVersionRange string
+}
+
+type SecurityAdvisoryPackageVersion struct {
+	Identifier string
+}
+
+type SecurityAdvisory struct {
+	Description string
+	Cvss        CVSS
+	Permalink   string
+	Severity    githubv4.SecurityAdvisorySeverity
+	WithdrawnAt githubv4.DateTime
+}
+
+type CVSS struct {
+	Score        float64
+	VectorString string
+}
+
+type SecurityAdvisoryPackage struct {
+	Name string
 }
 
 // Labels is a list of GitHub labels
@@ -61,13 +93,58 @@ type Vulnerabilities []Vulnerability
 func (a Vulnerabilities) Frames() data.Frames {
 	frame := data.NewFrame(
 		"vulnerabilities",
-		data.NewField("name", nil, []string{}),
-		data.NewField("description", nil, []string{}),
+		data.NewField("value", nil, []int64{}),
+		data.NewField("created_at", nil, []*time.Time{}),
+		data.NewField("dismissed_at", nil, []*time.Time{}),
+		data.NewField("dismissReason", nil, []string{}),
+		data.NewField("withdrawnAt", nil, []*time.Time{}),
+		data.NewField("packageName", nil, []string{}),
+		data.NewField("advisoryDescription", nil, []string{}),
+		data.NewField("firstPatchedVersion", nil, []string{}),
+		data.NewField("vulnerableVersionRange", nil, []string{}),
+		data.NewField("cvssScore", nil, []float64{}),
+		data.NewField("cvssVector", nil, []string{}),
+		data.NewField("permalink", nil, []string{}),
+		data.NewField("severity", nil, []string{}),
 	)
 
 	for _, v := range a {
+
+		var (
+			createdAt   *time.Time
+			dismissedAt *time.Time
+			withdrawnAt *time.Time
+		)
+
+		if !v.CreatedAt.IsZero() {
+			t := v.CreatedAt.Time
+			createdAt = &t
+		}
+
+		if !v.DismissedAt.IsZero() {
+			t := v.DismissedAt.Time
+			dismissedAt = &t
+		}
+
+		if !v.SecurityVulnerability.Advisory.WithdrawnAt.IsZero() {
+			t := v.SecurityVulnerability.Advisory.WithdrawnAt.Time
+			withdrawnAt = &t
+		}
+
 		frame.AppendRow(
-			v.CreatedAt,
+			int64(1),
+			createdAt,
+			dismissedAt,
+			v.DismissReason,
+			withdrawnAt,
+			v.SecurityVulnerability.Package.Name,
+			v.SecurityVulnerability.Advisory.Description,
+			v.SecurityVulnerability.FirstPatchedVersion.Identifier,
+			v.SecurityVulnerability.VulnerableVersionRange,
+			v.SecurityVulnerability.Advisory.Cvss.Score,
+			v.SecurityVulnerability.Advisory.Cvss.VectorString,
+			v.SecurityVulnerability.Advisory.Permalink,
+			string(v.SecurityVulnerability.Advisory.Severity),
 		)
 	}
 
