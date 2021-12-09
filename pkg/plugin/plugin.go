@@ -2,6 +2,7 @@ package plugin
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	dserrors "github.com/grafana/github-datasource/pkg/errors"
@@ -27,6 +28,12 @@ func (cr *Handler) QueryData(ctx context.Context, req *backend.QueryDataRequest)
 	h, err := cr.im.Get(req.PluginContext)
 	if err != nil {
 		return nil, err
+	}
+
+	fmt.Println("Headers: %+v\n", req.Headers)
+
+	if req.Headers["x-experiment-feature1"] == "true" {
+		return nil, dserrors.ErrorQueryTypeUnimplemented
 	}
 
 	if val, ok := h.(*Instance); ok {
