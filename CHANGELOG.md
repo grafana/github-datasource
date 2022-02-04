@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.13] 2021-12-01
+
+- Fixed a bug where dashboard variables could not be set properly
+
 ## [1.0.12] 2021-12-01
 
 - Added refId in annotation queries
