@@ -5,6 +5,7 @@ import (
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+	"github.com/pkg/errors"
 	"github.com/shurcooL/githubv4"
 )
 
@@ -93,12 +94,20 @@ type QueryListContributors struct {
 
 // GetAllContributors lists all of the git contributors in a a repository
 func GetAllContributors(ctx context.Context, client Client, opts models.ListContributorsOptions) (Users, error) {
+	querystring := ""
+	if opts.Query != nil {
+		querystring = *opts.Query
+	}
+	queryString, err := InterPolateMacros(querystring)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
 			"name":   githubv4.String(opts.Repository),
 			"owner":  githubv4.String(opts.Owner),
-			"query":  (*githubv4.String)(opts.Query),
+			"query":  githubv4.String(queryString),
 		}
 		users = []User{}
 	)

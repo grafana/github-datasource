@@ -1,12 +1,11 @@
 # Grafana GitHub datasource
 
-[![CircleCI](https://circleci.com/gh/grafana/github-datasource.svg?style=svg)](https://circleci.com/gh/grafana/github-datasource)
 [![Known Vulnerabilities](https://snyk.io/test/github/grafana/github-datasource/badge.svg)](https://snyk.io/test/github/grafana/github-datasource)
-
 [![Maintainability](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/maintainability)](https://codeclimate.com/github/grafana/github-datasource/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/test_coverage)](https://codeclimate.com/github/grafana/github-datasource/test_coverage)
 
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
+
 ## Github API V4 (graphql)
 
 This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
@@ -14,20 +13,22 @@ This datasource uses the [`githubv4` package](https://github.com/shurcooL/github
 ## Features
 
 ### Backend
-* [x] Releases
-* [x] Commits
-* [x] Repositories
-* [x] Issues
-* [x] Organizations
-* [x] Labels
-* [x] Milestones
-* [x] Response Caching
-* [ ] Deploys
+
+- [x] Releases
+- [x] Commits
+- [x] Repositories
+- [x] Issues
+- [x] Organizations
+- [x] Labels
+- [x] Milestones
+- [x] Response Caching
+- [ ] Deploys
 
 ### Frontend
-* [x] Visualize queries
-* [x] Template variables
-* [x] Annotations
+
+- [x] Visualize queries
+- [x] Template variables
+- [x] Annotations
 
 ## Caching
 
@@ -37,12 +38,12 @@ Caching on this plugin is always enabled.
 
 Options:
 
-| Setting | Required |
-|---------|----------|
-| Access token | true |
-| Default Organization | false |
-| Default Repository | true |
-| Github Enterprise URL | false |
+| Setting               | Required |
+| --------------------- | -------- |
+| Access token          | true     |
+| Default Organization  | false    |
+| Default Repository    | true     |
+| Github Enterprise URL | false    |
 
 To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and create a click "Generate new token."
 
@@ -54,15 +55,15 @@ Annotations overlay events on a graph.
 
 With annotations, you can display:
 
-* Commits
-* Issues
-* Pull Requests
-* Releases
-* Tags
+- Commits
+- Issues
+- Pull Requests
+- Releases
+- Tags
 
 on a graph.
 
-All annotations require that you select a field to display on the annotation, and a field that represents the time that the event occured.
+All annotations require that you select a field to display on the annotation, and a field that represents the time that the event occurred.
 
 ![Annotations editor](https://github.com/grafana/github-datasource/raw/main/docs/screenshots/annotations-editor.png)
 
@@ -76,20 +77,29 @@ You can reference them inside queries, allowing users to configure parameters su
 
 ![Using Variables inside queries](https://github.com/grafana/github-datasource/raw/main/docs/screenshots/using-variables.png)
 
+## Macros
+
+You can use the following macros in your queries
+
+| Macro Name | Syntax                     | Description                                                          | Example                                                                              |
+| ---------- | -------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| multiVar   | `$__multiVar(prefix,$var)` | Expands a multi value variable into github query string              | `$__multiVar(label,$labels)` will expand into `label:first-label label:second-label` |
+|            |                            | When using **all** in multi variable, use **\*** as custom all value |                                                                                      |
 
 ## Access Token Permissions
 
 For all repositories:
-* `public_repo`
-* `repo:status`
-* `repo_deployment`
-* `read:packages`
 
-* `user:read`
-* `user:email`
+- `public_repo`
+- `repo:status`
+- `repo_deployment`
+- `read:packages`
+- `user:read`
+- `user:email`
 
 An extra setting is required for private repositories
-* `repo (Full control of private repositories)`
+
+- `repo (Full control of private repositories)`
 
 ## Sample Dashboard
 
@@ -107,20 +117,20 @@ Copy the JSON in `./src/dashboards/dashboard.json`, and paste it into the "Impor
 
 ## Frequently Asked Questions
 
-* **I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?**
+- **I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?**
 
 No. This requires changes in Grafana first. See [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
 
-* **Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?**
+- **Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?**
 
 We have aggressive caching enabled due to GitHub's rate limiting policies. When selecting a time range like "Last hour", a combination of the queries for each panel and the time range is cached temporarily.
 
-* **Why are there two selection options for Pull Requests and Issue times when creating annotations?**
+- **Why are there two selection options for Pull Requests and Issue times when creating annotations?**
 
 There are two times that affect an annotation:
 
-* The time range of the dashboard or panel
-* The time that should be used to display the event on the graph
+- The time range of the dashboard or panel
+- The time that should be used to display the event on the graph
 
 The first selection is used to filter the events that display on the graph. For example, if you select "closed at", only events that were "closed" in your dashboard's time range will be displayed on the graph.
 

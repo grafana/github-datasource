@@ -92,7 +92,11 @@ func GetIssuesInRange(ctx context.Context, client Client, opts models.ListIssues
 	}
 
 	if opts.Query != nil {
-		search = append(search, *opts.Query)
+		queryString, err := InterPolateMacros(*opts.Query)
+		if err != nil {
+			return nil, errors.WithStack(err)
+		}
+		search = append(search, queryString)
 	}
 
 	var (
