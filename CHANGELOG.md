@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.14] 2022-04-25
+
+- Added a `$__multiVar()` macro support
+
 ## [1.0.13] 2021-12-01
 
 - Fixed a bug where dashboard variables could not be set properly

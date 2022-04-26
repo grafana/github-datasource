@@ -91,10 +91,14 @@ func (m Milestones) Frames() data.Frames {
 
 // GetAllMilestones lists milestones in a repository
 func GetAllMilestones(ctx context.Context, client Client, opts models.ListMilestonesOptions) (Milestones, error) {
+	queryString, err := InterPolateMacros(opts.Query)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
-			"query":  githubv4.String(opts.Query),
+			"query":  githubv4.String(queryString),
 			"owner":  githubv4.String(opts.Owner),
 			"name":   githubv4.String(opts.Repository),
 		}

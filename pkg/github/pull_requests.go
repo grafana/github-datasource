@@ -204,7 +204,11 @@ func buildQuery(opts models.ListPullRequestsOptions) string {
 	}
 
 	if opts.Query != nil {
-		search = append(search, *opts.Query)
+		queryString, err := InterPolateMacros(*opts.Query)
+		if err != nil {
+			return strings.Join(search, " ")
+		}
+		search = append(search, queryString)
 	}
 
 	return strings.Join(search, " ")
