@@ -32,18 +32,18 @@ func InterPolateMacros(query string) (string, error) {
 		"multiVar": func(query string, args []string) (string, error) {
 			out := ""
 			prop := ""
+			if len(args) <= 1 {
+				return query, errors.New("insufficient arguments to multiVar")
+			}
+			if len(args) == 2 && args[1] == "*" {
+				return "", nil
+			}
 			for idx, arg := range args {
 				if idx == 0 {
 					prop = arg
 					continue
 				}
 				out = strings.Trim(fmt.Sprintf("%s %s:%s", out, prop, arg), " ")
-			}
-			if len(args) <= 1 {
-				return query, errors.New("insufficient arguments to multiVar")
-			}
-			if len(args) == 2 && args[1] == "*" {
-				return "", nil
 			}
 			return out, nil
 		},
