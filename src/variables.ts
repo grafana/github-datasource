@@ -15,7 +15,7 @@ export const replaceVariables = (t: TemplateSrv, query: GitHubQuery, scoped: Sco
   let updatedQuery = { ...query };
   updatedQuery = interpolateObject(updatedQuery, t, scoped);
   if (query.options) {
-    updatedQuery = { ...query, options: interpolateObject(query.options, t, scoped) };
+    updatedQuery = { ...updatedQuery, options: interpolateObject(query.options, t, scoped) };
   }
   return updatedQuery;
 };

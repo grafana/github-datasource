@@ -30,4 +30,17 @@ describe('variables', () => {
     expect(t.replace).toHaveBeenNthCalledWith(5, 'options_myQuery', {}, 'csv');
     expect(t.replace).toHaveBeenNthCalledWith(6, 'options_bar2', {}, undefined);
   });
+
+  it('should interpolate variables in options as well', () => {
+    const t = { replace: jest.fn((a: string) => a.slice(1, a.length)), getVariables: jest.fn() };
+    const query: GitHubQuery = {
+      refId: 'A',
+      foo: '$bar',
+      query: 'myQuery',
+      options: { foo: '$options_bar' },
+    };
+    const result = replaceVariables(t, query, {});
+    expect(result['foo']).toBe('bar');
+    expect(result.options?.['foo']).toBe('options_bar');
+  });
 });
