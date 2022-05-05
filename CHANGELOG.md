@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.0.15] 2022-05-05
+
+- Fix variable interpolation
+
 ## [1.0.14] 2022-04-25
 
 - Added a `$__multiVar()` macro support
