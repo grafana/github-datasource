@@ -9,18 +9,19 @@
       "pluginName": "GitHub"
     }
   ],
+  "__elements": [],
   "__requires": [
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "7.4.3"
+      "version": "8.5.0"
     },
     {
       "type": "datasource",
       "id": "grafana-github-datasource",
       "name": "GitHub",
-      "version": "1.0.6"
+      "version": "1.0.8"
     },
     {
       "type": "panel",
@@ -39,11 +40,20 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       },
       {
@@ -59,7 +69,9 @@
           "repository": "$repository",
           "timeField": "created_at"
         },
-        "datasource": "$datasource",
+        "datasource": {
+          "uid": "$datasource"
+        },
         "datasourceId": 10,
         "enable": true,
         "hide": false,
@@ -82,7 +94,9 @@
           "repository": "$repository",
           "timeField": "closed_at"
         },
-        "datasource": "$datasource",
+        "datasource": {
+          "uid": "$datasource"
+        },
         "datasourceId": 10,
         "enable": true,
         "hide": false,
@@ -101,7 +115,9 @@
           "repository": "$repository",
           "timeField": "published_at"
         },
-        "datasource": "$datasource",
+        "datasource": {
+          "uid": "$datasource"
+        },
         "datasourceId": 10,
         "enable": true,
         "hide": false,
@@ -113,15 +129,19 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1614797573914,
+  "iteration": 1654462304304,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
-      "datasource": "${DS_GITHUB}",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "${DS_GITHUB}"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -134,10 +154,11 @@
       "type": "row"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -177,7 +198,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -189,8 +210,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Commits",
       "transformations": [
         {
@@ -205,10 +224,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -248,7 +268,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "owner": "$organization",
@@ -257,8 +277,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Releases",
       "transformations": [
         {
@@ -273,10 +291,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -316,7 +335,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "owner": "$organization",
@@ -325,8 +344,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Tags",
       "transformations": [
         {
@@ -342,7 +359,10 @@
     },
     {
       "collapsed": false,
-      "datasource": "${DS_GITHUB}",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "${DS_GITHUB}"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -355,10 +375,11 @@
       "type": "row"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -394,7 +415,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -407,8 +428,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Pull Requests Created",
       "transformations": [
         {
@@ -423,10 +442,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -470,7 +490,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -483,8 +503,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Active Pull Requests",
       "transformations": [
         {
@@ -499,10 +517,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -543,7 +562,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -556,10 +575,19 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "PR average open time",
       "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "locked",
+                "open_time"
+              ]
+            }
+          }
+        },
         {
           "id": "reduce",
           "options": {
@@ -572,10 +600,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -616,7 +645,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -629,10 +658,18 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Active PR Open Time",
       "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "open_time"
+              ]
+            }
+          }
+        },
         {
           "id": "reduce",
           "options": {
@@ -646,7 +683,10 @@
     },
     {
       "collapsed": false,
-      "datasource": "${DS_GITHUB}",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "${DS_GITHUB}"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -659,10 +699,11 @@
       "type": "row"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -702,7 +743,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -714,8 +755,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Issues Created",
       "transformations": [
         {
@@ -730,10 +769,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -777,7 +817,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -789,8 +829,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Active Issues",
       "transformations": [
         {
@@ -805,10 +843,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -823,7 +862,7 @@
               }
             ]
           },
-          "unit": "s"
+          "unit": "ms"
         },
         "overrides": []
       },
@@ -849,7 +888,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -862,10 +901,24 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Issues Average Open Time (Closed issues)",
       "transformations": [
+        {
+          "id": "calculateField",
+          "options": {
+            "binary": {
+              "left": "closed_at",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "created_at"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            },
+            "replaceFields": true
+          }
+        },
         {
           "id": "reduce",
           "options": {
@@ -878,10 +931,11 @@
       "type": "stat"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -921,7 +975,7 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -933,8 +987,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Issues Created in Milestone",
       "transformations": [
         {
@@ -950,7 +1002,10 @@
     },
     {
       "collapsed": false,
-      "datasource": "${DS_GITHUB}",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "${DS_GITHUB}"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -963,12 +1018,15 @@
       "type": "row"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1020,10 +1078,17 @@
       },
       "id": 2,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -1035,18 +1100,19 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Commits",
       "type": "table"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1086,10 +1152,17 @@
       },
       "id": 12,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -1101,18 +1174,19 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Issues",
       "type": "table"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1164,10 +1238,17 @@
       },
       "id": 13,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -1179,8 +1260,6 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Pull Requests",
       "transformations": [
         {
@@ -1201,12 +1280,15 @@
       "type": "table"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1258,10 +1340,17 @@
       },
       "id": 17,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -1273,18 +1362,19 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Contributors",
       "type": "table"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1311,9 +1401,16 @@
       },
       "id": 24,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -1325,18 +1422,19 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Milestones",
       "type": "table"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1363,6 +1461,13 @@
       },
       "id": 18,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": [
           {
@@ -1371,7 +1476,7 @@
           }
         ]
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "owner": "$organization",
@@ -1380,18 +1485,19 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Releases",
       "type": "table"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1431,10 +1537,17 @@
       },
       "id": 11,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "owner": "$organization",
@@ -1443,18 +1556,19 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Tags",
       "type": "table"
     },
     {
-      "datasource": "$datasource",
+      "datasource": {
+        "uid": "$datasource"
+      },
       "fieldConfig": {
         "defaults": {
           "custom": {
-            "align": null,
-            "filterable": false
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
           },
           "mappings": [],
           "thresholds": {
@@ -1481,9 +1595,16 @@
       },
       "id": 23,
       "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "8.5.0",
       "targets": [
         {
           "options": {
@@ -1496,14 +1617,12 @@
           "repository": "$repository"
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Packages",
       "type": "table"
     }
   ],
   "refresh": false,
-  "schemaVersion": 27,
+  "schemaVersion": 36,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1514,11 +1633,8 @@
           "text": "GitHub",
           "value": "GitHub"
         },
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": null,
         "multi": false,
         "name": "datasource",
         "options": [],
@@ -1535,8 +1651,6 @@
           "text": "grafana",
           "value": "grafana"
         },
-        "description": null,
-        "error": null,
         "hide": 0,
         "label": "Organization",
         "name": "organization",
@@ -1552,12 +1666,12 @@
         "type": "textbox"
       },
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_GITHUB}",
+        "datasource": {
+          "type": "grafana-github-datasource",
+          "uid": "${DS_GITHUB}"
+        },
         "definition": "GitHub - Repositories",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Repository",
@@ -1575,7 +1689,6 @@
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -1583,10 +1696,11 @@
       {
         "allValue": "",
         "current": {},
-        "datasource": "${DS_GITHUB}",
+        "datasource": {
+          "type": "grafana-github-datasource",
+          "uid": "${DS_GITHUB}"
+        },
         "definition": "GitHub - Labels",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Labels",
@@ -1604,20 +1718,16 @@
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
       },
       {
-        "allValue": null,
         "current": {
           "selected": true,
           "text": "master",
           "value": "master"
         },
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Branch",
@@ -1636,12 +1746,12 @@
         "type": "custom"
       },
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_GITHUB}",
+        "datasource": {
+          "type": "grafana-github-datasource",
+          "uid": "${DS_GITHUB}"
+        },
         "definition": "GitHub - Milestones",
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": true,
         "label": "Milestone",
@@ -1659,7 +1769,6 @@
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -1687,5 +1796,6 @@
   "timezone": "",
   "title": "GitHub Default",
   "uid": "iVcSTeyGz",
-  "version": 3
+  "version": 2,
+  "weekStart": ""
 }
