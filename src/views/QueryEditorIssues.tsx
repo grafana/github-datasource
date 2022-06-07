@@ -47,7 +47,7 @@ const QueryEditorIssues = (props: Props) => {
       <QueryInlineField
         labelWidth={LeftColumnWidth}
         label="Time Field"
-        tooltip="The time field to filter on th time range"
+        tooltip="The time field to filter on the time range"
       >
         <Select
           width={RightColumnWidth}
