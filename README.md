@@ -49,7 +49,7 @@ To create a new Access Token, navigate to [Personal Access Tokens](https://githu
 
 ### Data source with provisioning
 [It’s now possible to configure data sources using config files with Grafana’s provisioning system.](https://grafana.com/docs/grafana/latest/datasources/elasticsearch/#configure-the-data-source-with-provisioning)
-If you, for example, want to provision this data source with the [prom-operator](https://github.com/prometheus-operator/prometheus-operator), you need to additionally define the type and config as follows:
+#### With the [prom-operator](https://github.com/prometheus-operator/prometheus-operator)
 ```yaml
 promop:
     grafana:
