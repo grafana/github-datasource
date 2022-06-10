@@ -46,6 +46,21 @@ Options:
 | Github Enterprise URL | false    |
 
 To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and create a click "Generate new token."
+### Provisioning
+[It’s possible to configure data sources using config files with Grafana’s provisioning system](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
+#### With the [prom-operator](https://github.com/prometheus-operator/prometheus-operator)
+```yaml
+promop:
+    grafana:
+        additionalDataSources:
+            - name: GitHub Repo Insights
+              type: grafana-github-datasource
+              jsonData:
+                  owner: ""
+                  repository: ""
+              secureJsonData:
+                  accessToken: "<github api token>"
+```
 
 ## Annotations
 
