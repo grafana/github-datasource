@@ -110,7 +110,7 @@ func (p PullRequests) Frames() data.Frames {
 		}
 
 		if mergedAt != nil {
-			secondsOpen = v.ClosedAt.UTC().Sub(v.MergedAt.UTC()).Seconds()
+			secondsOpen = v.MergedAt.UTC().Sub(v.CreatedAt.UTC()).Seconds()
 		}
 
 		frame.AppendRow(

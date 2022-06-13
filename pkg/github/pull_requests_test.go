@@ -77,10 +77,10 @@ func TestPullRequestsDataFrame(t *testing.T) {
 				Time: openedAt,
 			},
 			MergedAt: githubv4.DateTime{
-				Time: openedAt.Add(-100 * time.Minute),
+				Time: openedAt.Add(100 * time.Minute),
 			},
 			ClosedAt: githubv4.DateTime{
-				Time: openedAt.Add(-100 * time.Minute),
+				Time: openedAt.Add(100 * time.Minute),
 			},
 			Mergeable: githubv4.MergeableStateMergeable,
 			MergedBy:  nil,
@@ -101,10 +101,10 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			Locked:  false,
 			Merged:  true,
 			MergedAt: githubv4.DateTime{
-				Time: openedAt.Add(-100 * time.Minute),
+				Time: openedAt.Add(100 * time.Minute),
 			},
 			ClosedAt: githubv4.DateTime{
-				Time: openedAt.Add(-100 * time.Minute),
+				Time: openedAt.Add(100 * time.Minute),
 			},
 			CreatedAt: githubv4.DateTime{
 				Time: openedAt,
@@ -133,7 +133,7 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			Locked:  false,
 			Merged:  false,
 			MergedAt: githubv4.DateTime{
-				Time: openedAt.Add(-100 * time.Minute),
+				Time: openedAt.Add(100 * time.Minute),
 			},
 			ClosedAt: githubv4.DateTime{},
 			CreatedAt: githubv4.DateTime{
