@@ -22,7 +22,6 @@ import (
 //     }
 //   }
 // }
-
 // {
 //     repository(name: "repo-name", owner: "repo-owner") {
 //         vulnerabilityAlerts(first: 100) {
