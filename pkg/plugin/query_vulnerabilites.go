@@ -16,7 +16,7 @@ func (s *Server) handleVulnerabilitesQuery(ctx context.Context, q backend.DataQu
 	return dfutil.FrameResponseWithError(s.Datasource.HandleVulnerabilitiesQuery(ctx, query, q))
 }
 
-// HandlePackages handles the plugin query for github Packages
+// HandleVulnerabilitites handles the plugin query for github Vulnerabilitites
 func (s *Server) HandleVulnerabilitites(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleVulnerabilitesQuery),
