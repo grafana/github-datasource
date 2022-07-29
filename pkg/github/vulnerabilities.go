@@ -10,7 +10,7 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-// QueryListLabels lists all labels in a repository
+// QueryListVulnerabilities lists all labels in a repository
 // {
 //   repository(name: "grafana", owner: "grafana") {
 //     labels(first: 100) {
@@ -41,7 +41,6 @@ import (
 //         }
 //     }
 // }
-
 type QueryListVulnerabilities struct {
 	Repository struct {
 		VulnerabilityAlerts struct {
@@ -51,6 +50,7 @@ type QueryListVulnerabilities struct {
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
+// Vulnerability is used to collect Vulnerability information about GitHub
 type Vulnerability struct {
 	CreatedAt             githubv4.DateTime
 	DismissedAt           githubv4.DateTime
@@ -58,6 +58,7 @@ type Vulnerability struct {
 	SecurityVulnerability securityVulnerability
 }
 
+// securityVulnerability has all the security information
 type securityVulnerability struct {
 	Package                SecurityAdvisoryPackage
 	Advisory               SecurityAdvisory
@@ -65,10 +66,12 @@ type securityVulnerability struct {
 	VulnerableVersionRange string
 }
 
+// SecurityAdvisoryPackageVersion is a struct with an idenifyier to identify the package
 type SecurityAdvisoryPackageVersion struct {
 	Identifier string
 }
 
+// SecurityAdvisory is the main security report for a vulnerability in a repository
 type SecurityAdvisory struct {
 	Description string
 	Cvss        CVSS
@@ -77,19 +80,21 @@ type SecurityAdvisory struct {
 	WithdrawnAt githubv4.DateTime
 }
 
+// CVSS is a way of grading the severity of a vulnerability
 type CVSS struct {
 	Score        float64
 	VectorString string
 }
 
+// SecurityAdvisoryPackage is an object to share the name of the package that is impacted
 type SecurityAdvisoryPackage struct {
 	Name string
 }
 
-// Labels is a list of GitHub labels
+// Vulnerabilities is a list of GitHub vulnerabilities
 type Vulnerabilities []Vulnerability
 
-// Frames converts the list of labels to a Grafana DataFrame
+// Frames converts the list of vulnerabilities to a Grafana DataFrame
 func (a Vulnerabilities) Frames() data.Frames {
 	frame := data.NewFrame(
 		"vulnerabilities",

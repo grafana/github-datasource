@@ -25,7 +25,7 @@ const (
 	QueryTypePackages = "Packages"
 	// QueryTypeMilestones is used when querying for milestones in a repository
 	QueryTypeMilestones = "Milestones"
-	//
+	// QueryTypeVulnerabilities is used when querying a vulnerability for a repository
 	QueryTypeVulnerabilities = "Vulnerabilities"
 )
 
@@ -97,6 +97,7 @@ type MilestonesQuery struct {
 	Options ListMilestonesOptions `json:"options"`
 }
 
+// VulnerabilityQuery is used when querying for GitHub Repository Vulnerabilities
 type VulnerabilityQuery struct {
 	Query
 	Options ListMilestonesOptions `json:"options"`
