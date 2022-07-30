@@ -116,6 +116,17 @@ func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.Pack
 	return GetAllPackages(ctx, d.client, opt)
 }
 
+// HandleVulnerabilitiesQuery is the query handler for listing GitHub Packages
+func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *models.VulnerabilityQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListVulnerabilitiesOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		Query:      query.Options.Query,
+	}
+
+	return GetAllVulnerabilities(ctx, d.client, opt)
+}
+
 // CheckHealth calls frequently used endpoints to determine if the client has sufficient privileges
 func (d *Datasource) CheckHealth(ctx context.Context) error {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
