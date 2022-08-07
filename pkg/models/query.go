@@ -31,6 +31,8 @@ const (
 	QueryTypeProjects = "Projects"
 	// QueryTypeProjectItems is used when querying projects for an organization
 	QueryTypeProjectItems = "ProjectItems"
+	// QueryTypeStargazers is used when querying stargazers for a repository
+	QueryTypeStargazers = "Stargazers"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -105,4 +107,9 @@ type MilestonesQuery struct {
 type VulnerabilityQuery struct {
 	Query
 	Options ListVulnerabilitiesOptions `json:"options"`
+}
+
+// StargazersQuery is used when querying stargazers for a repository
+type StargazersQuery struct {
+	Query
 }

@@ -41,6 +41,7 @@ export enum QueryType {
   Vulnerabilities = 'Vulnerabilities',
   Projects = 'Projects',
   ProjectItems = 'ProjectItems',
+  Stargazers = 'Stargazers',
 }
 
 export enum PackageType {
