@@ -75,7 +75,7 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
               onChange={this.onSettingUpdate('accessToken', false)}
               onBlur={this.onSettingUpdate('accessToken')}
               value={secureSettings.accessToken || ''}
-              placeholder="Github Personal Access Token"
+              placeholder="GitHub Personal Access Token"
               onReset={this.onSettingReset('accessToken')}
               isConfigured={secureJsonFields!['accessToken']}
             />

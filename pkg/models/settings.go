@@ -13,7 +13,7 @@ type Settings struct {
 	CachingEnabled bool   `json:"cachingEnabled"`
 }
 
-// LoadSettings converts the DataSourceInLoadSettings to usable Github settings
+// LoadSettings converts the DataSourceInLoadSettings to usable GitHub settings
 func LoadSettings(settings backend.DataSourceInstanceSettings) (Settings, error) {
 	s := Settings{}
 	if err := json.Unmarshal(settings.JSONData, &s); err != nil {

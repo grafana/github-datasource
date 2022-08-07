@@ -4,7 +4,7 @@ import "errors"
 
 var (
 	// ErrorBadDatasource is only returned when the plugin instance's type could not be asserted
-	ErrorBadDatasource = errors.New("instance from plugin context is not a Github Datasource")
+	ErrorBadDatasource = errors.New("instance from plugin context is not a GitHub Datasource")
 
 	// ErrorQueryTypeUnimplemented is returned when the client sends an unrecognized querytype
 	ErrorQueryTypeUnimplemented = errors.New("the query type provided is not implemented")
