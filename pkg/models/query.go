@@ -100,5 +100,5 @@ type MilestonesQuery struct {
 // VulnerabilityQuery is used when querying for GitHub Repository Vulnerabilities
 type VulnerabilityQuery struct {
 	Query
-	Options ListMilestonesOptions `json:"options"`
+	Options ListVulnerabilitiesOptions `json:"options"`
 }
