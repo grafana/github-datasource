@@ -16,7 +16,6 @@ const QueryEditorMilestones = (props: Props) => {
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Query" tooltip="Query milestones by title">
         <Input
-          css=""
           value={query}
           width={RightColumnWidth * 2 + LeftColumnWidth}
           onChange={(el) => setQuery(el.currentTarget.value)}

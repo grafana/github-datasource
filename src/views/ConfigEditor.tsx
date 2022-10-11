@@ -11,20 +11,22 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
     this.onSettingUpdate(prop, false)({ target: { value: undefined } });
   };
 
-  onSettingUpdate = (prop: string, set = true) => (event: any) => {
-    const { onOptionsChange, options } = this.props;
-    onOptionsChange({
-      ...options,
-      secureJsonData: {
-        ...options.secureJsonData,
-        [prop]: event.target.value,
-      },
-      secureJsonFields: {
-        ...options.secureJsonFields,
-        [prop]: set,
-      },
-    });
-  };
+  onSettingUpdate =
+    (prop: string, set = true) =>
+    (event: any) => {
+      const { onOptionsChange, options } = this.props;
+      onOptionsChange({
+        ...options,
+        secureJsonData: {
+          ...options.secureJsonData,
+          [prop]: event.target.value,
+        },
+        secureJsonFields: {
+          ...options.secureJsonFields,
+          [prop]: set,
+        },
+      });
+    };
 
   render() {
     const {
@@ -84,7 +86,6 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
           <div className="gf-form">
             <InlineFormLabel className="width-10">GitHub Enterprise URL</InlineFormLabel>
             <Input
-              css=""
               className="width-27"
               value={jsonData.githubUrl}
               placeholder="URL of GitHub Enterprise"
@@ -102,7 +103,6 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
           <div className="gf-form">
             <InlineFormLabel className="width-10">Owner</InlineFormLabel>
             <Input
-              css=""
               className="width-9"
               value={jsonData.owner}
               placeholder="username or organization"
@@ -112,7 +112,6 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
           <div className="gf-form">
             <InlineFormLabel className="width-10">Repository</InlineFormLabel>
             <Input
-              css=""
               className="width-9"
               value={jsonData.repository}
               placeholder="the repo name"

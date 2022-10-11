@@ -44,7 +44,6 @@ const QueryEditorPackages = (props: Props) => {
         tooltip="Search for packages using a comma delimited list of names"
       >
         <Input
-          css=""
           value={names}
           width={RightColumnWidth * 2 + LeftColumnWidth}
           onChange={(el) => setNames(el.currentTarget.value)}
