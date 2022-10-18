@@ -41,11 +41,11 @@ Now that you have a `./dist` folder, you are ready to run a fresh Grafana instan
 ### Docker Compose
 We provide a [Docker Compose file](/docker-compose.yml) to help you to get started. When you call up `docker-compose up` inside the project folder, it will:
 
-1. Run a new instance of Grafana from the master branch and map it into port `3090`.
+1. Run a new instance of Grafana from the master branch and map it into port `3000`.
 1. Configure the instance to allow an unsigned version of `github-datasource` to be installed.
 1. Map the current folder contents into `/var/lib/grafana/plugins`.
 
-This is enough for you to see the Github Datasource in the datasource list at `http://localhost:3090/datasources/new`.
+This is enough for you to see the Github Datasource in the datasource list at `http://localhost:3000/datasources/new`.
 
 ![Local Github Stats installation](./screenshots/local-plugin-install.png)
 

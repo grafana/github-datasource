@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select, Spinner } from '@grafana/ui';
-import { css } from 'emotion';
+import { css } from '@emotion/css';
 
 interface Props {
   onChange: (value: string) => void;

@@ -5,7 +5,7 @@ import { AnnotationQueryRequest } from '@grafana/data';
 
 import QueryEditor from './QueryEditor';
 import { DataSource } from '../DataSource';
-import { GitHubAnnotationQuery, QueryType } from '../types';
+import { GitHubAnnotationQuery, GitHubQuery, QueryType } from '../types';
 import { QueryInlineField } from '../components/Forms';
 import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
@@ -22,8 +22,8 @@ const AnnotationQueryEditor = (props: Props) => {
   const { annotation } = props;
 
   useMemo(async () => {
-    if (isValid(props.annotation.annotation)) {
-      setChoices(await props.datasource.getChoices(props.annotation.annotation));
+    if (isValid(props.annotation.annotation as unknown as GitHubQuery)) {
+      setChoices(await props.datasource.getChoices(props.annotation.annotation as unknown as GitHubQuery));
     }
   }, [props.annotation.annotation, props.datasource]);
 
@@ -44,7 +44,7 @@ const AnnotationQueryEditor = (props: Props) => {
   return (
     <div aria-label={selectors.components.AnnotationEditor.container}>
       <QueryEditor
-        query={annotation.annotation}
+        query={annotation.annotation as unknown as GitHubQuery}
         datasource={props.datasource}
         onChange={(query) =>
           onChange({
@@ -64,7 +64,7 @@ const AnnotationQueryEditor = (props: Props) => {
       />
 
       {/* Only display the field selection items when the user has created an actual query */}
-      {isValid(props.annotation.annotation) && (
+      {isValid(props.annotation.annotation as unknown as GitHubQuery) && (
         <>
           <QueryInlineField
             width={10}
@@ -77,7 +77,7 @@ const AnnotationQueryEditor = (props: Props) => {
                 onChange({
                   ...annotation.annotation,
                   field: value,
-                })
+                } as unknown as GitHubQuery)
               }
               options={choices || []}
               width={64}
@@ -96,7 +96,7 @@ const AnnotationQueryEditor = (props: Props) => {
                 onChange({
                   ...annotation.annotation,
                   timeField: value,
-                })
+                } as unknown as GitHubQuery)
               }
               options={choices || []}
               width={64}

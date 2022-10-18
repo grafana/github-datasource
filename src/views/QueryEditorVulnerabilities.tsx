@@ -15,7 +15,6 @@ const QueryEditorVulnerabilities = (props: Props) => {
     <>
       <QueryInlineField labelWidth={LeftColumnWidth} label="Query (optional)">
         <Input
-          css=""
           width={RightColumnWidth}
           value={query}
           onChange={(el) => setQuery(el.currentTarget.value)}
