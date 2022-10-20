@@ -1,5 +1,4 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
-import Options from '@grafana/ui/slate-plugins/slate-prism/options';
 
 export interface Label {
   color: string;
