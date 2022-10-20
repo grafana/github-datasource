@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
   "name": "GitHub",
   "id": "grafana-github-datasource",
@@ -7,9 +8,7 @@
   "annotations": true,
   "alerting": true,
   "metrics": true,
-  "includes": [
-    { "type": "dashboard", "name": "GitHub (demo)", "path": "dashboards/dashboard.json" }
-  ],
+  "includes": [{ "type": "dashboard", "name": "GitHub (demo)", "path": "dashboards/dashboard.json" }],
   "info": {
     "description": "Show data about github issues/pull requests",
     "author": {
@@ -32,8 +31,8 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=7.1.0",
-    "grafanaVersion": "7.1.x",
+    "grafanaDependency": ">=8.4.7",
+    "grafanaVersion": "8.4.x",
     "plugins": []
   }
 }

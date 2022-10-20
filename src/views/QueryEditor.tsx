@@ -6,6 +6,7 @@ import { DataSource } from '../DataSource';
 import { GithubDataSourceOptions, GitHubQuery, QueryType, DefaultQueryType } from '../types';
 import { QueryInlineField } from '../components/Forms';
 import { isValid } from '../validation';
+import { Components } from './../components/selectors';
 
 import QueryEditorRepository from './QueryEditorRepository';
 import QueryEditorReleases from './QueryEditorReleases';
@@ -122,12 +123,15 @@ const QueryEditor = (props: Props) => {
   return (
     <>
       <QueryInlineField label="Query Type" tooltip="What resource are you querying for?" labelWidth={LeftColumnWidth}>
-        <Select
-          width={RightColumnWidth}
-          options={queryTypeOptions.filter((v) => queryTypes.includes(v.value!))}
-          value={props.query.queryType}
-          onChange={(val) => onKeyChange('queryType', val.value || DefaultQueryType)}
-        />
+        <div aria-label={Components.QueryEditor.QueryType.container.ariaLabel}>
+          <Select
+            menuShouldPortal={true}
+            width={RightColumnWidth}
+            options={queryTypeOptions.filter((v) => queryTypes.includes(v.value!))}
+            value={props.query.queryType}
+            onChange={(val) => onKeyChange('queryType', val.value || DefaultQueryType)}
+          />
+        </div>
       </QueryInlineField>
 
       {props.query.queryType !== QueryType.Projects && (

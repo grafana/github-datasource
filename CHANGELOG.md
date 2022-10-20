@@ -2,9 +2,13 @@
 
 ## Entries
 
-## [1.1.0] 2022-10-20
+## [1.1.1] 2022-10-20
 
 - Feature - Github projects
+
+## [1.1.0] - next
+
+- Updated grafana minimum runtime required to 8.4.7
 
 ## [1.0.15] 2022-05-05
 

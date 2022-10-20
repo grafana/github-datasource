@@ -3,7 +3,6 @@ import {
   DataFrame,
   DataFrameView,
   DataQueryRequest,
-  DataQueryResponse,
   DataSourceInstanceSettings,
   MetricFindValue,
   ScopedVars,
@@ -83,7 +82,7 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
 
     try {
       const res = await this.query(request).toPromise();
-      const columns = res.data[0]?.fields.map((f: any) => f.name) || [];
+      const columns = (res?.data[0]?.fields || []).map((f: any) => f.name) || [];
       return columns;
     } catch (err) {
       return Promise.reject(err);
@@ -101,24 +100,19 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
       range: options.range,
       rangeRaw: options.rangeRaw,
     } as DataQueryRequest;
-
-    let res: DataQueryResponse;
-
     try {
-      res = await this.query(request).toPromise();
-    } catch (err) {
-      return Promise.reject(err);
+      let res = await this.query(request).toPromise();
+      if (!res || !res.data || res.data.length < 0) {
+        return [];
+      }
+      const view = new DataFrameView(res.data[0] as DataFrame);
+      return view.map((item) => {
+        return {
+          text: item[query.field || 'name'],
+        };
+      });
+    } catch (ex) {
+      return Promise.reject(ex);
     }
-
-    if (!res || !res.data || res.data.length < 0) {
-      return [];
-    }
-
-    const view = new DataFrameView(res.data[0] as DataFrame);
-    return view.map((item) => {
-      return {
-        text: item[query.field || 'name'],
-      };
-    });
   }
 }

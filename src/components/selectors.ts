@@ -7,6 +7,11 @@ export const Components = {
     },
   },
   QueryEditor: {
+    QueryType: {
+      container: {
+        ariaLabel: 'Query Type container',
+      },
+    },
     Owner: {
       input: 'Query editor owner',
     },

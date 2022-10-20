@@ -1,19 +1,17 @@
-version: '3'
+version: '3.7'
 services:
   grafana:
-    image: grafana/grafana:master
+    image: grafana/grafana-enterprise:${GR_VERSION:-8.4.7}
     ports:
-      - '3090:3000'
+      - '3000:3000'
     volumes:
-      - ./:/var/lib/grafana/plugins/grafana-github-datasource
-      - grafana-storage:/var/lib/grafana
-      # - ./provisioning:/etc/grafana/provisioning
+      - ./dist:/var/lib/grafana/plugins/grafana-github-datasource
     environment:
-      - COMPOSE_INTERACTIVE_NO_CLI=1
       - TERM=linux
+      - GF_DEFAULT_APP_MODE=development
+      - COMPOSE_INTERACTIVE_NO_CLI=1
       - GF_LOG_LEVEL=debug
       - GF_DATAPROXY_LOGGING=true
       - GF_FEATURE_TOGGLES_ENABLE=expressions inspect transformations newEdit
-      - GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=grafana-github-datasource
 volumes:
   grafana-storage:
