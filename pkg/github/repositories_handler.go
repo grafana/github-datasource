@@ -1,4 +1,4 @@
-package plugin
+package github
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
-func (s *Server) handleRepositoriesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
+func (s *QueryHandler) handleRepositoriesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
 	query := &models.RepositoriesQuery{}
 	if err := UnmarshalQuery(q.JSON, query); err != nil {
 		return *err
@@ -17,7 +17,7 @@ func (s *Server) handleRepositoriesQuery(ctx context.Context, q backend.DataQuer
 }
 
 // HandleRepositories handles the plugin query for github tags
-func (s *Server) HandleRepositories(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (s *QueryHandler) HandleRepositories(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleRepositoriesQuery),
 	}, nil

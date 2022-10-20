@@ -80,7 +80,5 @@ func TestContributorsDataFrame(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("contributors", contributors); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "contributors", contributors)
 }

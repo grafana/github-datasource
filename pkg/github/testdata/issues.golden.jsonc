@@ -1,0 +1,129 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: issues
+//  Dimensions: 8 Fields by 3 Rows
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
+//  | Name: title    | Name: author   | Name: author_company | Name: repo      | Name: number  | Name: closed | Name: created_at                | Name: closed_at                 |
+//  | Labels:        | Labels:        | Labels:              | Labels:         | Labels:       | Labels:      | Labels:                         | Labels:                         |
+//  | Type: []string | Type: []string | Type: []string       | Type: []string  | Type: []int64 | Type: []bool | Type: []time.Time               | Type: []*time.Time              |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
+//  | Issue #1       | firstUser      | ACME Corp            | grafana/grafana | 1             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            |
+//  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 |
+//  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "frames": [
+    {
+      "schema": {
+        "name": "issues",
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author_company",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "repo",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "number",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "closed",
+            "type": "boolean",
+            "typeInfo": {
+              "frame": "bool"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "closed_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "Issue #1",
+            "Issue #2",
+            "Issue #3"
+          ],
+          [
+            "firstUser",
+            "secondUser",
+            "firstUser"
+          ],
+          [
+            "ACME Corp",
+            "ACME Corp",
+            "ACME Corp"
+          ],
+          [
+            "grafana/grafana",
+            "grafana/grafana",
+            "grafana/grafana"
+          ],
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            false,
+            true,
+            false
+          ],
+          [
+            1598372516000,
+            1598372516000,
+            1598372516000
+          ],
+          [
+            null,
+            1598394116000,
+            null
+          ]
+        ]
+      }
+    }
+  ]
+}

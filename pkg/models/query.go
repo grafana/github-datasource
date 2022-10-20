@@ -27,6 +27,8 @@ const (
 	QueryTypeMilestones = "Milestones"
 	// QueryTypeVulnerabilities is used when querying a vulnerability for a repository
 	QueryTypeVulnerabilities = "Vulnerabilities"
+	// QueryTypeProjects is used when querying projects for an organization
+	QueryTypeProjects = "Projects"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.

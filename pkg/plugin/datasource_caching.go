@@ -36,6 +36,12 @@ func newCachedResult(f dfutil.Framer) CachedResult {
 	}
 }
 
+// Make sure Datasource implements required interfaces.
+var (
+	_ backend.QueryDataHandler   = (*CachedDatasource)(nil)
+	_ backend.CheckHealthHandler = (*CachedDatasource)(nil)
+)
+
 // The CachedDatasource wraps the Datasource type and stores an internal map, and responds to queries with cached data.
 // If there is no cached data to respond with, the CachedDatasource forwards the request to the Datasource
 type CachedDatasource struct {
@@ -186,9 +192,24 @@ func (c *CachedDatasource) HandleVulnerabilitiesQuery(ctx context.Context, q *mo
 	return c.saveCache(req, f, err)
 }
 
+// HandleProjectsQuery is the cache wrapper for the project query handler
+func (c *CachedDatasource) HandleProjectsQuery(ctx context.Context, q *models.ProjectsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleProjectsQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // CheckHealth forwards the request to the datasource and does not perform any caching
-func (c *CachedDatasource) CheckHealth(ctx context.Context) error {
-	return c.datasource.CheckHealth(ctx)
+func (c *CachedDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+	return c.datasource.CheckHealth(ctx, req)
+}
+
+// QueryData forwards the request to the datasource and does not perform any caching
+func (c *CachedDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+	return c.datasource.QueryData(ctx, req)
 }
 
 func getCacheKey(req backend.DataQuery) (string, error) {

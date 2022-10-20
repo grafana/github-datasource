@@ -6,7 +6,7 @@ const e2eSelectors = e2e.getSelectors(selectors.components);
 
 const addGithubDataSource = (accessToken: string) => {
   return e2e.flows.addDataSource({
-    expectedAlertMessage: 'OK',
+    expectedAlertMessage: 'Data source is working',
     form: () => e2eSelectors.ConfigEditor.AccessToken.input().scrollIntoView().type(accessToken),
     timeout: 10000,
     type: 'GitHub',

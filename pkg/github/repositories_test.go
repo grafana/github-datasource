@@ -70,7 +70,5 @@ func TestRepositoriesDataFrame(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("repositories", repositories); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "repositories", repositories)
 }

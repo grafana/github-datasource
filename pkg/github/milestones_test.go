@@ -110,7 +110,5 @@ func TestMilestonesDataframe(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("milestones", milestones); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "milestones", milestones)
 }

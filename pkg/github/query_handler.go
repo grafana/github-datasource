@@ -1,4 +1,4 @@
-package plugin
+package github
 
 import (
 	"context"
@@ -10,8 +10,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// Server is the main handler for datasource queries. It forwards requests to the embedded datasource interface.
-type Server struct {
+// QueryHandler is the main handler for datasource queries.
+type QueryHandler struct {
 	Datasource Datasource
 }
 
@@ -38,7 +38,7 @@ func UnmarshalQuery(b []byte, v interface{}) *backend.DataResponse {
 }
 
 // GetQueryHandlers creates the QueryTypeMux type for handling queries
-func GetQueryHandlers(s *Server) *datasource.QueryTypeMux {
+func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux := datasource.NewQueryTypeMux()
 
 	// This could be a map[models.QueryType]datasource.QueryHandlerFunc and then a loop to handle all of them.
@@ -53,6 +53,7 @@ func GetQueryHandlers(s *Server) *datasource.QueryTypeMux {
 	mux.HandleFunc(models.QueryTypeMilestones, s.HandleMilestones)
 	mux.HandleFunc(models.QueryTypeRepositories, s.HandleRepositories)
 	mux.HandleFunc(models.QueryTypeVulnerabilities, s.HandleVulnerabilitites)
+	mux.HandleFunc(models.QueryTypeProjects, s.HandleProjects)
 
 	return mux
 }
