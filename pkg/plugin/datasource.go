@@ -25,26 +25,3 @@ type Datasource interface {
 	CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error)
 	QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error)
 }
-
-// HandleQueryData handles the `QueryData` request for the Github datasource
-// func HandleQueryData(ctx context.Context, d Datasource, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
-// 	m := GetQueryHandlers(&Server{
-// 		Datasource: d,
-// 	})
-
-// 	return m.QueryData(ctx, req)
-// }
-
-// CheckHealth ensures that the datasource settings are able to retrieve data from GitHub
-// func CheckHealth(ctx context.Context, d Datasource, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
-// 	if err := d.CheckHealth(ctx); err != nil {
-// 		return &backend.CheckHealthResult{
-// 			Status:  backend.HealthStatusError,
-// 			Message: err.Error(),
-// 		}, nil
-// 	}
-// 	return &backend.CheckHealthResult{
-// 		Status:  backend.HealthStatusOk,
-// 		Message: backend.HealthStatusOk.String(),
-// 	}, nil
-// }
