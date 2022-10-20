@@ -2,7 +2,7 @@
 
 ## Entries
 
-## [1.1.1] 2022-10-20
+## [1.2.0] 2022-10-20
 
 - Feature - Github projects
 
