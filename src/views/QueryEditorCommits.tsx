@@ -17,7 +17,6 @@ const QueryEditorCommits = (props: Props) => {
       <QueryInlineField labelWidth={LeftColumnWidth} label="Ref (Branch / Tag)">
         <Input
           aria-label={selectors.components.QueryEditor.Ref.input}
-          css=""
           width={RightColumnWidth}
           value={ref}
           onChange={(el) => setRef(el.currentTarget.value)}

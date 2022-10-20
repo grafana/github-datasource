@@ -84,7 +84,6 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
           <div className="gf-form">
             <InlineFormLabel className="width-10">GitHub Enterprise URL</InlineFormLabel>
             <Input
-              css=""
               className="width-27"
               value={jsonData.githubUrl}
               placeholder="URL of GitHub Enterprise"

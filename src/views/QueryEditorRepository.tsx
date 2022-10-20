@@ -25,7 +25,6 @@ const QueryEditorRepositories = (props: Props) => {
       </InlineFormLabel>
       <Input
         aria-label={selectors.components.QueryEditor.Owner.input}
-        css=""
         width={RightColumnWidth}
         value={owner}
         onChange={(el) => setOwner(el.currentTarget.value)}
@@ -41,7 +40,6 @@ const QueryEditorRepositories = (props: Props) => {
       </InlineFormLabel>
       <Input
         aria-label={selectors.components.QueryEditor.Repository.input}
-        css=""
         width={RightColumnWidth}
         value={repository}
         onChange={(el) => setRepository(el.currentTarget.value)}

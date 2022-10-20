@@ -24,7 +24,6 @@ const QueryEditorProjects = (props: Props) => {
       </InlineFormLabel>
       <Input
         aria-label={selectors.components.QueryEditor.Owner.input}
-        css=""
         width={RightColumnWidth}
         value={org}
         onChange={(el) => setOrg(el.currentTarget.value)}

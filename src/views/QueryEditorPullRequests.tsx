@@ -33,7 +33,6 @@ const QueryEditorPullRequests = (props: Props) => {
         tooltip="For more information, visit https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests"
       >
         <Input
-          css=""
           value={query}
           width={RightColumnWidth}
           onChange={(el) => setQuery(el.currentTarget.value)}
