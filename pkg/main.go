@@ -8,10 +8,10 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 )
 
-func main() {
-	err := datasource.Serve(plugin.GetDatasourceOpts())
+const dsID = "grafana-github-datasource"
 
-	if err != nil {
+func main() {
+	if err := datasource.Manage(dsID, plugin.NewDataSourceInstance, datasource.ManageOpts{}); err != nil {
 		backend.Logger.Error(err.Error())
 		os.Exit(1)
 	}

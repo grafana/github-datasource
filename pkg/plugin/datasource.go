@@ -21,28 +21,30 @@ type Datasource interface {
 	HandlePackagesQuery(context.Context, *models.PackagesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleMilestonesQuery(context.Context, *models.MilestonesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleVulnerabilitiesQuery(context.Context, *models.VulnerabilityQuery, backend.DataQuery) (dfutil.Framer, error)
-	CheckHealth(context.Context) error
+	HandleProjectsQuery(context.Context, *models.ProjectsQuery, backend.DataQuery) (dfutil.Framer, error)
+	CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error)
+	QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error)
 }
 
 // HandleQueryData handles the `QueryData` request for the Github datasource
-func HandleQueryData(ctx context.Context, d Datasource, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
-	m := GetQueryHandlers(&Server{
-		Datasource: d,
-	})
+// func HandleQueryData(ctx context.Context, d Datasource, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+// 	m := GetQueryHandlers(&Server{
+// 		Datasource: d,
+// 	})
 
-	return m.QueryData(ctx, req)
-}
+// 	return m.QueryData(ctx, req)
+// }
 
 // CheckHealth ensures that the datasource settings are able to retrieve data from GitHub
-func CheckHealth(ctx context.Context, d Datasource, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
-	if err := d.CheckHealth(ctx); err != nil {
-		return &backend.CheckHealthResult{
-			Status:  backend.HealthStatusError,
-			Message: err.Error(),
-		}, nil
-	}
-	return &backend.CheckHealthResult{
-		Status:  backend.HealthStatusOk,
-		Message: backend.HealthStatusOk.String(),
-	}, nil
-}
+// func CheckHealth(ctx context.Context, d Datasource, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
+// 	if err := d.CheckHealth(ctx); err != nil {
+// 		return &backend.CheckHealthResult{
+// 			Status:  backend.HealthStatusError,
+// 			Message: err.Error(),
+// 		}, nil
+// 	}
+// 	return &backend.CheckHealthResult{
+// 		Status:  backend.HealthStatusOk,
+// 		Message: backend.HealthStatusOk.String(),
+// 	}, nil
+// }

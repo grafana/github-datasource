@@ -1,4 +1,5 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
+import Options from '@grafana/ui/slate-plugins/slate-prism/options';
 
 export interface Label {
   color: string;
@@ -38,6 +39,7 @@ export enum QueryType {
   Milestones = 'Milestones',
   Packages = 'Packages',
   Vulnerabilities = 'Vulnerabilities',
+  Projects = 'Projects',
 }
 
 export enum PackageType {
@@ -99,6 +101,10 @@ export interface MilestonesOptions extends Indexable {
   query?: string;
 }
 
+export interface ProjectsOptions extends Indexable {
+  organization?: string;
+}
+
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
   options?:
     | PullRequestsOptions
@@ -107,7 +113,8 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
     | TagsOptions
     | CommitsOptions
     | IssuesOptions
-    | ContributorsOptions;
+    | ContributorsOptions
+    | ProjectsOptions;
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {

@@ -1,4 +1,4 @@
-package plugin
+package github
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
-func (s *Server) handleReleasesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
+func (s *QueryHandler) handleReleasesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
 	query := &models.ReleasesQuery{}
 	if err := UnmarshalQuery(q.JSON, query); err != nil {
 		return *err
@@ -17,7 +17,7 @@ func (s *Server) handleReleasesQuery(ctx context.Context, q backend.DataQuery) b
 }
 
 // HandleReleases handles the plugin query for github Releases
-func (s *Server) HandleReleases(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (s *QueryHandler) HandleReleases(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleReleasesQuery),
 	}, nil

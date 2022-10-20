@@ -7,9 +7,14 @@ import (
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/pkg/errors"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
+)
+
+// Make sure Datasource implements required interfaces.
+var (
+	_ backend.QueryDataHandler   = (*Datasource)(nil)
+	_ backend.CheckHealthHandler = (*Datasource)(nil)
 )
 
 // Datasource handles requests to GitHub
@@ -127,17 +132,33 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 	return GetAllVulnerabilities(ctx, d.client, opt)
 }
 
-// CheckHealth calls frequently used endpoints to determine if the client has sufficient privileges
-func (d *Datasource) CheckHealth(ctx context.Context) error {
+// HandleProjectsQuery is the query handler for listing GitHub Projects
+func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.ProjectsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListProjectsOptions{
+		Organization: query.Options.Organization,
+	}
+
+	return GetAllProjects(ctx, d.client, opt)
+}
+
+func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
 		Owner: "grafana",
 	})
 
 	if err != nil {
-		return errors.Wrap(err, "failed to list repositories in the Grafana organization")
+		return newHealthResult(backend.HealthStatusError, "Health check failed")
 	}
 
-	return nil
+	return newHealthResult(backend.HealthStatusOk, "Data source is working")
+}
+
+func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+	m := GetQueryHandlers(&QueryHandler{
+		Datasource: *d,
+	})
+
+	return m.QueryData(ctx, req)
 }
 
 // NewDatasource creates a new datasource for handling queries
@@ -157,4 +178,11 @@ func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
 	return &Datasource{
 		client: githubv4.NewEnterpriseClient(fmt.Sprintf("%s/api/graphql", settings.GithubURL), httpClient),
 	}
+}
+
+func newHealthResult(status backend.HealthStatus, message string) (*backend.CheckHealthResult, error) {
+	return &backend.CheckHealthResult{
+		Status:  status,
+		Message: message,
+	}, nil
 }

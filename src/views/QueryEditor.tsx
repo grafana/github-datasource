@@ -18,6 +18,7 @@ import QueryEditorContributors from './QueryEditorContributors';
 import QueryEditorLabels from './QueryEditorLabels';
 import QueryEditorPackages from './QueryEditorPackages';
 import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
+import QueryEditorProjects from './QueryEditorProjects';
 
 interface Props extends QueryEditorProps<DataSource, GitHubQuery, GithubDataSourceOptions> {
   queryTypes?: string[];
@@ -78,6 +79,11 @@ const queryEditors: {
       <QueryEditorVulnerabilities {...(props.query.options || {})} onChange={onChange} />
     ),
   },
+  [QueryType.Projects]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorProjects {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
 };
 
 /* eslint-enable react/display-name */
@@ -124,16 +130,18 @@ const QueryEditor = (props: Props) => {
         />
       </QueryInlineField>
 
-      <QueryEditorRepository
-        repository={props.query.repository}
-        owner={props.query.owner}
-        onChange={(repo) => {
-          onChange({
-            ...props.query,
-            ...repo,
-          });
-        }}
-      />
+      { props.query.queryType !== QueryType.Projects &&
+        <QueryEditorRepository
+          repository={props.query.repository}
+          owner={props.query.owner}
+          onChange={(repo) => {
+            onChange({
+              ...props.query,
+              ...repo,
+            });
+          }}
+        ></QueryEditorRepository>
+      }
 
       {queryEditor ? (
         queryEditor.component(props, (value: any) => onKeyChange('options', !!value ? value : undefined))

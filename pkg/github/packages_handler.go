@@ -1,4 +1,4 @@
-package plugin
+package github
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
-func (s *Server) handlePackagesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
+func (s *QueryHandler) handlePackagesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
 	query := &models.PackagesQuery{}
 	if err := UnmarshalQuery(q.JSON, query); err != nil {
 		return *err
@@ -17,7 +17,7 @@ func (s *Server) handlePackagesQuery(ctx context.Context, q backend.DataQuery) b
 }
 
 // HandlePackages handles the plugin query for github Packages
-func (s *Server) HandlePackages(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+func (s *QueryHandler) HandlePackages(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handlePackagesQuery),
 	}, nil
