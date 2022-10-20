@@ -130,7 +130,7 @@ const QueryEditor = (props: Props) => {
         />
       </QueryInlineField>
 
-      { props.query.queryType !== QueryType.Projects &&
+      {props.query.queryType !== QueryType.Projects && (
         <QueryEditorRepository
           repository={props.query.repository}
           owner={props.query.owner}
@@ -141,7 +141,7 @@ const QueryEditor = (props: Props) => {
             });
           }}
         ></QueryEditorRepository>
-      }
+      )}
 
       {queryEditor ? (
         queryEditor.component(props, (value: any) => onKeyChange('options', !!value ? value : undefined))
