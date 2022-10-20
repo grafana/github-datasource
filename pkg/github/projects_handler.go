@@ -16,7 +16,7 @@ func (s *QueryHandler) handleProjectsQuery(ctx context.Context, q backend.DataQu
 	return dfutil.FrameResponseWithError(s.Datasource.HandleProjectsQuery(ctx, query, q))
 }
 
-// HandleProjects handles the plugin query for github PullRequests
+// HandleProjects handles the plugin query for github Projects
 func (s *QueryHandler) HandleProjects(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleProjectsQuery),

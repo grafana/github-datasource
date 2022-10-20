@@ -29,6 +29,8 @@ const (
 	QueryTypeVulnerabilities = "Vulnerabilities"
 	// QueryTypeProjects is used when querying projects for an organization
 	QueryTypeProjects = "Projects"
+	// QueryTypeProjectItems is used when querying projects for an organization
+	QueryTypeProjectItems = "ProjectItems"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.

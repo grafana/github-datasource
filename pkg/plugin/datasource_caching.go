@@ -202,6 +202,16 @@ func (c *CachedDatasource) HandleProjectsQuery(ctx context.Context, q *models.Pr
 	return c.saveCache(req, f, err)
 }
 
+// HandleProjectItemsQuery is the cache wrapper for the project items query handler
+func (c *CachedDatasource) HandleProjectItemsQuery(ctx context.Context, q *models.ProjectQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleProjectItemsQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // CheckHealth forwards the request to the datasource and does not perform any caching
 func (c *CachedDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return c.datasource.CheckHealth(ctx, req)

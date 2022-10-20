@@ -134,10 +134,14 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 
 // HandleProjectsQuery is the query handler for listing GitHub Projects
 func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.ProjectsQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.ListProjectsOptions{
+	opt := models.ProjectOptions{
 		Organization: query.Options.Organization,
+		Number:       query.Options.Number,
 	}
 
+	if query.Options.Number > 0 {
+		return GetAllProjectItems(ctx, d.client, opt)
+	}
 	return GetAllProjects(ctx, d.client, opt)
 }
 

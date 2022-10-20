@@ -52,7 +52,7 @@ type Projects []Project
 // Frames converts the list of Projects to a Grafana DataFrame
 func (p Projects) Frames() data.Frames {
 	frame := data.NewFrame(
-		"pull_requests",
+		"projects",
 		data.NewField("number", nil, []int64{}),
 		data.NewField("title", nil, []string{}),
 		data.NewField("url", nil, []string{}),
@@ -91,7 +91,7 @@ func (p Projects) Frames() data.Frames {
 }
 
 // GetAllProjects uses the graphql endpoint API to list all projects in the repository
-func GetAllProjects(ctx context.Context, client Client, opts models.ListProjectsOptions) (Projects, error) {
+func GetAllProjects(ctx context.Context, client Client, opts models.ProjectOptions) (Projects, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -121,7 +121,7 @@ func GetAllProjects(ctx context.Context, client Client, opts models.ListProjects
 }
 
 // GetProjectsInRange retrieves every project from the org and then returns the ones that fall within the given time range.
-func GetProjectsInRange(ctx context.Context, client Client, opts models.ListProjectsOptions, from time.Time, to time.Time) (Projects, error) {
+func GetProjectsInRange(ctx context.Context, client Client, opts models.ProjectOptions, from time.Time, to time.Time) (Projects, error) {
 	projects, err := GetAllProjects(ctx, client, opts)
 	if err != nil {
 		return nil, err

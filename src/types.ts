@@ -39,6 +39,7 @@ export enum QueryType {
   Packages = 'Packages',
   Vulnerabilities = 'Vulnerabilities',
   Projects = 'Projects',
+  ProjectItems = 'ProjectItems',
 }
 
 export enum PackageType {
@@ -102,6 +103,12 @@ export interface MilestonesOptions extends Indexable {
 
 export interface ProjectsOptions extends Indexable {
   organization?: string;
+  number?: number;
+}
+
+export interface ProjectOptions extends Indexable {
+  organization?: string;
+  number?: number;
 }
 
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {

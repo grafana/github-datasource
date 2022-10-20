@@ -12,6 +12,7 @@ interface Props extends ProjectsOptions {
 
 const QueryEditorProjects = (props: Props) => {
   const [org, setOrg] = useState<string>(props.organization || '');
+  const [number, setNumber] = useState<number | undefined>(props.number);
 
   return (
     <QueryEditorRow>
@@ -34,8 +35,32 @@ const QueryEditorProjects = (props: Props) => {
           })
         }
       />
+      <InlineFormLabel
+        className="query-keyword"
+        tooltip="The project number for the GitHub project (example: 123)"
+        width={LeftColumnWidth}
+      >
+        Project Number
+      </InlineFormLabel>
+      <Input
+        aria-label={selectors.components.QueryEditor.Number.input}
+        width={RightColumnWidth}
+        value={number}
+        onChange={(el) => setNumber(num(el.currentTarget.value))}
+        onBlur={(el) =>
+          props.onChange({
+            ...props,
+            number: num(el.currentTarget.value)
+          })
+        }
+      />
     </QueryEditorRow>
   );
 };
+
+function num(v: string) {
+  const val = parseInt(v);
+  return isNaN(val) ? undefined : val;
+}
 
 export default QueryEditorProjects;
