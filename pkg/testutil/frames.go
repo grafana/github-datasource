@@ -3,6 +3,7 @@ package testutil
 import (
 	"fmt"
 	"path/filepath"
+	"testing"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -13,9 +14,9 @@ import (
 const UpdateGoldenFiles bool = true
 
 // CheckGoldenFramer checks the GoldenDataResponse and creates a standard file format for saving them
-func CheckGoldenFramer(name string, f dfutil.Framer) error {
+func CheckGoldenFramer(t *testing.T, name string, f dfutil.Framer) {
 	dr := backend.DataResponse{
 		Frames: f.Frames(),
 	}
-	return experimental.CheckGoldenDataResponse(filepath.Join("testdata", fmt.Sprintf("%s.golden.txt", name)), &dr, UpdateGoldenFiles)
+	experimental.CheckGoldenJSONResponse(t, filepath.Join("testdata"), fmt.Sprintf("%s.golden", name), &dr, UpdateGoldenFiles)
 }

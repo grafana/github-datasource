@@ -24,6 +24,7 @@ func NewGitHubInstance(ctx context.Context, settings models.Settings) instancemg
 	return d
 }
 
+// NewDataSourceInstance creates a new instance
 func NewDataSourceInstance(settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
 	datasourceSettings, err := models.LoadSettings(settings)
 	if err != nil {

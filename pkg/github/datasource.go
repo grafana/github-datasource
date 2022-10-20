@@ -141,6 +141,7 @@ func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.Proj
 	return GetAllProjects(ctx, d.client, opt)
 }
 
+// CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
 		Owner: "grafana",
@@ -153,6 +154,7 @@ func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRe
 	return newHealthResult(backend.HealthStatusOk, "Data source is working")
 }
 
+// QueryData runs the query
 func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	m := GetQueryHandlers(&QueryHandler{
 		Datasource: *d,

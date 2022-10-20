@@ -106,12 +106,9 @@ func GetAllProjects(ctx context.Context, client Client, opts models.ListProjects
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)
 		}
+
 		projectList := make(Projects, len(q.Organization.ProjectsV2.Nodes))
-
-		for i, v := range q.Organization.ProjectsV2.Nodes {
-			projectList[i] = v
-		}
-
+		copy(projectList, q.Organization.ProjectsV2.Nodes)
 		projects = append(projects, projectList...)
 
 		if !q.Organization.ProjectsV2.PageInfo.HasNextPage {

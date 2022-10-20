@@ -207,6 +207,7 @@ func (c *CachedDatasource) CheckHealth(ctx context.Context, req *backend.CheckHe
 	return c.datasource.CheckHealth(ctx, req)
 }
 
+// QueryData forwards the request to the datasource and does not perform any caching
 func (c *CachedDatasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return c.datasource.QueryData(ctx, req)
 }

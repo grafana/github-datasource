@@ -156,7 +156,5 @@ func TestIssuesDataframe(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("issues", issues); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "issues", issues)
 }

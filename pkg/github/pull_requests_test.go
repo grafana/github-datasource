@@ -146,9 +146,7 @@ func TestPullRequestsDataFrame(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("pull_requests", pullRequests); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "pull_requests", pullRequests)
 }
 
 func TestBuildQuery(t *testing.T) {

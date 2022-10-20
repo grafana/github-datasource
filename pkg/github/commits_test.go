@@ -115,7 +115,5 @@ func TestCommitsDataframe(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("commits", commits); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "commits", commits)
 }

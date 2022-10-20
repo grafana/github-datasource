@@ -150,7 +150,5 @@ func TestTagsDataFrames(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("tags", tags); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "tags", tags)
 }

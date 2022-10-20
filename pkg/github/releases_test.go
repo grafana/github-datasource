@@ -99,7 +99,5 @@ func TestReleasesDataFrame(t *testing.T) {
 		},
 	}
 
-	if err := testutil.CheckGoldenFramer("releases", releases); err != nil {
-		t.Fatal(err)
-	}
+	testutil.CheckGoldenFramer(t, "releases", releases)
 }
