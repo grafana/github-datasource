@@ -137,6 +137,8 @@ func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.Proj
 	opt := models.ProjectOptions{
 		Organization: query.Options.Organization,
 		Number:       query.Options.Number,
+		User:         query.Options.User,
+		Kind:         query.Options.Kind,
 	}
 
 	if query.Options.Number > 0 {

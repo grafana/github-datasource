@@ -104,11 +104,20 @@ export interface MilestonesOptions extends Indexable {
 export interface ProjectsOptions extends Indexable {
   organization?: string;
   number?: number;
+  user?: string;
+  kind?: ProjectQueryType;
+}
+
+export enum ProjectQueryType {
+  ORG = 0,
+  USER = 1,
 }
 
 export interface ProjectOptions extends Indexable {
   organization?: string;
   number?: number;
+  user?: string;
+  kind?: ProjectQueryType;
 }
 
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {

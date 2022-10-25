@@ -5,12 +5,6 @@ type ProjectsQuery struct {
 	Options ProjectOptions `json:"options"`
 }
 
-// // ListProjectsOptions are the available options when listing projects
-// type ListProjectsOptions struct {
-// 	// Organization is the name of the organization being queried (ex: grafana)
-// 	Organization string `json:"organization"`
-// }
-
 // ProjectQuery is used when querying for GitHub Project items
 type ProjectQuery struct {
 	Options ProjectOptions `json:"options"`
@@ -22,4 +16,8 @@ type ProjectOptions struct {
 	Organization string `json:"organization"`
 	// Number is the project number
 	Number int `json:"number"`
+	// User is the name of the user who owns the project being queried
+	User string `json:"user"`
+	// Kind is the kind of query - Org vs User
+	Kind int `json:"kind"`
 }

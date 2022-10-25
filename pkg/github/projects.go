@@ -29,6 +29,15 @@ type QueryListProjects struct {
 	} `graphql:"organization(login: $login)"`
 }
 
+type QueryListProjectsByUser struct {
+	User struct {
+		ProjectsV2 struct {
+			Nodes    []Project
+			PageInfo PageInfo
+		} `graphql:"projectsV2(first: 100, after: $cursor)"`
+	} `graphql:"user(login: $login)"`
+}
+
 // Project is a GitHub project
 type Project struct {
 	Number           int64
@@ -92,6 +101,13 @@ func (p Projects) Frames() data.Frames {
 
 // GetAllProjects uses the graphql endpoint API to list all projects in the repository
 func GetAllProjects(ctx context.Context, client Client, opts models.ProjectOptions) (Projects, error) {
+	if opts.Kind == 0 {
+		return getAllProjectsByOrg(ctx, client, opts)
+	}
+	return getAllProjectsByUser(ctx, client, opts)
+}
+
+func getAllProjectsByOrg(ctx context.Context, client Client, opts models.ProjectOptions) (Projects, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -115,6 +131,35 @@ func GetAllProjects(ctx context.Context, client Client, opts models.ProjectOptio
 			break
 		}
 		variables["cursor"] = q.Organization.ProjectsV2.PageInfo.EndCursor
+	}
+
+	return projects, nil
+}
+
+func getAllProjectsByUser(ctx context.Context, client Client, opts models.ProjectOptions) (Projects, error) {
+	var (
+		variables = map[string]interface{}{
+			"cursor": (*githubv4.String)(nil),
+			"login":  githubv4.String(opts.User),
+		}
+
+		projects = Projects{}
+	)
+
+	for {
+		q := &QueryListProjectsByUser{}
+		if err := client.Query(ctx, q, variables); err != nil {
+			return nil, errors.WithStack(err)
+		}
+
+		projectList := make(Projects, len(q.User.ProjectsV2.Nodes))
+		copy(projectList, q.User.ProjectsV2.Nodes)
+		projects = append(projects, projectList...)
+
+		if !q.User.ProjectsV2.PageInfo.HasNextPage {
+			break
+		}
+		variables["cursor"] = q.User.ProjectsV2.PageInfo.EndCursor
 	}
 
 	return projects, nil
