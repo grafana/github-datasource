@@ -24,12 +24,16 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		data.NewField("created_at", nil, []time.Time{}),
 	)
 
-	var fields = p.Fields
+	var fields []Field
 
-	for _, f := range fields {
+	for _, f := range p.Fields {
+		if exclude[f.Common.DataType] {
+			continue
+		}
 		fieldType := fieldTypes[f.Common.DataType]
 		field := data.NewField(f.Common.Name, nil, fieldType)
 		frame.Fields = append(frame.Fields, field)
+		fields = append(fields, f)
 	}
 
 	for _, v := range p.Items {
@@ -41,90 +45,49 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		vals = append(vals, v.UpdatedAt.Time)
 		vals = append(vals, v.CreatedAt.Time)
 
-		fvMap := map[string]any{}
-
-		fvMap["Assignees"] = getAssignees(v.Content)
+		fieldValue := map[string]any{}
+		// populate some field values from content
+		// we could get them from fieldValues but content has explicit types
+		fieldValue["Assignees"] = getAssignees(v.Content)
+		fieldValue["Milestone"] = milestone(v.Content)
 
 		for _, fv := range v.FieldValues.Nodes {
-			///fmt.Println(fv)
-			// fld := fields[i]
-			var val any
-			var name string
-			// switch fld.Common.DataType {
-			// case "TEXT", "TITLE":
-			// 	val = fv.TextValue.Text
-			// 	name = fv.TextValue.Field.Common.Name
-			// case "SINGLE_SELECT":
-			// 	val = fv.SelectValue.Name
-			// 	name = fv.SelectValue.Field.Common.Name
-			// case "DATE":
-			// 	val = fv.DateValue.Date
-			// 	name = fv.DateValue.Field.Common.Name
-			// default:
-
-			// }
-			if fv.DateValue.Date != nil {
-				t, err := dateparse.ParseAny(*fv.DateValue.Date)
-				if err != nil {
-					backend.Logger.Warn("could not parse date")
-				}
-				val = &t
-				name = fv.DateValue.Field.Common.Name
-			}
-			// if !fv.DateValue.Date.IsZero() {
-			// 	val = fv.DateValue.Date
-			// 	name = fv.DateValue.Field.Common.Name
-			// }
-			if fv.SelectValue.Field.Common.Name != "" && val == nil {
-				if fv.SelectValue.Name != nil {
-					val = fv.SelectValue.Name
-				}
-				name = fv.SelectValue.Field.Common.Name
-			}
-			if fv.TextValue.Field.Common.Name != "" && val == nil {
-				if fv.TextValue.Text != nil {
-					val = fv.TextValue.Text
-				}
-				name = fv.TextValue.Field.Common.Name
-			}
-			//vals = append(vals, val)
-			fvMap[name] = val
+			name, val := nameValue(fv)
+			fieldValue[name] = val
 		}
 
 		for _, f := range fields {
-			val := fvMap[f.Common.Name]
+			val := fieldValue[f.Common.Name]
 			vals = append(vals, val)
 		}
-		//for _, f := range fields {
-		//fieldType := fieldTypes[f.Common.DataType]
-		//val, ok := fieldType.([]string)
-		//fmt.Println(fieldType)
-		// if ok {
-
-		// }
-		// for _, fv := range v.FieldValues.Nodes {
-		// 	fmt.Println(fv)
-		// 	txtVal := fv.TextValue.Text
-		// 	vals = append(vals, txtVal)
-		// }
-
-		// if f.Common.DataType == "TITLE" {
-		// 	if len(v.FieldValues.Nodes) == 0 {
-		// 		vals = append(vals, "")
-		// 		continue
-		// 	}
-		// 	for _, fv := range v.FieldValues.Nodes {
-		// 		fmt.Println(fv)
-		// 		txtVal := fv.TextValue.Text
-		// 		vals = append(vals, txtVal)
-		// 	}
-		// }
-		//}
 
 		frame.AppendRow(vals...)
 	}
 
 	return data.Frames{frame}
+}
+
+func nameValue(fv FieldValue) (string, any) {
+	dataType := fv.DateValue.Field.Common.DataType
+	switch dataType {
+	case "DATE":
+		return fv.DateValue.Field.Common.Name, date(fv)
+	case "SINGLE_SELECT":
+		return fv.SelectValue.Field.Common.Name, fv.SelectValue.Name
+	case "TEXT", "TITLE":
+		return fv.TextValue.Field.Common.Name, fv.TextValue.Text
+	case "ITERATION":
+		return fv.IterationValue.Field.Common.Name, fv.IterationValue.Title
+	case "LABELS":
+		return fv.LabelsValue.Field.Common.Name, labels(fv)
+	case "NUMBER":
+		return fv.NumberValue.Field.Common.Name, fv.NumberValue.Number
+	case "REVIEWERS":
+		return fv.ReviewerValue.Field.Common.Name, reviewers(fv)
+	case "REPOSITORY":
+		return fv.RepoValue.Field.Common.Name, &fv.RepoValue.Repository.Name
+	}
+	return fv.DateValue.Field.Common.Name, nil
 }
 
 // GetAllProjects uses the graphql endpoint API to list all projects in the repository
@@ -229,7 +192,7 @@ var fieldTypes = map[string]any{
 	"LABELS":               []*string{},
 	"LINKED_PULL_REQUESTS": []*string{},
 	"MILESTONE":            []*string{},
-	"NUMBER":               []*int64{},
+	"NUMBER":               []*float64{},
 	"REPOSITORY":           []*string{},
 	"REVIEWERS":            []*string{},
 	"SINGLE_SELECT":        []*string{},
@@ -238,24 +201,68 @@ var fieldTypes = map[string]any{
 	"TRACKS":               []*string{},
 }
 
+// add later
+var exclude = map[string]bool{
+	"LINKED_PULL_REQUESTS": true,
+}
+
+func date(fv FieldValue) *time.Time {
+	if fv.DateValue.Date == nil {
+		return nil
+	}
+	t, err := dateparse.ParseAny(*fv.DateValue.Date)
+	if err != nil {
+		backend.Logger.Warn("could not parse date")
+	}
+	return &t
+}
+
 func getAssignees(content ProjectV2ItemContent) *string {
-	if content.DraftIssue.CreatedAt != nil {
-		return assignees(content.DraftIssue)
-	}
 	if content.Issue.CreatedAt != nil {
-		return assignees(content.DraftIssue)
-	}
-	if content.PullRequest.CreatedAt != nil {
-		return assignees(content.DraftIssue)
+		return assignees(content.Issue)
 	}
 	return nil
 }
 
-func assignees(content Content) *string {
+func assignees(content IssueContent) *string {
 	var assignees []string
 	for _, v := range content.Assignees.Nodes {
 		assignees = append(assignees, v.Name)
 	}
 	names := strings.Join(assignees, ",")
 	return &names
+}
+
+func milestone(content ProjectV2ItemContent) *string {
+	if content.Issue.CreatedAt != nil && content.Issue.Milestone != nil {
+		return &content.Issue.Milestone.Title
+	}
+	if content.PullRequest.CreatedAt != nil && content.PullRequest.Milestone != nil {
+		return &content.PullRequest.Milestone.Title
+	}
+	return nil
+}
+
+func labels(fv FieldValue) *string {
+	if fv.LabelsValue.Nodes != nil {
+		var labels []string
+		for _, l := range fv.LabelsValue.Nodes {
+			labels = append(labels, l.Name)
+		}
+		val := strings.Join(labels, ",")
+		return &val
+	}
+	return nil
+}
+
+func reviewers(fv FieldValue) *string {
+	if fv.ReviewerValue.Nodes != nil {
+		var vals []string
+		for _, r := range fv.ReviewerValue.Nodes {
+			vals = append(vals, r.Name)
+		}
+		val := strings.Join(vals, ",")
+		return &val
+	}
+	return nil
 }

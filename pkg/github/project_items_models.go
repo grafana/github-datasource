@@ -68,19 +68,16 @@ type ProjectItem struct {
 	Type        string
 	CreatedAt   githubv4.DateTime
 	UpdatedAt   githubv4.DateTime
-	// Creator
-	// Owner
-	// Readme - The project's readme.
-	// resourcePath (URI!) The HTTP path for this project.
-	// fields []Field
 }
 
+// ProjectV2ItemContent contains Content for a ProjectItem
 type ProjectV2ItemContent struct {
-	DraftIssue  Content `graphql:"... on DraftIssue"`
-	Issue       Content `graphql:"... on Issue"`
-	PullRequest Content `graphql:"... on PullRequest"`
+	DraftIssue  Content      `graphql:"... on DraftIssue"`
+	Issue       IssueContent `graphql:"... on Issue"`
+	PullRequest IssueContent `graphql:"... on PullRequest"`
 }
 
+// Content of the ProjectItem
 type Content struct {
 	Title     *string
 	Body      *string
@@ -88,74 +85,125 @@ type Content struct {
 	Assignees *Assignees `graphql:"assignees(first: 10)"`
 }
 
+// IssueContent of the ProjectItem
+type IssueContent struct {
+	Title     *string
+	Body      *string
+	CreatedAt *githubv4.DateTime
+	Assignees *Assignees `graphql:"assignees(first: 10)"`
+	Milestone *Milestone
+}
+
+// Assignees to the ProjectItem
 type Assignees struct {
 	PageInfo   PageInfo
 	TotalCount int64
 	Nodes      []User
 }
 
+// ProjectItemsWithFields ...
 type ProjectItemsWithFields struct {
 	Items  []ProjectItem
 	Fields []Field
 }
 
+// FieldValues are the values of each Field of a ProjectItem
 type FieldValues struct {
 	PageInfo   PageInfo
 	TotalCount int64
 	Nodes      []FieldValue
 }
 
+// Field is a field on a ProjectItem
 type Field struct {
-	Common Common `graphql:"... on ProjectV2FieldCommon"`
+	Common ProjectV2FieldCommon `graphql:"... on ProjectV2FieldCommon"`
 }
 
+// FieldValue is a value for a Field
 type FieldValue struct {
-	DateValue   ProjectV2ItemFieldDateValue         `graphql:"... on ProjectV2ItemFieldDateValue"`
-	TextValue   ProjectV2ItemFieldTextValue         `graphql:"... on ProjectV2ItemFieldTextValue"`
-	SelectValue ProjectV2ItemFieldSingleSelectValue `graphql:"... on ProjectV2ItemFieldSingleSelectValue"`
+	DateValue      ProjectV2ItemFieldDateValue         `graphql:"... on ProjectV2ItemFieldDateValue"`
+	TextValue      ProjectV2ItemFieldTextValue         `graphql:"... on ProjectV2ItemFieldTextValue"`
+	SelectValue    ProjectV2ItemFieldSingleSelectValue `graphql:"... on ProjectV2ItemFieldSingleSelectValue"`
+	IterationValue ProjectV2ItemFieldIterationValue    `graphql:"... on ProjectV2ItemFieldIterationValue"`
+	LabelsValue    ProjectV2ItemFieldLabelValue        `graphql:"... on ProjectV2ItemFieldLabelValue"`
+	NumberValue    ProjectV2ItemFieldNumberValue       `graphql:"... on ProjectV2ItemFieldNumberValue"`
+	ReviewerValue  ProjectV2ItemFieldReviewerValue     `graphql:"... on ProjectV2ItemFieldReviewerValue"`
+	RepoValue      ProjectV2ItemFieldRepositoryValue   `graphql:"... on ProjectV2ItemFieldRepositoryValue"`
 }
 
+// ProjectV2ItemFieldRepositoryValue
+type ProjectV2ItemFieldRepositoryValue struct {
+	Repository Repository
+	Field      CommonField
+}
+
+// ProjectV2ItemFieldReviewerValue
+type ProjectV2ItemFieldReviewerValue struct {
+	Reviewers `graphql:"reviewers(first: 10)"`
+	Field     CommonField
+}
+
+type Reviewers struct {
+	Nodes []Reviewer
+}
+
+type Reviewer struct {
+	User `graphql:"... on User"`
+}
+
+// ProjectV2ItemFieldNumberValue is a value for a Number field
+type ProjectV2ItemFieldNumberValue struct {
+	Number *float64
+	Field  CommonField
+}
+
+// ProjectV2ItemFieldLabelValue is a value for a Labels field
+type ProjectV2ItemFieldLabelValue struct {
+	ProjectLabels `graphql:"labels(first: 10)"`
+	Field         CommonField
+}
+
+type ProjectLabels struct {
+	Nodes []ProjectLabel
+}
+
+type ProjectLabel struct {
+	Name string
+}
+
+// ProjectV2ItemFieldIterationValue is a value for an Iteration field
+type ProjectV2ItemFieldIterationValue struct {
+	Title *string
+	Field CommonField
+}
+
+// ProjectV2ItemFieldSingleSelectValue is a value for a SingleSelect field
 type ProjectV2ItemFieldSingleSelectValue struct {
 	Name  *string
 	Field CommonField
 }
 
+// CommonField ...
 type CommonField struct {
 	Common ProjectV2FieldCommon `graphql:"... on ProjectV2FieldCommon"`
 }
 
-type ProjectV2FieldConfiguration struct {
-	Field          ProjectV2Field `graphql:"... on ProjectV2Field"`
-	IterationField ProjectV2Field `graphql:"... on ProjectV2IterationField"`
-	SelectField    ProjectV2Field `graphql:"... on ProjectV2SingleSelectField"`
-}
-
-type ProjectV2Field struct {
-	name string
-}
-
-type ProjectV2ItemFieldValueCommon struct {
-	Field ProjectV2ItemFieldTextValue `graphql:"... on ProjectV2ItemFieldTextValue"`
-}
-
+// ProjectV2ItemFieldTextValue is a value for a Text field
 type ProjectV2ItemFieldTextValue struct {
 	Text  *string
 	Field CommonField
 }
 
+// ProjectV2ItemFieldDateValue is a value for a Date field
 type ProjectV2ItemFieldDateValue struct {
 	CreatedAt githubv4.DateTime
-	//Date      githubv4.DateTime
 	Date      *string
 	UpdatedAt githubv4.DateTime
 	Field     CommonField
 }
 
+// ProjectV2FieldCommon is common to fields
 type ProjectV2FieldCommon struct {
-	Name string
-}
-
-type Common struct {
 	Name     string
 	DataType string
 }
