@@ -1,4 +1,5 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
+import { Filter } from '@grafana/plugin-ui';
 
 export interface Label {
   color: string;
@@ -106,6 +107,7 @@ export interface ProjectsOptions extends Indexable {
   number?: number;
   user?: string;
   kind?: ProjectQueryType;
+  filters?: Filter[];
 }
 
 export enum ProjectQueryType {
@@ -118,6 +120,7 @@ export interface ProjectOptions extends Indexable {
   number?: number;
   user?: string;
   kind?: ProjectQueryType;
+  filters?: Filter[];
 }
 
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {

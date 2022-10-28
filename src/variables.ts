@@ -24,12 +24,16 @@ const interpolateObject = (input: any, t: TemplateSrv, scoped: ScopedVars = {}) 
   let newOptions = { ...input };
   Object.keys(newOptions).forEach((key) => {
     if (key !== 'refId') {
-      if (typeof newOptions[key] === 'string') {
+      const option = newOptions[key];
+      if (typeof option === 'string') {
         if (key === 'query') {
-          newOptions = { ...newOptions, [key]: replaceVariable(t, newOptions[key], scoped, 'csv') };
+          newOptions = { ...newOptions, [key]: replaceVariable(t, option, scoped, 'csv') };
         } else {
-          newOptions = { ...newOptions, [key]: replaceVariable(t, newOptions[key], scoped) };
+          newOptions = { ...newOptions, [key]: replaceVariable(t, option, scoped) };
         }
+      } else if (Array.isArray(option)) {
+        const replaced = option.map(opt => interpolateObject(opt, t, scoped))
+        newOptions = { ...newOptions, [key]: replaced };
       }
     }
   });

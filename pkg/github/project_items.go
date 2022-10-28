@@ -46,6 +46,9 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		vals = append(vals, v.CreatedAt.Time)
 
 		fieldValue := map[string]any{}
+
+		fieldValue["type"] = v.Type
+		fieldValue["created_at"] = v.CreatedAt.Time
 		// populate some field values from content
 		// we could get them from fieldValues but content has explicit types
 		fieldValue["Assignees"] = getAssignees(v.Content)
@@ -61,10 +64,53 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 			vals = append(vals, val)
 		}
 
-		frame.AppendRow(vals...)
+		if len(p.Filters) == 0 {
+			frame.AppendRow(vals...)
+			continue
+		}
+
+		match := filter(fieldValue, p.Filters)
+		if match {
+			frame.AppendRow(vals...)
+		}
+		continue
+
 	}
 
 	return data.Frames{frame}
+}
+
+func filter(fieldValue map[string]any, filters []models.Filter) bool {
+	for _, f := range filters {
+		val := fieldValue[f.Key]
+		switch f.OP {
+		case ">":
+			if greaterThan(f.Value, val) {
+				return true
+			}
+		case "<":
+			if lessThan(f.Value, val) {
+				return true
+			}
+		case "=":
+			if equals(f.Value, val) {
+				return true
+			}
+		case ">=":
+			if equals(f.Value, val) || greaterThan(f.Value, val) {
+				return true
+			}
+		case "<=":
+			if equals(f.Value, val) || lessThan(f.Value, val) {
+				return true
+			}
+		case "~":
+			if equals(f.Value, val) || lessThan(f.Value, val) {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func nameValue(fv FieldValue) (string, any) {
@@ -93,9 +139,13 @@ func nameValue(fv FieldValue) (string, any) {
 // GetAllProjects uses the graphql endpoint API to list all projects in the repository
 func GetAllProjectItems(ctx context.Context, client Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
 	if opts.Kind == 0 {
-		return getAllProjectItemsByOrg(ctx, client, opts)
+		projects, err := getAllProjectItemsByOrg(ctx, client, opts)
+		projects.Filters = opts.Filters
+		return projects, err
 	}
-	return getAllProjectItemsByUser(ctx, client, opts)
+	projects, err := getAllProjectItemsByUser(ctx, client, opts)
+	projects.Filters = opts.Filters
+	return projects, err
 }
 
 func getAllProjectItemsByOrg(ctx context.Context, client Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
@@ -204,6 +254,7 @@ var fieldTypes = map[string]any{
 // add later
 var exclude = map[string]bool{
 	"LINKED_PULL_REQUESTS": true,
+	"TRACKED_BY":           true,
 }
 
 func date(fv FieldValue) *time.Time {
@@ -265,4 +316,64 @@ func reviewers(fv FieldValue) *string {
 		return &val
 	}
 	return nil
+}
+
+func equals(v1 string, v2 any) bool {
+	switch v := v2.(type) {
+	case *string:
+		return v1 == *v
+	case *time.Time:
+		t, err := dateparse.ParseAny(v1)
+		if err != nil {
+			backend.Logger.Error("Failed to parse date "+v1, err)
+			return false
+		}
+		return t.Equal(*v)
+	}
+	return false
+}
+
+func greaterThan(v1 string, v2 any) bool {
+	switch v := v2.(type) {
+	case *string:
+		return v1 > *v
+	case *time.Time:
+		t, err := dateparse.ParseAny(v1)
+		if err != nil {
+			backend.Logger.Error("Failed to parse date "+v1, err)
+			return false
+		}
+		return v.After(t)
+	case time.Time:
+		t, err := dateparse.ParseAny(v1)
+		if err != nil {
+			backend.Logger.Error("Failed to parse date "+v1, err)
+			return false
+		}
+		return v.After(t)
+	}
+	return false
+}
+
+func lessThan(v1 string, v2 any) bool {
+	switch v := v2.(type) {
+	case *string:
+		return v1 < *v
+	case *time.Time:
+		t, err := dateparse.ParseAny(v1)
+		if err != nil {
+			backend.Logger.Error("Failed to parse date "+v1, err)
+			return false
+		}
+		return v.Before(t)
+	}
+	return false
+}
+
+func contains(v1 string, v2 any) bool {
+	switch v := v2.(type) {
+	case *string:
+		return strings.Contains(*v, v1)
+	}
+	return false
 }

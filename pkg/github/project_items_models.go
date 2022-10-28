@@ -1,6 +1,9 @@
 package github
 
-import "github.com/shurcooL/githubv4"
+import (
+	"github.com/grafana/github-datasource/pkg/models"
+	"github.com/shurcooL/githubv4"
+)
 
 // QueryProject lists project items in a project
 // organization(login: "grafana") {
@@ -103,8 +106,9 @@ type Assignees struct {
 
 // ProjectItemsWithFields ...
 type ProjectItemsWithFields struct {
-	Items  []ProjectItem
-	Fields []Field
+	Items   []ProjectItem
+	Fields  []Field
+	Filters []models.Filter
 }
 
 // FieldValues are the values of each Field of a ProjectItem
