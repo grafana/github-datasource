@@ -1,4 +1,4 @@
-package github
+package projects
 
 import (
 	"github.com/grafana/github-datasource/pkg/models"
@@ -32,13 +32,13 @@ type QueryProject struct {
 			Fields struct {
 				TotalCount int64
 				Nodes      []Field
-				PageInfo   PageInfo
+				PageInfo   models.PageInfo
 			} `graphql:"fields(first: 100)"`
 			Items struct {
 				// Edges
 				TotalCount int64
 				Nodes      []ProjectItem
-				PageInfo   PageInfo
+				PageInfo   models.PageInfo
 			} `graphql:"items(first: 100, after: $cursor)"`
 		} `graphql:"projectV2(number: $number)"`
 	} `graphql:"organization(login: $login)"`
@@ -50,13 +50,13 @@ type QueryProjectByUser struct {
 			Fields struct {
 				TotalCount int64
 				Nodes      []Field
-				PageInfo   PageInfo
+				PageInfo   models.PageInfo
 			} `graphql:"fields(first: 100)"`
 			Items struct {
 				// Edges
 				TotalCount int64
 				Nodes      []ProjectItem
-				PageInfo   PageInfo
+				PageInfo   models.PageInfo
 			} `graphql:"items(first: 100, after: $cursor)"`
 		} `graphql:"projectV2(number: $number)"`
 	} `graphql:"user(login: $login)"`
@@ -94,14 +94,15 @@ type IssueContent struct {
 	Body      *string
 	CreatedAt *githubv4.DateTime
 	Assignees *Assignees `graphql:"assignees(first: 10)"`
-	Milestone *Milestone
+	Milestone *models.Milestone
+	ClosedAt  *githubv4.DateTime
 }
 
 // Assignees to the ProjectItem
 type Assignees struct {
-	PageInfo   PageInfo
+	PageInfo   models.PageInfo
 	TotalCount int64
-	Nodes      []User
+	Nodes      []models.User
 }
 
 // ProjectItemsWithFields ...
@@ -113,7 +114,7 @@ type ProjectItemsWithFields struct {
 
 // FieldValues are the values of each Field of a ProjectItem
 type FieldValues struct {
-	PageInfo   PageInfo
+	PageInfo   models.PageInfo
 	TotalCount int64
 	Nodes      []FieldValue
 }
@@ -137,7 +138,7 @@ type FieldValue struct {
 
 // ProjectV2ItemFieldRepositoryValue
 type ProjectV2ItemFieldRepositoryValue struct {
-	Repository Repository
+	Repository models.Repository
 	Field      CommonField
 }
 
@@ -152,7 +153,7 @@ type Reviewers struct {
 }
 
 type Reviewer struct {
-	User `graphql:"... on User"`
+	models.User `graphql:"... on User"`
 }
 
 // ProjectV2ItemFieldNumberValue is a value for a Number field

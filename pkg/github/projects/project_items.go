@@ -1,4 +1,4 @@
-package github
+package projects
 
 import (
 	"context"
@@ -22,10 +22,11 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		data.NewField("type", nil, []string{}),
 		data.NewField("updated_at", nil, []time.Time{}),
 		data.NewField("created_at", nil, []time.Time{}),
+		data.NewField("closed_at", nil, []*time.Time{}),
 	)
 
+	// add the list of fields based on the project to the frame
 	var fields []Field
-
 	for _, f := range p.Fields {
 		if exclude[f.Common.DataType] {
 			continue
@@ -36,6 +37,7 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		fields = append(fields, f)
 	}
 
+	// get the values for each item and append to the frame
 	for _, v := range p.Items {
 		var vals []any
 
@@ -44,11 +46,13 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		vals = append(vals, v.Type)
 		vals = append(vals, v.UpdatedAt.Time)
 		vals = append(vals, v.CreatedAt.Time)
+		vals = append(vals, closedDate(v.Content))
 
+		// create a lookup of field names to values
 		fieldValue := map[string]any{}
-
 		fieldValue["type"] = v.Type
 		fieldValue["created_at"] = v.CreatedAt.Time
+		fieldValue["closed_at"] = closedDate(v.Content)
 		// populate some field values from content
 		// we could get them from fieldValues but content has explicit types
 		fieldValue["Assignees"] = getAssignees(v.Content)
@@ -59,16 +63,19 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 			fieldValue[name] = val
 		}
 
+		// add the values to an array that we will append to the frame row
 		for _, f := range fields {
 			val := fieldValue[f.Common.Name]
 			vals = append(vals, val)
 		}
 
+		// if there are no filters, just append the values
 		if len(p.Filters) == 0 {
 			frame.AppendRow(vals...)
 			continue
 		}
 
+		// check for a filter match and append to the frame if there is a match
 		match := filter(fieldValue, p.Filters)
 		if match {
 			frame.AppendRow(vals...)
@@ -80,40 +87,9 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 	return data.Frames{frame}
 }
 
-func filter(fieldValue map[string]any, filters []models.Filter) bool {
-	for _, f := range filters {
-		val := fieldValue[f.Key]
-		switch f.OP {
-		case ">":
-			if greaterThan(f.Value, val) {
-				return true
-			}
-		case "<":
-			if lessThan(f.Value, val) {
-				return true
-			}
-		case "=":
-			if equals(f.Value, val) {
-				return true
-			}
-		case ">=":
-			if equals(f.Value, val) || greaterThan(f.Value, val) {
-				return true
-			}
-		case "<=":
-			if equals(f.Value, val) || lessThan(f.Value, val) {
-				return true
-			}
-		case "~":
-			if equals(f.Value, val) || lessThan(f.Value, val) {
-				return true
-			}
-		}
-	}
-	return false
-}
-
+// get the field name and value from the response model
 func nameValue(fv FieldValue) (string, any) {
+	// DateValue, SelectValue, TextValue etc all have the field data type
 	dataType := fv.DateValue.Field.Common.DataType
 	switch dataType {
 	case "DATE":
@@ -137,23 +113,26 @@ func nameValue(fv FieldValue) (string, any) {
 }
 
 // GetAllProjects uses the graphql endpoint API to list all projects in the repository
-func GetAllProjectItems(ctx context.Context, client Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
+func GetAllProjectItems(ctx context.Context, client models.Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
 	if opts.Kind == 0 {
 		projects, err := getAllProjectItemsByOrg(ctx, client, opts)
 		projects.Filters = opts.Filters
 		return projects, err
 	}
 	projects, err := getAllProjectItemsByUser(ctx, client, opts)
+	if err != nil {
+		return nil, err
+	}
 	projects.Filters = opts.Filters
 	return projects, err
 }
 
-func getAllProjectItemsByOrg(ctx context.Context, client Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
+func getAllProjectItemsByOrg(ctx context.Context, client models.Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
 			"login":  githubv4.String(opts.Organization),
-			"number": githubv4.Int(opts.Number),
+			"number": githubv4.Int(ProjectNumber(opts.Number)),
 		}
 
 		projectItems = []ProjectItem{}
@@ -182,12 +161,12 @@ func getAllProjectItemsByOrg(ctx context.Context, client Client, opts models.Pro
 	return &ProjectItemsWithFields{Items: projectItems, Fields: fields}, nil
 }
 
-func getAllProjectItemsByUser(ctx context.Context, client Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
+func getAllProjectItemsByUser(ctx context.Context, client models.Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
 			"login":  githubv4.String(opts.User),
-			"number": githubv4.Int(opts.Number),
+			"number": githubv4.Int(ProjectNumber(opts.Number)),
 		}
 
 		projectItems = []ProjectItem{}
@@ -217,7 +196,7 @@ func getAllProjectItemsByUser(ctx context.Context, client Client, opts models.Pr
 }
 
 // GetProjectsItemsInRange retrieves every project from the org and then returns the ones that fall within the given time range.
-func GetProjectsItemsInRange(ctx context.Context, client Client, opts models.ProjectOptions, from time.Time, to time.Time) (*ProjectItemsWithFields, error) {
+func GetProjectsItemsInRange(ctx context.Context, client models.Client, opts models.ProjectOptions, from time.Time, to time.Time) (*ProjectItemsWithFields, error) {
 	items, err := GetAllProjectItems(ctx, client, opts)
 	if err != nil {
 		return nil, err
@@ -226,8 +205,13 @@ func GetProjectsItemsInRange(ctx context.Context, client Client, opts models.Pro
 	filtered := []ProjectItem{}
 
 	for i, v := range items.Items {
-		// TODO: may need to get end date from content?
-		if v.CreatedAt.After(from) { // TODO: && v.ClosedAt.Before(to) {
+		closed := closedDate(v.Content)
+		if closed == nil {
+			if v.CreatedAt.After(from) {
+				filtered = append(filtered, items.Items[i])
+			}
+		}
+		if v.CreatedAt.After(from) && closed.Before(to) {
 			filtered = append(filtered, items.Items[i])
 		}
 	}
@@ -251,12 +235,13 @@ var fieldTypes = map[string]any{
 	"TRACKS":               []*string{},
 }
 
-// add later
+// exclude these types, maybe add later
 var exclude = map[string]bool{
 	"LINKED_PULL_REQUESTS": true,
 	"TRACKED_BY":           true,
 }
 
+// convert fieldValue to time
 func date(fv FieldValue) *time.Time {
 	if fv.DateValue.Date == nil {
 		return nil
@@ -268,6 +253,17 @@ func date(fv FieldValue) *time.Time {
 	return &t
 }
 
+func closedDate(content ProjectV2ItemContent) *time.Time {
+	if content.Issue.ClosedAt != nil {
+		return &content.Issue.ClosedAt.Time
+	}
+	if content.PullRequest.ClosedAt != nil {
+		return &content.Issue.ClosedAt.Time
+	}
+	return nil
+}
+
+// convert list of assignees to comma delimited string
 func getAssignees(content ProjectV2ItemContent) *string {
 	if content.Issue.CreatedAt != nil {
 		return assignees(content.Issue)
@@ -284,6 +280,7 @@ func assignees(content IssueContent) *string {
 	return &names
 }
 
+// get milestone as string from the model
 func milestone(content ProjectV2ItemContent) *string {
 	if content.Issue.CreatedAt != nil && content.Issue.Milestone != nil {
 		return &content.Issue.Milestone.Title
@@ -294,6 +291,7 @@ func milestone(content ProjectV2ItemContent) *string {
 	return nil
 }
 
+// convert list of labels to comma delimited string
 func labels(fv FieldValue) *string {
 	if fv.LabelsValue.Nodes != nil {
 		var labels []string
@@ -306,6 +304,7 @@ func labels(fv FieldValue) *string {
 	return nil
 }
 
+// convert list of reviewers to comma delimited string
 func reviewers(fv FieldValue) *string {
 	if fv.ReviewerValue.Nodes != nil {
 		var vals []string
@@ -316,64 +315,4 @@ func reviewers(fv FieldValue) *string {
 		return &val
 	}
 	return nil
-}
-
-func equals(v1 string, v2 any) bool {
-	switch v := v2.(type) {
-	case *string:
-		return v1 == *v
-	case *time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return t.Equal(*v)
-	}
-	return false
-}
-
-func greaterThan(v1 string, v2 any) bool {
-	switch v := v2.(type) {
-	case *string:
-		return v1 > *v
-	case *time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return v.After(t)
-	case time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return v.After(t)
-	}
-	return false
-}
-
-func lessThan(v1 string, v2 any) bool {
-	switch v := v2.(type) {
-	case *string:
-		return v1 < *v
-	case *time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return v.Before(t)
-	}
-	return false
-}
-
-func contains(v1 string, v2 any) bool {
-	switch v := v2.(type) {
-	case *string:
-		return strings.Contains(*v, v1)
-	}
-	return false
 }

@@ -74,7 +74,7 @@ type QueryListCommits struct {
 			Commit struct {
 				History struct {
 					Nodes    []Commit
-					PageInfo PageInfo
+					PageInfo models.PageInfo
 				} `graphql:"history(first: 100, after: $cursor)"`
 			} `graphql:"... on Commit"`
 		} `graphql:"object(expression: $ref)"`
@@ -88,7 +88,7 @@ type QueryListCommitsInRange struct {
 			Commit struct {
 				History struct {
 					Nodes    []Commit
-					PageInfo PageInfo
+					PageInfo models.PageInfo
 				} `graphql:"history(first: 100, after: $cursor, since: $since, until: $until)"`
 			} `graphql:"... on Commit"`
 		} `graphql:"object(expression: $ref)"`
@@ -96,7 +96,7 @@ type QueryListCommitsInRange struct {
 }
 
 // GetAllCommits lists every commit in a project. This function is slow and very prone to rate limiting.
-func GetAllCommits(ctx context.Context, client Client, opts models.ListCommitsOptions) (Commits, error) {
+func GetAllCommits(ctx context.Context, client models.Client, opts models.ListCommitsOptions) (Commits, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -124,7 +124,7 @@ func GetAllCommits(ctx context.Context, client Client, opts models.ListCommitsOp
 }
 
 // GetCommitsInRange lists all commits in a repository within a time range.
-func GetCommitsInRange(ctx context.Context, client Client, opts models.ListCommitsOptions, from time.Time, to time.Time) (Commits, error) {
+func GetCommitsInRange(ctx context.Context, client models.Client, opts models.ListCommitsOptions, from time.Time, to time.Time) (Commits, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),

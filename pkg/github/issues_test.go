@@ -51,9 +51,9 @@ func TestIssuesDataframe(t *testing.T) {
 			},
 			Closed: false,
 			Author: struct {
-				User "graphql:\"... on User\""
+				models.User "graphql:\"... on User\""
 			}{
-				User: User{
+				User: models.User{
 					ID:      "1",
 					Login:   "firstUser",
 					Name:    "First User",
@@ -89,9 +89,9 @@ func TestIssuesDataframe(t *testing.T) {
 			},
 			Closed: true,
 			Author: struct {
-				User "graphql:\"... on User\""
+				models.User "graphql:\"... on User\""
 			}{
-				User: User{
+				User: models.User{
 					ID:      "2",
 					Login:   "secondUser",
 					Name:    "Second User",
@@ -127,9 +127,9 @@ func TestIssuesDataframe(t *testing.T) {
 			},
 			Closed: false,
 			Author: struct {
-				User "graphql:\"... on User\""
+				models.User "graphql:\"... on User\""
 			}{
-				User: User{
+				User: models.User{
 					ID:      "3",
 					Login:   "firstUser",
 					Name:    "First User",

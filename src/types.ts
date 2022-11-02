@@ -104,7 +104,7 @@ export interface MilestonesOptions extends Indexable {
 
 export interface ProjectsOptions extends Indexable {
   organization?: string;
-  number?: number;
+  number?: number | string;
   user?: string;
   kind?: ProjectQueryType;
   filters?: Filter[];
@@ -136,6 +136,7 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {
+  key?: string;
   field?: string;
 }
 

@@ -1,7 +1,8 @@
-package github
+package projects
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/grafana/github-datasource/pkg/models"
@@ -24,7 +25,7 @@ type QueryListProjects struct {
 	Organization struct {
 		ProjectsV2 struct {
 			Nodes    []Project
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"projectsV2(first: 100, after: $cursor)"`
 	} `graphql:"organization(login: $login)"`
 }
@@ -33,7 +34,7 @@ type QueryListProjectsByUser struct {
 	User struct {
 		ProjectsV2 struct {
 			Nodes    []Project
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"projectsV2(first: 100, after: $cursor)"`
 	} `graphql:"user(login: $login)"`
 }
@@ -100,14 +101,14 @@ func (p Projects) Frames() data.Frames {
 }
 
 // GetAllProjects uses the graphql endpoint API to list all projects in the repository
-func GetAllProjects(ctx context.Context, client Client, opts models.ProjectOptions) (Projects, error) {
+func GetAllProjects(ctx context.Context, client models.Client, opts models.ProjectOptions) (Projects, error) {
 	if opts.Kind == 0 {
 		return getAllProjectsByOrg(ctx, client, opts)
 	}
 	return getAllProjectsByUser(ctx, client, opts)
 }
 
-func getAllProjectsByOrg(ctx context.Context, client Client, opts models.ProjectOptions) (Projects, error) {
+func getAllProjectsByOrg(ctx context.Context, client models.Client, opts models.ProjectOptions) (Projects, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -136,7 +137,7 @@ func getAllProjectsByOrg(ctx context.Context, client Client, opts models.Project
 	return projects, nil
 }
 
-func getAllProjectsByUser(ctx context.Context, client Client, opts models.ProjectOptions) (Projects, error) {
+func getAllProjectsByUser(ctx context.Context, client models.Client, opts models.ProjectOptions) (Projects, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -166,7 +167,7 @@ func getAllProjectsByUser(ctx context.Context, client Client, opts models.Projec
 }
 
 // GetProjectsInRange retrieves every project from the org and then returns the ones that fall within the given time range.
-func GetProjectsInRange(ctx context.Context, client Client, opts models.ProjectOptions, from time.Time, to time.Time) (Projects, error) {
+func GetProjectsInRange(ctx context.Context, client models.Client, opts models.ProjectOptions, from time.Time, to time.Time) (Projects, error) {
 	projects, err := GetAllProjects(ctx, client, opts)
 	if err != nil {
 		return nil, err
@@ -181,4 +182,26 @@ func GetProjectsInRange(ctx context.Context, client Client, opts models.ProjectO
 	}
 
 	return filtered, nil
+}
+
+type Number interface {
+	int | int32
+}
+
+func ProjectNumber(val any) int {
+	switch v := val.(type) {
+	case string:
+		i, err := strconv.Atoi(v)
+		if err != nil {
+			return 0
+		}
+		return i
+	case float64:
+		return int(v)
+	}
+	value, ok := val.(int)
+	if ok {
+		return value
+	}
+	return 0
 }

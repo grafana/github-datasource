@@ -53,10 +53,10 @@ type QueryListPackages struct {
 				Statistics  PackageStatistics
 				Versions    struct {
 					Nodes    []PackageVersion
-					PageInfo PageInfo
+					PageInfo models.PageInfo
 				} `graphql:"versions(first: 100, after: $versionsCursor)"`
 			}
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"packages(names: $names, packageType: $packageType, first: 100, after: $cursor)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
@@ -114,7 +114,7 @@ func (p Packages) Frames() data.Frames {
 }
 
 // GetAllPackages lists packages in a repository
-func GetAllPackages(ctx context.Context, client Client, opts models.ListPackagesOptions) (Packages, error) {
+func GetAllPackages(ctx context.Context, client models.Client, opts models.ListPackagesOptions) (Packages, error) {
 	s := strings.Split(opts.Names, ",")
 	names := make([]githubv4.String, len(s))
 	for i, v := range s {

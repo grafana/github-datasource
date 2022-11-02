@@ -31,6 +31,7 @@ const filters: SelectableValue<string>[] = [
 
 const ops: SelectableValue<string>[] = [
   {label: 'Equal', value: '='},
+  {label: 'Not Equal', value: '!='},
   {label: 'Greater Than', value: '>'},
   {label: 'Less Than', value: '<'},
   {label: 'Less Than or Equal', value: '<='},
@@ -43,7 +44,7 @@ const fetchFilters = async(key?: string) => key ? [] : filters;
 const QueryEditorProjects = (props: Props) => {
   const [org, setOrg] = useState<string>(props.organization || '');
   const [user, setUser] = useState<string>(props.user || '');
-  const [number, setNumber] = useState<number | undefined>(props.number);
+  const [number, setNumber] = useState<number | string | undefined>(props.number);
   const [kind, setKind] = useState<ProjectQueryType>(props.kind || ProjectQueryType.ORG);
   const [filters, setFilters] = useState<Filter[]>(props.filters || []);
   const label = kind === ProjectQueryType.ORG ? 'Organization' : 'User';
@@ -150,6 +151,9 @@ const QueryEditorProjects = (props: Props) => {
 };
 
 function num(v: string) {
+  if (v.includes('$')) {
+    return v;
+  }
   const val = parseInt(v);
   return isNaN(val) ? undefined : val;
 }

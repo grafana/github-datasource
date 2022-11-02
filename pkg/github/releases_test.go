@@ -60,7 +60,7 @@ func TestReleasesDataFrame(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	user := User{
+	user := models.User{
 		ID:      "1",
 		Login:   "exampleUser",
 		Name:    "Example User",

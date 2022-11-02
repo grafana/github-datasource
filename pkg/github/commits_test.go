@@ -80,7 +80,7 @@ func TestCommitsDataframe(t *testing.T) {
 			Author: GitActor{
 				Name:  "firstCommitter",
 				Email: "first@example.com",
-				User: User{
+				User: models.User{
 					ID:      "1",
 					Login:   "firstCommitter",
 					Name:    "First Committer",
@@ -104,7 +104,7 @@ func TestCommitsDataframe(t *testing.T) {
 			Author: GitActor{
 				Name:  "secondCommitter",
 				Email: "second@example.com",
-				User: User{
+				User: models.User{
 					ID:      "1",
 					Login:   "secondCommitter",
 					Name:    "Second Committer",

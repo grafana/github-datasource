@@ -59,7 +59,7 @@ func TestContributorsDataFrame(t *testing.T) {
 		GitActor{
 			Name:  "Example User",
 			Email: "user1@example.com",
-			User: User{
+			User: models.User{
 				Login:   "exuser1",
 				Name:    "Example User",
 				Company: "ACME Corp",
@@ -70,7 +70,7 @@ func TestContributorsDataFrame(t *testing.T) {
 		GitActor{
 			Name:  "Example User2",
 			Email: "user2@example.com",
-			User: User{
+			User: models.User{
 				Login:   "exuser2",
 				Name:    "Example User2",
 				Company: "ACME Corp",

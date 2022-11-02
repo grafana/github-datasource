@@ -13,7 +13,7 @@ import (
 type GitActor struct {
 	Name  string
 	Email string
-	User  User
+	User  models.User
 }
 
 // GitActors is a list of GitHub users
@@ -46,18 +46,8 @@ func (g GitActors) Frames() data.Frames {
 	return data.Frames{frame}
 }
 
-// A User is a GitHub user
-type User struct {
-	ID      string
-	Login   string
-	Name    string
-	Company string
-	Email   string
-	URL     string
-}
-
 // Users is a slice of GitHub users
-type Users []User
+type Users []models.User
 
 // Frames converts the list of GitHub users to a Grafana Data Frame
 func (u Users) Frames() data.Frames {
@@ -87,13 +77,13 @@ type QueryListContributors struct {
 	Repository struct {
 		Users struct {
 			Nodes    Users
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"mentionableUsers(query: $query, first: 100, after: $cursor)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
 // GetAllContributors lists all of the git contributors in a a repository
-func GetAllContributors(ctx context.Context, client Client, opts models.ListContributorsOptions) (Users, error) {
+func GetAllContributors(ctx context.Context, client models.Client, opts models.ListContributorsOptions) (Users, error) {
 	querystring := ""
 	if opts.Query != nil {
 		querystring = *opts.Query
@@ -109,7 +99,7 @@ func GetAllContributors(ctx context.Context, client Client, opts models.ListCont
 			"owner":  githubv4.String(opts.Owner),
 			"query":  githubv4.String(queryString),
 		}
-		users = []User{}
+		users = Users{}
 	)
 
 	for i := 0; i < PageNumberLimit; i++ {

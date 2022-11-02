@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 
+	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
 )
@@ -25,13 +26,13 @@ type QueryListOrganizations struct {
 	Viewer struct {
 		Organizations struct {
 			Nodes    []Organization
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"organizations(first: 100, after: $cursor)"`
 	}
 }
 
 // GetAllOrganizations lists the available organizations for the client
-func GetAllOrganizations(ctx context.Context, client Client) ([]Organization, error) {
+func GetAllOrganizations(ctx context.Context, client models.Client) ([]Organization, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),

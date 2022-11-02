@@ -26,26 +26,13 @@ type QueryListMilestones struct {
 	Repository struct {
 		Milestones struct {
 			Nodes    Milestones
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"milestones(first: 100, after: $cursor, query: $query)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
-// Milestone is a GitHub Milestone
-type Milestone struct {
-	Closed  bool
-	Creator struct {
-		User User `graphql:"... on User"`
-	}
-	DueOn     githubv4.DateTime
-	ClosedAt  githubv4.DateTime
-	CreatedAt githubv4.DateTime
-	State     githubv4.MilestoneState
-	Title     string
-}
-
 // Milestones is a list of GitHub milestones
-type Milestones []Milestone
+type Milestones []models.Milestone
 
 // Frames converts the list of GitHub Milestones to a Grafana data frame
 func (m Milestones) Frames() data.Frames {
@@ -90,7 +77,7 @@ func (m Milestones) Frames() data.Frames {
 }
 
 // GetAllMilestones lists milestones in a repository
-func GetAllMilestones(ctx context.Context, client Client, opts models.ListMilestonesOptions) (Milestones, error) {
+func GetAllMilestones(ctx context.Context, client models.Client, opts models.ListMilestonesOptions) (Milestones, error) {
 	queryString, err := InterPolateMacros(opts.Query)
 	if err != nil {
 		return nil, errors.WithStack(err)

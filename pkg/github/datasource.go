@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
+	"github.com/grafana/github-datasource/pkg/github/projects"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/shurcooL/githubv4"
@@ -142,10 +143,10 @@ func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.Proj
 		Filters:      query.Options.Filters,
 	}
 
-	if query.Options.Number > 0 {
-		return GetAllProjectItems(ctx, d.client, opt)
+	if projects.ProjectNumber(query.Options.Number) > 0 {
+		return projects.GetAllProjectItems(ctx, d.client, opt)
 	}
-	return GetAllProjects(ctx, d.client, opt)
+	return projects.GetAllProjects(ctx, d.client, opt)
 }
 
 // CheckHealth is the health check for GitHub

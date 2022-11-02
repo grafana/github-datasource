@@ -13,7 +13,7 @@ import (
 type Release struct {
 	ID           string
 	Name         string
-	Author       User
+	Author       models.User
 	IsDraft      bool
 	IsPrerelease bool
 	CreatedAt    githubv4.DateTime
@@ -66,13 +66,13 @@ type QueryListReleases struct {
 	Repository struct {
 		Releases struct {
 			Nodes    []Release
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"releases(first: 100, after: $cursor)"`
 	} `graphql:"repository(owner: $owner, name: $name)"`
 }
 
 // GetAllReleases retrieves every release from a repository
-func GetAllReleases(ctx context.Context, client Client, opts models.ListReleasesOptions) (Releases, error) {
+func GetAllReleases(ctx context.Context, client models.Client, opts models.ListReleasesOptions) (Releases, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -99,7 +99,7 @@ func GetAllReleases(ctx context.Context, client Client, opts models.ListReleases
 }
 
 // GetReleasesInRange retrieves every release from the repository and then returns the ones that fall within the given time range.
-func GetReleasesInRange(ctx context.Context, client Client, opts models.ListReleasesOptions, from time.Time, to time.Time) (Releases, error) {
+func GetReleasesInRange(ctx context.Context, client models.Client, opts models.ListReleasesOptions, from time.Time, to time.Time) (Releases, error) {
 	releases, err := GetAllReleases(ctx, client, opts)
 	if err != nil {
 		return nil, err
