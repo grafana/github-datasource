@@ -41,33 +41,19 @@ func filter(fieldValue map[string]any, filters []models.Filter) bool {
 func match(v1 string, v2 any, op string) bool {
 	switch op {
 	case ">":
-		if greaterThan(v1, v2) {
-			return true
-		}
+		return greaterThan(v1, v2)
 	case "<":
-		if lessThan(v1, v2) {
-			return true
-		}
+		return lessThan(v1, v2)
 	case "=":
-		if equals(v1, v2) {
-			return true
-		}
+		return equals(v1, v2)
 	case "!=":
-		if !equals(v1, v2) {
-			return true
-		}
+		return !equals(v1, v2)
 	case ">=":
-		if equals(v1, v2) || greaterThan(v1, v2) {
-			return true
-		}
+		return equals(v1, v2) || greaterThan(v1, v2)
 	case "<=":
-		if equals(v1, v2) || lessThan(v1, v2) {
-			return true
-		}
+		return equals(v1, v2) || lessThan(v1, v2)
 	case "~":
-		if contains(v1, v2) {
-			return true
-		}
+		return contains(v1, v2)
 	}
 	return false
 }
