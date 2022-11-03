@@ -171,10 +171,12 @@ type ProjectV2ItemFieldLabelValue struct {
 	Field         CommonField
 }
 
+// ProjectLabels ...
 type ProjectLabels struct {
 	Nodes []ProjectLabel
 }
 
+// ProjectLabel ...
 type ProjectLabel struct {
 	Name string
 }
