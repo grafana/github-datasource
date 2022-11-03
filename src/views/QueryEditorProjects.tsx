@@ -140,25 +140,28 @@ const QueryEditorProjects = (props: Props) => {
         />
       </QueryEditorRow>
 
-      <QueryEditorRow>
-        <div className="gf-form">
-          <InlineFormLabel className="query-keyword" width={LeftColumnWidth}>
-            Filters
-          </InlineFormLabel>
-          <Filters
-            onChange={(filters: Filter[]) => {
-              setFilters(filters);
-              props.onChange({
-                ...props,
-                filters,
-              });
-            }}
-            loadOptions={fetchFilters}
-            value={filters}
-            ops={ops}
-          ></Filters>
-        </div>
-      </QueryEditorRow>
+      {/* Filters currently only apply to Project Items */}
+      {number && (
+        <QueryEditorRow>
+          <div className="gf-form">
+            <InlineFormLabel className="query-keyword" width={LeftColumnWidth}>
+              Filters
+            </InlineFormLabel>
+            <Filters
+              onChange={(filters: Filter[]) => {
+                setFilters(filters);
+                props.onChange({
+                  ...props,
+                  filters,
+                });
+              }}
+              loadOptions={fetchFilters}
+              value={filters}
+              ops={ops}
+            ></Filters>
+          </div>
+        </QueryEditorRow>
+      )}
     </>
   );
 };
