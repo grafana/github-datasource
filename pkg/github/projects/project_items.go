@@ -80,7 +80,6 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		if match {
 			frame.AppendRow(vals...)
 		}
-		continue
 
 	}
 
