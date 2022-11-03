@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.3.0] 2022-10-20
+
+- Feature - Github projects - query items, user projects
+
 ## [1.2.0] 2022-10-20
 
 - Feature - Github projects
