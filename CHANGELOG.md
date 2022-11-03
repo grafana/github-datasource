@@ -5,6 +5,7 @@
 ## [1.3.0] 2022-10-20
 
 - Feature - Github projects - query items, user projects
+- Chore - update build to use go 1.9.3
 
 ## [1.2.0] 2022-10-20
 
