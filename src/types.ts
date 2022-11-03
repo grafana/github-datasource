@@ -1,5 +1,5 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
-import { Filter } from '@grafana/plugin-ui';
+import { Filter } from 'components/Filters';
 
 export interface Label {
   color: string;
