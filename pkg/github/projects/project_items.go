@@ -115,6 +115,9 @@ func nameValue(fv FieldValue) (string, any) {
 func GetAllProjectItems(ctx context.Context, client models.Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
 	if opts.Kind == 0 {
 		projects, err := getAllProjectItemsByOrg(ctx, client, opts)
+		if err != nil {
+			return nil, err
+		}
 		projects.Filters = opts.Filters
 		return projects, err
 	}
