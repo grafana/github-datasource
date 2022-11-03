@@ -185,10 +185,7 @@ func GetProjectsInRange(ctx context.Context, client models.Client, opts models.P
 	return filtered, nil
 }
 
-type Number interface {
-	int | int32
-}
-
+// ProjectNumber ...
 func ProjectNumber(val any) int {
 	switch v := val.(type) {
 	case string:

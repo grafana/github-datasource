@@ -65,7 +65,7 @@ func match(v1 string, v2 any, op string) bool {
 			return true
 		}
 	case "~":
-		if equals(v1, v2) || lessThan(v1, v2) {
+		if contains(v1, v2) {
 			return true
 		}
 	}
