@@ -17,7 +17,7 @@ export const Filters: React.FC<Props> = (props: Props) => {
   const [loading, setLoading] = useState<number>();
 
   const add = () => {
-    setFilters([...filters, { key: '', value: '', op: props.ops[0]?.value || '='}]);
+    setFilters([...filters, { key: '', value: '', op: props.ops[0]?.value || '=' }]);
   };
 
   const onKeyChange = (index: number) => (selected: SelectableValue) => {
@@ -87,12 +87,7 @@ export const Filters: React.FC<Props> = (props: Props) => {
             value={filter.key}
             onChange={onKeyChange(i)}
           />
-          <Segment
-            placeholder="Operator..."
-            value={filter.op}
-            onChange={onOpChange(i)}
-            options={props.ops}
-          />
+          <Segment placeholder="Operator..." value={filter.op} onChange={onOpChange(i)} options={props.ops} />
           <span className={styles.wrapper}>
             <SegmentAsync
               loadOptions={loadValues(i)}

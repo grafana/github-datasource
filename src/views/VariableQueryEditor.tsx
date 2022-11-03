@@ -45,7 +45,7 @@ const VariableQueryEditor = (props: Props) => {
           QueryType.Releases,
           QueryType.Labels,
           QueryType.Milestones,
-          QueryType.Projects
+          QueryType.Projects,
         ]}
       />
       <QueryInlineField
