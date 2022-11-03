@@ -137,13 +137,13 @@ type FieldValue struct {
 	RepoValue      ProjectV2ItemFieldRepositoryValue   `graphql:"... on ProjectV2ItemFieldRepositoryValue"`
 }
 
-// ProjectV2ItemFieldRepositoryValue
+// ProjectV2ItemFieldRepositoryValue ...
 type ProjectV2ItemFieldRepositoryValue struct {
 	Repository models.Repository
 	Field      CommonField
 }
 
-// ProjectV2ItemFieldReviewerValue
+// ProjectV2ItemFieldReviewerValue ...
 type ProjectV2ItemFieldReviewerValue struct {
 	Reviewers `graphql:"reviewers(first: 10)"`
 	Field     CommonField
