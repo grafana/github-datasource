@@ -120,6 +120,7 @@ const QueryEditor = (props: Props) => {
 
   const queryEditor = queryEditors[props.query.queryType || DefaultQueryType];
   const queryTypes = props.queryTypes || Object.keys(queryEditors);
+
   return (
     <>
       <QueryInlineField label="Query Type" tooltip="What resource are you querying for?" labelWidth={LeftColumnWidth}>
@@ -134,7 +135,7 @@ const QueryEditor = (props: Props) => {
         </div>
       </QueryInlineField>
 
-      {props.query.queryType !== QueryType.Projects && (
+      {hasRepo(props.query.queryType) && (
         <QueryEditorRepository
           repository={props.query.repository}
           owner={props.query.owner}
@@ -155,5 +156,11 @@ const QueryEditor = (props: Props) => {
     </>
   );
 };
+
+const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems];
+
+function hasRepo(qt?: string) {
+  return !nonRepoTypes.includes(qt as QueryType);
+}
 
 export default QueryEditor;

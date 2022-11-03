@@ -1,4 +1,5 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
+import { Filter } from 'components/Filters';
 
 export interface Label {
   color: string;
@@ -39,6 +40,7 @@ export enum QueryType {
   Packages = 'Packages',
   Vulnerabilities = 'Vulnerabilities',
   Projects = 'Projects',
+  ProjectItems = 'ProjectItems',
 }
 
 export enum PackageType {
@@ -102,6 +104,15 @@ export interface MilestonesOptions extends Indexable {
 
 export interface ProjectsOptions extends Indexable {
   organization?: string;
+  number?: number | string;
+  user?: string;
+  kind?: ProjectQueryType;
+  filters?: Filter[];
+}
+
+export enum ProjectQueryType {
+  ORG = 0,
+  USER = 1,
 }
 
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
@@ -117,6 +128,7 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {
+  key?: string;
   field?: string;
 }
 

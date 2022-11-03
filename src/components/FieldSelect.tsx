@@ -24,6 +24,7 @@ const FieldSelect = (props: Props) => {
   return (
     <div className={`${containerCss} gf-form-inline`}>
       <Select
+        allowCustomValue
         value={value}
         onChange={(opt) => onChange(opt.value!)}
         width={width}

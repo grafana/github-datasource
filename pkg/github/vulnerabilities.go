@@ -44,7 +44,7 @@ type QueryListVulnerabilities struct {
 	Repository struct {
 		VulnerabilityAlerts struct {
 			Nodes    Vulnerabilities
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"vulnerabilityAlerts(first: 100, after: $cursor)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
@@ -156,7 +156,7 @@ func (a Vulnerabilities) Frames() data.Frames {
 }
 
 // GetAllVulnerabilities gets all vulnerabilities from a GitHub repository
-func GetAllVulnerabilities(ctx context.Context, client Client, opts models.ListVulnerabilitiesOptions) (Vulnerabilities, error) {
+func GetAllVulnerabilities(ctx context.Context, client models.Client, opts models.ListVulnerabilitiesOptions) (Vulnerabilities, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),

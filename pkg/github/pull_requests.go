@@ -27,13 +27,13 @@ type QueryListPullRequests struct {
 		Nodes []struct {
 			PullRequest PullRequest `graphql:"... on PullRequest"`
 		}
-		PageInfo PageInfo
+		PageInfo models.PageInfo
 	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
 }
 
 // PullRequestAuthor is the structure of the Author object in a Pull Request (which requires a grapql object expansion on `User`)
 type PullRequestAuthor struct {
-	User User `graphql:"... on User"`
+	User models.User `graphql:"... on User"`
 }
 
 // PullRequest is a GitHub pull request
@@ -139,7 +139,7 @@ func (p PullRequests) Frames() data.Frames {
 }
 
 // GetAllPullRequests uses the graphql search endpoint API to search all pull requests in the repository
-func GetAllPullRequests(ctx context.Context, client Client, opts models.ListPullRequestsOptions) (PullRequests, error) {
+func GetAllPullRequests(ctx context.Context, client models.Client, opts models.ListPullRequestsOptions) (PullRequests, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -172,7 +172,7 @@ func GetAllPullRequests(ctx context.Context, client Client, opts models.ListPull
 }
 
 // GetPullRequestsInRange uses the graphql search endpoint API to find pull requests in the given time range.
-func GetPullRequestsInRange(ctx context.Context, client Client, opts models.ListPullRequestsOptions, from time.Time, to time.Time) (PullRequests, error) {
+func GetPullRequestsInRange(ctx context.Context, client models.Client, opts models.ListPullRequestsOptions, from time.Time, to time.Time) (PullRequests, error) {
 	var q string
 
 	if opts.TimeField != models.PullRequestNone {

@@ -8,7 +8,7 @@ import (
 	"github.com/grafana/github-datasource/pkg/models"
 )
 
-func handleGetLabels(ctx context.Context, client Client, r *http.Request) (Labels, error) {
+func handleGetLabels(ctx context.Context, client models.Client, r *http.Request) (Labels, error) {
 	q := r.URL.Query()
 	opts := models.ListLabelsOptions{
 		Repository: q.Get("repository"),
@@ -35,7 +35,7 @@ func (d *Datasource) HandleGetLabels(w http.ResponseWriter, r *http.Request) {
 	httputil.WriteResponse(w, labels)
 }
 
-func handleGetMilestones(ctx context.Context, client Client, r *http.Request) (Milestones, error) {
+func handleGetMilestones(ctx context.Context, client models.Client, r *http.Request) (Milestones, error) {
 	q := r.URL.Query()
 	opts := models.ListMilestonesOptions{
 		Repository: q.Get("repository"),

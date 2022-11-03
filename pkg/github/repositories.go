@@ -26,7 +26,7 @@ type QueryListRepositories struct {
 		Nodes []struct {
 			Repository Repository `graphql:"... on Repository"`
 		}
-		PageInfo PageInfo
+		PageInfo models.PageInfo
 	} `graphql:"search(query: $query, type: REPOSITORY, first: 100, after: $cursor)"`
 }
 
@@ -82,7 +82,7 @@ func (r Repositories) Frames() data.Frames {
 }
 
 // GetAllRepositories retrieves all available repositories for an organization
-func GetAllRepositories(ctx context.Context, client Client, opts models.ListRepositoriesOptions) (Repositories, error) {
+func GetAllRepositories(ctx context.Context, client models.Client, opts models.ListRepositoriesOptions) (Repositories, error) {
 	query := strings.Join([]string{
 		fmt.Sprintf("org:%s", opts.Owner),
 		opts.Repository,

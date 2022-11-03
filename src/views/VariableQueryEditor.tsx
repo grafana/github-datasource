@@ -45,13 +45,36 @@ const VariableQueryEditor = (props: Props) => {
           QueryType.Releases,
           QueryType.Labels,
           QueryType.Milestones,
+          QueryType.Projects,
         ]}
       />
       <QueryInlineField
         width={10}
         labelWidth={10}
-        label="Display Field"
-        tooltip="This field determines the text / value used for the variable"
+        label="Field Value"
+        tooltip="This field determines the value used for the variable"
+      >
+        <FieldSelect
+          onChange={(value) =>
+            props.onChange(
+              {
+                ...props.query,
+                key: value,
+              },
+              definition
+            )
+          }
+          options={choices || []}
+          width={64}
+          value={props.query.key}
+          loading={!choices}
+        />
+      </QueryInlineField>
+      <QueryInlineField
+        width={10}
+        labelWidth={10}
+        label="Field Display"
+        tooltip="This field determines the text used for the variable"
       >
         <FieldSelect
           onChange={(value) =>

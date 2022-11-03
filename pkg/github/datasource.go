@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
+	"github.com/grafana/github-datasource/pkg/github/projects"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/shurcooL/githubv4"
@@ -134,11 +135,18 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 
 // HandleProjectsQuery is the query handler for listing GitHub Projects
 func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.ProjectsQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.ListProjectsOptions{
+	opt := models.ProjectOptions{
 		Organization: query.Options.Organization,
+		Number:       query.Options.Number,
+		User:         query.Options.User,
+		Kind:         query.Options.Kind,
+		Filters:      query.Options.Filters,
 	}
 
-	return GetAllProjects(ctx, d.client, opt)
+	if projects.ProjectNumber(query.Options.Number) > 0 {
+		return projects.GetAllProjectItems(ctx, d.client, opt)
+	}
+	return projects.GetAllProjects(ctx, d.client, opt)
 }
 
 // CheckHealth is the health check for GitHub

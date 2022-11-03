@@ -25,7 +25,7 @@ type QueryListLabels struct {
 	Repository struct {
 		Labels struct {
 			Nodes    Labels
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"labels(first: 100, after: $cursor, query: $query)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
@@ -61,7 +61,7 @@ func (a Labels) Frames() data.Frames {
 }
 
 // GetAllLabels gets all labels from a GitHub repository
-func GetAllLabels(ctx context.Context, client Client, opts models.ListLabelsOptions) (Labels, error) {
+func GetAllLabels(ctx context.Context, client models.Client, opts models.ListLabelsOptions) (Labels, error) {
 	queryString, err := InterPolateMacros(opts.Query)
 	if err != nil {
 		return nil, errors.WithStack(err)

@@ -24,6 +24,9 @@ export const Components = {
     Ref: {
       input: 'Query editor ref',
     },
+    Number: {
+      input: 'Query editor number',
+    },
   },
   AnnotationEditor: {
     container: 'Annotation editor container',

@@ -14,7 +14,7 @@ type Tag struct {
 	Name   string
 	Tagger struct {
 		Date githubv4.DateTime
-		User User
+		User models.User
 	}
 	Target struct {
 		OID    string
@@ -89,13 +89,13 @@ type QueryListTags struct {
 					Tag Tag `graphql:"... on Tag"`
 				}
 			}
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"refs(refPrefix: \"refs/tags/\", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}, first: 100, after: $cursor)"`
 	} `graphql:"repository(name: $name, owner: $owner)"`
 }
 
 // GetAllTags retrieves every tag from a repository
-func GetAllTags(ctx context.Context, client Client, opts models.ListTagsOptions) (Tags, error) {
+func GetAllTags(ctx context.Context, client models.Client, opts models.ListTagsOptions) (Tags, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -127,7 +127,7 @@ func GetAllTags(ctx context.Context, client Client, opts models.ListTagsOptions)
 }
 
 // GetTagsInRange retrieves every tag from the repository and then returns the ones that fall within the given time range.
-func GetTagsInRange(ctx context.Context, client Client, opts models.ListTagsOptions, from time.Time, to time.Time) (Tags, error) {
+func GetTagsInRange(ctx context.Context, client models.Client, opts models.ListTagsOptions, from time.Time, to time.Time) (Tags, error) {
 	tags, err := GetAllTags(ctx, client, opts)
 	if err != nil {
 		return nil, err

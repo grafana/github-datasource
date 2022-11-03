@@ -1,4 +1,4 @@
-package github
+package models
 
 import "github.com/shurcooL/githubv4"
 

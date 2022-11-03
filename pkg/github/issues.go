@@ -20,7 +20,7 @@ type Issue struct {
 	CreatedAt githubv4.DateTime
 	Closed    bool
 	Author    struct {
-		User `graphql:"... on User"`
+		models.User `graphql:"... on User"`
 	}
 	Repository Repository
 }
@@ -79,12 +79,12 @@ type QuerySearchIssues struct {
 		Nodes []struct {
 			Issue Issue `graphql:"... on Issue"`
 		}
-		PageInfo PageInfo
+		PageInfo models.PageInfo
 	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
 }
 
 // GetIssuesInRange lists issues in a project given a time range.
-func GetIssuesInRange(ctx context.Context, client Client, opts models.ListIssuesOptions, from time.Time, to time.Time) (Issues, error) {
+func GetIssuesInRange(ctx context.Context, client models.Client, opts models.ListIssuesOptions, from time.Time, to time.Time) (Issues, error) {
 	search := []string{
 		"is:issue",
 		fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository),

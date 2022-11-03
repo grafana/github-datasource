@@ -1,7 +1,8 @@
-package github
+package projects
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/grafana/github-datasource/pkg/models"
@@ -9,6 +10,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/shurcooL/githubv4"
 )
+
+// PageNumberLimit is the limit on the number of pages that will be traversed
+const PageNumberLimit = 2
 
 // QueryListProjects lists all projects in a repository
 // organization(login: "grafana") {
@@ -24,9 +28,19 @@ type QueryListProjects struct {
 	Organization struct {
 		ProjectsV2 struct {
 			Nodes    []Project
-			PageInfo PageInfo
+			PageInfo models.PageInfo
 		} `graphql:"projectsV2(first: 100, after: $cursor)"`
 	} `graphql:"organization(login: $login)"`
+}
+
+// QueryListProjectsByUser lists all projects by user
+type QueryListProjectsByUser struct {
+	User struct {
+		ProjectsV2 struct {
+			Nodes    []Project
+			PageInfo models.PageInfo
+		} `graphql:"projectsV2(first: 100, after: $cursor)"`
+	} `graphql:"user(login: $login)"`
 }
 
 // Project is a GitHub project
@@ -52,7 +66,7 @@ type Projects []Project
 // Frames converts the list of Projects to a Grafana DataFrame
 func (p Projects) Frames() data.Frames {
 	frame := data.NewFrame(
-		"pull_requests",
+		"projects",
 		data.NewField("number", nil, []int64{}),
 		data.NewField("title", nil, []string{}),
 		data.NewField("url", nil, []string{}),
@@ -91,7 +105,14 @@ func (p Projects) Frames() data.Frames {
 }
 
 // GetAllProjects uses the graphql endpoint API to list all projects in the repository
-func GetAllProjects(ctx context.Context, client Client, opts models.ListProjectsOptions) (Projects, error) {
+func GetAllProjects(ctx context.Context, client models.Client, opts models.ProjectOptions) (Projects, error) {
+	if opts.Kind == 0 {
+		return getAllProjectsByOrg(ctx, client, opts)
+	}
+	return getAllProjectsByUser(ctx, client, opts)
+}
+
+func getAllProjectsByOrg(ctx context.Context, client models.Client, opts models.ProjectOptions) (Projects, error) {
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
@@ -101,7 +122,7 @@ func GetAllProjects(ctx context.Context, client Client, opts models.ListProjects
 		projects = Projects{}
 	)
 
-	for {
+	for i := 0; i < PageNumberLimit; i++ {
 		q := &QueryListProjects{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)
@@ -120,8 +141,37 @@ func GetAllProjects(ctx context.Context, client Client, opts models.ListProjects
 	return projects, nil
 }
 
+func getAllProjectsByUser(ctx context.Context, client models.Client, opts models.ProjectOptions) (Projects, error) {
+	var (
+		variables = map[string]interface{}{
+			"cursor": (*githubv4.String)(nil),
+			"login":  githubv4.String(opts.User),
+		}
+
+		projects = Projects{}
+	)
+
+	for i := 0; i < PageNumberLimit; i++ {
+		q := &QueryListProjectsByUser{}
+		if err := client.Query(ctx, q, variables); err != nil {
+			return nil, errors.WithStack(err)
+		}
+
+		projectList := make(Projects, len(q.User.ProjectsV2.Nodes))
+		copy(projectList, q.User.ProjectsV2.Nodes)
+		projects = append(projects, projectList...)
+
+		if !q.User.ProjectsV2.PageInfo.HasNextPage {
+			break
+		}
+		variables["cursor"] = q.User.ProjectsV2.PageInfo.EndCursor
+	}
+
+	return projects, nil
+}
+
 // GetProjectsInRange retrieves every project from the org and then returns the ones that fall within the given time range.
-func GetProjectsInRange(ctx context.Context, client Client, opts models.ListProjectsOptions, from time.Time, to time.Time) (Projects, error) {
+func GetProjectsInRange(ctx context.Context, client models.Client, opts models.ProjectOptions, from time.Time, to time.Time) (Projects, error) {
 	projects, err := GetAllProjects(ctx, client, opts)
 	if err != nil {
 		return nil, err
@@ -136,4 +186,23 @@ func GetProjectsInRange(ctx context.Context, client Client, opts models.ListProj
 	}
 
 	return filtered, nil
+}
+
+// ProjectNumber ...
+func ProjectNumber(val any) int {
+	switch v := val.(type) {
+	case string:
+		i, err := strconv.Atoi(v)
+		if err != nil {
+			return 0
+		}
+		return i
+	case float64:
+		return int(v)
+	}
+	value, ok := val.(int)
+	if ok {
+		return value
+	}
+	return 0
 }

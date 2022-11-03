@@ -70,7 +70,7 @@ func TestTagsDataFrames(t *testing.T) {
 	user := GitActor{
 		Name:  "firstCommitter",
 		Email: "first@example.com",
-		User: User{
+		User: models.User{
 			ID:      "1",
 			Login:   "firstCommitter",
 			Name:    "First Committer",
@@ -114,7 +114,7 @@ func TestTagsDataFrames(t *testing.T) {
 			Name: "v1.0.0",
 			Tagger: struct {
 				Date githubv4.DateTime
-				User User
+				User models.User
 			}{
 				Date: githubv4.DateTime{
 					Time: createdAt,
@@ -133,7 +133,7 @@ func TestTagsDataFrames(t *testing.T) {
 			Name: "v1.1.0",
 			Tagger: struct {
 				Date githubv4.DateTime
-				User User
+				User models.User
 			}{
 				Date: githubv4.DateTime{
 					Time: createdAt,

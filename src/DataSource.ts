@@ -107,7 +107,9 @@ export class DataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSou
       }
       const view = new DataFrameView(res.data[0] as DataFrame);
       return view.map((item) => {
+        const value = item[query.key || ''] || item[query.field || 'name'];
         return {
+          value,
           text: item[query.field || 'name'],
         };
       });

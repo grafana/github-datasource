@@ -39,14 +39,14 @@ func TestPullRequestsDataFrame(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	firstUser := User{
+	firstUser := models.User{
 		ID:      "1",
 		Login:   "testUser",
 		Name:    "Test User",
 		Company: "ACME corp",
 		Email:   "user@example.com",
 	}
-	secondUser := User{
+	secondUser := models.User{
 		ID:      "2",
 		Login:   "testUser2",
 		Name:    "Second User",
