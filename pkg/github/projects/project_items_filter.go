@@ -65,19 +65,11 @@ func equals(v1 string, v2 any) bool {
 	case string:
 		return v1 == v
 	case *time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return t.Equal(*v)
+		f := func(t time.Time) bool { return v != nil && v.Equal(t) }
+		return checkDate(v1, f)
 	case time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return t.Equal(v)
+		f := func(t time.Time) bool { return v.Equal(t) }
+		return checkDate(v1, f)
 	}
 	return false
 }
@@ -89,19 +81,11 @@ func greaterThan(v1 string, v2 any) bool {
 	case string:
 		return v1 > v
 	case *time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return v.After(t)
+		f := func(t time.Time) bool { return v != nil && v.After(t) }
+		return checkDate(v1, f)
 	case time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return v.After(t)
+		f := func(t time.Time) bool { return v.After(t) }
+		return checkDate(v1, f)
 	}
 	return false
 }
@@ -113,19 +97,11 @@ func lessThan(v1 string, v2 any) bool {
 	case string:
 		return v1 < v
 	case *time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return v.Before(t)
+		f := func(t time.Time) bool { return v != nil && v.Before(t) }
+		return checkDate(v1, f)
 	case time.Time:
-		t, err := dateparse.ParseAny(v1)
-		if err != nil {
-			backend.Logger.Error("Failed to parse date "+v1, err)
-			return false
-		}
-		return v.Before(t)
+		f := func(t time.Time) bool { return v.Before(t) }
+		return checkDate(v1, f)
 	}
 	return false
 }
@@ -138,4 +114,13 @@ func contains(v1 string, v2 any) bool {
 		return strings.Contains(v, v1)
 	}
 	return false
+}
+
+func checkDate(d string, f func(t time.Time) bool) bool {
+	t, err := dateparse.ParseAny(d)
+	if err != nil {
+		backend.Logger.Error("Failed to parse date "+d, err)
+		return false
+	}
+	return f(t)
 }
