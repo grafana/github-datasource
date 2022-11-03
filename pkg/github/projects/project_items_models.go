@@ -44,6 +44,7 @@ type QueryProject struct {
 	} `graphql:"organization(login: $login)"`
 }
 
+// QueryProjectByUser lists Github projects by User
 type QueryProjectByUser struct {
 	User struct {
 		ProjectV2 struct {
@@ -148,10 +149,12 @@ type ProjectV2ItemFieldReviewerValue struct {
 	Field     CommonField
 }
 
+// Reviewers ...
 type Reviewers struct {
 	Nodes []Reviewer
 }
 
+// Reviewer ...
 type Reviewer struct {
 	models.User `graphql:"... on User"`
 }

@@ -112,7 +112,7 @@ func nameValue(fv FieldValue) (string, any) {
 	return fv.DateValue.Field.Common.Name, nil
 }
 
-// GetAllProjects uses the graphql endpoint API to list all projects in the repository
+// GetAllProjectItems uses the graphql endpoint API to list all project items in the repository
 func GetAllProjectItems(ctx context.Context, client models.Client, opts models.ProjectOptions) (*ProjectItemsWithFields, error) {
 	if opts.Kind == 0 {
 		projects, err := getAllProjectItemsByOrg(ctx, client, opts)

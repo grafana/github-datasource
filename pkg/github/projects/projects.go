@@ -30,6 +30,7 @@ type QueryListProjects struct {
 	} `graphql:"organization(login: $login)"`
 }
 
+// QueryListProjectsByUser lists all projects by user
 type QueryListProjectsByUser struct {
 	User struct {
 		ProjectsV2 struct {
