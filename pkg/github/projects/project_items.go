@@ -175,7 +175,7 @@ func getAllProjectItemsByUser(ctx context.Context, client models.Client, opts mo
 	)
 
 	var fields []Field
-	for {
+	for i := 0; i < PageNumberLimit; i++ {
 		q := &QueryProjectByUser{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)
