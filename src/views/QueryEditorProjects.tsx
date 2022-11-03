@@ -57,7 +57,11 @@ const QueryEditorProjects = (props: Props) => {
   return (
     <>
       <QueryEditorRow>
-        <InlineFormLabel className="query-keyword" tooltip="The owner of the GitHub project" width={LeftColumnWidth}>
+        <InlineFormLabel
+          className="query-keyword"
+          tooltip="The owner of the GitHub project. Does not support classic projects."
+          width={LeftColumnWidth}
+        >
           Project Owner
         </InlineFormLabel>
         <div className="gf-form">
@@ -121,7 +125,7 @@ const QueryEditorProjects = (props: Props) => {
       <QueryEditorRow>
         <InlineFormLabel
           className="query-keyword"
-          tooltip="The project number for the GitHub project (example: 123)"
+          tooltip="The project number for the GitHub project (example: 123). Does not support classic projects."
           width={LeftColumnWidth}
         >
           Project Number
