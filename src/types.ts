@@ -61,6 +61,7 @@ export enum PullRequestTimeField {
 export enum IssueTimeField {
   CreatedAt,
   ClosedAt,
+  None = 3,
 }
 
 export interface Indexable {
