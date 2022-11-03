@@ -22,6 +22,7 @@ This datasource uses the [`githubv4` package](https://github.com/shurcooL/github
 - [x] Labels
 - [x] Milestones
 - [x] Response Caching
+- [x] Projects
 - [ ] Deploys
 
 ### Frontend
@@ -111,6 +112,11 @@ For all repositories:
 - `read:packages`
 - `user:read`
 - `user:email`
+
+For Github projects:
+
+- `read:org`
+- `read:project`
 
 An extra setting is required for private repositories
 
