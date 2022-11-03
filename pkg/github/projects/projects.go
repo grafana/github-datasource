@@ -151,7 +151,7 @@ func getAllProjectsByUser(ctx context.Context, client models.Client, opts models
 		projects = Projects{}
 	)
 
-	for {
+	for i := 0; i < PageNumberLimit; i++ {
 		q := &QueryListProjectsByUser{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)

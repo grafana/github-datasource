@@ -141,7 +141,7 @@ func getAllProjectItemsByOrg(ctx context.Context, client models.Client, opts mod
 	)
 
 	var fields []Field
-	for {
+	for i := 0; i < PageNumberLimit; i++ {
 		q := &QueryProject{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)
