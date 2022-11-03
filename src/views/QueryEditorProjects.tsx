@@ -7,7 +7,6 @@ import { selectors } from '../components/selectors';
 import { ProjectsOptions, ProjectQueryType } from 'types';
 import { SelectableValue } from '@grafana/data';
 import { Filter, Filters } from 'components/Filters';
-import { isEmpty } from 'lodash';
 
 interface Props extends ProjectsOptions {
   onChange: (value: ProjectsOptions) => void;
@@ -69,17 +68,11 @@ const QueryEditorProjects = (props: Props) => {
             options={queryTypes}
             value={kind}
             onChange={(v) => {
-              setKind(v!);
-              // don't trigger the query if they change kind but the input is empty
-              if (
-                (kind === ProjectQueryType.ORG && !isEmpty(org)) ||
-                (kind === ProjectQueryType.USER && !isEmpty(user))
-              ) {
-                props.onChange({
-                  ...props,
-                  kind,
-                });
-              }
+              setKind(v);
+              props.onChange({
+                ...props,
+                kind: v,
+              });
             }}
             size={'md'}
           />

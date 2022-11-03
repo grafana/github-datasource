@@ -115,14 +115,6 @@ export enum ProjectQueryType {
   USER = 1,
 }
 
-export interface ProjectOptions extends Indexable {
-  organization?: string;
-  number?: number;
-  user?: string;
-  kind?: ProjectQueryType;
-  filters?: Filter[];
-}
-
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
   options?:
     | PullRequestsOptions
