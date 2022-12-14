@@ -28,5 +28,11 @@
     "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@types/lodash": "latest",
     "cypress": "7.7.0"
+  },
+  "resolutions": {
+    "underscore": "1.13.6",
+    "moment": "2.29.4",
+    "prismjs": "1.29.0",
+    "d3-color": "3.1.0"
   }
 }
