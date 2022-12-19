@@ -25,7 +25,7 @@ type ListIssuesOptions struct {
 	TimeField  IssueTimeField         `json:"timeField"`
 }
 
-// IssueOptionsWithRepo adds the Owner and Repository values to a ListIssuesOptions. This is a convience function because this is a common operation
+// IssueOptionsWithRepo adds the Owner and Repository values to a ListIssuesOptions. This is a convenience function because this is a common operation
 func IssueOptionsWithRepo(opt ListIssuesOptions, owner string, repo string) ListIssuesOptions {
 	return ListIssuesOptions{
 		Owner:      owner,

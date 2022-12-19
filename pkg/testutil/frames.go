@@ -10,7 +10,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
 )
 
-// UpdateGoldenFiles defines whether or not to update the files locally after checking the responses for vailidity
+// UpdateGoldenFiles defines whether or not to update the files locally after checking the responses for validity
 const UpdateGoldenFiles bool = true
 
 // CheckGoldenFramer checks the GoldenDataResponse and creates a standard file format for saving them

@@ -11,8 +11,8 @@ describe('DataFrame to annotations', () => {
       ],
     });
 
-    const annos = getAnnotationsFromFrame(frame);
-    expect(annos).toMatchInlineSnapshot(`
+    const annotations = getAnnotationsFromFrame(frame);
+    expect(annotations).toMatchInlineSnapshot(`
       Array [
         Object {
           "tags": Array [
@@ -41,7 +41,7 @@ describe('DataFrame to annotations', () => {
     `);
   });
 
-  test('explicit mappins', () => {
+  test('explicit maps', () => {
     const frame = toDataFrame({
       fields: [
         { name: 'time1', values: [100, 200, 300] },
@@ -51,7 +51,7 @@ describe('DataFrame to annotations', () => {
       ],
     });
 
-    const annos = getAnnotationsFromFrame(frame, {
+    const annotations = getAnnotationsFromFrame(frame, {
       field: {
         text: 'bbbbb',
         time: 'time2',
@@ -59,7 +59,7 @@ describe('DataFrame to annotations', () => {
         title: 'aaaaa',
       },
     });
-    expect(annos).toMatchInlineSnapshot(`
+    expect(annotations).toMatchInlineSnapshot(`
       Array [
         Object {
           "text": "b1",

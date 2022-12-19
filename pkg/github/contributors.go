@@ -72,7 +72,7 @@ func (u Users) Frames() data.Frames {
 	return data.Frames{frame}
 }
 
-// QueryListContributors is the GraphQL query for lising contributors (or rather, mentionable users in a repository)
+// QueryListContributors is the GraphQL query for listing contributors (or rather, mentionable users in a repository)
 type QueryListContributors struct {
 	Repository struct {
 		Users struct {

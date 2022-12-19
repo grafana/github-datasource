@@ -36,7 +36,7 @@ func (t Tags) Frames() data.Frames {
 		data.NewField("author_email", nil, []string{}),
 		data.NewField("author_company", nil, []string{}),
 		data.NewField("pushed_at", nil, []time.Time{}),
-		data.NewField("commited_at", nil, []time.Time{}),
+		data.NewField("committed_at", nil, []time.Time{}),
 		data.NewField("commit_pushed_at", nil, []time.Time{}),
 	)
 
@@ -58,29 +58,30 @@ func (t Tags) Frames() data.Frames {
 }
 
 // QueryListTags is the GraphQL query for listing GitHub tags in a repository
-//   repository(name: "grafana", owner: "grafana") {
-//     refs(refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}, first: 10, query: "") {
-//       nodes {
-//         target {
-//           oid
-//           ... on Tag {
-//             name
-//             tagger {
-//               date
-//             }
-//             target {
-//               oid
-//               ... on Commit {
-//                 committedDate
-//                 pushedDate
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
+//
+//	  repository(name: "grafana", owner: "grafana") {
+//	    refs(refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}, first: 10, query: "") {
+//	      nodes {
+//	        target {
+//	          oid
+//	          ... on Tag {
+//	            name
+//	            tagger {
+//	              date
+//	            }
+//	            target {
+//	              oid
+//	              ... on Commit {
+//	                committedDate
+//	                pushedDate
+//	              }
+//	            }
+//	          }
+//	        }
+//	      }
+//	    }
+//	  }
+//	}
 type QueryListTags struct {
 	Repository struct {
 		Refs struct {

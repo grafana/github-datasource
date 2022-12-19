@@ -8,8 +8,8 @@
 //  | Labels:        | Labels:        | Labels:        | Labels:           | Labels:           | Labels:        | Labels:                  |
 //  | Type: []string | Type: []string | Type: []string | Type: []string    | Type: []string    | Type: []string | Type: []string           |
 //  +----------------+----------------+----------------+-------------------+-------------------+----------------+--------------------------+
-//  | Example User   | Example User   | exuser1        | user1@example.com | user1@example.com | ACME Corp      | https://github.com/user1 |
-//  | Example User2  | Example User2  | exuser2        | user2@example.com | user2@example.com | ACME Corp      | https://github.com/user2 |
+//  | Example User   | Example User   | exUser1        | user1@example.com | user1@example.com | ACME Corp      | https://github.com/user1 |
+//  | Example User2  | Example User2  | exUser2        | user2@example.com | user2@example.com | ACME Corp      | https://github.com/user2 |
 //  +----------------+----------------+----------------+-------------------+-------------------+----------------+--------------------------+
 //  
 //  
@@ -83,8 +83,8 @@
             "Example User2"
           ],
           [
-            "exuser1",
-            "exuser2"
+            "exUser1",
+            "exUser2"
           ],
           [
             "user1@example.com",

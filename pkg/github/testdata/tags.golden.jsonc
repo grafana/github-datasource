@@ -4,7 +4,7 @@
 //  Name: tags
 //  Dimensions: 9 Fields by 2 Rows
 //  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+---------------------------------+
-//  | Name: name     | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: pushed_at                 | Name: commited_at               | Name: commit_pushed_at          |
+//  | Name: name     | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: pushed_at                 | Name: committed_at              | Name: commit_pushed_at          |
 //  | Labels:        | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                         | Labels:                         | Labels:                         |
 //  | Type: []string | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               | Type: []time.Time               | Type: []time.Time               |
 //  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+---------------------------------+
@@ -71,7 +71,7 @@
             }
           },
           {
-            "name": "commited_at",
+            "name": "committed_at",
             "type": "time",
             "typeInfo": {
               "frame": "time.Time"

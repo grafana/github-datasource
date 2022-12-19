@@ -8,7 +8,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
-func (s *QueryHandler) handleVulnerabilitesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
+func (s *QueryHandler) handleVulnerabilitiesQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
 	query := &models.VulnerabilityQuery{}
 	if err := UnmarshalQuery(q.JSON, query); err != nil {
 		return *err
@@ -16,9 +16,9 @@ func (s *QueryHandler) handleVulnerabilitesQuery(ctx context.Context, q backend.
 	return dfutil.FrameResponseWithError(s.Datasource.HandleVulnerabilitiesQuery(ctx, query, q))
 }
 
-// HandleVulnerabilitites handles the plugin query for github Vulnerabilitites
-func (s *QueryHandler) HandleVulnerabilitites(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+// HandleVulnerabilities handles the plugin query for github Vulnerabilities
+func (s *QueryHandler) HandleVulnerabilities(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
-		Responses: processQueries(ctx, req, s.handleVulnerabilitesQuery),
+		Responses: processQueries(ctx, req, s.handleVulnerabilitiesQuery),
 	}, nil
 }

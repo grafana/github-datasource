@@ -13,15 +13,16 @@ import (
 )
 
 // QueryListPullRequests lists all pull requests in a repository
-// {
-//   search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
-//     nodes {
-//       ... on PullRequest {
-//         id
-//         title
-//       }
-//   }
-// }
+//
+//	{
+//	  search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
+//	    nodes {
+//	      ... on PullRequest {
+//	        id
+//	        title
+//	      }
+//	  }
+//	}
 type QueryListPullRequests struct {
 	Search struct {
 		Nodes []struct {
@@ -31,7 +32,7 @@ type QueryListPullRequests struct {
 	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
 }
 
-// PullRequestAuthor is the structure of the Author object in a Pull Request (which requires a grapql object expansion on `User`)
+// PullRequestAuthor is the structure of the Author object in a Pull Request (which requires a graphQL object expansion on `User`)
 type PullRequestAuthor struct {
 	User models.User `graphql:"... on User"`
 }
