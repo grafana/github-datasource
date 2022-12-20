@@ -8,8 +8,8 @@ type IssueTimeField uint32
 const (
 	// IssueCreatedAt is used when filtering when an Issue was opened
 	IssueCreatedAt IssueTimeField = iota
-	// IssuetClosedAt is used when filtering when an Issue was closed
-	IssuetClosedAt
+	// IssueClosedAt is used when filtering when an Issue was closed
+	IssueClosedAt
 )
 
 func (d IssueTimeField) String() string {

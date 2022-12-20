@@ -16,7 +16,7 @@ func TestSearchIssues(t *testing.T) {
 		opts = models.ListIssuesOptions{
 			Repository: "grafana",
 			Owner:      "grafana",
-			TimeField:  models.IssuetClosedAt,
+			TimeField:  models.IssueClosedAt,
 		}
 	)
 
