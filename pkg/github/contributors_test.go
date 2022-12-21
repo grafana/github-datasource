@@ -60,7 +60,7 @@ func TestContributorsDataFrame(t *testing.T) {
 			Name:  "Example User",
 			Email: "user1@example.com",
 			User: models.User{
-				Login:   "exuser1",
+				Login:   "exUser1",
 				Name:    "Example User",
 				Company: "ACME Corp",
 				Email:   "user1@example.com",
@@ -71,7 +71,7 @@ func TestContributorsDataFrame(t *testing.T) {
 			Name:  "Example User2",
 			Email: "user2@example.com",
 			User: models.User{
-				Login:   "exuser2",
+				Login:   "exUser2",
 				Name:    "Example User2",
 				Company: "ACME Corp",
 				Email:   "user2@example.com",

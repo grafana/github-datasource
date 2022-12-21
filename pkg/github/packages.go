@@ -11,39 +11,40 @@ import (
 )
 
 // QueryListPackages is the GraphQL query for listing GitHub packages
-// {
-//   repository(name: "grafana", owner: "grafana") {
-//     packages(names: "", packageType: "", first: 10) {
-//       nodes {
-//         id
-//         name
-//         packageType
-//         statistics {
-//           downloadsTotalCount
-//         }
-//         versions(first: 10) {
-//           nodes {
-//             preRelease
-//             platform
-//             version
-//             statistics {
-//               downloadsTotalCount
-//             }
-//           }
-//           pageInfo {
-//             hasNextPage
-//             endCursor
-//           }
-//         }
-//       }
-//       totalCount
-//       pageInfo {
-//         endCursor
-//         hasNextPage
-//       }
-//     }
-//   }
-// }
+//
+//	{
+//	  repository(name: "grafana", owner: "grafana") {
+//	    packages(names: "", packageType: "", first: 10) {
+//	      nodes {
+//	        id
+//	        name
+//	        packageType
+//	        statistics {
+//	          downloadsTotalCount
+//	        }
+//	        versions(first: 10) {
+//	          nodes {
+//	            preRelease
+//	            platform
+//	            version
+//	            statistics {
+//	              downloadsTotalCount
+//	            }
+//	          }
+//	          pageInfo {
+//	            hasNextPage
+//	            endCursor
+//	          }
+//	        }
+//	      }
+//	      totalCount
+//	      pageInfo {
+//	        endCursor
+//	        hasNextPage
+//	      }
+//	    }
+//	  }
+//	}
 type QueryListPackages struct {
 	Repository struct {
 		Packages struct {
@@ -94,7 +95,7 @@ func (p Packages) Frames() data.Frames {
 		data.NewField("version", nil, []string{}),
 		data.NewField("type", nil, []string{}),
 		data.NewField("prerelease", nil, []bool{}),
-		data.NewField("downlods", nil, []int64{}),
+		data.NewField("downloads", nil, []int64{}),
 	)
 
 	for _, pkg := range p {

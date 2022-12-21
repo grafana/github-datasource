@@ -89,7 +89,7 @@ func TestMilestonesDataframe(t *testing.T) {
 				Time: openedAt,
 			},
 			State: githubv4.MilestoneStateClosed,
-			Title: "seoncd milestone",
+			Title: "second milestone",
 		},
 		{
 			Closed: false,

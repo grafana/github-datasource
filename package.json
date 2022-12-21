@@ -1,9 +1,10 @@
 {
   "name": "grafana-github-datasource",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "loads data from github issues/Pr's to Grafana",
   "private": true,
   "scripts": {
+    "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
     "e2e": "grafana-e2e run",
@@ -27,6 +28,7 @@
     "@grafana/toolkit": "8.4.7",
     "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@types/lodash": "latest",
+    "cspell": "6.13.3",
     "cypress": "7.7.0"
   }
 }

@@ -11,35 +11,37 @@ import (
 )
 
 // QueryListVulnerabilities lists all labels in a repository
-// {
-//   repository(name: "grafana", owner: "grafana") {
-//     labels(first: 100) {
-//       nodes {
-//         color
-//         description
-//         name
-//       }
-//     }
-//   }
-// }
-// {
-//     repository(name: "repo-name", owner: "repo-owner") {
-//         vulnerabilityAlerts(first: 100) {
-//             nodes {
-//                 createdAt
-//                 dismissedAt
-//                 securityVulnerability {
-//                     package {
-//                         name
-//                     }
-//                     advisory {
-//                         description
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
+//
+//	{
+//	  repository(name: "grafana", owner: "grafana") {
+//	    labels(first: 100) {
+//	      nodes {
+//	        color
+//	        description
+//	        name
+//	      }
+//	    }
+//	  }
+//	}
+//
+//	{
+//	    repository(name: "repo-name", owner: "repo-owner") {
+//	        vulnerabilityAlerts(first: 100) {
+//	            nodes {
+//	                createdAt
+//	                dismissedAt
+//	                securityVulnerability {
+//	                    package {
+//	                        name
+//	                    }
+//	                    advisory {
+//	                        description
+//	                    }
+//	                }
+//	            }
+//	        }
+//	    }
+//	}
 type QueryListVulnerabilities struct {
 	Repository struct {
 		VulnerabilityAlerts struct {
@@ -65,7 +67,7 @@ type securityVulnerability struct {
 	VulnerableVersionRange string
 }
 
-// SecurityAdvisoryPackageVersion is a struct with an idenifyier to identify the package
+// SecurityAdvisoryPackageVersion is a struct with an identifier to identify the package
 type SecurityAdvisoryPackageVersion struct {
 	Identifier string
 }
@@ -164,7 +166,7 @@ func GetAllVulnerabilities(ctx context.Context, client models.Client, opts model
 			"name":   githubv4.String(opts.Repository),
 		}
 
-		vuln = Vulnerabilities{}
+		vulnerabilities = Vulnerabilities{}
 	)
 
 	for {
@@ -173,7 +175,7 @@ func GetAllVulnerabilities(ctx context.Context, client models.Client, opts model
 			return nil, errors.WithStack(err)
 		}
 
-		vuln = append(vuln, q.Repository.VulnerabilityAlerts.Nodes...)
+		vulnerabilities = append(vulnerabilities, q.Repository.VulnerabilityAlerts.Nodes...)
 
 		if !q.Repository.VulnerabilityAlerts.PageInfo.HasNextPage {
 			break
@@ -181,5 +183,5 @@ func GetAllVulnerabilities(ctx context.Context, client models.Client, opts model
 		variables["cursor"] = q.Repository.VulnerabilityAlerts.PageInfo.EndCursor
 	}
 
-	return vuln, nil
+	return vulnerabilities, nil
 }

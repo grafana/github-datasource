@@ -2,10 +2,16 @@
 
 ## Entries
 
-## [1.3.0] 2022-10-20
+## [1.3.1] 2022-12-21
+
+- Chore - Updated go version to latest (1.19.4)
+- Chore - Updated backend grafana dependencies
+- Chore - Add spellcheck
+
+## [1.3.0] 2022-11-3
 
 - Feature - Github projects - query items, user projects
-- Chore - update build to use go 1.9.3
+- Chore - update build to use go 1.19.3
 
 ## [1.2.0] 2022-10-20
 
@@ -37,7 +43,7 @@
 
 ## [1.0.10] 2021-04-01
 
-- Fixed issue where some time values were being renderred incorrectly
+- Fixed issue where some time values were being rendered incorrectly
 
 ## [1.0.9] 2021-04-01
 
