@@ -4,8 +4,9 @@
 
 ## [1.3.1] 2022-10-20
 
-- Chore - update go version to latest (1.19.4)
-- Chore - update backend grafana dependencies
+- Chore - Updated go version to latest (1.19.4)
+- Chore - Updated backend grafana dependencies
+- Chore - Add spellcheck
 
 ## [1.3.0] 2022-10-20
 
