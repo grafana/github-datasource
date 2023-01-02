@@ -4,7 +4,9 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+	"strconv"
 	"strings"
+	"time"
 )
 
 type macroFunc func(string, []string) (string, error)
@@ -46,6 +48,18 @@ func InterPolateMacros(query string) (string, error) {
 				out = strings.Trim(fmt.Sprintf("%s %s:%s", out, prop, arg), " ")
 			}
 			return out, nil
+		},
+		"toDay": func(query string, args []string) (string, error) {
+			diff := 0
+			if args[0] != "" {
+				var err error
+				diff, err = strconv.Atoi(args[0])
+				if err != nil {
+					return query, errors.New("argument for day is not an integer")
+				}
+			}
+			expectedDay := time.Now().UTC().AddDate(0, 0, diff)
+			return expectedDay.Format("2006-01-02"), nil
 		},
 	}
 	for key, macro := range macros {
