@@ -2,6 +2,9 @@
 
 ## Entries
 
+## [1.3.2] - next
+- Added a `$__toDay()` macro support
+
 ## [1.3.1] 2022-12-21
 
 - Chore - Updated go version to latest (1.19.4)
