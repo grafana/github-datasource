@@ -1,6 +1,4 @@
 import React, { useMemo, useState, useCallback } from 'react';
-import coreModule from 'grafana/app/core/core_module';
-
 import { AnnotationQueryRequest } from '@grafana/data';
 
 import QueryEditor from './QueryEditor';
@@ -17,7 +15,7 @@ interface Props {
   change: (query: AnnotationQueryRequest<GitHubAnnotationQuery>) => void;
 }
 
-const AnnotationQueryEditor = (props: Props) => {
+export const AnnotationQueryEditor = (props: Props) => {
   const [choices, setChoices] = useState<string[]>();
   const { annotation } = props;
 
@@ -109,10 +107,3 @@ const AnnotationQueryEditor = (props: Props) => {
     </div>
   );
 };
-
-coreModule.directive('githubAnnotationEditor', [
-  'reactDirective',
-  (reactDirective: any) => {
-    return reactDirective(AnnotationQueryEditor, ['annotation', 'datasource', 'change']);
-  },
-]);
