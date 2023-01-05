@@ -1,5 +1,4 @@
 export const prepareAnnotation = (json: any) => {
-  console.log('json', json);
-  json.target = json.target ?? {};
+  json.target = json.annotation;
   return json;
 };

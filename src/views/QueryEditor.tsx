@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback } from 'react';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { Select } from '@grafana/ui';
 
-import { DataSource } from '../DataSource';
+import { GithubDataSource } from '../DataSource';
 import { GithubDataSourceOptions, GitHubQuery, QueryType, DefaultQueryType } from '../types';
 import { QueryInlineField } from '../components/Forms';
 import { isValid } from '../validation';
@@ -21,7 +21,7 @@ import QueryEditorPackages from './QueryEditorPackages';
 import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
 import QueryEditorProjects from './QueryEditorProjects';
 
-interface Props extends QueryEditorProps<DataSource, GitHubQuery, GithubDataSourceOptions> {
+interface Props extends QueryEditorProps<GithubDataSource, GitHubQuery, GithubDataSourceOptions> {
   queryTypes?: string[];
 }
 export const LeftColumnWidth = 10;

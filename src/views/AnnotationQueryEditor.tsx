@@ -1,53 +1,49 @@
-import React, { useMemo, useState, useCallback } from 'react';
-import { AnnotationQueryRequest } from '@grafana/data';
+import React, { useMemo, useCallback, useState } from 'react';
+import { DataSourceJsonData, QueryEditorProps } from '@grafana/data';
 
 import QueryEditor from './QueryEditor';
-import { DataSource } from '../DataSource';
+import { GithubDataSource } from '../DataSource';
 import { GitHubAnnotationQuery, GitHubQuery, QueryType } from '../types';
 import { QueryInlineField } from '../components/Forms';
 import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
 import { selectors } from 'components/selectors';
 
-interface Props {
-  datasource: DataSource;
-  annotation: AnnotationQueryRequest<GitHubAnnotationQuery>;
-  change: (query: AnnotationQueryRequest<GitHubAnnotationQuery>) => void;
-}
-
-export const AnnotationQueryEditor = (props: Props) => {
+export const AnnotationQueryEditor = (
+  props: QueryEditorProps<GithubDataSource, GitHubAnnotationQuery, DataSourceJsonData>
+) => {
   const [choices, setChoices] = useState<string[]>();
-  const { annotation } = props;
+  console.log('props', props);
+  const { query, onChange } = props;
 
   useMemo(async () => {
-    if (isValid(props.annotation.annotation as unknown as GitHubQuery)) {
-      setChoices(await props.datasource.getChoices(props.annotation.annotation as unknown as GitHubQuery));
+    if (isValid(query as unknown as GitHubQuery)) {
+      setChoices(await props.datasource.getChoices(query as unknown as GitHubQuery));
     }
-  }, [props.annotation.annotation, props.datasource]);
+  }, [query, props.datasource]);
 
-  const onChange = useCallback(
+  const handleDnChange = useCallback(
     (query: GitHubAnnotationQuery) => {
-      props.change({
-        ...props.annotation,
+      onChange({
+        ...props.query,
         annotation: {
-          ...annotation.annotation,
           ...query,
           datasource: props.datasource.name,
         },
       });
     },
-    [props, annotation.annotation]
+    [props, query]
   );
 
   return (
     <div aria-label={selectors.components.AnnotationEditor.container}>
       <QueryEditor
-        query={annotation.annotation as unknown as GitHubQuery}
+        query={query as unknown as GitHubQuery}
         datasource={props.datasource}
         onChange={(query) =>
-          onChange({
+          handleDnChange({
             ...query,
-            field: annotation.annotation.field,
+            field: query.field,
           })
         }
         onRunQuery={() => {}}
@@ -62,7 +58,7 @@ export const AnnotationQueryEditor = (props: Props) => {
       />
 
       {/* Only display the field selection items when the user has created an actual query */}
-      {isValid(props.annotation.annotation as unknown as GitHubQuery) && (
+      {isValid(query as unknown as GitHubQuery) && (
         <>
           <QueryInlineField
             width={10}
@@ -72,14 +68,14 @@ export const AnnotationQueryEditor = (props: Props) => {
           >
             <FieldSelect
               onChange={(value) =>
-                onChange({
-                  ...annotation.annotation,
+                handleDnChange({
+                  ...query,
                   field: value,
                 } as unknown as GitHubQuery)
               }
               options={choices || []}
               width={64}
-              value={annotation.annotation.field}
+              value={query.field}
               loading={!choices}
             />
           </QueryInlineField>
@@ -91,14 +87,14 @@ export const AnnotationQueryEditor = (props: Props) => {
           >
             <FieldSelect
               onChange={(value) =>
-                onChange({
-                  ...annotation.annotation,
+                handleDnChange({
+                  ...query,
                   timeField: value,
                 } as unknown as GitHubQuery)
               }
               options={choices || []}
               width={64}
-              value={annotation.annotation.timeField}
+              value={query.timeField}
               loading={!choices}
             />
           </QueryInlineField>
