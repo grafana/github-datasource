@@ -51,23 +51,22 @@ func (c Commits) Frames() data.Frames {
 }
 
 // QueryListCommits is the object representation of the graphql query for retrieving a paginated list of commits for a project
-//
 //	query {
-//	  repository(name:"$name", owner:"$owner") {
-//	    object(expression: "master") {
-//	      ... on Commit {
-//	        history {
-//	          nodes {
-//	            committedDate
-//	          }
-//	          pageInfo{
-//	            hasNextPage
-//	            hasPreviousPage
-//	          }
-//	        }
-//	      }
-//	    }
-//	  }
+//		repository(name:"$name", owner:"$owner") {
+//			object(expression: "master") {
+//				... on Commit {
+//					history {
+//						nodes {
+//							committedDate
+//						}
+//						pageInfo{
+//							hasNextPage
+//							hasPreviousPage
+//						}
+//					}
+//				}
+//			}
+//		}
 //	}
 type QueryListCommits struct {
 	Repository struct {
