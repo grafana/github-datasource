@@ -4,7 +4,7 @@
 
 ## [1.3.3] - 2023-01-09
 
-- Chore - Remove angular depency: migrate annotaion editor
+- Chore - Remove angular dependency: migrate annotation editor
 
 ## [1.3.2] - next
 
