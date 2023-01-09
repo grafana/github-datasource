@@ -2,7 +2,12 @@
 
 ## Entries
 
+## [1.3.3] - 2023-01-09
+
+- Chore - Remove angular depency: migrate annotaion editor
+
 ## [1.3.2] - next
+
 - Added a `$__toDay()` macro support
 
 ## [1.3.1] 2022-12-21
