@@ -13,7 +13,6 @@ export const AnnotationQueryEditor = (
   props: QueryEditorProps<GithubDataSource, GitHubAnnotationQuery, DataSourceJsonData>
 ) => {
   const [choices, setChoices] = useState<string[]>();
-  console.log('props', props);
   const { query, onChange } = props;
 
   useMemo(async () => {
@@ -23,13 +22,10 @@ export const AnnotationQueryEditor = (
   }, [query, props.datasource]);
 
   const handleDnChange = useCallback(
-    (query: GitHubAnnotationQuery) => {
+    (annotationQuery: GitHubAnnotationQuery) => {
       onChange({
-        ...props.query,
-        annotation: {
-          ...query,
-          datasource: props.datasource.name,
-        },
+        ...query,
+        ...annotationQuery,
       });
     },
     [props, query]
