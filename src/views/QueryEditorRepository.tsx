@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, InlineFormLabel } from '@grafana/ui';
 
 import { QueryEditorRow } from '../components/Forms';
@@ -13,6 +13,14 @@ interface Props extends RepositoryOptions {
 const QueryEditorRepositories = (props: Props) => {
   const [repository, setRepository] = useState<string>(props.repository || '');
   const [owner, setOwner] = useState<string>(props.owner || '');
+
+  useEffect(() => {
+    setRepository(props.repository || '');
+  }, [props.repository]);
+
+  useEffect(() => {
+    setOwner(props.owner || '');
+  }, [props.owner]);
 
   return (
     <QueryEditorRow>
