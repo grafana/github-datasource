@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 
 import QueryEditor from './QueryEditor';
-import { DataSource } from '../DataSource';
+import { GithubDataSource } from '../DataSource';
 import { GitHubVariableQuery, DefaultQueryType, QueryType } from '../types';
 import { QueryInlineField } from '../components/Forms';
 import FieldSelect from '../components/FieldSelect';
@@ -10,7 +10,7 @@ import { isValid } from '../validation';
 interface Props {
   query: GitHubVariableQuery;
   onChange: (query: GitHubVariableQuery, definition: string) => void;
-  datasource: DataSource;
+  datasource: GithubDataSource;
 }
 
 const VariableQueryEditor = (props: Props) => {
