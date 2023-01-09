@@ -12,8 +12,8 @@ import { GithubDataSourceOptions, GitHubQuery, GitHubVariableQuery, Label } from
 import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
-import { AnnotationQueryEditor } from 'views/AnnotationQueryEditor';
 import { prepareAnnotation } from 'migrations';
+import QueryEditor from 'views/QueryEditor';
 
 export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
   templateSrv = getTemplateSrv();
@@ -21,7 +21,7 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
   constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
     super(instanceSettings);
     this.annotations = {
-      QueryEditor: AnnotationQueryEditor,
+      QueryEditor,
       prepareAnnotation,
     };
   }
