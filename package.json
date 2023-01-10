@@ -26,7 +26,6 @@
     "@grafana/e2e": "8.4.7",
     "@grafana/e2e-selectors": "8.4.7",
     "@grafana/toolkit": "8.4.7",
-    "@types/grafana": "github:CorpGlory/types-grafana.git",
     "@types/lodash": "latest",
     "cspell": "6.13.3",
     "cypress": "7.7.0"
