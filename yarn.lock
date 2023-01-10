@@ -3322,10 +3322,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/grafana@github:CorpGlory/types-grafana.git":
-  version "4.6.3"
-  resolved "https://codeload.github.com/CorpGlory/types-grafana/tar.gz/8c55ade5212f089748f6955f73e8f753fff9f278"
-
 "@types/hoist-non-react-statics@^3.3.0":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
