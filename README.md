@@ -1,9 +1,5 @@
 # Grafana GitHub datasource
 
-[![Known Vulnerabilities](https://snyk.io/test/github/grafana/github-datasource/badge.svg)](https://snyk.io/test/github/grafana/github-datasource)
-[![Maintainability](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/maintainability)](https://codeclimate.com/github/grafana/github-datasource/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/test_coverage)](https://codeclimate.com/github/grafana/github-datasource/test_coverage)
-
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
 
 ## Github API V4 (graphql)
