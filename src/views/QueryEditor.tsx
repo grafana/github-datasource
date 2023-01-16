@@ -85,6 +85,9 @@ const queryEditors: {
       <QueryEditorProjects {...(props.query.options || {})} onChange={onChange} />
     ),
   },
+  [QueryType.Stargazers]: {
+    component: (_: Props, onChange: (val: any) => void) => <></>,
+  },
 };
 
 /* eslint-enable react/display-name */
