@@ -13,7 +13,6 @@ import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
-import QueryEditor from 'views/QueryEditor';
 
 export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
   templateSrv = getTemplateSrv();
@@ -21,7 +20,6 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
   constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
     super(instanceSettings);
     this.annotations = {
-      QueryEditor,
       prepareAnnotation,
     };
   }
