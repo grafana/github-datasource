@@ -22,6 +22,7 @@ type Datasource interface {
 	HandleMilestonesQuery(context.Context, *models.MilestonesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleVulnerabilitiesQuery(context.Context, *models.VulnerabilityQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleProjectsQuery(context.Context, *models.ProjectsQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleStargazersQuery(context.Context, *models.StargazersQuery, backend.DataQuery) (dfutil.Framer, error)
 	CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error)
 	QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error)
 }

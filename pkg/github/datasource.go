@@ -149,6 +149,16 @@ func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.Proj
 	return projects.GetAllProjects(ctx, d.client, opt)
 }
 
+// HandleStargazersQuery is the query handler for listing stargazers of a GitHub repository
+func (d *Datasource) HandleStargazersQuery(ctx context.Context, query *models.StargazersQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListStargazersOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+	}
+
+	return GetStargazers(ctx, d.client, opt, req.TimeRange)
+}
+
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{

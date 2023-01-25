@@ -1,12 +1,8 @@
 # Grafana GitHub datasource
 
-[![Known Vulnerabilities](https://snyk.io/test/github/grafana/github-datasource/badge.svg)](https://snyk.io/test/github/grafana/github-datasource)
-[![Maintainability](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/maintainability)](https://codeclimate.com/github/grafana/github-datasource/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/30a924eb80d5f6b1cf9c/test_coverage)](https://codeclimate.com/github/grafana/github-datasource/test_coverage)
-
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
 
-## Github API V4 (graphql)
+## GitHub API V4 (GraphQL)
 
 This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
 
@@ -17,6 +13,7 @@ This datasource uses the [`githubv4` package](https://github.com/shurcooL/github
 - [x] Releases
 - [x] Commits
 - [x] Repositories
+- [x] Stargazers
 - [x] Issues
 - [x] Organizations
 - [x] Labels
@@ -44,7 +41,7 @@ Options:
 | Access token          | true     |
 | Default Organization  | false    |
 | Default Repository    | true     |
-| Github Enterprise URL | false    |
+| GitHub Enterprise URL | false    |
 
 To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and press **Generate new token.**
 
