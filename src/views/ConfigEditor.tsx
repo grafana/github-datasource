@@ -1,10 +1,17 @@
 import React, { PureComponent } from 'react';
 import { onUpdateDatasourceJsonDataOption, DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { Input, InlineFormLabel, LegacyForms, InfoBox, Icon } from '@grafana/ui';
+import { css } from '@emotion/css';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
 import { selectors } from 'components/selectors';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
+
+const styles = {
+  tokenScopesList: css`
+    list-style-type: none;
+  `,
+};
 
 export class ConfigEditor extends PureComponent<ConfigEditorProps> {
   onSettingReset = (prop: string) => (event: any) => {
@@ -46,20 +53,25 @@ export class ConfigEditor extends PureComponent<ConfigEditorProps> {
           <p>Ensure that your token has the following permissions:</p>
           <h4>For all repositories:</h4>
           <pre>
-            <ul>
+            <ul className={styles.tokenScopesList}>
               <li>public_repo</li>
               <li>repo:status</li>
               <li>repo_deployment</li>
               <li>read:packages</li>
-            </ul>
-            <ul>
               <li>read:user</li>
               <li>user:email</li>
             </ul>
           </pre>
+          <h4>For Github projects:</h4>
+          <pre>
+            <ul className={styles.tokenScopesList}>
+              <li>read:org</li>
+              <li>read:project</li>
+            </ul>
+          </pre>
           <h4>An extra setting is required for private repositories:</h4>
           <pre>
-            <ul>
+            <ul className={styles.tokenScopesList}>
               <li>repo (Full control of private repositories)</li>
             </ul>
           </pre>
