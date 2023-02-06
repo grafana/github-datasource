@@ -2,28 +2,33 @@
 
 ## Entries
 
+## [1.4.0] - 2023-02-03
+
+- **Feature** - Added stargazers query type
+- **Chore** - Minor documentation updates
+
 ## [1.3.3] - 2023-01-09
 
-- Chore - Remove angular dependency: migrate annotation editor
+- **Chore** - Removed angular dependency: migrated annotation editor
 
 ## [1.3.2] - next
 
-- Added a `$__toDay()` macro support
+- **Feature** Added `$__toDay()` macro support
 
 ## [1.3.1] 2022-12-21
 
-- Chore - Updated go version to latest (1.19.4)
-- Chore - Updated backend grafana dependencies
-- Chore - Add spellcheck
+- **Chore** - Updated go version to latest (1.19.4)
+- **Chore** - Updated backend grafana dependencies
+- **Chore** - Added spellcheck
 
 ## [1.3.0] 2022-11-3
 
-- Feature - Github projects - query items, user projects
-- Chore - update build to use go 1.19.3
+- **Feature** - Github projects - query items, user projects
+- **Chore** - Updated build to use go 1.19.3
 
 ## [1.2.0] 2022-10-20
 
-- Feature - Github projects
+- **Feature** - Github projects
 
 ## [1.1.0] - next
 

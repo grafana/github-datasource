@@ -48,7 +48,9 @@ To create a new Access Token, navigate to [Personal Access Tokens](https://githu
 ### Provisioning
 
 [It’s possible to configure data sources using config files with Grafana’s provisioning system](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
+
 #### With the [prom-operator](https://github.com/prometheus-operator/prometheus-operator)
+
 ```yaml
 promop:
     grafana:
@@ -110,7 +112,7 @@ For all repositories:
 - `repo:status`
 - `repo_deployment`
 - `read:packages`
-- `user:read`
+- `read:user`
 - `user:email`
 
 For Github projects:
