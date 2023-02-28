@@ -57,6 +57,7 @@ type Vulnerability struct {
 	DismissedAt           githubv4.DateTime
 	DismissReason         string
 	SecurityVulnerability securityVulnerability
+	State                 string
 }
 
 // securityVulnerability has all the security information
@@ -112,6 +113,7 @@ func (a Vulnerabilities) Frames() data.Frames {
 		data.NewField("cvssVector", nil, []string{}),
 		data.NewField("permalink", nil, []string{}),
 		data.NewField("severity", nil, []string{}),
+		data.NewField("state", nil, []string{}),
 	)
 
 	for _, v := range a {
@@ -151,6 +153,7 @@ func (a Vulnerabilities) Frames() data.Frames {
 			v.SecurityVulnerability.Advisory.Cvss.VectorString,
 			v.SecurityVulnerability.Advisory.Permalink,
 			string(v.SecurityVulnerability.Advisory.Severity),
+			v.State,
 		)
 	}
 
