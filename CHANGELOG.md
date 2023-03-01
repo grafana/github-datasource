@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.4.1] - 2023-03-01
+
+- **Feature** - Added `RepositoryVulnerabilityAlertState` field to `Vulnerabilities` query
+
 ## [1.4.0] - 2023-02-03
 
 - **Feature** - Added stargazers query type
