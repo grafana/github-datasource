@@ -1,6 +1,6 @@
 //  🌟 This was machine generated.  Do not edit. 🌟
-//
-//  Frame[0]
+//  
+//  Frame[0] 
 //  Name: repositories
 //  Dimensions: 9 Fields by 2 Rows
 //  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+-----------------+------------------+---------------------------------+
@@ -11,8 +11,8 @@
 //  | grafana        | grafana        | grafana/grafana       | github.com/grafana/grafana | 10            | true          | true            | false            | 2020-08-25 16:21:56 +0000 +0000 |
 //  | loki           | grafana        | grafana/loki          | github.com/grafana/loki    | 12            | true          | true            | false            | 2020-08-25 16:21:56 +0000 +0000 |
 //  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+-----------------+------------------+---------------------------------+
-//
-//
+//  
+//  
 //  🌟 This was machine generated.  Do not edit. 🌟
 {
   "status": 200,
@@ -88,15 +88,42 @@
       },
       "data": {
         "values": [
-          ["grafana", "loki"],
-          ["grafana", "grafana"],
-          ["grafana/grafana", "grafana/loki"],
-          ["github.com/grafana/grafana", "github.com/grafana/loki"],
-          [10, 12],
-          [true, true],
-          [true, true],
-          [false, false],
-          [1598372516000, 1598372516000]
+          [
+            "grafana",
+            "loki"
+          ],
+          [
+            "grafana",
+            "grafana"
+          ],
+          [
+            "grafana/grafana",
+            "grafana/loki"
+          ],
+          [
+            "github.com/grafana/grafana",
+            "github.com/grafana/loki"
+          ],
+          [
+            10,
+            12
+          ],
+          [
+            true,
+            true
+          ],
+          [
+            true,
+            true
+          ],
+          [
+            false,
+            false
+          ],
+          [
+            1598372516000,
+            1598372516000
+          ]
         ]
       }
     }

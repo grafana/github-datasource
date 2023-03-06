@@ -1,6 +1,6 @@
 //  🌟 This was machine generated.  Do not edit. 🌟
-//
-//  Frame[0]
+//  
+//  Frame[0] 
 //  Name: pull_requests
 //  Dimensions: 18 Fields by 3 Rows
 //  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+-----------------+
@@ -12,8 +12,8 @@
 //  | 2             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/2 | grafana/github-datasource | OPEN           | testUser2          | user2@example.com  | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
 //  | 3             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/3 | grafana/github-datasource | OPEN           | testUser2          | user2@example.com  | ACME corp            | false        | false          | false        | false        | MERGEABLE       | null                            | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
 //  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+-----------------+
-//
-//
+//  
+//  
 //  🌟 This was machine generated.  Do not edit. 🌟
 {
   "status": 200,
@@ -157,28 +157,96 @@
       },
       "data": {
         "values": [
-          [1, 2, 3],
-          ["PullRequest #1", "PullRequest #2", "PullRequest #2"],
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            "PullRequest #1",
+            "PullRequest #2",
+            "PullRequest #2"
+          ],
           [
             "https://github.com/grafana/github-datasource/pulls/1",
             "https://github.com/grafana/github-datasource/pulls/2",
             "https://github.com/grafana/github-datasource/pulls/3"
           ],
-          ["grafana/github-datasource", "grafana/github-datasource", "grafana/github-datasource"],
-          ["OPEN", "OPEN", "OPEN"],
-          ["testUser", "testUser2", "testUser2"],
-          ["user@example.com", "user2@example.com", "user2@example.com"],
-          ["ACME corp", "ACME corp", "ACME corp"],
-          [true, true, false],
-          [false, false, false],
-          [false, false, false],
-          [true, true, false],
-          ["MERGEABLE", "MERGEABLE", "MERGEABLE"],
-          [1598378516000, 1598378516000, null],
-          [1598378516000, 1598378516000, 1598378516000],
-          [1598372516000, 1598379716000, 1598379716000],
-          [1598372516000, 1598372516000, 1598372516000],
-          [6000, 6000, 6000]
+          [
+            "grafana/github-datasource",
+            "grafana/github-datasource",
+            "grafana/github-datasource"
+          ],
+          [
+            "OPEN",
+            "OPEN",
+            "OPEN"
+          ],
+          [
+            "testUser",
+            "testUser2",
+            "testUser2"
+          ],
+          [
+            "user@example.com",
+            "user2@example.com",
+            "user2@example.com"
+          ],
+          [
+            "ACME corp",
+            "ACME corp",
+            "ACME corp"
+          ],
+          [
+            true,
+            true,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            false,
+            false,
+            false
+          ],
+          [
+            true,
+            true,
+            false
+          ],
+          [
+            "MERGEABLE",
+            "MERGEABLE",
+            "MERGEABLE"
+          ],
+          [
+            1598378516000,
+            1598378516000,
+            null
+          ],
+          [
+            1598378516000,
+            1598378516000,
+            1598378516000
+          ],
+          [
+            1598372516000,
+            1598379716000,
+            1598379716000
+          ],
+          [
+            1598372516000,
+            1598372516000,
+            1598372516000
+          ],
+          [
+            6000,
+            6000,
+            6000
+          ]
         ]
       }
     }
