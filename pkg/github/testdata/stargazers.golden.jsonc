@@ -1,5 +1,5 @@
 //  🌟 This was machine generated.  Do not edit. 🌟
-//  
+//
 //  Frame[0] {
 //      "preferredVisualisationType": "graph"
 //  }
@@ -14,8 +14,8 @@
 //  | 2023-01-14 10:23:41 +0000 GMT | 2                | NEVER          | gonna          | Let            | You            | down@example.org           |                                             |
 //  | 2023-01-14 10:25:41 +0000 GMT | 1                | NEVER          | gonna          | Give           | You            | up@example.org             |                                             |
 //  +-------------------------------+------------------+----------------+----------------+----------------+----------------+----------------------------+---------------------------------------------+
-//  
-//  
+//
+//
 //  🌟 This was machine generated.  Do not edit. 🌟
 {
   "status": 200,
@@ -87,46 +87,14 @@
       },
       "data": {
         "values": [
-          [
-            1673691701000,
-            1673691821000,
-            1673691941000
-          ],
-          [
-            3,
-            2,
-            1
-          ],
-          [
-            "NEVER",
-            "NEVER",
-            "NEVER"
-          ],
-          [
-            "gonna",
-            "gonna",
-            "gonna"
-          ],
-          [
-            "Run",
-            "Let",
-            "Give"
-          ],
-          [
-            "Around",
-            "You",
-            "You"
-          ],
-          [
-            "and_desert_you@example.org",
-            "down@example.org",
-            "up@example.org"
-          ],
-          [
-            "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-            "",
-            ""
-          ]
+          [1673691701000, 1673691821000, 1673691941000],
+          [3, 2, 1],
+          ["NEVER", "NEVER", "NEVER"],
+          ["gonna", "gonna", "gonna"],
+          ["Run", "Let", "Give"],
+          ["Around", "You", "You"],
+          ["and_desert_you@example.org", "down@example.org", "up@example.org"],
+          ["https://www.youtube.com/watch?v=dQw4w9WgXcQ", "", ""]
         ]
       }
     }

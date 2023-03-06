@@ -1,6 +1,6 @@
 //  🌟 This was machine generated.  Do not edit. 🌟
-//  
-//  Frame[0] 
+//
+//  Frame[0]
 //  Name: issues
 //  Dimensions: 8 Fields by 3 Rows
 //  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
@@ -12,8 +12,8 @@
 //  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 |
 //  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            |
 //  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
-//  
-//  
+//
+//
 //  🌟 This was machine generated.  Do not edit. 🌟
 {
   "status": 200,
@@ -83,46 +83,14 @@
       },
       "data": {
         "values": [
-          [
-            "Issue #1",
-            "Issue #2",
-            "Issue #3"
-          ],
-          [
-            "firstUser",
-            "secondUser",
-            "firstUser"
-          ],
-          [
-            "ACME Corp",
-            "ACME Corp",
-            "ACME Corp"
-          ],
-          [
-            "grafana/grafana",
-            "grafana/grafana",
-            "grafana/grafana"
-          ],
-          [
-            1,
-            2,
-            3
-          ],
-          [
-            false,
-            true,
-            false
-          ],
-          [
-            1598372516000,
-            1598372516000,
-            1598372516000
-          ],
-          [
-            null,
-            1598394116000,
-            null
-          ]
+          ["Issue #1", "Issue #2", "Issue #3"],
+          ["firstUser", "secondUser", "firstUser"],
+          ["ACME Corp", "ACME Corp", "ACME Corp"],
+          ["grafana/grafana", "grafana/grafana", "grafana/grafana"],
+          [1, 2, 3],
+          [false, true, false],
+          [1598372516000, 1598372516000, 1598372516000],
+          [null, 1598394116000, null]
         ]
       }
     }

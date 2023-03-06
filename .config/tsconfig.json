@@ -4,7 +4,7 @@
  * In order to extend the configuration follow the steps in
  * https://grafana.github.io/plugin-tools/docs/advanced-configuration#extending-the-typescript-config
  */
- {
+{
   "compilerOptions": {
     "alwaysStrict": true,
     "declaration": false,

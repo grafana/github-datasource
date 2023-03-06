@@ -189,9 +189,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -215,9 +213,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -259,9 +255,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -282,9 +276,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -326,9 +318,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -349,9 +339,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -406,9 +394,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -433,9 +419,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -481,9 +465,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -508,9 +490,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -553,9 +533,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -581,19 +559,14 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "names": [
-                "locked",
-                "open_time"
-              ]
+              "names": ["locked", "open_time"]
             }
           }
         },
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "mean"
-            ]
+            "reducers": ["mean"]
           }
         }
       ],
@@ -636,9 +609,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -664,18 +635,14 @@
           "id": "filterFieldsByName",
           "options": {
             "include": {
-              "names": [
-                "open_time"
-              ]
+              "names": ["open_time"]
             }
           }
         },
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "mean"
-            ]
+            "reducers": ["mean"]
           }
         }
       ],
@@ -734,9 +701,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -760,9 +725,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -808,9 +771,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -834,9 +795,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -879,9 +838,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -922,9 +879,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "mean"
-            ]
+            "reducers": ["mean"]
           }
         }
       ],
@@ -966,9 +921,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "mean"
-          ],
+          "calcs": ["mean"],
           "fields": "",
           "values": false
         },
@@ -992,9 +945,7 @@
         {
           "id": "reduce",
           "options": {
-            "reducers": [
-              "count"
-            ]
+            "reducers": ["count"]
           }
         }
       ],
@@ -1080,9 +1031,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -1154,9 +1103,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -1240,9 +1187,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -1342,9 +1287,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -1403,9 +1346,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true
@@ -1463,9 +1404,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -1539,9 +1478,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true,
@@ -1597,9 +1534,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true
@@ -1780,18 +1715,7 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "5s",
-      "10s",
-      "30s",
-      "1m",
-      "5m",
-      "15m",
-      "30m",
-      "1h",
-      "2h",
-      "1d"
-    ]
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "30m", "1h", "2h", "1d"]
   },
   "timezone": "",
   "title": "GitHub Default",

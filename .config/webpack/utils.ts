@@ -25,7 +25,8 @@ export function hasReadme() {
 export async function getEntries(): Promise<Record<string, string>> {
   const pluginsJson = await globAsync('**/src/**/plugin.json', { absolute: true });
 
-  const plugins = await Promise.all(pluginsJson.map((pluginJson) => {
+  const plugins = await Promise.all(
+    pluginsJson.map((pluginJson) => {
       const folder = path.dirname(pluginJson);
       return globAsync(`${folder}/module.{ts,tsx,js,jsx}`, { absolute: true });
     })

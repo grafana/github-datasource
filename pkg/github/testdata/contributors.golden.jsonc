@@ -1,6 +1,6 @@
 //  🌟 This was machine generated.  Do not edit. 🌟
-//  
-//  Frame[0] 
+//
+//  Frame[0]
 //  Name: users
 //  Dimensions: 7 Fields by 2 Rows
 //  +----------------+----------------+----------------+-------------------+-------------------+----------------+--------------------------+
@@ -11,8 +11,8 @@
 //  | Example User   | Example User   | exUser1        | user1@example.com | user1@example.com | ACME Corp      | https://github.com/user1 |
 //  | Example User2  | Example User2  | exUser2        | user2@example.com | user2@example.com | ACME Corp      | https://github.com/user2 |
 //  +----------------+----------------+----------------+-------------------+-------------------+----------------+--------------------------+
-//  
-//  
+//
+//
 //  🌟 This was machine generated.  Do not edit. 🌟
 {
   "status": 200,
@@ -74,34 +74,13 @@
       },
       "data": {
         "values": [
-          [
-            "Example User",
-            "Example User2"
-          ],
-          [
-            "Example User",
-            "Example User2"
-          ],
-          [
-            "exUser1",
-            "exUser2"
-          ],
-          [
-            "user1@example.com",
-            "user2@example.com"
-          ],
-          [
-            "user1@example.com",
-            "user2@example.com"
-          ],
-          [
-            "ACME Corp",
-            "ACME Corp"
-          ],
-          [
-            "https://github.com/user1",
-            "https://github.com/user2"
-          ]
+          ["Example User", "Example User2"],
+          ["Example User", "Example User2"],
+          ["exUser1", "exUser2"],
+          ["user1@example.com", "user2@example.com"],
+          ["user1@example.com", "user2@example.com"],
+          ["ACME Corp", "ACME Corp"],
+          ["https://github.com/user1", "https://github.com/user2"]
         ]
       }
     }

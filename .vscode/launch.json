@@ -11,9 +11,7 @@
       "mode": "auto",
       "program": "${workspaceFolder}/pkg/",
       "env": {},
-      "args": [
-          "--standalone=true",
-      ],
-    },
+      "args": ["--standalone=true"]
+    }
   ]
 }

@@ -1,6 +1,6 @@
 //  🌟 This was machine generated.  Do not edit. 🌟
-//  
-//  Frame[0] 
+//
+//  Frame[0]
 //  Name: releases
 //  Dimensions: 8 Fields by 2 Rows
 //  +----------------+------------------+----------------+---------------------+----------------+----------------------------+---------------------------------+---------------------------------+
@@ -11,8 +11,8 @@
 //  | Release #1     | exampleUser      | true           | false               | v1.0.0         | https://example.com/v1.0.0 | 2020-08-25 16:21:56 +0000 +0000 | null                            |
 //  | Release #2     | exampleUser      | true           | false               | v1.1.0         | https://example.com/v1.1.0 | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 17:21:56 +0000 +0000 |
 //  +----------------+------------------+----------------+---------------------+----------------+----------------------------+---------------------------------+---------------------------------+
-//  
-//  
+//
+//
 //  🌟 This was machine generated.  Do not edit. 🌟
 {
   "status": 200,
@@ -82,38 +82,14 @@
       },
       "data": {
         "values": [
-          [
-            "Release #1",
-            "Release #2"
-          ],
-          [
-            "exampleUser",
-            "exampleUser"
-          ],
-          [
-            true,
-            true
-          ],
-          [
-            false,
-            false
-          ],
-          [
-            "v1.0.0",
-            "v1.1.0"
-          ],
-          [
-            "https://example.com/v1.0.0",
-            "https://example.com/v1.1.0"
-          ],
-          [
-            1598372516000,
-            1598372516000
-          ],
-          [
-            null,
-            1598376116000
-          ]
+          ["Release #1", "Release #2"],
+          ["exampleUser", "exampleUser"],
+          [true, true],
+          [false, false],
+          ["v1.0.0", "v1.1.0"],
+          ["https://example.com/v1.0.0", "https://example.com/v1.1.0"],
+          [1598372516000, 1598372516000],
+          [null, 1598376116000]
         ]
       }
     }

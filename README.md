@@ -53,15 +53,15 @@ To create a new Access Token, navigate to [Personal Access Tokens](https://githu
 
 ```yaml
 promop:
-    grafana:
-        additionalDataSources:
-            - name: GitHub Repo Insights
-              type: grafana-github-datasource
-              jsonData:
-                  owner: ""
-                  repository: ""
-              secureJsonData:
-                  accessToken: "<github api token>"
+  grafana:
+    additionalDataSources:
+      - name: GitHub Repo Insights
+        type: grafana-github-datasource
+        jsonData:
+          owner: ''
+          repository: ''
+        secureJsonData:
+          accessToken: '<github api token>'
 ```
 
 ## Annotations
