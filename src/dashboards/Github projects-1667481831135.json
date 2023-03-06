@@ -135,9 +135,7 @@
       "options": {
         "footer": {
           "fields": "",
-          "reducer": [
-            "sum"
-          ],
+          "reducer": ["sum"],
           "show": false
         },
         "showHeader": true
@@ -255,9 +253,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "sum"
-          ],
+          "calcs": ["sum"],
           "fields": "/^NumberSize$/",
           "values": false
         },
@@ -376,9 +372,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "sum"
-          ],
+          "calcs": ["sum"],
           "fields": "/^NumberSize$/",
           "values": false
         },
@@ -646,9 +640,7 @@
           "options": {
             "fields": {
               "NumberSize": {
-                "aggregations": [
-                  "sum"
-                ],
+                "aggregations": ["sum"],
                 "operation": "aggregate"
               },
               "Status": {
@@ -656,16 +648,11 @@
                 "operation": "groupby"
               },
               "created_at": {
-                "aggregations": [
-                  "lastNotNull",
-                  "firstNotNull"
-                ],
+                "aggregations": ["lastNotNull", "firstNotNull"],
                 "operation": "aggregate"
               },
               "updated_at": {
-                "aggregations": [
-                  "min"
-                ],
+                "aggregations": ["min"],
                 "operation": "aggregate"
               }
             }

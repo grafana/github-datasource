@@ -41,6 +41,7 @@ Alternatively, you can have yarn watch for changes and automatically recompile t
 ```sh
 yarn watch
 ```
+
 Now that you have a `./dist` folder, you are ready to run a fresh Grafana instance and put the new version of the datasource into [Grafana plugin folder](https://grafana.com/docs/grafana/latest/plugins/installation/).
 
 ### Docker Compose

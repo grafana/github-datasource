@@ -31,10 +31,12 @@ describe('Smoke test', () => {
             const variableName = 'owner';
             openDashboardSettings('Variables');
             e2e.pages.Dashboard.Settings.Variables.List.addVariableCTAV2().click();
-            e2e.pages.Dashboard.Settings.Variables.Edit.General.generalNameInput().clear().type(variableName);
+            e2e.pages.Dashboard.Settings.Variables.Edit.General.generalNameInputV2().clear().type(variableName);
             cy.wait(6 * 1000); // When clearing the variable name, the validation popup comes and hides the datasource picker. so wait sometime till the popup closes.
-            e2e.pages.Dashboard.Settings.Variables.Edit.General.generalTypeSelect().type('Constant{enter}');
-            e2e.pages.Dashboard.Settings.Variables.Edit.ConstantVariable.constantOptionsQueryInput()
+            e2e.pages.Dashboard.Settings.Variables.Edit.General.generalTypeSelectV2().within(() => {
+              e2e().get('input').type('Constant{enter}');
+            });
+            e2e.pages.Dashboard.Settings.Variables.Edit.ConstantVariable.constantOptionsQueryInputV2()
               .type('grafana')
               .blur();
             e2e.pages.Dashboard.Settings.Variables.Edit.General.previewOfValuesOption()

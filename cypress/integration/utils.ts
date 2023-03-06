@@ -2,9 +2,8 @@ import { e2e } from '@grafana/e2e';
 
 export const openDashboardSettings = (sectionName = 'Variables') => {
   e2e.components.PageToolbar.item('Dashboard settings').click();
-  cy.get('.dashboard-settings__aside').within(() => {
-    cy.contains(sectionName).should('be.visible').click();
-  });
+
+  cy.contains(sectionName).should('be.visible').click();
 };
 
 export const selectDropdown = (container: Cypress.Chainable<JQuery<HTMLElement>>, text: string, wait = 0) => {

@@ -3,7 +3,12 @@ import { GitHubQuery } from './types';
 
 describe('variables', () => {
   it('should not interpolate refId', () => {
-    const t = { replace: jest.fn((a) => a), getVariables: jest.fn(), updateTimeRange: jest.fn() };
+    const t = {
+      replace: jest.fn((a) => a),
+      getVariables: jest.fn(),
+      updateTimeRange: jest.fn(),
+      containsTemplate: jest.fn(),
+    };
     const query: GitHubQuery = { refId: 'A', foo: 'bar', foo1: 123.45, query: 'myQuery', foo2: 'bar2' };
     expect(replaceVariables(t, query, {})).toStrictEqual({ ...query });
     expect(t.replace).toHaveBeenCalledTimes(3);
@@ -11,8 +16,14 @@ describe('variables', () => {
     expect(t.replace).toHaveBeenNthCalledWith(2, 'myQuery', {}, 'csv');
     expect(t.replace).toHaveBeenNthCalledWith(3, 'bar2', {}, undefined);
   });
+
   it('should interpolate query with options', () => {
-    const t = { replace: jest.fn((a) => a), getVariables: jest.fn(), updateTimeRange: jest.fn() };
+    const t = {
+      replace: jest.fn((a) => a),
+      getVariables: jest.fn(),
+      updateTimeRange: jest.fn(),
+      containsTemplate: jest.fn(),
+    };
     const query: GitHubQuery = {
       refId: 'A',
       foo: 'bar',
@@ -36,6 +47,7 @@ describe('variables', () => {
       replace: jest.fn((a: string) => a.slice(1, a.length)),
       getVariables: jest.fn(),
       updateTimeRange: jest.fn(),
+      containsTemplate: jest.fn(),
     };
     const query: GitHubQuery = {
       refId: 'A',
