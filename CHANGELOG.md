@@ -1,8 +1,6 @@
 # Change Log
 
-## Entries
-
-## [1.4.2] - 2023-03-01
+## [1.4.2] - 2023-03-06
 
 - **Chore** - Migrate to create plugin and upgrade dependencies
 
