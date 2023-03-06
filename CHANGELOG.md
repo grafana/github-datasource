@@ -2,6 +2,10 @@
 
 ## Entries
 
+## [1.4.2] - 2023-03-01
+
+- **Chore** - Migrate to create plugin and upgrade dependencies
+
 ## [1.4.1] - 2023-03-01
 
 - **Feature** - Added `RepositoryVulnerabilityAlertState` field to `Vulnerabilities` query
