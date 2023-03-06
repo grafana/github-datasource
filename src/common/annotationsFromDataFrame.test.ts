@@ -13,25 +13,25 @@ describe('DataFrame to annotations', () => {
 
     const annotations = getAnnotationsFromFrame(frame);
     expect(annotations).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "tags": Array [
+      [
+        {
+          "tags": [
             "aaa",
             "bbb",
           ],
           "text": "t1",
           "time": 1,
         },
-        Object {
-          "tags": Array [
+        {
+          "tags": [
             "bbb",
             "ccc",
           ],
           "text": "t2",
           "time": 2,
         },
-        Object {
-          "tags": Array [
+        {
+          "tags": [
             "zyz",
           ],
           "text": "t3",
@@ -60,20 +60,20 @@ describe('DataFrame to annotations', () => {
       },
     });
     expect(annotations).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "text": "b1",
           "time": 111,
           "timeEnd": 100,
           "title": "a1",
         },
-        Object {
+        {
           "text": "b2",
           "time": 222,
           "timeEnd": 200,
           "title": "a2",
         },
-        Object {
+        {
           "text": "b3",
           "time": 333,
           "timeEnd": 300,
