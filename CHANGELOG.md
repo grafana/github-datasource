@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.4.3] - 2023-03-07
+
+- **Chore** - Update grafana-plugin-sdk-go to v0.155.0 to fix `The content of this plugin does not match its signature` error
+
 ## [1.4.2] - 2023-03-06
 
 - **Chore** - Migrate to create plugin and upgrade dependencies
