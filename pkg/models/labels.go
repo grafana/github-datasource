@@ -11,3 +11,16 @@ type ListLabelsOptions struct {
 	// Query searches labels by name and description
 	Query string `json:"query"`
 }
+
+// A label placed on a github issue, repository, etc.
+type Label struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	URL         string `json:"url"`
+	Color       string `json:"color"`
+	// Default     bool   `json:"default"`
+}
+
+type LabelConnection struct {
+	Nodes []Label
+}

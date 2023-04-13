@@ -8,6 +8,7 @@ import (
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+
 	"github.com/pkg/errors"
 	"github.com/shurcooL/githubv4"
 )
@@ -16,6 +17,8 @@ import (
 type Issue struct {
 	Number    int64
 	Title     string
+	State     string
+	Labels    models.LabelConnection `graphql:"labels(first: 30)"`
 	ClosedAt  githubv4.DateTime
 	CreatedAt githubv4.DateTime
 	Closed    bool
@@ -33,6 +36,8 @@ func (c Issues) Frames() data.Frames {
 	frame := data.NewFrame(
 		"issues",
 		data.NewField("title", nil, []string{}),
+		data.NewField("state", nil, []string{}),
+		// data.NewField("Labels", nil, []Label{}),
 		data.NewField("author", nil, []string{}),
 		data.NewField("author_company", nil, []string{}),
 		data.NewField("repo", nil, []string{}),
@@ -51,6 +56,8 @@ func (c Issues) Frames() data.Frames {
 
 		frame.AppendRow(
 			v.Title,
+			v.State,
+			// v.Labels.Nodes,
 			v.Author.User.Login,
 			v.Author.User.Company,
 			v.Repository.NameWithOwner,
@@ -65,15 +72,16 @@ func (c Issues) Frames() data.Frames {
 }
 
 // QuerySearchIssues is the object representation of the graphql query for retrieving a paginated list of issues using the search query
-// {
-//   search(query: "is:issue repo:grafana/grafana opened:2020-08-19..*", type: ISSUE, first: 100) {
-//     nodes {
-//       ... on PullRequest {
-//         id
-//         title
-//       }
-//   }
-// }
+//
+//	{
+//	  search(query: "is:issue repo:grafana/grafana opened:2020-08-19..*", type: ISSUE, first: 100) {
+//	    nodes {
+//	      ... on PullRequest {
+//	        id
+//	        title
+//	      }
+//	  }
+//	}
 type QuerySearchIssues struct {
 	Search struct {
 		Nodes []struct {
