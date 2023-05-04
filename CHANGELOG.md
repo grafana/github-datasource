@@ -1,8 +1,8 @@
 # Change Log
 
-## [1.4.5] - 2023-04-04
+## [1.4.5] - 2023-05-04
 
-- **Chore** - CI pipeline updated with GO 1.20.4
+- **Chore** - Backend binaries are now compiled with golang 1.20.4
 
 ## [1.4.4] - 2023-04-19
 
