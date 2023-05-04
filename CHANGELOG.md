@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.4.5] - 2023-04-04
+
+- **Chore** - CI pipeline updated with GO 1.20.4
+
 ## [1.4.4] - 2023-04-19
 
 - **Chore** - Updated go version to 1.20
