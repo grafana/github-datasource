@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.4.5] - 2023-05-04
+
+- **Chore** - Backend binaries are now compiled with golang 1.20.4
+
 ## [1.4.4] - 2023-04-19
 
 - **Chore** - Updated go version to 1.20
