@@ -12,8 +12,9 @@ import (
 )
 
 // PageNumberLimit is the limit on the number of pages that will be traversed
-// Setting to 10 because GH limits active issues in a project to 1_000
-const PageNumberLimit = 10
+// Setting to 10 because GH limits active issues in a project to 1_200
+// https://docs.github.com/en/issues/planning-and-tracking-with-projects/managing-items-in-your-project/adding-items-to-your-project
+const PageNumberLimit = 12
 
 // QueryListProjects lists all projects in a repository
 // organization(login: "grafana") {
