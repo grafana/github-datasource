@@ -26,7 +26,7 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
 
   // Only execute queries that have a query type
   filterQuery = (query: GitHubQuery) => {
-    return isValid(query);
+    return isValid(query) && !query.hide;
   };
 
   applyTemplateVariables(query: GitHubQuery, scoped: ScopedVars): Record<string, any> {

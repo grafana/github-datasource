@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.4.6] - 2023-07-14
+
+- **Bugfix** - Fixed a bug where disabled queries were still being executed
+
 ## [1.4.5] - 2023-05-04
 
 - **Chore** - Backend binaries are now compiled with golang 1.20.4
