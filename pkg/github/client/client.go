@@ -47,7 +47,7 @@ func (client *Client) Query(ctx context.Context, q interface{}, variables map[st
 	return client.graphqlClient.Query(ctx, q, variables)
 }
 
-// ListWorkflows sends a request list the workflows in a specific repository to the GitHub rest API.
+// ListWorkflows sends a request to the GitHub rest API to list the workflows in a specific repository.
 func (client *Client) ListWorkflows(ctx context.Context, owner, repo string, opts *googlegithub.ListOptions) (*googlegithub.Workflows, *googlegithub.Response, error) {
 	return client.restClient.Actions.ListWorkflows(ctx, owner, repo, opts)
 }
