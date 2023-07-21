@@ -5,11 +5,10 @@ import (
 	"fmt"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
+	githubclient "github.com/grafana/github-datasource/pkg/github/client"
 	"github.com/grafana/github-datasource/pkg/github/projects"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/shurcooL/githubv4"
-	"golang.org/x/oauth2"
 )
 
 // Make sure Datasource implements required interfaces.
@@ -20,7 +19,7 @@ var (
 
 // Datasource handles requests to GitHub
 type Datasource struct {
-	client *githubv4.Client
+	client *githubclient.Client
 }
 
 // HandleRepositoriesQuery is the query handler for listing GitHub Repositories
@@ -159,6 +158,17 @@ func (d *Datasource) HandleStargazersQuery(ctx context.Context, query *models.St
 	return GetStargazers(ctx, d.client, opt, req.TimeRange)
 }
 
+// HandleWorkflowsQuery is the query handler for listing workflows of a GitHub repository
+func (d *Datasource) HandleWorkflowsQuery(ctx context.Context, query *models.WorkflowsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListWorkflowsOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		TimeField:  query.Options.TimeField,
+	}
+
+	return GetWorkflows(ctx, d.client, opt, req.TimeRange)
+}
+
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
@@ -182,22 +192,12 @@ func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataReques
 }
 
 // NewDatasource creates a new datasource for handling queries
-func NewDatasource(ctx context.Context, settings models.Settings) *Datasource {
-	src := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: settings.AccessToken},
-	)
-
-	httpClient := oauth2.NewClient(ctx, src)
-
-	if settings.GithubURL == "" {
-		return &Datasource{
-			client: githubv4.NewClient(httpClient),
-		}
+func NewDatasource(ctx context.Context, settings models.Settings) (*Datasource, error) {
+	client, err := githubclient.New(ctx, settings)
+	if err != nil {
+		return nil, fmt.Errorf("instantiating github client: %w", err)
 	}
-
-	return &Datasource{
-		client: githubv4.NewEnterpriseClient(fmt.Sprintf("%s/api/graphql", settings.GithubURL), httpClient),
-	}
+	return &Datasource{client: client}, nil
 }
 
 func newHealthResult(status backend.HealthStatus, message string) (*backend.CheckHealthResult, error) {

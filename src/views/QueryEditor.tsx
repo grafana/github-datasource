@@ -20,6 +20,7 @@ import QueryEditorLabels from './QueryEditorLabels';
 import QueryEditorPackages from './QueryEditorPackages';
 import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
 import QueryEditorProjects from './QueryEditorProjects';
+import QueryEditorWorkflows from './QueryEditorWorkflows';
 
 interface Props extends QueryEditorProps<GithubDataSource, GitHubQuery, GithubDataSourceOptions> {
   queryTypes?: string[];
@@ -88,6 +89,11 @@ const queryEditors: {
   [QueryType.Stargazers]: {
     component: (_: Props, onChange: (val: any) => void) => <></>,
   },
+  [QueryType.Workflows]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorWorkflows {...(props.query.options || {})} onChange={onChange} />
+    ),
+  }
 };
 
 /* eslint-enable react/display-name */

@@ -2,6 +2,7 @@ package plugin
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/grafana/github-datasource/pkg/github"
 	"github.com/grafana/github-datasource/pkg/models"
@@ -10,10 +11,11 @@ import (
 )
 
 // NewGitHubInstance creates a new GitHubInstance using the settings to determine if things like the Caching Wrapper should be enabled
-func NewGitHubInstance(ctx context.Context, settings models.Settings) instancemgmt.Instance {
-	var (
-		gh = github.NewDatasource(ctx, settings)
-	)
+func NewGitHubInstance(ctx context.Context, settings models.Settings) (instancemgmt.Instance, error) {
+	gh, err := github.NewDatasource(ctx, settings)
+	if err != nil {
+		return nil, fmt.Errorf("instantiating github datasource: %w", err)
+	}
 
 	var d Datasource = gh
 
@@ -21,7 +23,7 @@ func NewGitHubInstance(ctx context.Context, settings models.Settings) instancemg
 		d = WithCaching(d)
 	}
 
-	return d
+	return d, nil
 }
 
 // NewDataSourceInstance creates a new instance
@@ -33,5 +35,10 @@ func NewDataSourceInstance(settings backend.DataSourceInstanceSettings) (instanc
 
 	datasourceSettings.CachingEnabled = true
 
-	return NewGitHubInstance(context.Background(), datasourceSettings), nil
+	instance, err := NewGitHubInstance(context.Background(), datasourceSettings)
+	if err != nil {
+		return instance, fmt.Errorf("instantiating github instance")
+	}
+
+	return instance, nil
 }

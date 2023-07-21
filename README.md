@@ -20,6 +20,7 @@ This datasource uses the [`githubv4` package](https://github.com/shurcooL/github
 - [x] Milestones
 - [x] Response Caching
 - [x] Projects
+- [x] Workflows
 - [ ] Deploys
 
 ### Frontend
