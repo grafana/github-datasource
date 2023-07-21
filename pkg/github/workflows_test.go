@@ -105,7 +105,7 @@ func genTimeRange(t *rapid.T, workflows []*googlegithub.Workflow, timeField mode
 func TestKeepWorkflowsInTimeRange(t *testing.T) {
 	t.Parallel()
 
-	t.Run("filtering by workflow creating time", rapid.MakeCheck(func(t *rapid.T) {
+	t.Run("filtering by workflow creation time", rapid.MakeCheck(func(t *rapid.T) {
 		workflows := rapid.SliceOf(githubWorkflowGen()).Draw(t, "workflows")
 
 		workflows = uniqueBy(workflows, func(workflow *googlegithub.Workflow) time.Time {

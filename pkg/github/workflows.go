@@ -12,7 +12,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
-// WorkflowsWrapper is a list of GitHub wrapped workflows
+// WorkflowsWrapper is a list of GitHub workflows
 type WorkflowsWrapper []*googlegithub.Workflow
 
 // Frames converts the list of workflows to a Grafana DataFrame

@@ -1,6 +1,6 @@
 package models
 
-// WorkflowTimeField defines what time field to filter Workflows by (closed, opened...)
+// WorkflowTimeField defines what time field to filter Workflows by.
 type WorkflowTimeField uint32
 
 const (
