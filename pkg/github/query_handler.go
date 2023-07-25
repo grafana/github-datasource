@@ -55,6 +55,7 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux.HandleFunc(models.QueryTypeVulnerabilities, s.HandleVulnerabilities)
 	mux.HandleFunc(models.QueryTypeProjects, s.HandleProjects)
 	mux.HandleFunc(models.QueryTypeStargazers, s.HandleStargazers)
+	mux.HandleFunc(models.QueryTypeWorkflows, s.HandleWorkflows)
 
 	return mux
 }

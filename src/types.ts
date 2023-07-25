@@ -42,6 +42,7 @@ export enum QueryType {
   Projects = 'Projects',
   ProjectItems = 'ProjectItems',
   Stargazers = 'Stargazers',
+  Workflows = 'Workflows',
 }
 
 export enum PackageType {
@@ -64,6 +65,11 @@ export enum PullRequestTimeField {
 export enum IssueTimeField {
   CreatedAt,
   ClosedAt,
+}
+
+export enum WorkflowsTimeField {
+  CreatedAt,
+  UpdatedAt, 
 }
 
 export interface Indexable {
@@ -91,6 +97,11 @@ export interface LabelsOptions extends Indexable {
 
 export interface IssuesOptions extends Indexable {
   timeField?: IssueTimeField;
+  query?: string;
+}
+
+export interface WorkflowsOptions extends Indexable {
+  timeField?: WorkflowsTimeField;
   query?: string;
 }
 
@@ -125,7 +136,8 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
     | CommitsOptions
     | IssuesOptions
     | ContributorsOptions
-    | ProjectsOptions;
+    | ProjectsOptions
+    | WorkflowsOptions;
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {

@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"testing"
+
+	googlegithub "github.com/google/go-github/v53/github"
 )
 
 var (
@@ -45,4 +47,9 @@ func (c *TestClient) Query(ctx context.Context, q interface{}, variables map[str
 		c.TestQuery(c.T, q)
 	}
 	return nil
+}
+
+// ListWorkflows is not implemented because it is not being used at the moment.
+func (c *TestClient) ListWorkflows(ctx context.Context, owner, repo string, opts *googlegithub.ListOptions) (*googlegithub.Workflows, *googlegithub.Response, error) {
+	panic("unimplemented")
 }
