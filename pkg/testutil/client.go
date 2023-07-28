@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	googlegithub "github.com/google/go-github/v53/github"
+	"github.com/grafana/github-datasource/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
 var (
@@ -51,5 +53,10 @@ func (c *TestClient) Query(ctx context.Context, q interface{}, variables map[str
 
 // ListWorkflows is not implemented because it is not being used at the moment.
 func (c *TestClient) ListWorkflows(ctx context.Context, owner, repo string, opts *googlegithub.ListOptions) (*googlegithub.Workflows, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// GetWorkflowUsage is not implemented because it is not being used at the moment.
+func (c *TestClient) GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (models.WorkflowUsage, error) {
 	panic("unimplemented")
 }

@@ -43,6 +43,7 @@ export enum QueryType {
   ProjectItems = 'ProjectItems',
   Stargazers = 'Stargazers',
   Workflows = 'Workflows',
+  Workflow_Usage = 'Workflow_Usage'
 }
 
 export enum PackageType {
@@ -105,6 +106,10 @@ export interface WorkflowsOptions extends Indexable {
   query?: string;
 }
 
+export interface WorkflowUsageOptions extends Indexable {
+  workflowID?: number;
+}
+
 export interface PackagesOptions extends Indexable {
   names?: string;
   packageType?: PackageType;
@@ -137,7 +142,8 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
     | IssuesOptions
     | ContributorsOptions
     | ProjectsOptions
-    | WorkflowsOptions;
+    | WorkflowsOptions
+    | WorkflowUsageOptions;
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {

@@ -35,6 +35,8 @@ const (
 	QueryTypeStargazers = "Stargazers"
 	// QueryTypeWorkflows is used when querying workflows for an organization
 	QueryTypeWorkflows = "Workflows"
+	// QueryTypeWorkflowUsage is used when querying a specific workflow usage
+	QueryTypeWorkflowUsage = "Workflow_Usage"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -120,4 +122,10 @@ type StargazersQuery struct {
 type WorkflowsQuery struct {
 	Query
 	Options ListWorkflowsOptions `json:"options"`
+}
+
+// WorkflowUsageQuery is used when querying a workflow usage
+type WorkflowUsageQuery struct {
+	Query
+	Options WorkflowUsageOptions `json:"options"`
 }

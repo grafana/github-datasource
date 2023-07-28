@@ -6,6 +6,7 @@ require (
 	github.com/google/go-github/v53 v53.2.0
 	github.com/gorilla/mux v1.8.0
 	github.com/grafana/grafana-plugin-sdk-go v0.155.0
+	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20230305132112-efb623903184
 	github.com/stretchr/testify v1.8.2
@@ -38,7 +39,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pierrec/lz4/v4 v4.1.17 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
-	github.com/rogpeppe/go-internal v1.6.2 // indirect
+	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/unknwon/bra v0.0.0-20200517080246-1e3013ecaff8 // indirect
 	github.com/unknwon/com v1.0.1 // indirect

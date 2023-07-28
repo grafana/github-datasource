@@ -168,7 +168,7 @@ func ptr[T any](value T) *T {
 	return &value
 }
 
-func TestWOrkflowsDataFrame(t *testing.T) {
+func TestWorkflowsDataFrame(t *testing.T) {
 	t.Parallel()
 
 	createdAt1, err := time.Parse("2006-Jan-02", "2013-Feb-01")
@@ -211,4 +211,35 @@ func TestWOrkflowsDataFrame(t *testing.T) {
 	})
 
 	testutil.CheckGoldenFramer(t, "workflows", workflows)
+}
+
+func TestWorkflowUsageDataframe(t *testing.T) {
+	t.Parallel()
+
+	usage := WorkflowUsageWrapper(models.WorkflowUsage{
+		CostUSD:            10.0,
+		UniqueActors:       100,
+		Runs:               200,
+		SuccessfulRuns:     150,
+		CancelledRuns:      5,
+		FailedRuns:         5,
+		SkippedRuns:        40,
+		LongestRunDuration: 10 * time.Minute,
+		TotalRunDuration:   20 * time.Hour,
+		P95RunDuration:     9 * time.Minute,
+		RunsPerWeekday: map[time.Weekday]uint64{
+			time.Sunday:    5,
+			time.Monday:    45,
+			time.Tuesday:   45,
+			time.Wednesday: 50,
+			time.Thursday:  40,
+			time.Friday:    10,
+			time.Saturday:  5,
+		},
+		UsagePerRunner: map[string]time.Duration{
+			"UBUNTU_8_CORE": 20 * time.Hour,
+		},
+	})
+
+	testutil.CheckGoldenFramer(t, "workflowUsage", usage)
 }

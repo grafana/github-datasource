@@ -23,3 +23,19 @@ func (s *QueryHandler) HandleWorkflows(ctx context.Context, req *backend.QueryDa
 		Responses: processQueries(ctx, req, s.handleWorkflowsQuery),
 	}, nil
 }
+
+func (s *QueryHandler) handleWorkflowUsageQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
+	query := &models.WorkflowUsageQuery{}
+	if err := UnmarshalQuery(q.JSON, query); err != nil {
+		return *err
+	}
+
+	return dfutil.FrameResponseWithError(s.Datasource.HandleWorkflowUsageQuery(ctx, query, q))
+}
+
+// HandleWorkflowUsage handles the plugin query for GitHub workflows
+func (s *QueryHandler) HandleWorkflowUsage(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+	return &backend.QueryDataResponse{
+		Responses: processQueries(ctx, req, s.handleWorkflowUsageQuery),
+	}, nil
+}
