@@ -96,3 +96,90 @@ func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField mode
 
 	return out, nil
 }
+
+// WorkflowUsageWrapper is wraps the workflow usage.
+type WorkflowUsageWrapper models.WorkflowUsage
+
+// Frames converts the workflow usage to a Grafana DataFrame
+func (usage WorkflowUsageWrapper) Frames() data.Frames {
+	frame := data.NewFrame(
+		"workflow",
+		data.NewField("unique triggering actors", nil, []uint64{}),
+		data.NewField("runs", nil, []uint64{}),
+		data.NewField("current billing cycle cost (approx.)", nil, []string{}),
+		data.NewField("skipped", nil, []string{}),
+		data.NewField("successes", nil, []string{}),
+		data.NewField("failures", nil, []string{}),
+		data.NewField("cancelled", nil, []string{}),
+		data.NewField("total run duration (approx.)", nil, []string{}),
+		data.NewField("longest run duration (approx.)", nil, []string{}),
+		data.NewField("average run duration (approx.)", nil, []string{}),
+		data.NewField("p95 run duration (approx.)", nil, []string{}),
+		data.NewField("runs on Sunday", nil, []uint64{}),
+		data.NewField("runs on Monday", nil, []uint64{}),
+		data.NewField("runs on Tuesday", nil, []uint64{}),
+		data.NewField("runs on Wednesday", nil, []uint64{}),
+		data.NewField("runs on Thursday", nil, []uint64{}),
+		data.NewField("runs on Friday", nil, []uint64{}),
+		data.NewField("runs on Saturday", nil, []uint64{}),
+	)
+
+	successRate := "No runs"
+	failureRate := "No runs"
+	cancelledRate := "No runs"
+	skippedRate := "No runs"
+	if usage.Runs > 0 {
+		skippedRate = fmt.Sprintf("%d (%.2f%%)", usage.SkippedRuns, float32(usage.SkippedRuns)/float32(usage.Runs)*100.0)
+	}
+
+	var averageRunDuration time.Duration
+	nonSkippedRuns := uint64(usage.Runs) - usage.SkippedRuns
+	if nonSkippedRuns > 0 {
+		averageRunDuration = (usage.TotalRunDuration / time.Duration(nonSkippedRuns)).Round(time.Second)
+	}
+
+	if nonSkippedRuns > 0 {
+		successRate = fmt.Sprintf("%d (%.2f%%)", usage.SuccessfulRuns, float32(usage.SuccessfulRuns)/float32(nonSkippedRuns)*100.0)
+		failureRate = fmt.Sprintf("%d (%.2f%%)", usage.FailedRuns, float32(usage.FailedRuns)/float32(nonSkippedRuns)*100.0)
+		cancelledRate = fmt.Sprintf("%d (%.2f%%)", usage.CancelledRuns, float32(usage.CancelledRuns)/float32(nonSkippedRuns)*100.0)
+	}
+
+	frame.InsertRow(
+		0,
+		usage.UniqueActors,
+		usage.Runs,
+		fmt.Sprintf("$ %.2f", usage.CostUSD),
+		skippedRate,
+		successRate,
+		failureRate,
+		cancelledRate,
+		usage.TotalRunDuration.String(),
+		usage.LongestRunDuration.String(),
+		averageRunDuration.String(),
+		usage.P95RunDuration.String(),
+		usage.RunsPerWeekday[time.Sunday],
+		usage.RunsPerWeekday[time.Monday],
+		usage.RunsPerWeekday[time.Tuesday],
+		usage.RunsPerWeekday[time.Wednesday],
+		usage.RunsPerWeekday[time.Thursday],
+		usage.RunsPerWeekday[time.Friday],
+		usage.RunsPerWeekday[time.Saturday],
+	)
+
+	frame.Meta = &data.FrameMeta{PreferredVisualization: data.VisTypeTable}
+	return data.Frames{frame}
+}
+
+// GetWorkflowUsage return the usage for a specific workflow.
+func GetWorkflowUsage(ctx context.Context, client models.Client, opts models.WorkflowUsageOptions, timeRange backend.TimeRange) (WorkflowUsageWrapper, error) {
+	if opts.Owner == "" || opts.Repository == "" || opts.Workflow == "" {
+		return WorkflowUsageWrapper{}, nil
+	}
+
+	data, err := client.GetWorkflowUsage(ctx, opts.Owner, opts.Repository, opts.Workflow, timeRange)
+	if err != nil {
+		return WorkflowUsageWrapper{}, err
+	}
+
+	return WorkflowUsageWrapper(data), nil
+}

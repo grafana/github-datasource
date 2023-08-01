@@ -9,6 +9,8 @@
     "import\\s*.*\".*?\""
   ],
   "words": [
+    "tdigest",
+    "Quantile",
     "githubclient",
     "HTMLURL",
     "googlegithub",

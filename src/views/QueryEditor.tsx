@@ -21,6 +21,7 @@ import QueryEditorPackages from './QueryEditorPackages';
 import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
 import QueryEditorProjects from './QueryEditorProjects';
 import QueryEditorWorkflows from './QueryEditorWorkflows';
+import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
 
 interface Props extends QueryEditorProps<GithubDataSource, GitHubQuery, GithubDataSourceOptions> {
   queryTypes?: string[];
@@ -93,7 +94,12 @@ const queryEditors: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorWorkflows {...(props.query.options || {})} onChange={onChange} />
     ),
-  }
+  },
+  [QueryType.Workflow_Usage]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorWorkflowUsage {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
 };
 
 /* eslint-enable react/display-name */

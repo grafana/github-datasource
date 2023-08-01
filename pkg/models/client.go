@@ -4,6 +4,7 @@ import (
 	"context"
 
 	googlegithub "github.com/google/go-github/v53/github"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
 // The Client interface is satisfied by the githubv4.Client type.
@@ -11,4 +12,5 @@ import (
 type Client interface {
 	Query(ctx context.Context, q interface{}, variables map[string]interface{}) error
 	ListWorkflows(ctx context.Context, owner, repo string, opts *googlegithub.ListOptions) (*googlegithub.Workflows, *googlegithub.Response, error)
+	GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (WorkflowUsage, error)
 }
