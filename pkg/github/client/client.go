@@ -105,7 +105,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 		"skipped":   0,
 	}
 
-	usageDuration := time.Second * 0
+	var usageDuration time.Duration
 	var longestBuild time.Duration
 	digest := tdigest.NewWithCompression(1000)
 
