@@ -28,62 +28,38 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
 
   query(request: DataQueryRequest<GitHubQuery>): Observable<DataQueryResponse> {
     request.targets.forEach((target) => {
+      const issueTimeFieldReference: { [x: number]: string } = {
+        0: 'CreatedAt',
+        1: 'ClosedAt',
+      };
+
+      const pullRequestTimeFieldReference: { [x: number]: string } = {
+        0: 'ClosedAt',
+        1: 'CreatedAt',
+        2: 'MergedAt',
+        3: 'None',
+      };
+
+      const workflowTimeFieldReference: { [x: number]: string } = {
+        0: 'CreatedAt',
+        1: 'UpdatedAt',
+      };
+
       let properties: Partial<GitHubQuery> = { app: request.app, queryType: target.queryType };
 
       if (target.queryType === 'Issues') {
-        switch (target.options?.timeField) {
-          case 0:
-            properties['timeField'] = 'Created At';
-            break;
-          case 1:
-            properties['timeField'] = 'Closed At';
-            break;
-          default:
-            // this is necessary because options.timeField doesn't always exist
-            // in that case "created at" is the default
-            properties['timeField'] = 'Created At';
-        }
+        properties['timeField'] = issueTimeFieldReference[target.options?.timeField ?? 0];
       }
 
       if (target.queryType === 'Pull_Requests') {
-        switch (target.options?.timeField) {
-          case 0:
-            properties['timeField'] = 'Closed At';
-            break;
-          case 1:
-            properties['timeField'] = 'Created At';
-            break;
-          case 2:
-            properties['timeField'] = 'Merged At';
-            break;
-          case 3:
-            properties['timeField'] = 'None';
-            break;
-          default:
-            // this is necessary because options.timeField doesn't always exist
-            // in that case "closed at" is the default
-            properties['timeField'] = 'Closed At';
-        }
+        properties['timeField'] = pullRequestTimeFieldReference[target.options?.timeField ?? 0];
       }
 
       if (target.queryType === 'Workflows') {
-        switch (target.options?.timeField) {
-          case 0:
-            properties['timeField'] = 'Created At';
-            break;
-          case 1:
-            properties['timeField'] = 'Updated At';
-            break;
-          default:
-            // this is necessary because options.timeField doesn't always exist
-            // in that case "created at" is the default
-            properties['timeField'] = 'Created At';
-        }
+        properties['timeField'] = workflowTimeFieldReference[target.options?.timeField ?? 0];
       }
 
       if (target.queryType === 'Packages') {
-        // ?? 'NPM' is necessary because options.packageType doesn't always exist
-        // in that case "NPM" is the default
         properties['packageType'] = target?.options?.packageType ?? 'NPM';
       }
 
