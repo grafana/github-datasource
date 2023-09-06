@@ -3,7 +3,6 @@ import { reportInteraction } from '@grafana/runtime';
 import { GitHubQuery, IssueTimeField, PullRequestTimeField, WorkflowsTimeField } from 'types';
 
 export const trackRequest = (request: DataQueryRequest<GitHubQuery>) => {
-  console.log('trackRequest');
   request.targets.forEach((target) => {
     let properties: Partial<GitHubQuery> = { app: request.app, queryType: target.queryType };
 
