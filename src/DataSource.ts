@@ -8,21 +8,14 @@ import {
   MetricFindValue,
   ScopedVars,
 } from '@grafana/data';
-import { DataSourceWithBackend, getTemplateSrv, reportInteraction } from '@grafana/runtime';
-import {
-  GithubDataSourceOptions,
-  GitHubQuery,
-  GitHubVariableQuery,
-  IssueTimeField,
-  Label,
-  PullRequestTimeField,
-  WorkflowsTimeField,
-} from './types';
+import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
+import { GithubDataSourceOptions, GitHubQuery, GitHubVariableQuery, Label } from './types';
 import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
 import { Observable } from 'rxjs';
+import { trackRequest } from 'tracking';
 
 export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
   templateSrv = getTemplateSrv();
@@ -35,28 +28,7 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
   }
 
   query(request: DataQueryRequest<GitHubQuery>): Observable<DataQueryResponse> {
-    request.targets.forEach((target) => {
-      let properties: Partial<GitHubQuery> = { app: request.app, queryType: target.queryType };
-
-      if (target.queryType === 'Issues') {
-        properties.timeField = IssueTimeField[target.options?.timeField ?? 0];
-      }
-
-      if (target.queryType === 'Pull_Requests') {
-        properties.timeField = PullRequestTimeField[target.options?.timeField ?? 0];
-      }
-
-      if (target.queryType === 'Workflows') {
-        properties.timeField = WorkflowsTimeField[target.options?.timeField ?? 0];
-      }
-
-      if (target.queryType === 'Packages') {
-        properties.timeField = target?.options?.packageType ?? 'NPM';
-      }
-
-      reportInteraction('grafana_github_query_executed', properties);
-    });
-
+    trackRequest(request);
     return super.query(request);
   }
 
