@@ -9,7 +9,15 @@ import {
   ScopedVars,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv, reportInteraction } from '@grafana/runtime';
-import { GithubDataSourceOptions, GitHubQuery, GitHubVariableQuery, Label } from './types';
+import {
+  GithubDataSourceOptions,
+  GitHubQuery,
+  GitHubVariableQuery,
+  IssueTimeField,
+  Label,
+  PullRequestTimeField,
+  WorkflowsTimeField,
+} from './types';
 import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
@@ -28,39 +36,22 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
 
   query(request: DataQueryRequest<GitHubQuery>): Observable<DataQueryResponse> {
     request.targets.forEach((target) => {
-      const issueTimeFieldReference: { [x: number]: string } = {
-        0: 'CreatedAt',
-        1: 'ClosedAt',
-      };
-
-      const pullRequestTimeFieldReference: { [x: number]: string } = {
-        0: 'ClosedAt',
-        1: 'CreatedAt',
-        2: 'MergedAt',
-        3: 'None',
-      };
-
-      const workflowTimeFieldReference: { [x: number]: string } = {
-        0: 'CreatedAt',
-        1: 'UpdatedAt',
-      };
-
       let properties: Partial<GitHubQuery> = { app: request.app, queryType: target.queryType };
 
       if (target.queryType === 'Issues') {
-        properties['timeField'] = issueTimeFieldReference[target.options?.timeField ?? 0];
+        properties.timeField = IssueTimeField[target.options?.timeField ?? 0];
       }
 
       if (target.queryType === 'Pull_Requests') {
-        properties['timeField'] = pullRequestTimeFieldReference[target.options?.timeField ?? 0];
+        properties.timeField = PullRequestTimeField[target.options?.timeField ?? 0];
       }
 
       if (target.queryType === 'Workflows') {
-        properties['timeField'] = workflowTimeFieldReference[target.options?.timeField ?? 0];
+        properties.timeField = WorkflowsTimeField[target.options?.timeField ?? 0];
       }
 
       if (target.queryType === 'Packages') {
-        properties['packageType'] = target?.options?.packageType ?? 'NPM';
+        properties.timeField = target?.options?.packageType ?? 'NPM';
       }
 
       reportInteraction('grafana_github_query_executed', properties);
