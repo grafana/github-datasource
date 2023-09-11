@@ -1,5 +1,10 @@
 # Change Log
 
+
+## [1.4.7] - 2023-08-03
+
+- **Feature** - Add ability to query Workflow and Workflow usage
+
 ## [1.4.6] - 2023-07-14
 
 - **Bugfix** - Fixed a bug where disabled queries were still being executed

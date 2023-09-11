@@ -3,6 +3,7 @@ import {
   DataFrame,
   DataFrameView,
   DataQueryRequest,
+  DataQueryResponse,
   DataSourceInstanceSettings,
   MetricFindValue,
   ScopedVars,
@@ -13,6 +14,8 @@ import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
+import { Observable } from 'rxjs';
+import { trackRequest } from 'tracking';
 
 export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
   templateSrv = getTemplateSrv();
@@ -22,6 +25,11 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
     this.annotations = {
       prepareAnnotation,
     };
+  }
+
+  query(request: DataQueryRequest<GitHubQuery>): Observable<DataQueryResponse> {
+    trackRequest(request);
+    return super.query(request);
   }
 
   // Only execute queries that have a query type
