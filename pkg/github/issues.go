@@ -65,6 +65,7 @@ func (c Issues) Frames() data.Frames {
 }
 
 // QuerySearchIssues is the object representation of the graphql query for retrieving a paginated list of issues using the search query
+//
 //	{
 //	  search(query: "is:issue repo:grafana/grafana opened:2020-08-19..*", type: ISSUE, first: 100) {
 //	    nodes {
