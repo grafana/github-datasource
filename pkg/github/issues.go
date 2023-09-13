@@ -65,15 +65,16 @@ func (c Issues) Frames() data.Frames {
 }
 
 // QuerySearchIssues is the object representation of the graphql query for retrieving a paginated list of issues using the search query
-// {
-//   search(query: "is:issue repo:grafana/grafana opened:2020-08-19..*", type: ISSUE, first: 100) {
-//     nodes {
-//       ... on PullRequest {
-//         id
-//         title
-//       }
-//   }
-// }
+//
+//	{
+//	  search(query: "is:issue repo:grafana/grafana opened:2020-08-19..*", type: ISSUE, first: 100) {
+//	    nodes {
+//	      ... on PullRequest {
+//	        id
+//	        title
+//	      }
+//	  }
+//	}
 type QuerySearchIssues struct {
 	Search struct {
 		Nodes []struct {
@@ -85,9 +86,15 @@ type QuerySearchIssues struct {
 
 // GetIssuesInRange lists issues in a project given a time range.
 func GetIssuesInRange(ctx context.Context, client models.Client, opts models.ListIssuesOptions, from time.Time, to time.Time) (Issues, error) {
+
+	filter := fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository)
+	if opts.Repository == "" {
+		filter = fmt.Sprintf("owner:%s", opts.Owner)
+	}
+
 	search := []string{
 		"is:issue",
-		fmt.Sprintf("repo:%s/%s", opts.Owner, opts.Repository),
+		filter,
 		fmt.Sprintf("%s:%s..%s", opts.TimeField.String(), from.Format(time.RFC3339), to.Format(time.RFC3339)),
 	}
 
