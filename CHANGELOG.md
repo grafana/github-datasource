@@ -1,5 +1,8 @@
 # Change Log
 
+## [1.5.0] - 2023-09-13
+
+- **Feature** - Issues Query: Allow repo to be optional
 
 ## [1.4.7] - 2023-08-03
 
