@@ -1660,8 +1660,8 @@
       {
         "current": {
           "selected": true,
-          "text": "master",
-          "value": "master"
+          "text": "main",
+          "value": "main"
         },
         "hide": 0,
         "includeAll": false,
@@ -1671,11 +1671,11 @@
         "options": [
           {
             "selected": true,
-            "text": "master",
-            "value": "master"
+            "text": "main",
+            "value": "main"
           }
         ],
-        "query": "master",
+        "query": "main",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
