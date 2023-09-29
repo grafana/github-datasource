@@ -43,7 +43,7 @@ export enum QueryType {
   ProjectItems = 'ProjectItems',
   Stargazers = 'Stargazers',
   Workflows = 'Workflows',
-  Workflow_Usage = 'Workflow_Usage'
+  Workflow_Usage = 'Workflow_Usage',
 }
 
 export enum PackageType {
@@ -70,7 +70,7 @@ export enum IssueTimeField {
 
 export enum WorkflowsTimeField {
   CreatedAt,
-  UpdatedAt, 
+  UpdatedAt,
 }
 
 export interface Indexable {
