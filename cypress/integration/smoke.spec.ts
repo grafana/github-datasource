@@ -43,7 +43,10 @@ describe('Smoke test', () => {
               .eq(0)
               .should('have.text', 'grafana');
             e2e.pages.Dashboard.Settings.Variables.Edit.General.submitButton().click();
-            e2e.components.BackButton.backArrow().click({ force: true });
+
+            // Go back
+            cy.get('body').type('{esc}');
+
             e2e.components.RefreshPicker.runButtonV2().click();
             // e2e.flows.addPanel({
             //   queriesForm: () => {},
