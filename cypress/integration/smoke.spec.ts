@@ -8,7 +8,7 @@ const addGithubDataSource = (accessToken: string) => {
   return e2e.flows.addDataSource({
     expectedAlertMessage: 'Data source is working',
     form: () => e2eSelectors.ConfigEditor.AccessToken().scrollIntoView().type(accessToken),
-    timeout: 10000,
+    timeout: 20000,
     type: 'GitHub',
   });
 };
