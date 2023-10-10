@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.5.1] - 2023-10-10
+
+- **chore** - Update feature tracking usage to improve performance
+
 ## [1.5.0] - 2023-09-13
 
 - **Feature** - Issues Query: Allow repo to be optional
