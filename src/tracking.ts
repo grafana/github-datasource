@@ -1,8 +1,12 @@
-import { DataQueryRequest } from '@grafana/data';
+import { CoreApp, DataQueryRequest } from '@grafana/data';
 import { reportInteraction } from '@grafana/runtime';
 import { GitHubQuery, IssueTimeField, PullRequestTimeField, WorkflowsTimeField } from 'types';
 
 export const trackRequest = (request: DataQueryRequest<GitHubQuery>) => {
+  if (request.app === CoreApp.Dashboard || request.app === CoreApp.PanelViewer) {
+    return;
+  }
+
   request.targets.forEach((target) => {
     let properties: Partial<GitHubQuery> = { app: request.app, queryType: target.queryType };
 
