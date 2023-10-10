@@ -7,8 +7,8 @@ const e2eSelectors = e2e.getSelectors(selectors.components);
 const addGithubDataSource = (accessToken: string) => {
   return e2e.flows.addDataSource({
     expectedAlertMessage: 'Data source is working',
-    form: () => e2eSelectors.ConfigEditor.AccessToken.input().scrollIntoView().type(accessToken),
-    timeout: 10000,
+    form: () => e2eSelectors.ConfigEditor.AccessToken().scrollIntoView().type(accessToken),
+    timeout: 20000,
     type: 'GitHub',
   });
 };
@@ -43,7 +43,10 @@ describe('Smoke test', () => {
               .eq(0)
               .should('have.text', 'grafana');
             e2e.pages.Dashboard.Settings.Variables.Edit.General.submitButton().click();
-            e2e.components.BackButton.backArrow().click({ force: true });
+
+            // Go back
+            cy.get('body').type('{esc}');
+
             e2e.components.RefreshPicker.runButtonV2().click();
             // e2e.flows.addPanel({
             //   queriesForm: () => {},
