@@ -14,7 +14,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   const styles = useStyles2(getStyles);
 
   const [selectedLicense, setSelectedLicense] = useState(jsonData.githubUrl ? 'github-enterprise' : 'github-basic');
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const onSettingUpdate =
     (prop: string, set = true) =>
@@ -101,7 +101,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
       <Divider />
 
-      <ConfigSection title="Additional Settings">
+      <ConfigSection title="Additional Settings" isCollapsible>
         <Label>GitHub License</Label>
         <RadioButtonGroup
           options={licenseOptions}
