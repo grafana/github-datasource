@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.5.2]
+
+- **BugFix** - Fix config page backwards compatibility with Grafana < 10.1
+
 ## [1.5.1] - 2023-10-10
 
 - **Feature** - Update configuration page
