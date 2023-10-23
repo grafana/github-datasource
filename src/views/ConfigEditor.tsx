@@ -1,10 +1,11 @@
 import { css } from '@emotion/css';
 import { DataSourcePluginOptionsEditorProps, GrafanaTheme2, onUpdateDatasourceJsonDataOption } from '@grafana/data';
 import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
-import { Collapse, Divider, Field, Input, Label, RadioButtonGroup, SecretInput, useStyles2 } from '@grafana/ui';
+import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useState } from 'react';
 import { selectors } from '../components/selectors';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
+import { Divider } from 'components/Divider';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
 
