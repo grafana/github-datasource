@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Icon, SegmentAsync, Segment } from '@grafana/ui';
+import { Icon, SegmentAsync, Segment, InlineFieldRow } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
 import { css } from '@emotion/css';
 
@@ -77,39 +77,41 @@ export const Filters: React.FC<Props> = (props: Props) => {
   };
 
   return (
-    <div className="gf-form-inline">
-      {list.map((filter: Filter, i: number) => (
-        <>
-          <SegmentAsync
-            loadOptions={props.loadOptions}
-            placeholder="Key..."
-            allowCustomValue={true}
-            value={filter.key}
-            onChange={onKeyChange(i)}
-          />
-          <Segment placeholder="Operator..." value={filter.op} onChange={onOpChange(i)} options={props.ops} />
-          <span className={styles.wrapper}>
+    <InlineFieldRow>
+      <>
+        {list.map((filter: Filter, i: number) => (
+          <>
             <SegmentAsync
-              loadOptions={loadValues(i)}
-              placeholder="Value..."
+              loadOptions={props.loadOptions}
+              placeholder="Key..."
               allowCustomValue={true}
-              value={filter.value}
-              onChange={onValueChange(i)}
+              value={filter.key}
+              onChange={onKeyChange(i)}
             />
-            {loading === i && <div className={styles.loading}>Loading...</div>}
-          </span>
-          <a className="gf-form-label query-part" onClick={remove(i)}>
-            <Icon name="trash-alt" />
-          </a>
-          {list.length > 1 && i !== list.length - 1 && (
-            <Segment onChange={onConjunctionChange(i)} options={opList} value={filter.conjunction || 'and'}></Segment>
-          )}
-        </>
-      ))}
-      <a className="gf-form gf-form-label query-part" onClick={add}>
-        <Icon name="plus" />
-      </a>
-    </div>
+            <Segment placeholder="Operator..." value={filter.op} onChange={onOpChange(i)} options={props.ops} />
+            <span className={styles.wrapper}>
+              <SegmentAsync
+                loadOptions={loadValues(i)}
+                placeholder="Value..."
+                allowCustomValue={true}
+                value={filter.value}
+                onChange={onValueChange(i)}
+              />
+              {loading === i && <div className={styles.loading}>Loading...</div>}
+            </span>
+            <a className="gf-form-label query-part" onClick={remove(i)}>
+              <Icon name="trash-alt" />
+            </a>
+            {list.length > 1 && i !== list.length - 1 && (
+              <Segment onChange={onConjunctionChange(i)} options={opList} value={filter.conjunction || 'and'}></Segment>
+            )}
+          </>
+        ))}
+        <a className="gf-form gf-form-label query-part" onClick={add}>
+          <Icon name="plus" />
+        </a>
+      </>
+    </InlineFieldRow>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, InlineFormLabel, RadioButtonGroup } from '@grafana/ui';
+import { Input, InlineFormLabel, RadioButtonGroup, InlineField } from '@grafana/ui';
 
 import { QueryEditorRow } from '../components/Forms';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
@@ -63,7 +63,7 @@ const QueryEditorProjects = (props: Props) => {
         >
           Project Owner
         </InlineFormLabel>
-        <div className="gf-form">
+        <InlineField>
           <RadioButtonGroup<ProjectQueryType>
             options={queryTypes}
             value={kind}
@@ -76,7 +76,7 @@ const QueryEditorProjects = (props: Props) => {
             }}
             size={'md'}
           />
-        </div>
+        </InlineField>
       </QueryEditorRow>
 
       <QueryEditorRow>
@@ -140,23 +140,21 @@ const QueryEditorProjects = (props: Props) => {
       {/* Filters currently only apply to Project Items */}
       {number && (
         <QueryEditorRow>
-          <div className="gf-form">
-            <InlineFormLabel className="query-keyword" width={LeftColumnWidth}>
-              Filters
-            </InlineFormLabel>
-            <Filters
-              onChange={(filters: Filter[]) => {
-                setFilters(filters);
-                props.onChange({
-                  ...props,
-                  filters,
-                });
-              }}
-              loadOptions={fetchFilters}
-              value={filters}
-              ops={ops}
-            ></Filters>
-          </div>
+          <InlineFormLabel className="query-keyword" width={LeftColumnWidth}>
+            Filters
+          </InlineFormLabel>
+          <Filters
+            onChange={(filters: Filter[]) => {
+              setFilters(filters);
+              props.onChange({
+                ...props,
+                filters,
+              });
+            }}
+            loadOptions={fetchFilters}
+            value={filters}
+            ops={ops}
+          ></Filters>
         </QueryEditorRow>
       )}
     </>

@@ -1,5 +1,6 @@
 import React, { InputHTMLAttributes, FunctionComponent } from 'react';
-import { InlineFormLabel } from '@grafana/ui';
+import { InlineFieldRow, InlineFormLabel } from '@grafana/ui';
+import { css } from '@emotion/css';
 
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -17,9 +18,13 @@ export const QueryField: FunctionComponent<Partial<Props>> = ({ label, labelWidt
   </>
 );
 
+const terminatorCss = css`
+  margin-left: 4px;
+`;
+
 export const QueryRowTerminator = () => {
   return (
-    <div className="gf-form gf-form--grow">
+    <div className={`${terminatorCss} gf-form gf-form--grow`}>
       <div className="gf-form-label gf-form-label--grow" />
     </div>
   );
@@ -35,9 +40,9 @@ export const QueryInlineField = ({ ...props }) => {
 
 export const QueryEditorRow = (props: any) => {
   return (
-    <div className="gf-form-inline">
+    <InlineFieldRow>
       {props.children}
       <QueryRowTerminator />
-    </div>
+    </InlineFieldRow>
   );
 };
