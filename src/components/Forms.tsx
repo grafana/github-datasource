@@ -18,15 +18,13 @@ export const QueryField: FunctionComponent<Partial<Props>> = ({ label, labelWidt
   </>
 );
 
-const terminatorCss = css`
-  margin-left: 4px;
-`;
-
 export const QueryRowTerminator = () => {
+  const styles = getStyles();
+
   return (
-    <div className={`${terminatorCss} gf-form gf-form--grow`}>
-      <div className="gf-form-label gf-form-label--grow" />
-    </div>
+    <InlineFormLabel className={styles.rowTerminator}>
+      <></>
+    </InlineFormLabel>
   );
 };
 
@@ -39,10 +37,24 @@ export const QueryInlineField = ({ ...props }) => {
 };
 
 export const QueryEditorRow = (props: any) => {
+  const styles = getStyles();
+
   return (
-    <InlineFieldRow>
+    <InlineFieldRow className={styles.rowSpacing}>
       {props.children}
       <QueryRowTerminator />
     </InlineFieldRow>
   );
+};
+
+const getStyles = () => {
+  return {
+    rowSpacing: css({
+      marginBottom: '4px',
+    }),
+    rowTerminator: css({
+      flexGrow: 1,
+      marginLeft: '4px',
+    }),
+  };
 };
