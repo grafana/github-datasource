@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Icon, SegmentAsync, Segment, InlineFieldRow } from '@grafana/ui';
+import { SegmentAsync, Segment, InlineFieldRow, Button } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
 import { css } from '@emotion/css';
 
@@ -99,17 +99,13 @@ export const Filters: React.FC<Props> = (props: Props) => {
               />
               {loading === i && <div className={styles.loading}>Loading...</div>}
             </span>
-            <a className="gf-form-label query-part" onClick={remove(i)}>
-              <Icon name="trash-alt" />
-            </a>
+            <Button variant="secondary" onClick={remove(i)} icon="trash-alt" />
             {list.length > 1 && i !== list.length - 1 && (
               <Segment onChange={onConjunctionChange(i)} options={opList} value={filter.conjunction || 'and'}></Segment>
             )}
           </>
         ))}
-        <a className="gf-form gf-form-label query-part" onClick={add}>
-          <Icon name="plus" />
-        </a>
+        <Button variant="secondary" onClick={add} icon="plus" />
       </>
     </InlineFieldRow>
   );
