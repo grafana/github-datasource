@@ -1,5 +1,5 @@
 import React from 'react';
-import { Select, Spinner } from '@grafana/ui';
+import { InlineFieldRow, Select, Spinner } from '@grafana/ui';
 import { css } from '@emotion/css';
 
 interface Props {
@@ -10,10 +10,6 @@ interface Props {
   loading: boolean;
 }
 
-const containerCss = css`
-  align-items: center;
-`;
-
 const spannerCss = css`
   margin: 0px 3px;
   padding: 0px 3px;
@@ -22,7 +18,7 @@ const spannerCss = css`
 const FieldSelect = (props: Props) => {
   const { onChange, options, value, width, loading } = props;
   return (
-    <div className={`${containerCss} gf-form-inline`}>
+    <InlineFieldRow>
       <Select
         allowCustomValue
         value={value}
@@ -42,7 +38,7 @@ const FieldSelect = (props: Props) => {
           <Spinner className={spannerCss} />
         </div>
       )}
-    </div>
+    </InlineFieldRow>
   );
 };
 
