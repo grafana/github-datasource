@@ -1,9 +1,5 @@
 # Change Log
 
-## [1.5.3] - 2023-11-16
-
-- **Chore** - Update backend grafana plugin SDK
-
 ## [1.5.2]
 
 - **BugFix** - Fix config page backwards compatibility with Grafana < 10.1
