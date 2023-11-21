@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.5.3]
+
+- **Chore** - Bump grafana-plugin-sdk-go to latest
+- **Chore** - Added lint github workflow
+- **Chore** - Remove legacy form styling
+
 ## [1.5.2]
 
 - **BugFix** - Fix config page backwards compatibility with Grafana < 10.1
