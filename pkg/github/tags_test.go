@@ -62,23 +62,20 @@ func TestTagsDataFrames(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	user := GitActor{
-		Name:  "firstCommitter",
+	user := author{
 		Email: "first@example.com",
-		User: models.User{
-			ID:      "1",
+		User: user{
 			Login:   "firstCommitter",
 			Name:    "First Committer",
 			Company: "ACME Corp",
-			Email:   "first@example.com",
 		},
 	}
 
 	tags := Tags{
-		Tag{
+		tagDTO{
 			Name: "v1.0.0",
 			OID:  "",
-			Tagger: GitActor{
+			Author: author{
 				Email: user.Email,
 				Date: githubv4.GitTimestamp{
 					Time: createdAt,
@@ -86,9 +83,9 @@ func TestTagsDataFrames(t *testing.T) {
 				User: user.User,
 			},
 		},
-		Tag{
+		tagDTO{
 			Name: "v1.1.0",
-			Tagger: GitActor{
+			Author: author{
 				Email: user.Email,
 				Date: githubv4.GitTimestamp{
 					Time: createdAt,
