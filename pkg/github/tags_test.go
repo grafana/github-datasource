@@ -57,11 +57,6 @@ func TestListTags(t *testing.T) {
 }
 
 func TestTagsDataFrames(t *testing.T) {
-	committedAt, err := time.Parse(time.RFC3339, "2020-08-25T16:21:56+00:00")
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	createdAt, err := time.Parse(time.RFC3339, "2020-08-25T16:21:56+00:00")
 	if err != nil {
 		t.Fatal(err)
@@ -79,74 +74,28 @@ func TestTagsDataFrames(t *testing.T) {
 		},
 	}
 
-	commit1 := Commit{
-		OID: "",
-		PushedDate: githubv4.DateTime{
-			Time: committedAt.Add(time.Minute * 2),
-		},
-		AuthoredDate: githubv4.DateTime{
-			Time: committedAt,
-		},
-		CommittedDate: githubv4.DateTime{
-			Time: committedAt,
-		},
-		Message: "commit #1",
-		Author:  user,
-	}
-
-	commit2 := Commit{
-		OID: "",
-		PushedDate: githubv4.DateTime{
-			Time: committedAt.Add(time.Hour * 2),
-		},
-		AuthoredDate: githubv4.DateTime{
-			Time: committedAt.Add(time.Hour),
-		},
-		CommittedDate: githubv4.DateTime{
-			Time: committedAt.Add(time.Hour),
-		},
-		Message: "commit #2",
-		Author:  user,
-	}
-
 	tags := Tags{
 		Tag{
 			Name: "v1.0.0",
-			Tagger: struct {
-				Date githubv4.DateTime
-				User models.User
-			}{
-				Date: githubv4.DateTime{
+			OID:  "",
+			Tagger: GitActor{
+				Email: user.Email,
+				Date: githubv4.GitTimestamp{
 					Time: createdAt,
 				},
 				User: user.User,
-			},
-			Target: struct {
-				OID    string
-				Commit Commit "graphql:\"... on Commit\""
-			}{
-				OID:    "",
-				Commit: commit1,
 			},
 		},
 		Tag{
 			Name: "v1.1.0",
-			Tagger: struct {
-				Date githubv4.DateTime
-				User models.User
-			}{
-				Date: githubv4.DateTime{
+			Tagger: GitActor{
+				Email: user.Email,
+				Date: githubv4.GitTimestamp{
 					Time: createdAt,
 				},
 				User: user.User,
 			},
-			Target: struct {
-				OID    string
-				Commit Commit "graphql:\"... on Commit\""
-			}{
-				OID:    "",
-				Commit: commit2,
-			},
+			OID: "",
 		},
 	}
 
