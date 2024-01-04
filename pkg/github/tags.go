@@ -9,21 +9,35 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-// Tag is a GitHub tag. Every tag has an associated commit
-type Tag struct {
+type tagDTO struct {
 	Name   string
-	Tagger struct {
-		Date githubv4.DateTime
-		User models.User
-	}
-	Target struct {
-		OID    string
-		Commit Commit `graphql:"... on Commit"`
-	}
+	Author author
+	OID    string
+}
+
+type user struct {
+	Login   string
+	Name    string
+	Company string
+}
+
+type author struct {
+	Email string
+	User  user
+	Date  githubv4.GitTimestamp
+}
+type commit struct {
+	OID    string
+	Author author
+}
+
+type tag struct {
+	OID    string
+	Tagger author
 }
 
 // Tags is a list of GitHub tags
-type Tags []Tag
+type Tags []tagDTO
 
 // Frames converts the list of tags to a Grafana DataFrame
 func (t Tags) Frames() data.Frames {
@@ -35,22 +49,18 @@ func (t Tags) Frames() data.Frames {
 		data.NewField("author_login", nil, []string{}),
 		data.NewField("author_email", nil, []string{}),
 		data.NewField("author_company", nil, []string{}),
-		data.NewField("pushed_at", nil, []time.Time{}),
-		data.NewField("committed_at", nil, []time.Time{}),
-		data.NewField("commit_pushed_at", nil, []time.Time{}),
+		data.NewField("date", nil, []time.Time{}), // The timestamp of the Git action (authoring or committing).
 	)
 
 	for _, v := range t {
 		frame.AppendRow(
 			v.Name,
-			v.Target.Commit.OID,
-			v.Tagger.User.Name,
-			v.Tagger.User.Login,
-			v.Target.Commit.Author.Email,
-			v.Target.Commit.Author.User.Company,
-			v.Tagger.Date.Time,
-			v.Target.Commit.CommittedDate.Time,
-			v.Target.Commit.PushedDate.Time,
+			v.OID,
+			v.Author.User.Name,
+			v.Author.User.Login,
+			v.Author.Email,
+			v.Author.User.Company,
+			v.Author.Date.Time,
 		)
 	}
 
@@ -59,35 +69,56 @@ func (t Tags) Frames() data.Frames {
 
 // QueryListTags is the GraphQL query for listing GitHub tags in a repository
 //
-//	  repository(name: "grafana", owner: "grafana") {
-//	    refs(refPrefix: "refs/tags/", orderBy: {field: TAG_COMMIT_DATE, direction: DESC}, first: 10, query: "") {
-//	      nodes {
-//	        target {
-//	          oid
-//	          ... on Tag {
-//	            name
-//	            tagger {
-//	              date
-//	            }
-//	            target {
-//	              oid
-//	              ... on Commit {
-//	                committedDate
-//	                pushedDate
-//	              }
-//	            }
-//	          }
-//	        }
-//	      }
-//	    }
+//	{
+//		repository(name: "grafana", owner: "grafana") {
+//		  refs(
+//			refPrefix: "refs/tags/"
+//			orderBy: {field: TAG_COMMIT_DATE, direction: DESC}
+//			first: 30
+//			query: ""
+//		  ) {
+//			nodes {
+//			  name
+//			  target {
+//				__typename
+//				... on Commit {
+//				  oid
+//				  author {
+//					date
+//					email
+//					user {
+//					  login
+//					  name
+//					  company
+//					}
+//				  }
+//				}
+//				... on Tag {
+//				  oid
+//				  tagger {
+//					date
+//					email
+//					user {
+//					  login
+//					  name
+//					  company
+//					}
+//				  }
+//				}
+//			  }
+//			}
+//		  }
+//		}
 //	  }
-//	}
 type QueryListTags struct {
 	Repository struct {
 		Refs struct {
 			Nodes []struct {
+				Name   string
 				Target struct {
-					Tag Tag `graphql:"... on Tag"`
+					TypeName string  `graphql:"__typename"`
+					Tag      tag     `graphql:"... on Tag"`
+					Commit   commit `graphql:"... on Commit"`
 				}
 			}
 			PageInfo models.PageInfo
@@ -104,7 +135,7 @@ func GetAllTags(ctx context.Context, client models.Client, opts models.ListTagsO
 			"name":   githubv4.String(opts.Repository),
 		}
 
-		tags = []Tag{}
+		tags = []tagDTO{}
 	)
 
 	for {
@@ -112,9 +143,16 @@ func GetAllTags(ctx context.Context, client models.Client, opts models.ListTagsO
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, err
 		}
-		t := make([]Tag, len(q.Repository.Refs.Nodes))
+		t := make([]tagDTO, len(q.Repository.Refs.Nodes))
 		for i, v := range q.Repository.Refs.Nodes {
-			t[i] = v.Target.Tag
+			t[i].Name = v.Name
+			if v.Target.TypeName == "Commit" {
+				t[i].Author = v.Target.Commit.Author
+				t[i].OID = v.Target.Commit.OID
+			} else if v.Target.TypeName == "Tag" {
+				t[i].Author = v.Target.Tag.Tagger
+				t[i].OID = v.Target.Tag.OID
+			}
 		}
 
 		tags = append(tags, t...)
@@ -134,10 +172,10 @@ func GetTagsInRange(ctx context.Context, client models.Client, opts models.ListT
 		return nil, err
 	}
 
-	filtered := []Tag{}
+	filtered := []tagDTO{}
 
 	for i, v := range tags {
-		if v.Tagger.Date.After(from) && v.Tagger.Date.Before(to) {
+		if v.Author.Date.After(from) && v.Author.Date.Before(to) {
 			filtered = append(filtered, tags[i])
 		}
 	}

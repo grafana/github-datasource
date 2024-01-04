@@ -14,6 +14,7 @@ type GitActor struct {
 	Name  string
 	Email string
 	User  models.User
+	Date  githubv4.GitTimestamp
 }
 
 // GitActors is a list of GitHub users

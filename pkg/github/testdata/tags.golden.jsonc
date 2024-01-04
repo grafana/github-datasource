@@ -2,15 +2,15 @@
 //  
 //  Frame[0] 
 //  Name: tags
-//  Dimensions: 9 Fields by 2 Rows
-//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+---------------------------------+
-//  | Name: name     | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: pushed_at                 | Name: committed_at              | Name: commit_pushed_at          |
-//  | Labels:        | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                         | Labels:                         | Labels:                         |
-//  | Type: []string | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               | Type: []time.Time               | Type: []time.Time               |
-//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+---------------------------------+
-//  | v1.0.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:23:56 +0000 +0000 |
-//  | v1.1.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 17:21:56 +0000 +0000 | 2020-08-25 18:21:56 +0000 +0000 |
-//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+---------------------------------+
+//  Dimensions: 7 Fields by 2 Rows
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
+//  | Name: name     | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: date                      |
+//  | Labels:        | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                         |
+//  | Type: []string | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               |
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
+//  | v1.0.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 |
+//  | v1.1.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 |
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
@@ -64,21 +64,7 @@
             }
           },
           {
-            "name": "pushed_at",
-            "type": "time",
-            "typeInfo": {
-              "frame": "time.Time"
-            }
-          },
-          {
-            "name": "committed_at",
-            "type": "time",
-            "typeInfo": {
-              "frame": "time.Time"
-            }
-          },
-          {
-            "name": "commit_pushed_at",
+            "name": "date",
             "type": "time",
             "typeInfo": {
               "frame": "time.Time"
@@ -115,14 +101,6 @@
           [
             1598372516000,
             1598372516000
-          ],
-          [
-            1598372516000,
-            1598376116000
-          ],
-          [
-            1598372636000,
-            1598379716000
           ]
         ]
       }
