@@ -10,7 +10,8 @@ import { Divider } from 'components/Divider';
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
 
 const ConfigEditor = (props: ConfigEditorProps) => {
-  const { jsonData, secureJsonData, secureJsonFields } = props.options;
+  const { options, onOptionsChange } = props;
+  const { jsonData, secureJsonData, secureJsonFields } = options;
   const secureSettings = (secureJsonData || {}) as GithubSecureJsonData;
   const styles = useStyles2(getStyles);
 
@@ -40,7 +41,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
   const onLicenseChange = (value: string) => {
     if (value === 'github-basic') {
-      jsonData.githubUrl = '';
+      onOptionsChange({ ...options, jsonData: { ...jsonData, githubUrl: '' } });
     }
 
     setSelectedLicense(value);
