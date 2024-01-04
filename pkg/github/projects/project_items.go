@@ -25,6 +25,8 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 		data.NewField("closed_at", nil, []*time.Time{}),
 	)
 
+	exclude := getExcludedFields()
+
 	// add the list of fields based on the project to the frame
 	var fields []Field
 	for _, f := range p.Fields {
@@ -237,10 +239,13 @@ var fieldTypes = map[string]any{
 	"TRACKS":               []*string{},
 }
 
-// exclude these types, maybe add later
-var exclude = map[string]bool{
-	"LINKED_PULL_REQUESTS": true,
-	"TRACKED_BY":           true,
+func getExcludedFields() map[string]bool {
+	var exclude = map[string]bool{
+		"LINKED_PULL_REQUESTS": true,
+		"TRACKED_BY":           true,
+	}
+
+	return exclude
 }
 
 // convert fieldValue to time
