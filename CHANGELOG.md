@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.5.4]
+
+- **Chore** - Bump grafana-plugin-sdk-go to v0.198.0 (latest)
+- **Bug Fix** - Fix tag queries to return commits as well
+- **Bug Fix** - Fix for resetting URL in the config page
+
 ## [1.5.3]
 
 - **Chore** - Bump grafana-plugin-sdk-go to latest
