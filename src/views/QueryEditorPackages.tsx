@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import { Input, Select } from '@grafana/ui';
+import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
 
-import { QueryInlineField } from '../components/Forms';
 import { PackagesOptions, PackageType } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
@@ -25,7 +24,7 @@ const QueryEditorPackages = (props: Props) => {
 
   return (
     <>
-      <QueryInlineField labelWidth={LeftColumnWidth} label="Package type">
+      <InlineField labelWidth={LeftColumnWidth * 2} label="Package type">
         <Select
           options={packageTypeOptions}
           value={props.packageType || DefaultPackageType}
@@ -37,9 +36,9 @@ const QueryEditorPackages = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
+      </InlineField>
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
         label="Names"
         tooltip="Search for packages using a comma delimited list of names"
       >
@@ -54,7 +53,7 @@ const QueryEditorPackages = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

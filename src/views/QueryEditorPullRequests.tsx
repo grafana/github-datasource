@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import { Input, Select } from '@grafana/ui';
+import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
 
-import { QueryInlineField } from '../components/Forms';
 import { PullRequestsOptions, PullRequestTimeField } from '../types';
 
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
@@ -27,10 +26,11 @@ const QueryEditorPullRequests = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
         label="Query"
         tooltip="For more information, visit https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests"
+        interactive={true}
       >
         <Input
           value={query}
@@ -43,9 +43,9 @@ const QueryEditorPullRequests = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
+      </InlineField>
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
         label="Time Field"
         tooltip="The time field to filter on the time range. WARNING: If selecting 'None', be mindful of the amount of data being queried. On larger repositories, querying all pull requests could easily cause rate limiting"
       >
@@ -60,7 +60,7 @@ const QueryEditorPullRequests = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

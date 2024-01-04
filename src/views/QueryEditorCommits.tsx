@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Input } from '@grafana/ui';
+import { Input, InlineField } from '@grafana/ui';
 
-import { QueryInlineField } from '../components/Forms';
 import { CommitsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { selectors } from 'components/selectors';
@@ -14,7 +13,7 @@ const QueryEditorCommits = (props: Props) => {
   const [ref, setRef] = useState<string>(props.gitRef || '');
   return (
     <>
-      <QueryInlineField labelWidth={LeftColumnWidth} label="Ref (Branch / Tag)">
+      <InlineField labelWidth={LeftColumnWidth * 2} label="Ref (Branch / Tag)">
         <Input
           aria-label={selectors.components.QueryEditor.Ref.input}
           width={RightColumnWidth}
@@ -22,7 +21,7 @@ const QueryEditorCommits = (props: Props) => {
           onChange={(el) => setRef(el.currentTarget.value)}
           onBlur={(el) => props.onChange({ ...props, gitRef: el.currentTarget.value })}
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

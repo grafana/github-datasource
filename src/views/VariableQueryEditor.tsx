@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
 
+import { InlineField } from '@grafana/ui';
+
 import QueryEditor from './QueryEditor';
 import { GithubDataSource } from '../DataSource';
 import { GitHubVariableQuery, DefaultQueryType, QueryType } from '../types';
-import { QueryInlineField } from '../components/Forms';
 import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
 
@@ -48,12 +49,7 @@ const VariableQueryEditor = (props: Props) => {
           QueryType.Projects,
         ]}
       />
-      <QueryInlineField
-        width={10}
-        labelWidth={10}
-        label="Field Value"
-        tooltip="This field determines the value used for the variable"
-      >
+      <InlineField labelWidth={20} label="Field Value" tooltip="This field determines the value used for the variable">
         <FieldSelect
           onChange={(value) =>
             props.onChange(
@@ -69,13 +65,8 @@ const VariableQueryEditor = (props: Props) => {
           value={props.query.key}
           loading={!choices}
         />
-      </QueryInlineField>
-      <QueryInlineField
-        width={10}
-        labelWidth={10}
-        label="Field Display"
-        tooltip="This field determines the text used for the variable"
-      >
+      </InlineField>
+      <InlineField labelWidth={20} label="Field Display" tooltip="This field determines the text used for the variable">
         <FieldSelect
           onChange={(value) =>
             props.onChange(
@@ -91,7 +82,7 @@ const VariableQueryEditor = (props: Props) => {
           value={props.query.field}
           loading={!choices}
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
-import { Input } from '@grafana/ui';
+import { Input, InlineField } from '@grafana/ui';
 
-import { QueryInlineField } from '../components/Forms';
 import { MilestonesOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
@@ -14,7 +13,7 @@ const QueryEditorMilestones = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
-      <QueryInlineField labelWidth={LeftColumnWidth} label="Query" tooltip="Query milestones by title">
+      <InlineField labelWidth={LeftColumnWidth * 2} label="Query" tooltip="Query milestones by title">
         <Input
           value={query}
           width={RightColumnWidth * 2 + LeftColumnWidth}
@@ -26,7 +25,7 @@ const QueryEditorMilestones = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

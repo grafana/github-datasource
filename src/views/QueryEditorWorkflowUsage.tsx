@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { QueryInlineField } from '../components/Forms';
-import { Input } from '@grafana/ui';
+import { Input, InlineField } from '@grafana/ui';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { WorkflowUsageOptions } from 'types';
 
@@ -13,8 +12,8 @@ const QueryEditorWorkflowUsage = (props: Props) => {
 
   return (
     <>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
         label="Workflow"
         tooltip="The workflow id number or file name (e.g my-workflow.yml)"
       >
@@ -29,7 +28,7 @@ const QueryEditorWorkflowUsage = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

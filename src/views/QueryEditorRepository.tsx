@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input, InlineFormLabel } from '@grafana/ui';
+import { Input, InlineLabel } from '@grafana/ui';
 
 import { QueryEditorRow } from '../components/Forms';
 import { RepositoryOptions } from '../types';
@@ -24,13 +24,12 @@ const QueryEditorRepositories = (props: Props) => {
 
   return (
     <QueryEditorRow>
-      <InlineFormLabel
-        className="query-keyword"
+      <InlineLabel
         tooltip="The owner (organization or user) of the GitHub repository (example: 'grafana')"
-        width={LeftColumnWidth}
+        width={LeftColumnWidth * 2}
       >
         Owner
-      </InlineFormLabel>
+      </InlineLabel>
       <Input
         aria-label={selectors.components.QueryEditor.Owner.input}
         width={RightColumnWidth}
@@ -43,9 +42,9 @@ const QueryEditorRepositories = (props: Props) => {
           })
         }
       />
-      <InlineFormLabel className="query-keyword" tooltip="The name of the GitHub repository" width={LeftColumnWidth}>
+      <InlineLabel tooltip="The name of the GitHub repository" width={LeftColumnWidth * 2}>
         Repository
-      </InlineFormLabel>
+      </InlineLabel>
       <Input
         aria-label={selectors.components.QueryEditor.Repository.input}
         width={RightColumnWidth}

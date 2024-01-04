@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, InlineFormLabel, RadioButtonGroup, InlineField } from '@grafana/ui';
+import { Input, InlineLabel, RadioButtonGroup, InlineField } from '@grafana/ui';
 
 import { QueryEditorRow } from '../components/Forms';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
@@ -56,13 +56,12 @@ const QueryEditorProjects = (props: Props) => {
   return (
     <>
       <QueryEditorRow>
-        <InlineFormLabel
-          className="query-keyword"
+        <InlineLabel
           tooltip="The owner of the GitHub project. Does not support classic projects."
-          width={LeftColumnWidth}
+          width={LeftColumnWidth * 2}
         >
           Project Owner
-        </InlineFormLabel>
+        </InlineLabel>
         <InlineField>
           <RadioButtonGroup<ProjectQueryType>
             options={queryTypes}
@@ -80,9 +79,9 @@ const QueryEditorProjects = (props: Props) => {
       </QueryEditorRow>
 
       <QueryEditorRow>
-        <InlineFormLabel className="query-keyword" tooltip={tooltip} width={LeftColumnWidth}>
+        <InlineLabel tooltip={tooltip} width={LeftColumnWidth * 2}>
           {label}
-        </InlineFormLabel>
+        </InlineLabel>
         {kind === ProjectQueryType.ORG && (
           <Input
             aria-label={selectors.components.QueryEditor.Owner.input}
@@ -116,13 +115,12 @@ const QueryEditorProjects = (props: Props) => {
       </QueryEditorRow>
 
       <QueryEditorRow>
-        <InlineFormLabel
-          className="query-keyword"
+        <InlineLabel
           tooltip="The project number for the GitHub project (example: 123). Does not support classic projects."
-          width={LeftColumnWidth}
+          width={LeftColumnWidth * 2}
         >
           Project Number
-        </InlineFormLabel>
+        </InlineLabel>
         <Input
           aria-label={selectors.components.QueryEditor.Number.input}
           width={RightColumnWidth}
@@ -140,9 +138,7 @@ const QueryEditorProjects = (props: Props) => {
       {/* Filters currently only apply to Project Items */}
       {number && (
         <QueryEditorRow>
-          <InlineFormLabel className="query-keyword" width={LeftColumnWidth}>
-            Filters
-          </InlineFormLabel>
+          <InlineLabel width={LeftColumnWidth * 2}>Filters</InlineLabel>
           <Filters
             onChange={(filters: Filter[]) => {
               setFilters(filters);
