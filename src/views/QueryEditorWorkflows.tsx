@@ -1,6 +1,5 @@
 import React from 'react';
-import { QueryInlineField } from '../components/Forms';
-import { Select } from '@grafana/ui';
+import { Select, InlineField } from '@grafana/ui';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { WorkflowsOptions, WorkflowsTimeField } from 'types';
 import { SelectableValue } from '@grafana/data';
@@ -23,8 +22,8 @@ const defaultTimeField = 0 as WorkflowsTimeField;
 const QueryEditorWorkflows = (props: Props) => {
   return (
     <>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
         label="Time Field"
         tooltip="The time field to filter on the time range"
       >
@@ -39,7 +38,7 @@ const QueryEditorWorkflows = (props: Props) => {
             });
           }}
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

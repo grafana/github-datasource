@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Input } from '@grafana/ui';
+import { Input, InlineField } from '@grafana/ui';
 
-import { QueryInlineField } from '../components/Forms';
 import { LabelsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
@@ -13,14 +12,14 @@ const QueryEditorLabels = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
-      <QueryInlineField labelWidth={LeftColumnWidth} label="Query (optional)">
+      <InlineField labelWidth={LeftColumnWidth * 2} label="Query (optional)">
         <Input
           width={RightColumnWidth}
           value={query}
           onChange={(el) => setQuery(el.currentTarget.value)}
           onBlur={(el) => props.onChange({ ...props, query: el.currentTarget.value })}
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };

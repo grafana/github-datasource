@@ -1,10 +1,9 @@
 import React, { ReactNode, useCallback } from 'react';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import { Select } from '@grafana/ui';
+import { Select, InlineField } from '@grafana/ui';
 
 import { GithubDataSource } from '../DataSource';
 import { GithubDataSourceOptions, GitHubQuery, QueryType, DefaultQueryType } from '../types';
-import { QueryInlineField } from '../components/Forms';
 import { isValid } from '../validation';
 import { Components } from './../components/selectors';
 
@@ -138,7 +137,7 @@ const QueryEditor = (props: Props) => {
 
   return (
     <>
-      <QueryInlineField label="Query Type" tooltip="What resource are you querying for?" labelWidth={LeftColumnWidth}>
+      <InlineField label="Query Type" tooltip="What resource are you querying for?" labelWidth={LeftColumnWidth * 2}>
         <div aria-label={Components.QueryEditor.QueryType.container.ariaLabel}>
           <Select
             menuShouldPortal={true}
@@ -148,7 +147,7 @@ const QueryEditor = (props: Props) => {
             onChange={(val) => onKeyChange('queryType', val.value || DefaultQueryType)}
           />
         </div>
-      </QueryInlineField>
+      </InlineField>
 
       {hasRepo(props.query.queryType) && (
         <QueryEditorRepository

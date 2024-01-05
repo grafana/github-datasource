@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-
-import { Input, Select } from '@grafana/ui';
+import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
-
-import { QueryInlineField } from '../components/Forms';
 import { IssuesOptions, IssueTimeField } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 
@@ -26,10 +23,22 @@ const QueryEditorIssues = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
     <>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
         label="Query"
-        tooltip="For more information, visit https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests"
+        tooltip={() => (
+          <>
+            For more information, visit&nbsp;
+            <a
+              href="https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
+            </a>
+          </>
+        )}
+        interactive={true}
       >
         <Input
           value={query}
@@ -42,9 +51,9 @@ const QueryEditorIssues = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
-      <QueryInlineField
-        labelWidth={LeftColumnWidth}
+      </InlineField>
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
         label="Time Field"
         tooltip="The time field to filter on the time range"
       >
@@ -59,7 +68,7 @@ const QueryEditorIssues = (props: Props) => {
             })
           }
         />
-      </QueryInlineField>
+      </InlineField>
     </>
   );
 };
