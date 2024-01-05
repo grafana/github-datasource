@@ -29,7 +29,18 @@ const QueryEditorPullRequests = (props: Props) => {
       <InlineField
         labelWidth={LeftColumnWidth * 2}
         label="Query"
-        tooltip="For more information, visit https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests"
+        tooltip={() => (
+          <>
+            For more information, visit&nbsp;
+            <a
+              href="https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests"
+              target="_blank"
+              rel="noreferrer"
+            >
+              https://docs.github.com/en/github/searching-for-information-on-github/searching-issues-and-pull-requests
+            </a>
+          </>
+        )}
         interactive={true}
       >
         <Input
