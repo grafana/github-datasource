@@ -3,15 +3,15 @@
 //  Frame[0] 
 //  Name: issues
 //  Dimensions: 8 Fields by 3 Rows
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
-//  | Name: title    | Name: author   | Name: author_company | Name: repo      | Name: number  | Name: closed | Name: created_at                | Name: closed_at                 |
-//  | Labels:        | Labels:        | Labels:              | Labels:         | Labels:       | Labels:      | Labels:                         | Labels:                         |
-//  | Type: []string | Type: []string | Type: []string       | Type: []string  | Type: []int64 | Type: []bool | Type: []time.Time               | Type: []*time.Time              |
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
-//  | Issue #1       | firstUser      | ACME Corp            | grafana/grafana | 1             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            |
-//  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 |
-//  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            |
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+-------------------------------+-------------------------------+
+//  | Name: title    | Name: author   | Name: author_company | Name: repo      | Name: number  | Name: closed | Name: created_at              | Name: closed_at               |
+//  | Labels:        | Labels:        | Labels:              | Labels:         | Labels:       | Labels:      | Labels:                       | Labels:                       |
+//  | Type: []string | Type: []string | Type: []string       | Type: []string  | Type: []int64 | Type: []bool | Type: []time.Time             | Type: []*time.Time            |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+-------------------------------+-------------------------------+
+//  | Issue #1       | firstUser      | ACME Corp            | grafana/grafana | 1             | false        | 2020-08-25 16:21:56 +0000 UTC | null                          |
+//  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 UTC | 2020-08-25 22:21:56 +0000 UTC |
+//  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 UTC | null                          |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+-------------------------------+-------------------------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
