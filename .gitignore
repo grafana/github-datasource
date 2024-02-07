@@ -11,3 +11,4 @@ cypress/report.json
 
 .eslintcache
 __debug_bin
+mage_output_file.go
