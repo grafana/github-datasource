@@ -1,42 +1,46 @@
 package models
 
+// The github query type
+// +enum
+type QueryType string
+
 const (
 	// QueryTypeCommits is sent by the frontend when querying commits in a GitHub repository
-	QueryTypeCommits = "Commits"
+	QueryTypeCommits QueryType = "Commits"
 	// QueryTypeIssues is used when querying issues in a GitHub repository
-	QueryTypeIssues = "Issues"
+	QueryTypeIssues QueryType = "Issues"
 	// QueryTypeContributors is used when querying contributors in a GitHub repository
-	QueryTypeContributors = "Contributors"
+	QueryTypeContributors QueryType = "Contributors"
 	// QueryTypeTags is used when querying tags in a GitHub repository
-	QueryTypeTags = "Tags"
+	QueryTypeTags QueryType = "Tags"
 	// QueryTypeReleases is used when querying releases in a GitHub repository
-	QueryTypeReleases = "Releases"
+	QueryTypeReleases QueryType = "Releases"
 	// QueryTypePullRequests is used when querying pull requests in a GitHub repository
-	QueryTypePullRequests = "Pull_Requests"
+	QueryTypePullRequests QueryType = "Pull_Requests"
 	// QueryTypeLabels is used when querying labels in a GitHub repository
-	QueryTypeLabels = "Labels"
+	QueryTypeLabels QueryType = "Labels"
 	// QueryTypeRepositories is used when querying for a GitHub repository
-	QueryTypeRepositories = "Repositories"
+	QueryTypeRepositories QueryType = "Repositories"
 	// QueryTypeOrganizations is used when querying for GitHub organizations
-	QueryTypeOrganizations = "Organizations"
+	QueryTypeOrganizations QueryType = "Organizations"
 	// QueryTypeGraphQL is used when sending an ad-hoc graphql query
-	QueryTypeGraphQL = "GraphQL"
+	QueryTypeGraphQL QueryType = "GraphQL"
 	// QueryTypePackages is used when querying for NPM / Docker / etc packages
-	QueryTypePackages = "Packages"
+	QueryTypePackages QueryType = "Packages"
 	// QueryTypeMilestones is used when querying for milestones in a repository
-	QueryTypeMilestones = "Milestones"
+	QueryTypeMilestones QueryType = "Milestones"
 	// QueryTypeVulnerabilities is used when querying a vulnerability for a repository
-	QueryTypeVulnerabilities = "Vulnerabilities"
+	QueryTypeVulnerabilities QueryType = "Vulnerabilities"
 	// QueryTypeProjects is used when querying projects for an organization
-	QueryTypeProjects = "Projects"
+	QueryTypeProjects QueryType = "Projects"
 	// QueryTypeProjectItems is used when querying projects for an organization
-	QueryTypeProjectItems = "ProjectItems"
+	QueryTypeProjectItems QueryType = "ProjectItems"
 	// QueryTypeStargazers is used when querying stargazers for a repository
-	QueryTypeStargazers = "Stargazers"
+	QueryTypeStargazers QueryType = "Stargazers"
 	// QueryTypeWorkflows is used when querying workflows for an organization
-	QueryTypeWorkflows = "Workflows"
+	QueryTypeWorkflows QueryType = "Workflows"
 	// QueryTypeWorkflowUsage is used when querying a specific workflow usage
-	QueryTypeWorkflowUsage = "Workflow_Usage"
+	QueryTypeWorkflowUsage QueryType = "Workflow_Usage"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
