@@ -78,7 +78,7 @@ func TestSchemaDefinitions(t *testing.T) {
 			},
 		},
 	}, schema.QueryTypeInfo{
-		Discriminators: schema.NewDiscriminators("queryType", QueryTypeReleases),
+		Discriminators: schema.NewDiscriminators("queryType", QueryTypeContributors),
 		GoType:         reflect.TypeOf(&ContributorsQuery{}),
 		Examples: []schema.QueryExample{
 			{

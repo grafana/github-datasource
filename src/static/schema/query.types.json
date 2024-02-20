@@ -2,7 +2,7 @@
   "kind": "QueryTypeDefinitionList",
   "apiVersion": "query.grafana.app/v0alpha1",
   "metadata": {
-    "resourceVersion": "1708445934187"
+    "resourceVersion": "1708446413913"
   },
   "items": [
     {
@@ -983,6 +983,136 @@
         ],
         "querySchema": {
           "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "ReleasesQuery is used when querying for GitHub issue labels",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "owner": {
+                  "description": "Owner is the owner of the repository (ex: grafana)",
+                  "type": "string"
+                },
+                "repository": {
+                  "description": "Repository is the name of the repository being queried (ex: grafana)",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "repository",
+                "owner"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "ReleasesQuery",
+            "queryPayload": {
+              "options": {
+                "owner": "",
+                "repository": ""
+              },
+              "owner": "owner",
+              "repository": "repo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Releases",
+        "resourceVersion": "1708446330765",
+        "creationTimestamp": "2024-02-20T16:18:54Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Releases"
+          }
+        ],
+        "querySchema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "ReleasesQuery is used when querying for GitHub issue labels",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "owner": {
+                  "description": "Owner is the owner of the repository (ex: grafana)",
+                  "type": "string"
+                },
+                "repository": {
+                  "description": "Repository is the name of the repository being queried (ex: grafana)",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "repository",
+                "owner"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "ReleasesQuery",
+            "queryPayload": {
+              "options": {
+                "owner": "",
+                "repository": ""
+              },
+              "owner": "owner",
+              "repository": "repo"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Releases",
+        "resourceVersion": "1708446413913",
+        "creationTimestamp": "2024-02-20T16:25:30Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Releases"
+          }
+        ],
+        "querySchema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
           "properties": {
             "repository": {
               "type": "string"
@@ -1035,15 +1165,15 @@
     },
     {
       "metadata": {
-        "name": "Releases",
-        "resourceVersion": "1708445934187",
-        "creationTimestamp": "2024-02-20T16:18:54Z"
+        "name": "Contributors",
+        "resourceVersion": "1708446413913",
+        "creationTimestamp": "2024-02-20T16:26:53Z"
       },
       "spec": {
         "discriminators": [
           {
             "field": "queryType",
-            "value": "Releases"
+            "value": "Contributors"
           }
         ],
         "querySchema": {
