@@ -1,0 +1,2390 @@
+{
+  "type": "object",
+  "required": [
+    "queries"
+  ],
+  "properties": {
+    "$schema": {
+      "description": "helper",
+      "type": "string"
+    },
+    "debug": {
+      "type": "boolean"
+    },
+    "from": {
+      "description": "From Start time in epoch timestamps in milliseconds or relative using Grafana time units.",
+      "type": "string"
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "description": "Datasource request model",
+        "type": "object",
+        "oneOf": [
+          {
+            "description": "PullRequestsQuery is used when querying for GitHub Pull Requests",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner",
+                  "timeField"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "query": {
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  },
+                  "timeField": {
+                    "description": "TimeField defines what time field to filter by",
+                    "type": "integer"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Pull_Requests$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "CommitsQuery is used when querying for GitHub commits",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner",
+                  "gitRef"
+                ],
+                "properties": {
+                  "gitRef": {
+                    "type": "string"
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "repository": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Commits$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "TagsQuery is used when querying for GitHub tags",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Tags$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "LabelsQuery is used when querying for GitHub issue labels",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner",
+                  "query"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "Query searches labels by name and description",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Labels$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "ReleasesQuery is used when querying for GitHub issue labels",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Releases$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "ReleasesQuery is used when querying for GitHub issue labels",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Releases$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "RepositoriesQuery is used when querying for GitHub repositories",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Repositories$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "IssuesQuery is used when querying for GitHub issues",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner",
+                  "filters",
+                  "timeField"
+                ],
+                "properties": {
+                  "filters": {
+                    "type": "object",
+                    "properties": {
+                      "assignee": {
+                        "type": "string"
+                      },
+                      "createdBy": {
+                        "type": "string"
+                      },
+                      "labels": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "mentioned": {
+                        "type": "string"
+                      },
+                      "milestone": {
+                        "type": "string"
+                      },
+                      "milestoneNumber": {
+                        "type": "string"
+                      },
+                      "since": {
+                        "type": "object",
+                        "additionalProperties": false
+                      },
+                      "states": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "viewerSubscribed": {
+                        "type": "boolean"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "query": {
+                    "type": "string"
+                  },
+                  "repository": {
+                    "type": "string"
+                  },
+                  "timeField": {
+                    "type": "integer"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Issues$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "PackagesQuery is used when querying for GitHub packages, including NPM, Maven, PyPi, Rubygems, and Docker",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner",
+                  "names",
+                  "packageType"
+                ],
+                "properties": {
+                  "names": {
+                    "type": "string"
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "packageType": {
+                    "type": "string"
+                  },
+                  "repository": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Packages$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "MilestonesQuery is used when querying for GitHub milestones",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner",
+                  "query"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "Query searches milestones by name and description",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Milestones$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "VulnerabilityQuery is used when querying for GitHub Repository Vulnerabilities",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner",
+                  "query"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "query": {
+                    "description": "Query searches x by name and description",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Vulnerabilities$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "StargazersQuery is used when querying stargazers for a repository",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Stargazers$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "WorkflowsQuery is used when querying workflows for an organization",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "owner",
+                  "repository",
+                  "timeField"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  },
+                  "timeField": {
+                    "description": "The field used to check if an entry is in the requested range.",
+                    "type": "integer"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Workflows$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "WorkflowUsageQuery is used when querying a workflow usage",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "owner",
+                  "repository",
+                  "workflow"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  },
+                  "workflow": {
+                    "description": "Workflow is the id or the workflow file name.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Workflow_Usage$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "ReleasesQuery is used when querying for GitHub issue labels",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Releases$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "ReleasesQuery is used when querying for GitHub issue labels",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Releases$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "ReleasesQuery is used when querying for GitHub issue labels",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Releases$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          },
+          {
+            "description": "ContributorsQuery is used when querying for GitHub contributors",
+            "type": "object",
+            "required": [
+              "repository",
+              "owner",
+              "options",
+              "queryType",
+              "refId"
+            ],
+            "properties": {
+              "datasource": {
+                "description": "The datasource",
+                "type": "object",
+                "required": [
+                  "type",
+                  "uid"
+                ],
+                "properties": {
+                  "type": {
+                    "description": "The datasource plugin type",
+                    "type": "string"
+                  },
+                  "uid": {
+                    "description": "Datasource UID",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "hide": {
+                "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
+                "type": "boolean"
+              },
+              "intervalMs": {
+                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
+                "type": "number"
+              },
+              "maxDataPoints": {
+                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
+                "type": "integer"
+              },
+              "options": {
+                "type": "object",
+                "required": [
+                  "repository",
+                  "owner"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "Owner is the owner of the repository (ex: grafana)",
+                    "type": "string"
+                  },
+                  "query": {
+                    "type": "string"
+                  },
+                  "repository": {
+                    "description": "Repository is the name of the repository being queried (ex: grafana)",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "owner": {
+                "type": "string"
+              },
+              "queryType": {
+                "type": "string",
+                "pattern": "^Contributors$"
+              },
+              "refId": {
+                "description": "RefID is the unique identifier of the query, set by the frontend call.",
+                "type": "string"
+              },
+              "repository": {
+                "type": "string"
+              },
+              "resultAssertions": {
+                "description": "Optionally define expected query result behavior",
+                "type": "object",
+                "required": [
+                  "typeVersion"
+                ],
+                "properties": {
+                  "maxBytes": {
+                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
+                    "type": "integer"
+                  },
+                  "maxFrames": {
+                    "description": "Maximum frame count",
+                    "type": "integer"
+                  },
+                  "type": {
+                    "description": "Type asserts that the frame matches a known type structure.",
+                    "type": "string"
+                  },
+                  "typeVersion": {
+                    "description": "TypeVersion is the version of the Type property. Versions greater than 0.0 correspond to the dataplane\ncontract documentation https://grafana.github.io/dataplane/contract/.",
+                    "type": "array",
+                    "maxItems": 2,
+                    "minItems": 2,
+                    "items": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "additionalProperties": false
+              },
+              "timeRange": {
+                "description": "TimeRange represents the query range\nNOTE: unlike generic /ds/query, we can now send explicit time values in each query\nNOTE: the values for timeRange are not saved in a dashboard, they are constructed on the fly",
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "properties": {
+                  "from": {
+                    "description": "From is the start time of the query.",
+                    "type": "string"
+                  },
+                  "to": {
+                    "description": "To is the end time of the query.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false,
+            "$schema": "https://json-schema.org/draft-04/schema"
+          }
+        ],
+        "$schema": "https://json-schema.org/draft-04/schema"
+      }
+    },
+    "to": {
+      "description": "To end time in epoch timestamps in milliseconds or relative using Grafana time units.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

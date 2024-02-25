@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/spec"
+	"github.com/shurcooL/githubv4"
 	"github.com/stretchr/testify/require"
 )
 
@@ -17,8 +18,8 @@ func TestSchemaDefinitions(t *testing.T) {
 	)
 
 	common := Query{
-		Repository: "repo",
-		Owner:      "owner",
+		Repository: "github-datasource",
+		Owner:      "grafana",
 	}
 
 	require.NoError(t, err)
@@ -28,8 +29,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "Simple",
-				QueryPayload: PullRequestsQuery{
-					Query: common,
+				SaveModel: PullRequestsQuery{
+					Query:   common,
+					Options: ListPullRequestsOptions{},
 				},
 			},
 		},
@@ -39,8 +41,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "CommitsQuery",
-				QueryPayload: CommitsQuery{
-					Query: common,
+				SaveModel: CommitsQuery{
+					Query:   common,
+					Options: ListCommitsOptions{},
 				},
 			},
 		},
@@ -50,8 +53,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "TagsQuery",
-				QueryPayload: TagsQuery{
-					Query: common,
+				SaveModel: TagsQuery{
+					Query:   common,
+					Options: ListTagsOptions{},
 				},
 			},
 		},
@@ -61,8 +65,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "LabelsQuery",
-				QueryPayload: LabelsQuery{
-					Query: common,
+				SaveModel: LabelsQuery{
+					Query:   common,
+					Options: ListLabelsOptions{},
 				},
 			},
 		},
@@ -72,8 +77,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "ReleasesQuery",
-				QueryPayload: ReleasesQuery{
-					Query: common,
+				SaveModel: ReleasesQuery{
+					Query:   common,
+					Options: ListReleasesOptions{},
 				},
 			},
 		},
@@ -83,8 +89,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "ContributorsQuery",
-				QueryPayload: ContributorsQuery{
-					Query: common,
+				SaveModel: ContributorsQuery{
+					Query:   common,
+					Options: ListContributorsOptions{Owner: "yesoreyeram"},
 				},
 			},
 		},
@@ -94,8 +101,10 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "RepositoriesQuery",
-				QueryPayload: RepositoriesQuery{
-					Query: common,
+				SaveModel: RepositoriesQuery{
+					Query: Query{
+						Owner: "yesoreyeram",
+					},
 				},
 			},
 		},
@@ -105,8 +114,15 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "IssuesQuery",
-				QueryPayload: IssuesQuery{
+				SaveModel: IssuesQuery{
 					Query: common,
+					Options: ListIssuesOptions{
+						Filters: &githubv4.IssueFilters{
+							States: &[]githubv4.IssueState{
+								githubv4.IssueStateOpen,
+							},
+						},
+					},
 				},
 			},
 		},
@@ -116,8 +132,11 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "PackagesQuery",
-				QueryPayload: PackagesQuery{
+				SaveModel: PackagesQuery{
 					Query: common,
+					Options: ListPackagesOptions{
+						PackageType: githubv4.PackageTypeDocker,
+					},
 				},
 			},
 		},
@@ -127,7 +146,7 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "MilestonesQuery",
-				QueryPayload: MilestonesQuery{
+				SaveModel: MilestonesQuery{
 					Query: common,
 				},
 			},
@@ -138,7 +157,7 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "VulnerabilityQuery",
-				QueryPayload: VulnerabilityQuery{
+				SaveModel: VulnerabilityQuery{
 					Query: common,
 				},
 			},
@@ -149,7 +168,7 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "StargazersQuery",
-				QueryPayload: StargazersQuery{
+				SaveModel: StargazersQuery{
 					Query: common,
 				},
 			},
@@ -160,8 +179,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "WorkflowsQuery",
-				QueryPayload: WorkflowsQuery{
-					Query: common,
+				SaveModel: WorkflowsQuery{
+					Query:   common,
+					Options: ListWorkflowsOptions{},
 				},
 			},
 		},
@@ -171,8 +191,9 @@ func TestSchemaDefinitions(t *testing.T) {
 		Examples: []spec.QueryExample{
 			{
 				Name: "WorkflowUsageQuery",
-				QueryPayload: WorkflowUsageQuery{
-					Query: common,
+				SaveModel: WorkflowUsageQuery{
+					Query:   common,
+					Options: WorkflowUsageOptions{},
 				},
 			},
 		},

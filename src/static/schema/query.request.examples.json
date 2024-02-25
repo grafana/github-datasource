@@ -1,0 +1,181 @@
+{
+  "from": "now-1h",
+  "to": "now",
+  "queries": [
+    {
+      "refId": "A",
+      "queryType": "Pull_Requests",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      }
+    },
+    {
+      "refId": "B",
+      "queryType": "Commits",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "gitRef": "",
+        "owner": "",
+        "repository": ""
+      }
+    },
+    {
+      "refId": "C",
+      "queryType": "Tags",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "repository": ""
+      }
+    },
+    {
+      "refId": "D",
+      "queryType": "Labels",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "query": "",
+        "repository": ""
+      }
+    },
+    {
+      "refId": "E",
+      "queryType": "Repositories",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "",
+      "owner": "yesoreyeram"
+    },
+    {
+      "refId": "F",
+      "queryType": "Issues",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "filters": {
+          "states": [
+            "OPEN"
+          ]
+        },
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      }
+    },
+    {
+      "refId": "G",
+      "queryType": "Packages",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "names": "",
+        "owner": "",
+        "packageType": "DOCKER",
+        "repository": ""
+      }
+    },
+    {
+      "refId": "H",
+      "queryType": "Milestones",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "query": "",
+        "repository": ""
+      }
+    },
+    {
+      "refId": "I",
+      "queryType": "Vulnerabilities",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "query": "",
+        "repository": ""
+      }
+    },
+    {
+      "refId": "J",
+      "queryType": "Stargazers",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana"
+    },
+    {
+      "refId": "K",
+      "queryType": "Workflows",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      }
+    },
+    {
+      "refId": "L",
+      "queryType": "Workflow_Usage",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "repository": "",
+        "workflow": ""
+      },
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "M",
+      "queryType": "Releases",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "repository": ""
+      }
+    },
+    {
+      "refId": "N",
+      "queryType": "Contributors",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "owner": "yesoreyeram",
+        "repository": ""
+      },
+      "repository": "github-datasource",
+      "owner": "grafana"
+    }
+  ]
+}
