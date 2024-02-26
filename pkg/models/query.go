@@ -1,6 +1,6 @@
 package models
 
-// The github query type
+// QueryType defines the query operation
 // +enum
 type QueryType string
 

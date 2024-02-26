@@ -4,14 +4,16 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/spec"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/resource"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/resource/schemabuilder"
 	"github.com/shurcooL/githubv4"
 	"github.com/stretchr/testify/require"
 )
 
 func TestSchemaDefinitions(t *testing.T) {
-	builder, err := spec.NewSchemaBuilder(
-		spec.BuilderOptions{
+	builder, err := schemabuilder.NewSchemaBuilder(
+		schemabuilder.BuilderOptions{
+			PluginID:    []string{"grafana-github-datasource"},
 			BasePackage: "github.com/grafana/github-datasource/pkg/models",
 			CodePath:    "./",
 		},
@@ -23,10 +25,10 @@ func TestSchemaDefinitions(t *testing.T) {
 	}
 
 	require.NoError(t, err)
-	err = builder.AddQueries(spec.QueryTypeInfo{
+	err = builder.AddQueries(schemabuilder.QueryTypeInfo{
 		GoType:         reflect.TypeOf(&PullRequestsQuery{}),
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypePullRequests),
-		Examples: []spec.QueryExample{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypePullRequests),
+		Examples: []resource.QueryExample{
 			{
 				Name: "Simple",
 				SaveModel: PullRequestsQuery{
@@ -35,10 +37,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeCommits),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeCommits),
 		GoType:         reflect.TypeOf(&CommitsQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "CommitsQuery",
 				SaveModel: CommitsQuery{
@@ -47,10 +49,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeTags),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeTags),
 		GoType:         reflect.TypeOf(&TagsQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "TagsQuery",
 				SaveModel: TagsQuery{
@@ -59,10 +61,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeLabels),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeLabels),
 		GoType:         reflect.TypeOf(&LabelsQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "LabelsQuery",
 				SaveModel: LabelsQuery{
@@ -71,10 +73,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeReleases),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeReleases),
 		GoType:         reflect.TypeOf(&ReleasesQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "ReleasesQuery",
 				SaveModel: ReleasesQuery{
@@ -83,10 +85,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeContributors),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeContributors),
 		GoType:         reflect.TypeOf(&ContributorsQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "ContributorsQuery",
 				SaveModel: ContributorsQuery{
@@ -95,10 +97,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeRepositories),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeRepositories),
 		GoType:         reflect.TypeOf(&RepositoriesQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "RepositoriesQuery",
 				SaveModel: RepositoriesQuery{
@@ -108,10 +110,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeIssues),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeIssues),
 		GoType:         reflect.TypeOf(&IssuesQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "IssuesQuery",
 				SaveModel: IssuesQuery{
@@ -126,10 +128,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypePackages),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypePackages),
 		GoType:         reflect.TypeOf(&PackagesQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "PackagesQuery",
 				SaveModel: PackagesQuery{
@@ -140,10 +142,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeMilestones),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeMilestones),
 		GoType:         reflect.TypeOf(&MilestonesQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "MilestonesQuery",
 				SaveModel: MilestonesQuery{
@@ -151,10 +153,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeVulnerabilities),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeVulnerabilities),
 		GoType:         reflect.TypeOf(&VulnerabilityQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "VulnerabilityQuery",
 				SaveModel: VulnerabilityQuery{
@@ -162,10 +164,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeStargazers),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeStargazers),
 		GoType:         reflect.TypeOf(&StargazersQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "StargazersQuery",
 				SaveModel: StargazersQuery{
@@ -173,10 +175,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeWorkflows),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeWorkflows),
 		GoType:         reflect.TypeOf(&WorkflowsQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "WorkflowsQuery",
 				SaveModel: WorkflowsQuery{
@@ -185,10 +187,10 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	}, spec.QueryTypeInfo{
-		Discriminators: spec.NewDiscriminators("queryType", QueryTypeWorkflowUsage),
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: resource.NewDiscriminators("queryType", QueryTypeWorkflowUsage),
 		GoType:         reflect.TypeOf(&WorkflowUsageQuery{}),
-		Examples: []spec.QueryExample{
+		Examples: []resource.QueryExample{
 			{
 				Name: "WorkflowUsageQuery",
 				SaveModel: WorkflowUsageQuery{
@@ -197,7 +199,8 @@ func TestSchemaDefinitions(t *testing.T) {
 				},
 			},
 		},
-	})
+	},
+	)
 
 	require.NoError(t, err)
 

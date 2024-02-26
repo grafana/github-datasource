@@ -1,21 +1,11 @@
 {
   "type": "object",
   "required": [
-    "queries"
+    "targets",
+    "type"
   ],
   "properties": {
-    "$schema": {
-      "description": "helper",
-      "type": "string"
-    },
-    "debug": {
-      "type": "boolean"
-    },
-    "from": {
-      "description": "From Start time in epoch timestamps in milliseconds or relative using Grafana time units.",
-      "type": "string"
-    },
-    "queries": {
+    "targets": {
       "type": "array",
       "items": {
         "type": "object",
@@ -53,14 +43,6 @@
               "hide": {
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
-              },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
               },
               "options": {
                 "type": "object",
@@ -200,14 +182,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "options": {
                 "type": "object",
                 "required": [
@@ -340,14 +314,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "options": {
                 "type": "object",
                 "required": [
@@ -477,14 +443,6 @@
               "hide": {
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
-              },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
               },
               "options": {
                 "type": "object",
@@ -621,14 +579,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "options": {
                 "type": "object",
                 "required": [
@@ -758,14 +708,6 @@
               "hide": {
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
-              },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
               },
               "options": {
                 "type": "object",
@@ -899,14 +841,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "owner": {
                 "type": "string"
               },
@@ -1018,14 +952,6 @@
               "hide": {
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
-              },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
               },
               "options": {
                 "type": "object",
@@ -1203,14 +1129,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "options": {
                 "type": "object",
                 "required": [
@@ -1347,14 +1265,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "options": {
                 "type": "object",
                 "required": [
@@ -1490,14 +1400,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "options": {
                 "type": "object",
                 "required": [
@@ -1632,14 +1534,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "owner": {
                 "type": "string"
               },
@@ -1751,14 +1645,6 @@
               "hide": {
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
-              },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
               },
               "options": {
                 "type": "object",
@@ -1895,14 +1781,6 @@
                 "description": "true if query is disabled (ie should not be returned to the dashboard)\nNOTE: this does not always imply that the query should not be executed since\nthe results from a hidden query may be used as the input to other queries (SSE etc)",
                 "type": "boolean"
               },
-              "intervalMs": {
-                "description": "Interval is the suggested duration between time points in a time series query.\nNOTE: the values for intervalMs is not saved in the query model.  It is typically calculated\nfrom the interval required to fill a pixels in the visualization",
-                "type": "number"
-              },
-              "maxDataPoints": {
-                "description": "MaxDataPoints is the maximum number of data points that should be returned from a time series query.\nNOTE: the values for maxDataPoints is not saved in the query model.  It is typically calculated\nfrom the number of pixels visible in a visualization",
-                "type": "integer"
-              },
               "options": {
                 "type": "object",
                 "required": [
@@ -2008,11 +1886,11 @@
         "$schema": "https://json-schema.org/draft-04/schema"
       }
     },
-    "to": {
-      "description": "To end time in epoch timestamps in milliseconds or relative using Grafana time units.",
+    "type": {
+      "description": "the panel type",
       "type": "string"
     }
   },
-  "additionalProperties": false,
+  "additionalProperties": true,
   "$schema": "https://json-schema.org/draft-04/schema"
 }

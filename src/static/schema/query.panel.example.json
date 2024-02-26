@@ -1,0 +1,208 @@
+{
+  "type": "table",
+  "targets": [
+    {
+      "refId": "A",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Pull_Requests",
+      "repository": "github-datasource",
+      "options": {
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      },
+      "owner": "grafana"
+    },
+    {
+      "refId": "B",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Commits",
+      "options": {
+        "gitRef": "",
+        "owner": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "C",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Tags",
+      "options": {
+        "owner": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "D",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Labels",
+      "repository": "github-datasource",
+      "options": {
+        "owner": "",
+        "query": "",
+        "repository": ""
+      },
+      "owner": "grafana"
+    },
+    {
+      "refId": "E",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Releases",
+      "options": {
+        "owner": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "F",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Contributors",
+      "options": {
+        "owner": "yesoreyeram",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "G",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Repositories",
+      "owner": "yesoreyeram",
+      "repository": ""
+    },
+    {
+      "refId": "H",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Issues",
+      "options": {
+        "filters": {
+          "states": [
+            "OPEN"
+          ]
+        },
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "I",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Packages",
+      "options": {
+        "names": "",
+        "owner": "",
+        "packageType": "DOCKER",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "J",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Milestones",
+      "options": {
+        "owner": "",
+        "query": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "K",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Vulnerabilities",
+      "options": {
+        "owner": "",
+        "query": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "L",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Stargazers",
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "M",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Workflows",
+      "options": {
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "N",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Workflow_Usage",
+      "repository": "github-datasource",
+      "owner": "grafana",
+      "options": {
+        "owner": "",
+        "repository": "",
+        "workflow": ""
+      }
+    }
+  ]
+}

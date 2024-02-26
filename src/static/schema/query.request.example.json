@@ -8,12 +8,12 @@
       "maxDataPoints": 1000,
       "intervalMs": 5,
       "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "owner": "",
         "repository": "",
         "timeField": 0
-      }
+      },
+      "owner": "grafana"
     },
     {
       "refId": "B",
@@ -21,40 +21,64 @@
       "maxDataPoints": 1000,
       "intervalMs": 5,
       "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "gitRef": "",
         "owner": "",
         "repository": ""
-      }
+      },
+      "owner": "grafana"
     },
     {
       "refId": "C",
       "queryType": "Tags",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "owner": "",
         "repository": ""
-      }
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
       "refId": "D",
       "queryType": "Labels",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "owner": "",
         "query": "",
         "repository": ""
-      }
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
       "refId": "E",
+      "queryType": "Releases",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "owner": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "F",
+      "queryType": "Contributors",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "owner": "yesoreyeram",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "G",
       "queryType": "Repositories",
       "maxDataPoints": 1000,
       "intervalMs": 5,
@@ -62,12 +86,12 @@
       "owner": "yesoreyeram"
     },
     {
-      "refId": "F",
+      "refId": "H",
       "queryType": "Issues",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
       "owner": "grafana",
+      "repository": "github-datasource",
       "options": {
         "filters": {
           "states": [
@@ -80,47 +104,47 @@
       }
     },
     {
-      "refId": "G",
+      "refId": "I",
       "queryType": "Packages",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "names": "",
         "owner": "",
         "packageType": "DOCKER",
         "repository": ""
-      }
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
-      "refId": "H",
+      "refId": "J",
       "queryType": "Milestones",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "owner": "",
         "query": "",
         "repository": ""
-      }
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
-      "refId": "I",
+      "refId": "K",
       "queryType": "Vulnerabilities",
       "maxDataPoints": 1000,
       "intervalMs": 5,
       "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "owner": "",
         "query": "",
         "repository": ""
-      }
+      },
+      "owner": "grafana"
     },
     {
-      "refId": "J",
+      "refId": "L",
       "queryType": "Stargazers",
       "maxDataPoints": 1000,
       "intervalMs": 5,
@@ -128,51 +152,27 @@
       "owner": "grafana"
     },
     {
-      "refId": "K",
+      "refId": "M",
       "queryType": "Workflows",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
-      "owner": "grafana",
       "options": {
         "owner": "",
         "repository": "",
         "timeField": 0
-      }
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
-      "refId": "L",
+      "refId": "N",
       "queryType": "Workflow_Usage",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "owner": "grafana",
       "options": {
         "owner": "",
         "repository": "",
         "workflow": ""
-      },
-      "repository": "github-datasource"
-    },
-    {
-      "refId": "M",
-      "queryType": "Releases",
-      "maxDataPoints": 1000,
-      "intervalMs": 5,
-      "repository": "github-datasource",
-      "owner": "grafana",
-      "options": {
-        "owner": "",
-        "repository": ""
-      }
-    },
-    {
-      "refId": "N",
-      "queryType": "Contributors",
-      "maxDataPoints": 1000,
-      "intervalMs": 5,
-      "options": {
-        "owner": "yesoreyeram",
-        "repository": ""
       },
       "repository": "github-datasource",
       "owner": "grafana"

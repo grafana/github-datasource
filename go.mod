@@ -7,7 +7,7 @@ toolchain go1.21.3
 require (
 	github.com/google/go-github/v53 v53.2.0
 	github.com/gorilla/mux v1.8.0
-	github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240225155948-2c8c4ada2764
+	github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240225232048-ee12be24cbd1
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20230305132112-efb623903184
