@@ -54,6 +54,8 @@ github.com/elazarl/goproxy v0.0.0-20230731152917-f99041a5c027/go.mod h1:Ro8st/El
 github.com/elazarl/goproxy/ext v0.0.0-20190711103511-473e67f1d7d2/go.mod h1:gNh8nYJoAm43RfaxurUnxr+N1PwuFV3ZMl/efxlIlY8=
 github.com/elazarl/goproxy/ext v0.0.0-20220115173737-adb46da277ac h1:9yrT5tmn9Zc0ytWPASlaPwQfQMQYnRf0RSDe1XvHw0Q=
 github.com/elazarl/goproxy/ext v0.0.0-20220115173737-adb46da277ac/go.mod h1:gNh8nYJoAm43RfaxurUnxr+N1PwuFV3ZMl/efxlIlY8=
+github.com/emicklei/go-restful/v3 v3.8.0 h1:eCZ8ulSerjdAiaNpF7GxXIE7ZCMo1moN1qX+S609eVw=
+github.com/emicklei/go-restful/v3 v3.8.0/go.mod h1:6n3XBCmQQb25CM2LCACGz8ukIrRry+4bhvbpWn3mrbc=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.4/go.mod h1:6rpuAdCZL397s3pYoYcLgu1mIlRU8Am5FuJP05cCM98=
@@ -123,10 +125,8 @@ github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e h1:JKmoR8x90Iww1
 github.com/gopherjs/gopherjs v0.0.0-20181103185306-d547d1d9531e/go.mod h1:wJfORRmW1u3UXTncJ5qlYoELFm8eSnnEO6hX4iZ3EWY=
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
-github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240225155948-2c8c4ada2764 h1:/BTLulhqMEDZ22R5aHlPPcRthmzB3Wtbd65kNbmduyg=
-github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240225155948-2c8c4ada2764/go.mod h1:qhc1+zxfvv+avgJGvFaNw3h6WHtO2d6sHOQhzfezL+A=
-github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240225232048-ee12be24cbd1 h1:6F9nSaf7SqytS+M6s2pfUFvCBPGuZ3d9B9/HhfxJt3s=
-github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240225232048-ee12be24cbd1/go.mod h1:qhc1+zxfvv+avgJGvFaNw3h6WHtO2d6sHOQhzfezL+A=
+github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240226055837-a09ab1213090 h1:RSww9F4f+6nlL8beulC8rDHpytBGRBOtElC7QXOMWj4=
+github.com/grafana/grafana-plugin-sdk-go v0.212.1-0.20240226055837-a09ab1213090/go.mod h1:moBIj6os2JtvWTMJb+e8RETljegmtxEubOJhXbqdCdY=
 github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 h1:UH//fgunKIs4JdUbpDl1VZCDaL56wXCB/5+wF6uHfaI=
 github.com/grpc-ecosystem/go-grpc-middleware v1.4.0/go.mod h1:g5qyo/la0ALbONm6Vbp88Yd8NsDy6rZz+RcrMPxvld8=
 github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 h1:Ovs26xHkKqVztRpIrF/92BcuyuQ/YW4NSIpoGtfXNho=

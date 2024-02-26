@@ -13,9 +13,11 @@ import (
 func TestSchemaDefinitions(t *testing.T) {
 	builder, err := schemabuilder.NewSchemaBuilder(
 		schemabuilder.BuilderOptions{
-			PluginID:    []string{"grafana-github-datasource"},
-			BasePackage: "github.com/grafana/github-datasource/pkg/models",
-			CodePath:    "./",
+			PluginID: []string{"grafana-github-datasource"},
+			ScanCode: []schemabuilder.CodePaths{{
+				BasePackage: "github.com/grafana/github-datasource/pkg/models",
+				CodePath:    "./",
+			}},
 		},
 	)
 
