@@ -1,6 +1,13 @@
 {
-  "ignorePaths": ["node_modules/**", "dist/**", "mage_output_file.go"],
-  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "mage_output_file.go"
+  ],
+  "ignoreRegExpList": [
+    "import\\s*\\((.|[\r\n])*?\\)",
+    "import\\s*.*\".*?\""
+  ],
   "words": [
     "araddon",
     "bmike",
@@ -32,6 +39,7 @@
     "querytype",
     "rgba",
     "RUBYGEMS",
+    "sdkapi",
     "shurcoo",
     "stretchr",
     "structs",

@@ -91,10 +91,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -140,6 +136,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -147,6 +144,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -233,10 +231,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -282,6 +276,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -289,6 +284,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -373,10 +369,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -422,6 +414,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -429,6 +422,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -518,10 +512,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -567,6 +557,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -574,6 +565,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -658,10 +650,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -707,6 +695,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -714,6 +703,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -801,10 +791,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -850,6 +836,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -857,6 +844,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -922,10 +910,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -971,6 +955,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -978,6 +963,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -1108,10 +1094,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -1157,6 +1139,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -1164,6 +1147,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -1254,10 +1238,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -1303,6 +1283,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -1310,6 +1291,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -1399,10 +1381,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -1448,6 +1426,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -1455,6 +1434,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -1544,10 +1524,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -1593,6 +1569,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -1600,6 +1577,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -1665,10 +1643,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -1714,6 +1688,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -1721,6 +1696,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -1810,10 +1786,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -1859,6 +1831,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -1866,6 +1839,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -1955,10 +1929,6 @@
                   "typeVersion"
                 ],
                 "properties": {
-                  "maxBytes": {
-                    "description": "Maximum bytes that can be read -- if the query planning expects more then this, the query may fail fast",
-                    "type": "integer"
-                  },
                   "maxFrames": {
                     "description": "Maximum frame count",
                     "type": "integer"
@@ -2004,6 +1974,7 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
+                    "default": "now-6h",
                     "examples": [
                       "now-1h"
                     ]
@@ -2011,6 +1982,7 @@
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
+                    "default": "now",
                     "examples": [
                       "now"
                     ]
@@ -2023,7 +1995,7 @@
             "$schema": "https://json-schema.org/draft-04/schema"
           }
         ],
-        "$schema": "https://json-schema.org/draft-04/schema"
+        "$schema": "https://json-schema.org/draft-04/schema#"
       }
     },
     "type": {
@@ -2032,5 +2004,5 @@
     }
   },
   "additionalProperties": true,
-  "$schema": "https://json-schema.org/draft-04/schema"
+  "$schema": "https://json-schema.org/draft-04/schema#"
 }

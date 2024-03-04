@@ -2,14 +2,14 @@
   "kind": "QueryTypeDefinitionList",
   "apiVersion": "query.grafana.app/v0alpha1",
   "metadata": {
-    "resourceVersion": "1708907876566"
+    "resourceVersion": "1709529769877"
   },
   "items": [
     {
       "metadata": {
         "name": "Pull_Requests",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -18,7 +18,7 @@
             "value": "Pull_Requests"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "PullRequestsQuery is used when querying for GitHub Pull Requests",
@@ -82,8 +82,8 @@
     {
       "metadata": {
         "name": "Commits",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -92,7 +92,7 @@
             "value": "Commits"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "CommitsQuery is used when querying for GitHub commits",
@@ -150,8 +150,8 @@
     {
       "metadata": {
         "name": "Tags",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -160,7 +160,7 @@
             "value": "Tags"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "TagsQuery is used when querying for GitHub tags",
@@ -215,8 +215,8 @@
     {
       "metadata": {
         "name": "Labels",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -225,7 +225,7 @@
             "value": "Labels"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "LabelsQuery is used when querying for GitHub issue labels",
@@ -286,8 +286,8 @@
     {
       "metadata": {
         "name": "Releases",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -296,7 +296,7 @@
             "value": "Releases"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "ReleasesQuery is used when querying for GitHub issue labels",
@@ -351,8 +351,8 @@
     {
       "metadata": {
         "name": "Contributors",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -361,7 +361,7 @@
             "value": "Contributors"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "ContributorsQuery is used when querying for GitHub contributors",
@@ -419,8 +419,8 @@
     {
       "metadata": {
         "name": "Repositories",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -429,7 +429,7 @@
             "value": "Repositories"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "RepositoriesQuery is used when querying for GitHub repositories",
@@ -461,8 +461,8 @@
     {
       "metadata": {
         "name": "Issues",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -471,7 +471,7 @@
             "value": "Issues"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "IssuesQuery is used when querying for GitHub issues",
@@ -505,7 +505,6 @@
                     },
                     "since": {
                       "additionalProperties": false,
-                      "properties": {},
                       "type": "object"
                     },
                     "states": {
@@ -579,8 +578,8 @@
     {
       "metadata": {
         "name": "Packages",
-        "resourceVersion": "1708907753926",
-        "creationTimestamp": "2024-02-26T00:35:53Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -589,7 +588,7 @@
             "value": "Packages"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "PackagesQuery is used when querying for GitHub packages, including NPM, Maven, PyPi, Rubygems, and Docker",
@@ -652,8 +651,8 @@
     {
       "metadata": {
         "name": "Milestones",
-        "resourceVersion": "1708907788830",
-        "creationTimestamp": "2024-02-26T00:36:28Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -662,7 +661,7 @@
             "value": "Milestones"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "MilestonesQuery is used when querying for GitHub milestones",
@@ -723,8 +722,8 @@
     {
       "metadata": {
         "name": "Vulnerabilities",
-        "resourceVersion": "1708907788830",
-        "creationTimestamp": "2024-02-26T00:36:28Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -733,7 +732,7 @@
             "value": "Vulnerabilities"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "VulnerabilityQuery is used when querying for GitHub Repository Vulnerabilities",
@@ -794,8 +793,8 @@
     {
       "metadata": {
         "name": "Stargazers",
-        "resourceVersion": "1708907815100",
-        "creationTimestamp": "2024-02-26T00:36:55Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -804,7 +803,7 @@
             "value": "Stargazers"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "StargazersQuery is used when querying stargazers for a repository",
@@ -836,8 +835,8 @@
     {
       "metadata": {
         "name": "Workflows",
-        "resourceVersion": "1708907836753",
-        "creationTimestamp": "2024-02-26T00:37:16Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -846,7 +845,7 @@
             "value": "Workflows"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
           "additionalProperties": false,
           "description": "WorkflowsQuery is used when querying workflows for an organization",
@@ -907,8 +906,8 @@
     {
       "metadata": {
         "name": "Workflow_Usage",
-        "resourceVersion": "1708907876566",
-        "creationTimestamp": "2024-02-26T00:37:56Z"
+        "resourceVersion": "1709529769877",
+        "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
         "discriminators": [
@@ -917,59 +916,59 @@
             "value": "Workflow_Usage"
           }
         ],
-        "querySchema": {
+        "schema": {
           "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "WorkflowUsageQuery is used when querying a workflow usage",
           "properties": {
-            "repository": {
-              "type": "string"
-            },
-            "owner": {
-              "type": "string"
-            },
             "options": {
+              "additionalProperties": false,
               "properties": {
                 "owner": {
-                  "type": "string",
-                  "description": "Owner is the owner of the repository (ex: grafana)"
+                  "description": "Owner is the owner of the repository (ex: grafana)",
+                  "type": "string"
                 },
                 "repository": {
-                  "type": "string",
-                  "description": "Repository is the name of the repository being queried (ex: grafana)"
+                  "description": "Repository is the name of the repository being queried (ex: grafana)",
+                  "type": "string"
                 },
                 "workflow": {
-                  "type": "string",
-                  "description": "Workflow is the id or the workflow file name."
+                  "description": "Workflow is the id or the workflow file name.",
+                  "type": "string"
                 }
               },
-              "additionalProperties": false,
-              "type": "object",
               "required": [
                 "owner",
                 "repository",
                 "workflow"
-              ]
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
             }
           },
-          "additionalProperties": false,
-          "type": "object",
           "required": [
             "repository",
             "owner",
             "options"
           ],
-          "description": "WorkflowUsageQuery is used when querying a workflow usage"
+          "type": "object"
         },
         "examples": [
           {
             "name": "WorkflowUsageQuery",
             "saveModel": {
-              "repository": "github-datasource",
-              "owner": "grafana",
               "options": {
                 "owner": "",
                 "repository": "",
                 "workflow": ""
-              }
+              },
+              "owner": "grafana",
+              "repository": "github-datasource"
             }
           }
         ]
