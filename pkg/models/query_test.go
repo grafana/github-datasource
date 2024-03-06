@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
+	data "github.com/grafana/grafana-plugin-sdk-go/experimental/apis/data/v0alpha1"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/schemabuilder"
-	sdkapi "github.com/grafana/grafana-plugin-sdk-go/v0alpha1"
 	"github.com/shurcooL/githubv4"
 	"github.com/stretchr/testify/require"
 )
@@ -29,83 +29,83 @@ func TestSchemaDefinitions(t *testing.T) {
 	require.NoError(t, err)
 	err = builder.AddQueries(schemabuilder.QueryTypeInfo{
 		GoType:         reflect.TypeOf(&PullRequestsQuery{}),
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypePullRequests),
-		Examples: []sdkapi.QueryExample{
+		Discriminators: data.NewDiscriminators("queryType", QueryTypePullRequests),
+		Examples: []data.QueryExample{
 			{
 				Name: "Simple",
-				SaveModel: sdkapi.AsUnstructured(PullRequestsQuery{
+				SaveModel: data.AsUnstructured(PullRequestsQuery{
 					Query:   common,
 					Options: ListPullRequestsOptions{},
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeCommits),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeCommits),
 		GoType:         reflect.TypeOf(&CommitsQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "CommitsQuery",
-				SaveModel: sdkapi.AsUnstructured(CommitsQuery{
+				SaveModel: data.AsUnstructured(CommitsQuery{
 					Query:   common,
 					Options: ListCommitsOptions{},
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeTags),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeTags),
 		GoType:         reflect.TypeOf(&TagsQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "TagsQuery",
-				SaveModel: sdkapi.AsUnstructured(TagsQuery{
+				SaveModel: data.AsUnstructured(TagsQuery{
 					Query:   common,
 					Options: ListTagsOptions{},
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeLabels),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeLabels),
 		GoType:         reflect.TypeOf(&LabelsQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "LabelsQuery",
-				SaveModel: sdkapi.AsUnstructured(LabelsQuery{
+				SaveModel: data.AsUnstructured(LabelsQuery{
 					Query:   common,
 					Options: ListLabelsOptions{},
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeReleases),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeReleases),
 		GoType:         reflect.TypeOf(&ReleasesQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "ReleasesQuery",
-				SaveModel: sdkapi.AsUnstructured(ReleasesQuery{
+				SaveModel: data.AsUnstructured(ReleasesQuery{
 					Query:   common,
 					Options: ListReleasesOptions{},
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeContributors),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeContributors),
 		GoType:         reflect.TypeOf(&ContributorsQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "ContributorsQuery",
-				SaveModel: sdkapi.AsUnstructured(ContributorsQuery{
+				SaveModel: data.AsUnstructured(ContributorsQuery{
 					Query:   common,
 					Options: ListContributorsOptions{Owner: "yesoreyeram"},
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeRepositories),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeRepositories),
 		GoType:         reflect.TypeOf(&RepositoriesQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "RepositoriesQuery",
-				SaveModel: sdkapi.AsUnstructured(RepositoriesQuery{
+				SaveModel: data.AsUnstructured(RepositoriesQuery{
 					Query: Query{
 						Owner: "yesoreyeram",
 					},
@@ -113,12 +113,12 @@ func TestSchemaDefinitions(t *testing.T) {
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeIssues),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeIssues),
 		GoType:         reflect.TypeOf(&IssuesQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "IssuesQuery",
-				SaveModel: sdkapi.AsUnstructured(IssuesQuery{
+				SaveModel: data.AsUnstructured(IssuesQuery{
 					Query: common,
 					Options: ListIssuesOptions{
 						Filters: &githubv4.IssueFilters{
@@ -131,12 +131,12 @@ func TestSchemaDefinitions(t *testing.T) {
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypePackages),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypePackages),
 		GoType:         reflect.TypeOf(&PackagesQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "PackagesQuery",
-				SaveModel: sdkapi.AsUnstructured(PackagesQuery{
+				SaveModel: data.AsUnstructured(PackagesQuery{
 					Query: common,
 					Options: ListPackagesOptions{
 						PackageType: githubv4.PackageTypeDocker,
@@ -145,57 +145,57 @@ func TestSchemaDefinitions(t *testing.T) {
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeMilestones),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeMilestones),
 		GoType:         reflect.TypeOf(&MilestonesQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "MilestonesQuery",
-				SaveModel: sdkapi.AsUnstructured(MilestonesQuery{
+				SaveModel: data.AsUnstructured(MilestonesQuery{
 					Query: common,
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeVulnerabilities),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeVulnerabilities),
 		GoType:         reflect.TypeOf(&VulnerabilityQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "VulnerabilityQuery",
-				SaveModel: sdkapi.AsUnstructured(VulnerabilityQuery{
+				SaveModel: data.AsUnstructured(VulnerabilityQuery{
 					Query: common,
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeStargazers),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeStargazers),
 		GoType:         reflect.TypeOf(&StargazersQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "StargazersQuery",
-				SaveModel: sdkapi.AsUnstructured(StargazersQuery{
+				SaveModel: data.AsUnstructured(StargazersQuery{
 					Query: common,
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeWorkflows),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeWorkflows),
 		GoType:         reflect.TypeOf(&WorkflowsQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "WorkflowsQuery",
-				SaveModel: sdkapi.AsUnstructured(WorkflowsQuery{
+				SaveModel: data.AsUnstructured(WorkflowsQuery{
 					Query:   common,
 					Options: ListWorkflowsOptions{},
 				}),
 			},
 		},
 	}, schemabuilder.QueryTypeInfo{
-		Discriminators: sdkapi.NewDiscriminators("queryType", QueryTypeWorkflowUsage),
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeWorkflowUsage),
 		GoType:         reflect.TypeOf(&WorkflowUsageQuery{}),
-		Examples: []sdkapi.QueryExample{
+		Examples: []data.QueryExample{
 			{
 				Name: "WorkflowUsageQuery",
-				SaveModel: sdkapi.AsUnstructured(WorkflowUsageQuery{
+				SaveModel: data.AsUnstructured(WorkflowUsageQuery{
 					Query:   common,
 					Options: WorkflowUsageOptions{},
 				}),
