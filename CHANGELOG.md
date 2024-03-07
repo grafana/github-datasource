@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.5.5]
+
+- **Chore** - Build with go 1.22
+- **Fix** - Make health check faster by using github-datasource repository instead of grafana
+
 ## [1.5.4]
 
 - **Chore** - Bump grafana-plugin-sdk-go to v0.198.0 (latest)
