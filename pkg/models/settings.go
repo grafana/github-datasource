@@ -8,9 +8,8 @@ import (
 
 // Settings represents the Datasource options in Grafana
 type Settings struct {
-	AccessToken    string `json:"accessToken"`
-	GithubURL      string `json:"githubUrl"`
-	CachingEnabled bool   `json:"cachingEnabled"`
+	AccessToken string `json:"accessToken"`
+	GithubURL   string `json:"githubUrl"`
 }
 
 // LoadSettings converts the DataSourceInLoadSettings to usable GitHub settings
