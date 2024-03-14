@@ -40,8 +40,6 @@ Options:
 | Setting               | Required |
 | --------------------- | -------- |
 | Access token          | true     |
-| Default Organization  | false    |
-| Default Repository    | true     |
 | GitHub Enterprise URL | false    |
 
 To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and press **Generate new token.**
@@ -120,10 +118,6 @@ For Github projects:
 
 - `read:org`
 - `read:project`
-
-An extra setting is required for private repositories
-
-- `repo (Full control of private repositories)`
 
 ## Sample Dashboard
 
