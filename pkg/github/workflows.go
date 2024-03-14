@@ -107,10 +107,14 @@ func (usage WorkflowUsageWrapper) Frames() data.Frames {
 		data.NewField("unique triggering actors", nil, []uint64{}),
 		data.NewField("runs", nil, []uint64{}),
 		data.NewField("current billing cycle cost (approx.)", nil, []string{}),
-		data.NewField("skipped", nil, []string{}),
-		data.NewField("successes", nil, []string{}),
-		data.NewField("failures", nil, []string{}),
-		data.NewField("cancelled", nil, []string{}),
+		data.NewField("skipped rate", nil, []string{}),
+		data.NewField("successes rate", nil, []string{}),
+		data.NewField("failures rate", nil, []string{}),
+		data.NewField("cancelled rate", nil, []string{}),
+		data.NewField("skipped", nil, []uint64{}),
+		data.NewField("successes", nil, []uint64{}),
+		data.NewField("failures", nil, []uint64{}),
+		data.NewField("cancelled", nil, []uint64{}),
 		data.NewField("total run duration (approx.)", nil, []string{}),
 		data.NewField("longest run duration (approx.)", nil, []string{}),
 		data.NewField("average run duration (approx.)", nil, []string{}),
@@ -129,7 +133,7 @@ func (usage WorkflowUsageWrapper) Frames() data.Frames {
 	cancelledRate := "No runs"
 	skippedRate := "No runs"
 	if usage.Runs > 0 {
-		skippedRate = fmt.Sprintf("%d (%.2f%%)", usage.SkippedRuns, float32(usage.SkippedRuns)/float32(usage.Runs)*100.0)
+		skippedRate = fmt.Sprintf("%.2f%%", float32(usage.SkippedRuns)/float32(usage.Runs)*100.0)
 	}
 
 	var averageRunDuration time.Duration
@@ -139,9 +143,9 @@ func (usage WorkflowUsageWrapper) Frames() data.Frames {
 	}
 
 	if nonSkippedRuns > 0 {
-		successRate = fmt.Sprintf("%d (%.2f%%)", usage.SuccessfulRuns, float32(usage.SuccessfulRuns)/float32(nonSkippedRuns)*100.0)
-		failureRate = fmt.Sprintf("%d (%.2f%%)", usage.FailedRuns, float32(usage.FailedRuns)/float32(nonSkippedRuns)*100.0)
-		cancelledRate = fmt.Sprintf("%d (%.2f%%)", usage.CancelledRuns, float32(usage.CancelledRuns)/float32(nonSkippedRuns)*100.0)
+		successRate = fmt.Sprintf("%.2f%%", float32(usage.SuccessfulRuns)/float32(nonSkippedRuns)*100.0)
+		failureRate = fmt.Sprintf("%.2f%%", float32(usage.FailedRuns)/float32(nonSkippedRuns)*100.0)
+		cancelledRate = fmt.Sprintf("%.2f%%", float32(usage.CancelledRuns)/float32(nonSkippedRuns)*100.0)
 	}
 
 	frame.InsertRow(
@@ -153,6 +157,10 @@ func (usage WorkflowUsageWrapper) Frames() data.Frames {
 		successRate,
 		failureRate,
 		cancelledRate,
+		usage.SkippedRuns,
+		usage.SuccessfulRuns,
+		usage.FailedRuns,
+		usage.CancelledRuns,
 		usage.TotalRunDuration.String(),
 		usage.LongestRunDuration.String(),
 		averageRunDuration.String(),
