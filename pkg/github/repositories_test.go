@@ -32,10 +32,8 @@ func TestGetAllRepositories(t *testing.T) {
 }
 
 func TestRepositoriesDataFrame(t *testing.T) {
-	createdAt, err := time.Parse(time.RFC3339, "2020-08-25T16:21:56+00:00")
-	if err != nil {
-		t.Fatal(err)
-	}
+	createdAt, _ := time.Parse(time.RFC3339, "2020-08-25T16:21:56+00:00")
+	updatedAt, _ := time.Parse(time.RFC3339, "2023-08-25T16:21:56+00:00")
 
 	repositories := Repositories{
 		Repository{
@@ -43,14 +41,18 @@ func TestRepositoriesDataFrame(t *testing.T) {
 			Owner: struct{ Login string }{
 				Login: "grafana",
 			},
-			NameWithOwner: "grafana/grafana",
-			URL:           "github.com/grafana/grafana",
-			ForkCount:     10,
-			IsFork:        true,
-			IsMirror:      true,
-			IsPrivate:     false,
+			NameWithOwner:  "grafana/grafana",
+			URL:            "github.com/grafana/grafana",
+			ForkCount:      10,
+			StargazerCount: 123,
+			IsFork:         true,
+			IsMirror:       true,
+			IsPrivate:      false,
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
+			},
+			UpdatedAt: githubv4.DateTime{
+				Time: updatedAt,
 			},
 		},
 		Repository{

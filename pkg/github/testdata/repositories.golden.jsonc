@@ -2,15 +2,15 @@
 //  
 //  Frame[0] 
 //  Name: repositories
-//  Dimensions: 9 Fields by 2 Rows
-//  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+-----------------+------------------+---------------------------------+
-//  | Name: name     | Name: owner    | Name: name_with_owner | Name: url                  | Name: forks   | Name: is_fork | Name: is_mirror | Name: is_private | Name: created_at                |
-//  | Labels:        | Labels:        | Labels:               | Labels:                    | Labels:       | Labels:       | Labels:         | Labels:          | Labels:                         |
-//  | Type: []string | Type: []string | Type: []string        | Type: []string             | Type: []int64 | Type: []bool  | Type: []bool    | Type: []bool     | Type: []time.Time               |
-//  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+-----------------+------------------+---------------------------------+
-//  | grafana        | grafana        | grafana/grafana       | github.com/grafana/grafana | 10            | true          | true            | false            | 2020-08-25 16:21:56 +0000 +0000 |
-//  | loki           | grafana        | grafana/loki          | github.com/grafana/loki    | 12            | true          | true            | false            | 2020-08-25 16:21:56 +0000 +0000 |
-//  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+-----------------+------------------+---------------------------------+
+//  Dimensions: 11 Fields by 2 Rows
+//  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+---------------+-----------------+------------------+-------------------------------+-------------------------------+
+//  | Name: name     | Name: owner    | Name: name_with_owner | Name: url                  | Name: forks   | Name: stars   | Name: is_fork | Name: is_mirror | Name: is_private | Name: created_at              | Name: updatedAt               |
+//  | Labels:        | Labels:        | Labels:               | Labels:                    | Labels:       | Labels:       | Labels:       | Labels:         | Labels:          | Labels:                       | Labels:                       |
+//  | Type: []string | Type: []string | Type: []string        | Type: []string             | Type: []int64 | Type: []int64 | Type: []bool  | Type: []bool    | Type: []bool     | Type: []time.Time             | Type: []time.Time             |
+//  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+---------------+-----------------+------------------+-------------------------------+-------------------------------+
+//  | grafana        | grafana        | grafana/grafana       | github.com/grafana/grafana | 10            | 123           | true          | true            | false            | 2020-08-25 16:21:56 +0000 UTC | 2023-08-25 16:21:56 +0000 UTC |
+//  | loki           | grafana        | grafana/loki          | github.com/grafana/loki    | 12            | 0             | true          | true            | false            | 2020-08-25 16:21:56 +0000 UTC | 0001-01-01 00:00:00 +0000 UTC |
+//  +----------------+----------------+-----------------------+----------------------------+---------------+---------------+---------------+-----------------+------------------+-------------------------------+-------------------------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
@@ -57,6 +57,13 @@
             }
           },
           {
+            "name": "stars",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
             "name": "is_fork",
             "type": "boolean",
             "typeInfo": {
@@ -79,6 +86,13 @@
           },
           {
             "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "updatedAt",
             "type": "time",
             "typeInfo": {
               "frame": "time.Time"
@@ -109,6 +123,10 @@
             12
           ],
           [
+            123,
+            0
+          ],
+          [
             true,
             true
           ],
@@ -123,6 +141,10 @@
           [
             1598372516000,
             1598372516000
+          ],
+          [
+            1692980516000,
+            -62135596800000
           ]
         ]
       }
