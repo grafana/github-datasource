@@ -15,7 +15,7 @@
       "name": "Grafana Labs",
       "url": "https://grafana.com"
     },
-    "keywords": ["github", "datasource"],
+    "keywords": ["github", "git", "devops", "developer tools"],
     "logos": {
       "small": "img/github.svg",
       "large": "img/github.svg"
