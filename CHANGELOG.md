@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.5.6]
+
+- **Chore** - Build with go 1.22.2
+- **Chore** - Bump grafana-plugin-sdk-go to v0.220.0 (latest)
+- **Bug Fix** - Prevent partial queries running on change of query type
+
 ## [1.5.5]
 
 - **Chore** - Build with go 1.22
