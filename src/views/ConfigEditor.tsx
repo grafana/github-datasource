@@ -80,9 +80,6 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
         <b>For Github projects:</b>
         <pre>read:org, read:project</pre>
-
-        <b>An extra setting is required for private repositories:</b>
-        <pre>repo (Full control of private repositories)</pre>
       </Collapse>
 
       <Divider />

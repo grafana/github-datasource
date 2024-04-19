@@ -16,14 +16,7 @@ func NewGitHubInstance(ctx context.Context, settings models.Settings) (instancem
 	if err != nil {
 		return nil, fmt.Errorf("instantiating github datasource: %w", err)
 	}
-
-	var d Datasource = gh
-
-	if settings.CachingEnabled {
-		d = WithCaching(d)
-	}
-
-	return d, nil
+	return WithCaching(gh), nil
 }
 
 // NewDataSourceInstance creates a new instance
@@ -32,8 +25,6 @@ func NewDataSourceInstance(_ context.Context, settings backend.DataSourceInstanc
 	if err != nil {
 		return nil, err
 	}
-
-	datasourceSettings.CachingEnabled = true
 
 	instance, err := NewGitHubInstance(context.Background(), datasourceSettings)
 	if err != nil {
