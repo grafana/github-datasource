@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.5.7]
+
+- **Chore** - Update dependencies
+
 ## [1.5.6]
 
 - **Chore** - Build with go 1.22.2

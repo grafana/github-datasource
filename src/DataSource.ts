@@ -37,7 +37,7 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
     return isValid(query) && !query.hide;
   };
 
-  applyTemplateVariables(query: GitHubQuery, scoped: ScopedVars): Record<string, any> {
+  applyTemplateVariables(query: GitHubQuery, scoped: ScopedVars): GitHubQuery {
     return replaceVariables(this.templateSrv, query, scoped);
   }
 
