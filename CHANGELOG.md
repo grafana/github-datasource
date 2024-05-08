@@ -1,5 +1,20 @@
 # Change Log
 
+## [1.5.7]
+
+- **Chore** - Update dependencies
+
+## [1.5.6]
+
+- **Chore** - Build with go 1.22.2
+- **Chore** - Bump grafana-plugin-sdk-go to v0.220.0 (latest)
+- **Bug Fix** - Prevent partial queries running on change of query type
+
+## [1.5.5]
+
+- **Chore** - Build with go 1.22
+- **Fix** - Make health check faster by using github-datasource repository instead of grafana
+
 ## [1.5.4]
 
 - **Chore** - Bump grafana-plugin-sdk-go to v0.198.0 (latest)
