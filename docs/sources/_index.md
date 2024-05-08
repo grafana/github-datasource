@@ -20,6 +20,8 @@ weight: 10
 
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
 
+{{< docs/play title="Infinity plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
+
 ## GitHub API V4 (GraphQL)
 
 This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
