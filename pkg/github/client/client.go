@@ -108,6 +108,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	var usageDuration time.Duration
 	var longestBuild time.Duration
 	digest := tdigest.NewWithCompression(1000)
+	var name string
 
 	page := 1
 	for {
@@ -119,6 +120,9 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 		workflowRuns, page, err = client.getWorkflowRuns(ctx, owner, repo, workflow, timeRange, page)
 		if err != nil {
 			return models.WorkflowUsage{}, fmt.Errorf("fetching workflow runs: %w", err)
+		}
+		if len(workflowRuns) != 0 {
+			name = *workflowRuns[0].Name
 		}
 
 		for _, run := range workflowRuns {
@@ -191,6 +195,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	}
 
 	return models.WorkflowUsage{
+		Name:               name,
 		UniqueActors:       uint64(len(actors)),
 		Runs:               runs,
 		SuccessfulRuns:     conclusions[conclusionSuccess],
@@ -242,7 +247,7 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 	}
 
 	if err != nil {
-		if response.StatusCode == http.StatusNotFound {
+		if response != nil && response.StatusCode == http.StatusNotFound {
 			return nil, 0, errWorkflowNotFound
 		}
 		return nil, 0, fmt.Errorf("fetching workflow runs: %w", err)
