@@ -5,7 +5,7 @@ import { Select, InlineField } from '@grafana/ui';
 import { GithubDataSource } from '../DataSource';
 import { GithubDataSourceOptions, GitHubQuery, QueryType, DefaultQueryType } from '../types';
 import { isValid } from '../validation';
-import { Components } from './../components/selectors';
+import { components } from './../components/selectors';
 
 import QueryEditorRepository from './QueryEditorRepository';
 import QueryEditorReleases from './QueryEditorReleases';
@@ -138,7 +138,7 @@ const QueryEditor = (props: Props) => {
   return (
     <>
       <InlineField label="Query Type" tooltip="What resource are you querying for?" labelWidth={LeftColumnWidth * 2}>
-        <div aria-label={Components.QueryEditor.QueryType.container.ariaLabel}>
+        <div aria-label={components.QueryEditor.QueryType.container.ariaLabel}>
           <Select
             menuShouldPortal={true}
             width={RightColumnWidth}
