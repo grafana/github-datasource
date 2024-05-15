@@ -30,6 +30,8 @@ jobs:
         with:
           node-version: '20'
 
+      - run: corepack enable
+
       - name: Install dependencies
         run: yarn ci
 
