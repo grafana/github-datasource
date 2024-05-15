@@ -25,24 +25,23 @@ jobs:
       GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-      - run: corepack enable
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
 
       - name: Check types
-        run: yarn run typecheck
+        run: npm run typecheck
       - name: Lint
-        run: yarn run lint
+        run: npm run lint
       - name: Unit tests
-        run: yarn run test:ci
+        run: npm run test:ci
       - name: Build frontend
-        run: yarn run build
+        run: npm run build
 
       - name: Check for backend
         id: check-for-backend
@@ -81,7 +80,7 @@ jobs:
           fi
 
       - name: Sign plugin
-        run: yarn run sign
+        run: npm run sign
         if: ${{ env.GRAFANA_ACCESS_POLICY_TOKEN != '' }}
 
       - name: Get plugin metadata
@@ -152,16 +151,16 @@ jobs:
       - name: Execute permissions on binary
         if: needs.build.outputs.has-backend == 'true'
         run: |
-          chmod +x ./dist/gpx_github_linux_amd64
+          chmod +x ./dist/gpx_cicd_linux_amd64
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dev dependencies
-        run: yarn ci
+        run: npm ci
 
       - name: Start Grafana
         run: |
@@ -181,7 +180,7 @@ jobs:
 
       - name: Run Playwright tests
         id: run-tests
-        run: yarn run e2e
+        run: npm run e2e
 
       - name: Docker logs
         if: ${{ always() && steps.run-tests.outcome == 'failure' }}
