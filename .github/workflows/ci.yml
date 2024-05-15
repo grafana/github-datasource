@@ -25,12 +25,12 @@ jobs:
       GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-
-      - run: corepack enable
+          cache: 'yarn'
 
       - name: Install dependencies
         run: yarn install
@@ -152,7 +152,7 @@ jobs:
       - name: Execute permissions on binary
         if: needs.build.outputs.has-backend == 'true'
         run: |
-          chmod +x ./dist/gpx_cicd_linux_amd64
+          chmod +x ./dist/gpx_github_linux_amd64
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
