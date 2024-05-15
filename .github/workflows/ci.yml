@@ -29,19 +29,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install
 
       - name: Check types
-        run: npm run typecheck
+        run: yarn run typecheck
       - name: Lint
-        run: npm run lint
+        run: yarn run lint
       - name: Unit tests
-        run: npm run test:ci
+        run: yarn run test:ci
       - name: Build frontend
-        run: npm run build
+        run: yarn run build
 
       - name: Check for backend
         id: check-for-backend
@@ -80,7 +80,7 @@ jobs:
           fi
 
       - name: Sign plugin
-        run: npm run sign
+        run: yarn run sign
         if: ${{ env.GRAFANA_ACCESS_POLICY_TOKEN != '' }}
 
       - name: Get plugin metadata
@@ -157,10 +157,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
+          cache: 'yarn'
 
       - name: Install dev dependencies
-        run: npm ci
+        run: yarn install
 
       - name: Start Grafana
         run: |
@@ -180,7 +180,7 @@ jobs:
 
       - name: Run Playwright tests
         id: run-tests
-        run: npm run e2e
+        run: yarn run e2e
 
       - name: Docker logs
         if: ${{ always() && steps.run-tests.outcome == 'failure' }}
