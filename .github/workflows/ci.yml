@@ -139,6 +139,7 @@ jobs:
           sparse-checkout: |
             provisioning
             tests
+            src
             .config
 
       - name: Download plugin
