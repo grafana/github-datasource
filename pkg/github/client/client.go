@@ -121,7 +121,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 		if err != nil {
 			return models.WorkflowUsage{}, fmt.Errorf("fetching workflow runs: %w", err)
 		}
-		if len(workflowRuns) != 0 {
+		if len(workflowRuns) > 0 {
 			name = *workflowRuns[0].Name
 		}
 
