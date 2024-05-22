@@ -104,6 +104,7 @@ type WorkflowUsageWrapper models.WorkflowUsage
 func (usage WorkflowUsageWrapper) Frames() data.Frames {
 	frame := data.NewFrame(
 		"workflow",
+		data.NewField("name", nil, []string{}),
 		data.NewField("unique triggering actors", nil, []uint64{}),
 		data.NewField("runs", nil, []uint64{}),
 		data.NewField("current billing cycle cost (approx.)", nil, []string{}),
@@ -146,6 +147,7 @@ func (usage WorkflowUsageWrapper) Frames() data.Frames {
 
 	frame.InsertRow(
 		0,
+		usage.Name,
 		usage.UniqueActors,
 		usage.Runs,
 		fmt.Sprintf("$ %.2f", usage.CostUSD),
