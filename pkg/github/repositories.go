@@ -12,15 +12,16 @@ import (
 )
 
 // QueryListRepositories is the GraphQL query for retrieving a list of repositories for an organization
-// {
-//   search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
-//     nodes {
-//       ... on PullRequest {
-//         id
-//         title
-//       }
-//   }
-// }
+//
+//	{
+//	  search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
+//	    nodes {
+//	      ... on PullRequest {
+//	        id
+//	        title
+//	      }
+//	  }
+//	}
 type QueryListRepositories struct {
 	Search struct {
 		Nodes []struct {
@@ -36,13 +37,15 @@ type Repository struct {
 	Owner struct {
 		Login string
 	}
-	NameWithOwner string
-	URL           string
-	ForkCount     int64
-	IsFork        bool
-	IsMirror      bool
-	IsPrivate     bool
-	CreatedAt     githubv4.DateTime
+	NameWithOwner  string
+	URL            string
+	ForkCount      int64
+	StargazerCount int64 `json:"stargazerCount"`
+	IsFork         bool
+	IsMirror       bool
+	IsPrivate      bool
+	CreatedAt      githubv4.DateTime
+	UpdatedAt      githubv4.DateTime `json:"updatedAt"`
 }
 
 // Repositories is a list of GitHub repositories
@@ -57,10 +60,12 @@ func (r Repositories) Frames() data.Frames {
 		data.NewField("name_with_owner", nil, []string{}),
 		data.NewField("url", nil, []string{}),
 		data.NewField("forks", nil, []int64{}),
+		data.NewField("stars", nil, []int64{}),
 		data.NewField("is_fork", nil, []bool{}),
 		data.NewField("is_mirror", nil, []bool{}),
 		data.NewField("is_private", nil, []bool{}),
 		data.NewField("created_at", nil, []time.Time{}),
+		data.NewField("updatedAt", nil, []time.Time{}),
 	)
 
 	for _, v := range r {
@@ -70,10 +75,12 @@ func (r Repositories) Frames() data.Frames {
 			v.NameWithOwner,
 			v.URL,
 			v.ForkCount,
+			v.StargazerCount,
 			v.IsFork,
 			v.IsMirror,
 			v.IsPrivate,
 			v.CreatedAt.Time,
+			v.UpdatedAt.Time,
 		)
 	}
 
