@@ -12,7 +12,7 @@ test('ConfigEditor smoke test', async ({ createDataSourceConfigPage, page, selec
     route.fulfill({ status: 200 });
   });
   await configPage.getByGrafanaSelector(components.ConfigEditor.AccessToken).fill('my-access-token');
-  await page.getByText('Enterprise', { exact: true }).click();
+  await page.getByRole('radio', { name: 'Enterprise' }).check();
   await page.getByPlaceholder('URL of GitHub Enterprise').fill('https://github.mycompany.com');
   await configPage.saveAndTest();
 });
