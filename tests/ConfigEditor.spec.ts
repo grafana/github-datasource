@@ -1,9 +1,10 @@
 import { test, expect } from '@grafana/plugin-e2e';
 import { components } from '../src/components/selectors';
+import semver from 'semver';
 
 const type = 'grafana-github-datasource';
 
-test('ConfigEditor smoke test', async ({ createDataSourceConfigPage, page, selectors }) => {
+test('ConfigEditor smoke test', async ({ createDataSourceConfigPage, page, selectors, grafanaVersion }) => {
   const configPage = await createDataSourceConfigPage({ type });
   page.route(selectors.apis.DataSource.datasourceByUID(configPage.datasource.uid), (route, request) => {
     const data = request.postDataJSON();
@@ -12,7 +13,15 @@ test('ConfigEditor smoke test', async ({ createDataSourceConfigPage, page, selec
     route.fulfill({ status: 200 });
   });
   await configPage.getByGrafanaSelector(components.ConfigEditor.AccessToken).fill('my-access-token');
-  await page.getByRole('radio', { name: 'Enterprise' }).check();
+  if (semver.lt(grafanaVersion, '10.0.0')) {
+    await page.getByText('Enterprise', { exact: true }).click();
+  } else {
+    await page.getByRole('radio', { name: 'Enterprise' }).check();
+  }
   await page.getByPlaceholder('URL of GitHub Enterprise').fill('https://github.mycompany.com');
-  await configPage.saveAndTest();
+  if (semver.lt(grafanaVersion, '10.0.0')) {
+    await page.getByLabel('Data source settings page Save and Test button').click();
+  } else {
+    await configPage.saveAndTest();
+  }
 });
