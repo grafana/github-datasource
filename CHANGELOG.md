@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.6.0]
+
+- **Feature** - Add `message` field to `Commit` query
+- **Feature** - Add `name` field to `Workflow status` query
+- **Fix** - Variable editor to support all query types
+
 ## [1.5.7]
 
 - **Chore** - Update dependencies
