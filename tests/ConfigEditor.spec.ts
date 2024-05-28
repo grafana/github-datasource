@@ -13,12 +13,14 @@ test('ConfigEditor smoke test', async ({ createDataSourceConfigPage, page, selec
     route.fulfill({ status: 200 });
   });
   await configPage.getByGrafanaSelector(components.ConfigEditor.AccessToken).fill('my-access-token');
-  if (semver.lt(grafanaVersion, '10.0.0')) {
+  // TODO: Move this logic to plugin-e2e
+  if (semver.lt(grafanaVersion, '10.1.0')) {
     await page.getByText('Enterprise', { exact: true }).click();
   } else {
     await page.getByRole('radio', { name: 'Enterprise' }).check();
   }
   await page.getByPlaceholder('URL of GitHub Enterprise').fill('https://github.mycompany.com');
+  // TODO: Move this logic to plugin-e2e
   if (semver.lt(grafanaVersion, '10.0.0')) {
     await page.getByLabel('Data source settings page Save and Test button').click();
   } else {
