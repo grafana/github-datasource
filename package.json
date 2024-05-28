@@ -49,7 +49,6 @@
     "@types/node": "^20.8.7",
     "@types/react-router-dom": "^5.2.0",
     "@types/testing-library__jest-dom": "5.14.8",
-    "@typescript-eslint/eslint-plugin": "^7.9.0",
     "copy-webpack-plugin": "^11.0.0",
     "cspell": "6.13.3",
     "css-loader": "^6.7.3",
@@ -79,6 +78,5 @@
   },
   "resolutions": {
     "jackspeak": "2.1.1"
-  },
-  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
+  }
 }
