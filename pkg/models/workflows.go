@@ -50,4 +50,5 @@ type WorkflowUsage struct {
 	P95RunDuration     time.Duration
 	RunsPerWeekday     map[time.Weekday]uint64
 	UsagePerRunner     map[string]time.Duration
+	Name               string
 }

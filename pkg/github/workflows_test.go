@@ -217,6 +217,7 @@ func TestWorkflowUsageDataframe(t *testing.T) {
 	t.Parallel()
 
 	usage := WorkflowUsageWrapper(models.WorkflowUsage{
+		Name:               "workflow",
 		CostUSD:            10.0,
 		UniqueActors:       100,
 		Runs:               200,

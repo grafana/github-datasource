@@ -33,6 +33,7 @@ func (c Commits) Frames() data.Frames {
 		data.NewField("author_company", nil, []string{}),
 		data.NewField("committed_at", nil, []time.Time{}),
 		data.NewField("pushed_at", nil, []time.Time{}),
+		data.NewField("message", nil, []string{}),
 	)
 
 	for _, v := range c {
@@ -44,6 +45,7 @@ func (c Commits) Frames() data.Frames {
 			v.Author.User.Company,
 			v.CommittedDate.Time,
 			v.PushedDate.Time,
+			string(v.Message),
 		)
 	}
 
