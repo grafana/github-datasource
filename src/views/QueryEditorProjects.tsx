@@ -3,7 +3,7 @@ import { Input, InlineLabel, RadioButtonGroup, InlineField } from '@grafana/ui';
 
 import { QueryEditorRow } from '../components/Forms';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-import { selectors } from '../components/selectors';
+import { components } from '../components/selectors';
 import { ProjectsOptions, ProjectQueryType } from 'types';
 import { SelectableValue } from '@grafana/data';
 import { Filter, Filters } from 'components/Filters';
@@ -84,7 +84,7 @@ const QueryEditorProjects = (props: Props) => {
         </InlineLabel>
         {kind === ProjectQueryType.ORG && (
           <Input
-            aria-label={selectors.components.QueryEditor.Owner.input}
+            aria-label={components.QueryEditor.Owner.input}
             width={RightColumnWidth}
             value={org}
             onChange={(el) => setOrg(el.currentTarget.value)}
@@ -99,7 +99,7 @@ const QueryEditorProjects = (props: Props) => {
         )}
         {kind === ProjectQueryType.USER && (
           <Input
-            aria-label={selectors.components.QueryEditor.Owner.input}
+            aria-label={components.QueryEditor.Owner.input}
             width={RightColumnWidth}
             value={user}
             onChange={(el) => setUser(el.currentTarget.value)}
@@ -122,7 +122,7 @@ const QueryEditorProjects = (props: Props) => {
           Project Number
         </InlineLabel>
         <Input
-          aria-label={selectors.components.QueryEditor.Number.input}
+          aria-label={components.QueryEditor.Number.input}
           width={RightColumnWidth}
           value={number}
           onChange={(el) => setNumber(num(el.currentTarget.value))}

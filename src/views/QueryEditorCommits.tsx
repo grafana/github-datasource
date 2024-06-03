@@ -3,7 +3,7 @@ import { Input, InlineField } from '@grafana/ui';
 
 import { CommitsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-import { selectors } from 'components/selectors';
+import { components } from 'components/selectors';
 
 interface Props extends CommitsOptions {
   onChange: (value: CommitsOptions) => void;
@@ -15,7 +15,7 @@ const QueryEditorCommits = (props: Props) => {
     <>
       <InlineField labelWidth={LeftColumnWidth * 2} label="Ref (Branch / Tag)">
         <Input
-          aria-label={selectors.components.QueryEditor.Ref.input}
+          aria-label={components.QueryEditor.Ref.input}
           width={RightColumnWidth}
           value={ref}
           onChange={(el) => setRef(el.currentTarget.value)}

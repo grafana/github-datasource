@@ -1,6 +1,4 @@
-import { E2ESelectors } from '@grafana/e2e-selectors';
-
-export const Components = {
+export const components = {
   ConfigEditor: {
     AccessToken: 'data-testid Access Token',
   },
@@ -29,8 +27,4 @@ export const Components = {
   AnnotationEditor: {
     container: 'Annotation editor container',
   },
-};
-
-export const selectors: { components: E2ESelectors<typeof Components> } = {
-  components: Components,
 };
