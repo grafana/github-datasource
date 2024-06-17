@@ -28,13 +28,13 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
     };
   }
 
-   // Required by DataSourceApi. It executes queries based on the provided DataQueryRequest.
+  // Required by DataSourceApi. It executes queries based on the provided DataQueryRequest.
   query(request: DataQueryRequest<GitHubQuery>): Observable<DataQueryResponse> {
     trackRequest(request);
     return super.query(request);
   }
 
-  // Implemented as a part of DataSourceApi 
+  // Implemented as a part of DataSourceApi
   // Only execute queries that have a query type
   filterQuery = (query: GitHubQuery) => {
     return isValid(query) && !query.hide;
@@ -68,7 +68,7 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
     const res = await this.query(query).toPromise();
 
     if (!res?.data?.length) {
-      return []; 
+      return [];
     }
     return getAnnotationsFromFrame(res.data[0], {
       field: {
