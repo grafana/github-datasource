@@ -5,7 +5,7 @@ import { GithubDataSource } from "DataSource";
 
 describe('DataSource', () => {
   describe('metricFindQuery', () => {
-    it('should not throw an error when data in response is empty array', async () => {
+    it('should return empty array if data in response is empty array', async () => {
       const ds = new GithubDataSource({} as DataSourceInstanceSettings);
       const query = {} as GitHubVariableQuery
 
