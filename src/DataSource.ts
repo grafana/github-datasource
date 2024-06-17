@@ -113,8 +113,8 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
       rangeRaw: options.rangeRaw,
     } as DataQueryRequest;
     try {
-      let res = await this.query(request).toPromise();
-      if (!res || !res.data || res.data.length < 0) {
+      const res = await this.query(request).toPromise();
+      if (!res || !res.data || res.data.length <= 0) {
         return [];
       }
       const view = new DataFrameView(res.data[0] as DataFrame);
