@@ -3,6 +3,7 @@ import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
 import { IssuesOptions, IssueTimeField } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { components } from 'components/selectors';
 
 interface Props extends IssuesOptions {
   onChange: (value: IssuesOptions) => void;
@@ -58,6 +59,7 @@ const QueryEditorIssues = (props: Props) => {
         tooltip="The time field to filter on the time range"
       >
         <Select
+          data-testid={components.QueryEditor.Issues.timeFieldInput}
           width={RightColumnWidth}
           options={timeFieldOptions}
           value={props.timeField || defaultTimeField}
