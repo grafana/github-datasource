@@ -18,6 +18,7 @@ type Issue struct {
 	Title     string
 	ClosedAt  githubv4.DateTime
 	CreatedAt githubv4.DateTime
+	UpdatedAt githubv4.DateTime
 	Closed    bool
 	Author    struct {
 		models.User `graphql:"... on User"`
@@ -40,6 +41,7 @@ func (c Issues) Frames() data.Frames {
 		data.NewField("closed", nil, []bool{}),
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
+		data.NewField("updated_at", nil, []time.Time{}),
 	)
 
 	for _, v := range c {
@@ -58,6 +60,7 @@ func (c Issues) Frames() data.Frames {
 			v.Closed,
 			v.CreatedAt.Time,
 			closedAt,
+			v.UpdatedAt.Time,
 		)
 	}
 

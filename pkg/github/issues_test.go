@@ -49,6 +49,9 @@ func TestIssuesDataframe(t *testing.T) {
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
 			},
+			UpdatedAt: githubv4.DateTime{
+				Time: createdAt,
+			},
 			Closed: false,
 			Author: struct {
 				models.User "graphql:\"... on User\""
@@ -87,6 +90,9 @@ func TestIssuesDataframe(t *testing.T) {
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
 			},
+			UpdatedAt: githubv4.DateTime{
+				Time: createdAt.Add(time.Hour * 6),
+			},
 			Closed: true,
 			Author: struct {
 				models.User "graphql:\"... on User\""
@@ -124,6 +130,9 @@ func TestIssuesDataframe(t *testing.T) {
 			},
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
+			},
+			UpdatedAt: githubv4.DateTime{
+				Time: createdAt.Add(time.Hour * 1),
 			},
 			Closed: false,
 			Author: struct {

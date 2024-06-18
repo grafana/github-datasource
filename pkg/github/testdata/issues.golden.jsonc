@@ -2,16 +2,16 @@
 //  
 //  Frame[0] 
 //  Name: issues
-//  Dimensions: 8 Fields by 3 Rows
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
-//  | Name: title    | Name: author   | Name: author_company | Name: repo      | Name: number  | Name: closed | Name: created_at                | Name: closed_at                 |
-//  | Labels:        | Labels:        | Labels:              | Labels:         | Labels:       | Labels:      | Labels:                         | Labels:                         |
-//  | Type: []string | Type: []string | Type: []string       | Type: []string  | Type: []int64 | Type: []bool | Type: []time.Time               | Type: []*time.Time              |
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
-//  | Issue #1       | firstUser      | ACME Corp            | grafana/grafana | 1             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            |
-//  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 |
-//  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            |
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+
+//  Dimensions: 9 Fields by 3 Rows
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+
+//  | Name: title    | Name: author   | Name: author_company | Name: repo      | Name: number  | Name: closed | Name: created_at                | Name: closed_at                 | Name: updated_at                |
+//  | Labels:        | Labels:        | Labels:              | Labels:         | Labels:       | Labels:      | Labels:                         | Labels:                         | Labels:                         |
+//  | Type: []string | Type: []string | Type: []string       | Type: []string  | Type: []int64 | Type: []bool | Type: []time.Time               | Type: []*time.Time              | Type: []time.Time               |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+
+//  | Issue #1       | firstUser      | ACME Corp            | grafana/grafana | 1             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-25 16:21:56 +0000 +0000 |
+//  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 |
+//  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-25 17:21:56 +0000 +0000 |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
@@ -78,6 +78,13 @@
               "frame": "time.Time",
               "nullable": true
             }
+          },
+          {
+            "name": "updated_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
           }
         ]
       },
@@ -122,6 +129,11 @@
             null,
             1598394116000,
             null
+          ],
+          [
+            1598372516000,
+            1598394116000,
+            1598376116000
           ]
         ]
       }
