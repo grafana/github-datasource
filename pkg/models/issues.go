@@ -10,10 +10,12 @@ const (
 	IssueCreatedAt IssueTimeField = iota
 	// IssueClosedAt is used when filtering when an Issue was closed
 	IssueClosedAt
+	// IssueUpdatedAt is used when filtering when an Issue was updated (last time)
+	IssueUpdatedAt
 )
 
 func (d IssueTimeField) String() string {
-	return [...]string{"created", "closed"}[d]
+	return [...]string{"created", "closed", "updated"}[d]
 }
 
 // ListIssuesOptions provides options when retrieving issues
