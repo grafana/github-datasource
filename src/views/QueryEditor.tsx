@@ -78,7 +78,7 @@ const queryEditors: {
   },
   [QueryType.Vulnerabilities]: {
     component: (props: Props, onChange: (val: any) => void) => (
-      <QueryEditorVulnerabilities {...(props.query.options || {})} onChange={onChange} />
+      <QueryEditorVulnerabilities {...(props.query.options || {})} />
     ),
   },
   [QueryType.Projects]: {
