@@ -132,7 +132,7 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt,
 			},
 			UpdatedAt: githubv4.DateTime{
-				Time: createdAt.Add(time.Hour * 1),
+				Time: createdAt,
 			},
 			Closed: false,
 			Author: struct {
