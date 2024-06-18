@@ -25,7 +25,7 @@ export const components = {
     },
     Issues: {
       timeFieldInput: 'Query editor issues time field',
-    }
+    },
   },
   AnnotationEditor: {
     container: 'Annotation editor container',
