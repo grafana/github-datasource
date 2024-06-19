@@ -10,19 +10,7 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-// QueryListVulnerabilities lists all labels in a repository
-//
-//	{
-//	  repository(name: "grafana", owner: "grafana") {
-//	    labels(first: 100) {
-//	      nodes {
-//	        color
-//	        description
-//	        name
-//	      }
-//	    }
-//	  }
-//	}
+// QueryListVulnerabilities lists all vulnerability alerts in a repository
 //
 //	{
 //	    repository(name: "repo-name", owner: "repo-owner") {
