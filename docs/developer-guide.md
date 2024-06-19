@@ -64,7 +64,7 @@ If you make further changes into the code, be sure to run `yarn dev` again and r
 
 ### Dev dashboards
 
-You can find example dashboard that uses Github data source in [dashboards folder](/dashboards/).
+You can find example dashboard that uses Github data source in [dashboards folder](./src/dashboards/).
 
 ## Create a pull request
 
