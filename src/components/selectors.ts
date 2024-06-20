@@ -23,6 +23,9 @@ export const components = {
     Number: {
       input: 'Query editor number',
     },
+    Issues: {
+      timeFieldInput: 'Query editor issues time field',
+    },
   },
   AnnotationEditor: {
     container: 'Annotation editor container',

@@ -127,7 +127,6 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 	opt := models.ListVulnerabilitiesOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
-		Query:      query.Options.Query,
 	}
 
 	return GetAllVulnerabilities(ctx, d.client, opt)

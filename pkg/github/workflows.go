@@ -56,8 +56,9 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 	}
 
 	// Fetch this many workflows per page because this API endpoint does not allow filtering by time.
-	// It's unlikely a repository will have more workflows than this.
-	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &github.ListOptions{Page: 0, PerPage: 1000})
+	// 100 is the maximum number of workflows that can be retrieved per request as specified in the GitHub API documentation.
+	// Also, it's unlikely a repository will have more workflows than this.
+	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &github.ListOptions{Page: 1, PerPage: 100})
 	if err != nil {
 		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
 	}
