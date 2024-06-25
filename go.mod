@@ -6,7 +6,6 @@ toolchain go1.22.1
 
 require (
 	github.com/google/go-github/v53 v53.2.0
-	github.com/gorilla/mux v1.8.0
 	github.com/grafana/grafana-plugin-sdk-go v0.225.0
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
@@ -35,6 +34,7 @@ require (
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
+	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.0 // indirect
 	github.com/invopop/yaml v0.2.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect

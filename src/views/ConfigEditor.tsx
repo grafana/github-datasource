@@ -3,7 +3,7 @@ import { DataSourcePluginOptionsEditorProps, GrafanaTheme2, onUpdateDatasourceJs
 import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
 import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useState } from 'react';
-import { selectors } from '../components/selectors';
+import { components } from '../components/selectors';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
 import { Divider } from 'components/Divider';
 
@@ -91,7 +91,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
         <Field label="Access Token">
           <SecretInput
             placeholder="GitHub Personal Access Token"
-            data-testid={selectors.components.ConfigEditor.AccessToken}
+            data-testid={components.ConfigEditor.AccessToken}
             value={secureSettings.accessToken || ''}
             isConfigured={secureJsonFields!['accessToken']}
             onChange={onSettingUpdate('accessToken', false)}

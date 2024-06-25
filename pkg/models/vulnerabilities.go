@@ -7,7 +7,4 @@ type ListVulnerabilitiesOptions struct {
 
 	// Owner is the owner of the repository (ex: grafana)
 	Owner string `json:"owner"`
-
-	// Query searches x by name and description
-	Query string `json:"query"`
 }
