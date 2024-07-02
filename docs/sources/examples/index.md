@@ -1,3 +1,20 @@
+---
+description: The GitHub data source lets you visualize GitHub API data in Grafana dashboards.
+keywords:
+  - data source
+  - github
+  - github repository
+  - API
+labels:
+  products:
+    - oss
+    - enterprise
+    - grafana cloud
+menuTitle: GitHub data source
+title: GitHub data source plugin for Grafana
+weight: 10
+---
+
 ## Sample Dashboard
 
 For documentation on importing dashboards, check out the documentation on [grafana.com](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard)
