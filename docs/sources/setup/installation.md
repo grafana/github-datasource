@@ -2,7 +2,7 @@
 slug: '/installation'
 title: 'Installation'
 menuTitle: Installation
-description: This document introduces the GitHub data source
+description: Installation of the GitHub data source plugin
 aliases:
   - github
 keywords:
@@ -53,4 +53,3 @@ Example:
 ```bash
 grafana-cli --pluginUrl https://github.com/grafana/github-datasource/releases/download/v1.6.0/grafana-github-datasource-1.6.0.zip plugins install grafana-github-datasource
 ```
-

@@ -1,7 +1,7 @@
 ---
-title: 'Examples'
-menuTitle: Examples
-description: Examples
+title: 'Examples Dashboards'
+menuTitle: Examples Dashboards
+description: Examples Dashboards
 aliases:
   - github
 keywords:

@@ -1,8 +1,30 @@
-### Provisioning
+---
+slug: '/provisioning'
+title: 'Provisioning'
+menuTitle: Provisioning
+description: Provisioning the GitHub data source plugin
+aliases:
+  - github
+keywords:
+  - data source
+  - github
+  - github repository
+  - API
+labels:
+  products:
+    - oss
+    - enterprise
+    - cloud
+weight: 104
+---
 
-[It’s possible to configure data sources using config files with Grafana’s provisioning system](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
+# Provisioning
 
-#### With the [prom-operator](https://github.com/prometheus-operator/prometheus-operator)
+It’s possible to configure data sources using config files with [Grafana’s provisioning system](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
+
+**Example**
+
+Here is an example to provision the Data source while using the [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator)
 
 ```yaml
 promop:
@@ -15,3 +37,4 @@ promop:
           repository: ''
         secureJsonData:
           accessToken: '<github api token>'
+```
