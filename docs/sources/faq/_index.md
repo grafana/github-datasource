@@ -31,8 +31,8 @@ We have aggressive caching enabled due to GitHub's rate limiting policies. When 
 
 There are two times that affect an annotation:
 
-* The time range of the dashboard or panel
-* The time that should be used to display the event on the graph
+- The time range of the dashboard or panel
+- The time that should be used to display the event on the graph
 
 The first selection is used to filter the events that display on the graph. For example, if you select "closed at", only events that were "closed" in your dashboard's time range will be displayed on the graph.
 

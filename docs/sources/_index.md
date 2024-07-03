@@ -1,5 +1,5 @@
 ---
-description: The GitHub data source lets you visualize GitHub API data in Grafana dashboards.
+description: The GitHub data source lets you visualize GitHub data in Grafana dashboards.
 keywords:
   - data source
   - github

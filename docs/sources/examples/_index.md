@@ -32,13 +32,14 @@ The sample dashboard can be obtained from either of two places.
 OR
 
 - From the Grafana Web UI:
+
   1. Navigate to Connections and then click Data sources.
   1. Select the GitHub plugin and click the Dashboards tab.
   1. Click Import.
 
-   {{% admonition type="note" %}}
-   If loading it from this repository, open Grafana and click "Import Dashboard". Copy the JSON in `./src/dashboards/dashboard.json`, and paste it into the "Import via panel json" box.
-   {{% /admonition %}}
+  {{% admonition type="note" %}}
+  If loading it from this repository, open Grafana and click "Import Dashboard". Copy the JSON in `./src/dashboards/dashboard.json`, and paste it into the "Import via panel json" box.
+  {{% /admonition %}}
 
 ## Play Demo
 

@@ -28,8 +28,8 @@ Variables allow you to create more interactive and dynamic dashboards by replaci
 
 Here is an example of creating a Dashboard variable:
 
-![Creating Variables](https://github.com/grafana/github-datasource/raw/main/docs/screenshots/variables-create.png)
+![Creating Variables](/media/docs/grafana/data-sources/github/variables-create.png)
 
 You can reference them inside queries, allowing users to configure parameters such as `Query` or `Repository`.
 
-![Using Variables inside queries](https://github.com/grafana/github-datasource/raw/main/docs/screenshots/using-variables.png)
+![Using Variables inside queries](/media/docs/grafana/data-sources/github/using-variables.png)
