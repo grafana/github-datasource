@@ -27,12 +27,11 @@ weight: 103
 1. Click on the GitHub Data source plugin which you have installed.
 
 1. Go to its settings tab and at the bottom, paste the GitHub token which you have created above.
+   ![Configuring API Token](/media/docs/grafana/data-sources/github/github-plugin-confg-token.png)
 
-**image**
+1. Click “Save & Test” button and you should see a confirmation message similar to this, that indicates that the Plugin is successfully configured.
 
-1. Click “Save & Test” and you should see a confirmation message similar to this, that indicates that the Plugin is successfully configured.
-
-**image**
+   ![Testing Data source](/media/docs/grafana/data-sources/github/github-plugin-config-success.png)
 
    {{% admonition type="note" %}}
    Incase, if there are some errors then please check the Grafana logs for troubleshooting.

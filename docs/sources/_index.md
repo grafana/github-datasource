@@ -58,6 +58,17 @@ Caching on this plugin is always enabled.
 
 The GitHub data source plugin has the following requirements:
 
-- A GitHub account.
-- Any free or paid Grafana Cloud plan or an activated on-prem Grafana Enterprise license. Contracted Cloud customers should refer to their agreement.
-- Port 3000 enabled.
+- A [GitHub](https://github.com/) or [GitHub Enterprise](https://github.com/enterprise) account.
+- Any free or paid [Grafana Cloud](https://grafana.com/pricing/) plan or an [activated on-prem Grafana Enterprise](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/) license. Contracted Cloud customers should refer to their agreement.
+- Port `3000` enabled.
+
+## Get the most out of the plugin
+
+- Add [Annotations](https://grafana.com/docs/grafana/latest/dashboards/annotations/)
+- Configure and use [Templates and variables](https://grafana.com/docs/grafana/latest/variables/)
+- Add [Transformations](https://grafana.com/docs/grafana/latest/panels/transformations/)
+
+### Read More
+
+- [GitHub v4 client library](https://github.com/shurcooL/githubv4)
+- [Manage personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)

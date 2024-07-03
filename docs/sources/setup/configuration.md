@@ -20,7 +20,7 @@ weight: 102
 
 # Configuration
 
-You will need a GitHub Access Token to use the plugin. Below is a table that indicates what requirements must be matched before the plugin can be used.
+You will need a GitHub Access Token to use the plugin. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
 
 Options:
 
