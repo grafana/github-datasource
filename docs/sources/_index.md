@@ -9,7 +9,7 @@ labels:
   products:
     - oss
     - enterprise
-    - grafana cloud
+    - cloud
 menuTitle: GitHub data source
 title: GitHub data source plugin for Grafana
 weight: 10
@@ -54,25 +54,10 @@ The Grafana GitHub Data source plugin provides several features, allow you to tr
 
 Caching on this plugin is always enabled.
 
-## Frequently Asked Questions
+## Requirements
 
-- **I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?**
+The GitHub data source plugin has the following requirements:
 
-No. This requires changes in Grafana first. See [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
-
-- **Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?**
-
-We have aggressive caching enabled due to GitHub's rate limiting policies. When selecting a time range like "Last hour", a combination of the queries for each panel and the time range is cached temporarily.
-
-- **Why are there two selection options for Pull Requests and Issue times when creating annotations?**
-
-There are two times that affect an annotation:
-
-- The time range of the dashboard or panel
-- The time that should be used to display the event on the graph
-
-The first selection is used to filter the events that display on the graph. For example, if you select "closed at", only events that were "closed" in your dashboard's time range will be displayed on the graph.
-
-The second selection is used to determine where on the graph the event should be displayed.
-
-Typically these will be the same, however there are some cases where you may want them to be different.
+- A GitHub account.
+- Any free or paid Grafana Cloud plan or an activated on-prem Grafana Enterprise license. Contracted Cloud customers should refer to their agreement.
+- Port 3000 enabled.
