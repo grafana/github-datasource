@@ -15,7 +15,7 @@ import (
 var statusErrorStringFromGraphQLPackage = "non-200 OK status code: "
 
 func addErrorSourceToError(err error, resp *googlegithub.Response) error {
-	// If there is no error or status code is 2xx we are not adding any source and returning nil
+	// If there is no error then return nil
 	if err == nil {
 		return nil
 	}
