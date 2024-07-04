@@ -23,9 +23,9 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	if errors.Is(err, syscall.ECONNREFUSED) {
 		return errorsource.DownstreamError(err, false)
 	}
-	// Unfortunately graphql library that is used is retuning original error from
-	// client. That error is in "non-200 OK status code: ..." format and has the status in it
-	// which we can extract and use: https://github.com/shurcooL/graphql/blob/ed46e5a46466/graphql.go#L77.
+	// Unfortunately graphql library that is used is not returning original error from the client.
+	// It creates a new error with "non-200 OK status code: ..." error message. It includes status code
+	// which we can extract and use. Mentioned code: https://github.com/shurcooL/graphql/blob/ed46e5a46466/graphql.go#L77.
 	if strings.Contains(err.Error(), statusErrorStringFromGraphQLPackage) {
 		statusCode, statusErr := extractStatusCode(err)
 		if statusErr == nil {
