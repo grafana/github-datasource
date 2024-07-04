@@ -52,8 +52,8 @@ func extractStatusCode(err error) (int, error) {
 	matches := re.FindStringSubmatch(err.Error())
 	if len(matches) > 1 {
 		// Convert the captured group which contains the numerical status code to an integer.
-		statusCode, convErr := strconv.Atoi(matches[1])
-		if convErr != nil {
+		statusCode, conversionErr := strconv.Atoi(matches[1])
+		if conversionErr != nil {
 			return 0, errors.New("failed to convert status code to integer")
 		}
 		return statusCode, nil
