@@ -11,7 +11,9 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 )
+
 var statusErrorStringFromGraphQLPackage = "non-200 OK status code: "
+
 func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	// If there is no error or status code is 2xx we are not adding any source and returning nil
 	if err == nil {
@@ -19,13 +21,13 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	}
 
 	if errors.Is(err, syscall.ECONNREFUSED) {
-		return  errorsource.DownstreamError(err, false);
+		return errorsource.DownstreamError(err, false)
 	}
 	// Unfortunately graphql library that is used is retuning original error from
 	// client. That error is in "non-200 OK status code: ..." format and has the status in it
 	// which we can extract and use.
-	if (strings.Contains(err.Error(),statusErrorStringFromGraphQLPackage)) {
-		statusCode, statusErr  := extractStatusCode(err)
+	if strings.Contains(err.Error(), statusErrorStringFromGraphQLPackage) {
+		statusCode, statusErr := extractStatusCode(err)
 		if statusErr == nil {
 			return errorsource.SourceError(backend.ErrorSourceFromHTTPStatus(statusCode), err, false)
 		}
@@ -37,8 +39,8 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 		}
 	}
 	// Otherwise we are not adding source which means it is going to be plugin error
-	// not sure if this is the correct way to handle this as the error might be still coming 
-	// from the package that we are using. We should look into it once we have more data on this. 
+	// not sure if this is the correct way to handle this as the error might be still coming
+	// from the package that we are using. We should look into it once we have more data on this.
 	return err
 }
 

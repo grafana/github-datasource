@@ -56,7 +56,7 @@ func New(ctx context.Context, settings models.Settings) (*Client, error) {
 		// If access token is not set, return downstream error as it is required.
 		return nil, errorsource.DownstreamError(fmt.Errorf("access token is required"), false)
 	}
-	
+
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: settings.AccessToken},
 	)
@@ -267,12 +267,12 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 	}
 
 	if err != nil {
-	// If the workflow is not found, return a specific error.
-	if (response != nil && response.StatusCode == http.StatusNotFound) {
-		return nil, 0, errorsource.SourceError(backend.ErrorSourceDownstream, errWorkflowNotFound, false)
-	}
+		// If the workflow is not found, return a specific error.
+		if response != nil && response.StatusCode == http.StatusNotFound {
+			return nil, 0, errorsource.SourceError(backend.ErrorSourceDownstream, errWorkflowNotFound, false)
+		}
 		return nil, 0, addErrorSourceToError(fmt.Errorf("fetching workflow runs: %w", err), response)
-}
+	}
 
 	workflowRuns = append(workflowRuns, runs.WorkflowRuns...)
 
