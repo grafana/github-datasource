@@ -5,12 +5,14 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strconv"
 	"time"
 
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -50,6 +52,11 @@ var runnerPerMinuteRate = map[string]float64{
 
 // New instantiates a new GitHub API client.
 func New(ctx context.Context, settings models.Settings) (*Client, error) {
+	if settings.AccessToken == "" {
+		// If access token is not set, return downstream error as it is required.
+		return nil, errorsource.DownstreamError(fmt.Errorf("access token is required"), false)
+	}
+	
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: settings.AccessToken},
 	)
@@ -61,6 +68,11 @@ func New(ctx context.Context, settings models.Settings) (*Client, error) {
 			restClient:    googlegithub.NewClient(httpClient),
 			graphqlClient: githubv4.NewClient(httpClient),
 		}, nil
+	}
+
+	_, err := url.Parse(settings.GithubURL)
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("incorrect enterprise url"), false)
 	}
 
 	restClient, err := googlegithub.NewEnterpriseClient(settings.GithubURL, settings.GithubURL, httpClient)
@@ -76,12 +88,20 @@ func New(ctx context.Context, settings models.Settings) (*Client, error) {
 
 // Query sends a query to the GitHub GraphQL API.
 func (client *Client) Query(ctx context.Context, q interface{}, variables map[string]interface{}) error {
-	return client.graphqlClient.Query(ctx, q, variables)
+	err := client.graphqlClient.Query(ctx, q, variables)
+	if err != nil {
+		return addErrorSourceToError(err, nil)
+	}
+	return nil
 }
 
 // ListWorkflows sends a request to the GitHub rest API to list the workflows in a specific repository.
 func (client *Client) ListWorkflows(ctx context.Context, owner, repo string, opts *googlegithub.ListOptions) (*googlegithub.Workflows, *googlegithub.Response, error) {
-	return client.restClient.Actions.ListWorkflows(ctx, owner, repo, opts)
+	wf, resp, err := client.restClient.Actions.ListWorkflows(ctx, owner, repo, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return wf, resp, err
 }
 
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
@@ -167,9 +187,9 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	usage, response, err := client.getWorkflowUsage(ctx, owner, repo, workflow)
 	if err != nil {
 		if response.StatusCode == http.StatusNotFound {
-			return models.WorkflowUsage{}, errWorkflowNotFound
+			return models.WorkflowUsage{}, errorsource.DownstreamError(errWorkflowNotFound, false)
 		}
-		return models.WorkflowUsage{}, fmt.Errorf("fetching workflow usage: %w", err)
+		return models.WorkflowUsage{}, addErrorSourceToError(fmt.Errorf("fetching workflow usage: %w", err), response)
 	}
 
 	usagePerRunner := make(map[string]time.Duration)
@@ -247,11 +267,12 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 	}
 
 	if err != nil {
-		if response != nil && response.StatusCode == http.StatusNotFound {
-			return nil, 0, errWorkflowNotFound
-		}
-		return nil, 0, fmt.Errorf("fetching workflow runs: %w", err)
+	// If the workflow is not found, return a specific error.
+	if (response != nil && response.StatusCode == http.StatusNotFound) {
+		return nil, 0, errorsource.SourceError(backend.ErrorSourceDownstream, errWorkflowNotFound, false)
 	}
+		return nil, 0, addErrorSourceToError(fmt.Errorf("fetching workflow runs: %w", err), response)
+}
 
 	workflowRuns = append(workflowRuns, runs.WorkflowRuns...)
 

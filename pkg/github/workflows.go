@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/go-github/v53/github"
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -58,7 +57,7 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 	// Fetch this many workflows per page because this API endpoint does not allow filtering by time.
 	// 100 is the maximum number of workflows that can be retrieved per request as specified in the GitHub API documentation.
 	// Also, it's unlikely a repository will have more workflows than this.
-	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &github.ListOptions{Page: 1, PerPage: 100})
+	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &googlegithub.ListOptions{Page: 1, PerPage: 100})
 	if err != nil {
 		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
 	}
