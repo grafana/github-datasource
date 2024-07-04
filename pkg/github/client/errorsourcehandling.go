@@ -25,7 +25,7 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	}
 	// Unfortunately graphql library that is used is retuning original error from
 	// client. That error is in "non-200 OK status code: ..." format and has the status in it
-	// which we can extract and use.
+	// which we can extract and use: https://github.com/shurcooL/graphql/blob/ed46e5a46466/graphql.go#L77.
 	if strings.Contains(err.Error(), statusErrorStringFromGraphQLPackage) {
 		statusCode, statusErr := extractStatusCode(err)
 		if statusErr == nil {
