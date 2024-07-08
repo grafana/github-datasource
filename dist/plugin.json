@@ -1,0 +1,51 @@
+{
+    "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+    "type": "datasource",
+    "name": "GitHub",
+    "id": "grafana-github-datasource",
+    "backend": true,
+    "executable": "gpx_github",
+    "annotations": true,
+    "alerting": true,
+    "metrics": true,
+    "includes": [
+        {
+            "type": "dashboard",
+            "name": "GitHub (demo)",
+            "path": "dashboards/dashboard.json"
+        }
+    ],
+    "info": {
+        "description": "Show data about github issues/pull requests",
+        "author": {
+            "name": "Grafana Labs",
+            "url": "https://grafana.com"
+        },
+        "keywords": [
+            "github",
+            "git",
+            "devops",
+            "developer tools"
+        ],
+        "logos": {
+            "small": "img/github.svg",
+            "large": "img/github.svg"
+        },
+        "links": [
+            {
+                "name": "Website",
+                "url": "https://github.com/grafana/github-datasource"
+            }
+        ],
+        "screenshots": [],
+        "version": "1.7.1",
+        "updated": "2024-07-08"
+    },
+    "dependencies": {
+        "grafanaDependency": ">=9.1.0",
+        "plugins": []
+    },
+    "generated": {
+        "extensions": []
+    }
+}
