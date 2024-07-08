@@ -1,14 +1,19 @@
 # Change Log
 
+## [1.7.1]
+
+- **Chore** - Add provisioning folder to .gitignore
+- **Chore** - Add error source to error response
+
 ## [1.7.0]
 
-- **Feature** -  Add `updated_at` field to results in `Issue` query
-- **Feature** -  Add `UpdatedAt` field to query options in `Issue` query
+- **Feature** - Add `updated_at` field to results in `Issue` query
+- **Feature** - Add `UpdatedAt` field to query options in `Issue` query
 - **Fix** - Fix error when response has data with empty array in templating
 - **Fix** - Fix per page limit to 100 in `Workflows` query as it is max supported value
 - **Fix** - Remove query input in `Vulnerabilities` query as API does not support it
-- **Chore** -  Move e2e from cypress to playwright
-- **Chore** -  Update dependencies
+- **Chore** - Move e2e from cypress to playwright
+- **Chore** - Update dependencies
 
 ## [1.6.0]
 
