@@ -44,9 +44,13 @@ yarn watch
 
 Now that you have a `./dist` folder, you are ready to run a fresh Grafana instance and put the new version of the datasource into [Grafana plugin folder](https://grafana.com/docs/grafana/latest/plugins/installation/).
 
+### Development resources
+
+We provide development resources to make it easier to contribute to and develop the GitHub data source.
+
 ### Docker Compose
 
-We provide a [Docker Compose file](/docker-compose.yml) to help you to get started. When you call up `docker compose up` inside the project folder, it will:
+[Docker Compose file](/docker-compose.yml) is available to help you to get started. When you call up `docker compose up` inside the project folder, it will:
 
 1. Run a new instance of Grafana from the master branch and map it into port `3000`.
 1. Configure the instance to allow an unsigned version of `github-datasource` to be installed.
@@ -58,6 +62,12 @@ This is enough for you to see the GitHub Datasource in the datasource list at `h
 
 If you make further changes into the code, be sure to run `yarn dev` again and restart the Grafana instance.
 
+### Dev dashboards
+
+You can find example dashboard that uses Github data source in [dashboards folder](./src/dashboards/).
+
 ## Create a pull request
 
 After you are good to go, it is time to create a pull request to share your work with the community. Please read more about that [here](https://github.com/grafana/grafana/blob/master/contribute/create-pull-request.md).
+
+## Development resources
