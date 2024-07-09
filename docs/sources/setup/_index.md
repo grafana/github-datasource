@@ -1,7 +1,7 @@
 ---
-title: 'Install & Configure'
+title: 'Install & configure'
 menuTitle: Setup
-description: Install & Configure
+description: Install & configure
 aliases:
   - github
 keywords:

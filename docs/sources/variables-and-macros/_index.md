@@ -1,7 +1,7 @@
 ---
-title: 'Variables & Macros'
-menuTitle: Variables & Macros
-description: Variables & Macros
+title: 'Variables & macros'
+menuTitle: Variables & macros
+description: Variables & macros
 aliases:
   - github
 keywords:
@@ -17,7 +17,7 @@ labels:
 weight: 200
 ---
 
-# Variables & Macros
+# Variables & macros
 
 - [Variables](./variables)
 - [Macros](./macros)

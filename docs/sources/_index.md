@@ -19,36 +19,40 @@ weight: 10
 
 The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
 
-{{< docs/play title="GitHub Data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
+{{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
 
 ## GitHub API V4 (GraphQL)
 
 This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
 
-## Key Features
+## Key features
 
-The Grafana GitHub Data source plugin provides several features, allow you to track and analyze GitHub data directly within Grafana, providing insights and visualizations for your GitHub repositories and projects.
+The Grafana GitHub data source plugin provides several features, allow you to track and analyze GitHub data directly within Grafana, providing insights and visualizations for your GitHub repositories and projects.
 
-### Backend
+### Query types
 
-- [x] Releases
-- [x] Commits
-- [x] Repositories
-- [x] Stargazers
-- [x] Issues
-- [x] Organizations
-- [x] Labels
-- [x] Milestones
-- [x] Response Caching
-- [x] Projects
-- [x] Workflows
-- [ ] Deploys
+- Commits
+- Issues
+- Contributors
+- Tags
+- Releases
+- Pull Requests
+- Labels
+- Repositories
+- Milestones
+- Packages
+- Vulnerabilities
+- Projects
+- Stargazers
+- Workflows
+- Workflow Usage
 
-### Frontend
+### Supported features
 
-- [x] Visualize queries
-- [x] Template variables
-- [x] Annotations
+- Visualize queries
+- Template variables
+- Annotations
+- Query caching
 
 ### Caching
 
@@ -68,7 +72,7 @@ The GitHub data source plugin has the following requirements:
 - Configure and use [Templates and variables](https://grafana.com/docs/grafana/latest/variables/)
 - Add [Transformations](https://grafana.com/docs/grafana/latest/panels/transformations/)
 
-### Read More
+### Read more
 
 - [GitHub v4 client library](https://github.com/shurcooL/githubv4)
 - [Manage personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)

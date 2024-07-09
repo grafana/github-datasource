@@ -1,7 +1,7 @@
 ---
-title: 'Reporting Issues'
-menuTitle: Reporting Issues
-description: Reporting Issues
+title: 'Reporting issues'
+menuTitle: Reporting issues
+description: Reporting issues
 aliases:
   - github
 keywords:
@@ -17,6 +17,6 @@ labels:
 weight: 700
 ---
 
-# Reporting Issues
+# Reporting issues
 
 Use the [official GitHub repository](https://github.com/grafana/github-datasource/issues) to report issues, bugs and feature requests.

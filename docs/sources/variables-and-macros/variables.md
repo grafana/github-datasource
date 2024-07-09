@@ -2,7 +2,7 @@
 slug: '/variables'
 title: 'Variables'
 menuTitle: Variables
-description: Using Variables for the GitHub data source plugin
+description: Using variables for the GitHub data source plugin
 aliases:
   - github
 keywords:
@@ -26,10 +26,10 @@ Variables allow you to create more interactive and dynamic dashboards by replaci
 
 **Example**
 
-Here is an example of creating a Dashboard variable:
+Here is an example of creating a dashboard variable:
 
-![Creating Variables](/media/docs/grafana/data-sources/github/variables-create.png)
+![Creating variables](/media/docs/grafana/data-sources/github/variables-create.png)
 
 You can reference them inside queries, allowing users to configure parameters such as `Query` or `Repository`.
 
-![Using Variables inside queries](/media/docs/grafana/data-sources/github/using-variables.png)
+![Using variables inside queries](/media/docs/grafana/data-sources/github/using-variables.png)

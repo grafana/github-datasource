@@ -1,7 +1,7 @@
 ---
 title: 'Annotations'
 menuTitle: Annotations
-description: Using Annotations for the GitHub data source plugin
+description: Using annotations for the GitHub data source plugin
 aliases:
   - github
 keywords:

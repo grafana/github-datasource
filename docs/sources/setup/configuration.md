@@ -20,7 +20,7 @@ weight: 102
 
 # Configuration
 
-You will need a GitHub Access Token to use the plugin. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
+You will need a **GitHub Access Token** to use the plugin. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
 
 Options:
 
@@ -33,7 +33,7 @@ Options:
 
 To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and press Generate new token.
 
-## Access Token Permissions
+## Access token permissions
 
 You will need to define the access permissions for your token in order to allow it to access the data.
 

@@ -1,7 +1,7 @@
 ---
-title: 'Frequently Asked Questions'
-menuTitle: Frequently Asked Questions
-description: Frequently Asked Questions
+title: 'Frequently asked questions'
+menuTitle: Frequently asked questions
+description: Frequently asked questions
 aliases:
   - github
 keywords:
@@ -17,7 +17,7 @@ labels:
 weight: 600
 ---
 
-# Frequently Asked Questions
+# Frequently asked questions
 
 **Q. I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared access_token?**
 

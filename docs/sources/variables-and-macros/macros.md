@@ -2,7 +2,7 @@
 slug: '/macros'
 title: 'Macros'
 menuTitle: Macros
-description: Using Macros for the GitHub data source plugin
+description: Using macros for the GitHub data source plugin
 aliases:
   - github
 keywords:
@@ -24,7 +24,7 @@ A macro is a feature that allows you to simplify the syntax and add dynamic part
 
 You can use the following macros in your queries
 
-| Macro Name | Syntax                     | Description                                                              | Example                                                                              |
+| Macro name | Syntax                     | Description                                                              | Example                                                                              |
 | ---------- | -------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
 | multiVar   | `$__multiVar(prefix,$var)` | Expands a multi value variable into github query string                  | `$__multiVar(label,$labels)` will expand into `label:first-label label:second-label` |
 |            |                            | When using **all** in multi variable, use **\*** as custom all value     |                                                                                      |

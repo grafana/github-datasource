@@ -18,13 +18,13 @@ labels:
 weight: 101
 ---
 
-# Installing Infinity data source plugin
+# Installing GitHub data source plugin
 
-There are multiple ways to install this plugin into your grafana instance
+There are multiple ways to install this plugin into your Grafana instance
 
-## Install from Plugin Catalog
+## Install from plugin catalog
 
-Install the plugin directly within the Grafana WebUI using the [plugin catalog](https://grafana.com/docs/grafana/latest/administration/plugin-management/#plugin-catalog).
+Install the plugin directly within the Grafana web UI using the [plugin catalog](https://grafana.com/docs/grafana/latest/administration/plugin-management/#plugin-catalog).
 
 ## Install from grafana.com
 
