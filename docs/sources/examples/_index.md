@@ -19,7 +19,7 @@ weight: 500
 
 # Example dashboard
 
-Here are some examples dashboards that you can use for your usecase.
+Here are some examples dashboards that you can use for your use case.
 
 ## Pre-configure dashboards
 
