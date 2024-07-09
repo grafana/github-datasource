@@ -30,20 +30,19 @@ Annotations overlay events on a graph.
 
 ![Annotations on a graph](/media/docs/grafana/data-sources/github/annotations.png)
 
-With annotations, you can display:
+With annotations, you can display the following GitHub resources on a graph:
 
 - Commits
 - Issues
-- Pull Requests
+- Pull requests
 - Releases
 - Tags
 
-on a graph.
 
 All annotations require that you select a field to display on the annotation, and a field that represents the time that the event occurred.
 
 ![Annotations editor](/media/docs/grafana/data-sources/github/annotations-editor.png)
 
-If you want to add titles or tags to the annotations, you can add additional Fields with the appropriate types.
+If you want to add titles or tags to the annotations, you can add additional fields with the appropriate types.
 
 For more information on how to configure a query, refer to [Built-in query editor](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/annotate-visualizations/#built-in-query).

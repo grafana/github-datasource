@@ -1,5 +1,4 @@
 ---
-slug: '/provisioning'
 title: 'Provisioning'
 menuTitle: Provisioning
 description: Provisioning the GitHub data source plugin
@@ -20,7 +19,8 @@ weight: 104
 
 # Provisioning
 
-You can define and configure the GitHub data source in YAML files as part of Grafana’s provisioning system. For more information about provisioning a data source, and for available configuration options, see [Provision Grafana](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
+You can define and configure the GitHub data source in YAML files with Grafana provisioning.
+For more information about provisioning a data source, and for available configuration options, refer to [Provision Grafana](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
 
 **Example**
 

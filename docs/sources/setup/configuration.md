@@ -48,7 +48,7 @@ For all repositories:
 - `read:user`
 - `user:email`
 
-For Github projects:
+For GitHub projects:
 
 - `read:org`
 - `read:project`

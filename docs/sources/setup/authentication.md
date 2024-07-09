@@ -1,5 +1,4 @@
 ---
-slug: '/authentication'
 title: 'Authentication'
 menuTitle: Authentication
 description: Authenticating the GitHub data source plugin
@@ -22,7 +21,7 @@ weight: 103
 
 1. After completing the **Access Token Permissions** in GitHub, navigate into Grafana and click on the menu option on the top left.
 
-1. Navigate to the "Connections" and then click on the "Data sources".
+1. Browse to the **Connections** menu and then click on the **Data sources**.
 
 1. Click on the GitHub data source plugin which you have installed.
 
@@ -33,6 +32,6 @@ weight: 103
 
    ![Testing data source](/media/docs/grafana/data-sources/github/github-plugin-config-success.png)
 
-   {{% admonition type="note" %}}
-   Incase, if there are some errors then please check the Grafana logs for troubleshooting.
-   {{% /admonition %}}
+   {{< admonition type="note" >}}
+   If you see errors, check the Grafana logs for troubleshooting.
+   {{< /admonition >}}

@@ -19,7 +19,4 @@ weight: 100
 
 # Installation & Configuration
 
-- [Installation](./installation)
-- [Configuration](./configuration)
-- [Authentication](./authentication)
-- [Provisioning](./provisioning)
+{{< section menuTitle="true" withDescriptions="true" >}}

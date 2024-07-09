@@ -1,5 +1,4 @@
 ---
-slug: '/installation'
 title: 'Installation'
 menuTitle: Installation
 description: Installation of the GitHub data source plugin

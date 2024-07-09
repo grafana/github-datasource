@@ -17,7 +17,7 @@ weight: 10
 
 # Overview
 
-The GitHub datasource allows GitHub API data to be visually represented in Grafana dashboards.
+With the GitHub data source, you can visualize GitHub API data in Grafana dashboards.
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
 
@@ -36,7 +36,7 @@ The Grafana GitHub data source plugin provides several features, allow you to tr
 - Contributors
 - Tags
 - Releases
-- Pull Requests
+- Pull requests
 - Labels
 - Repositories
 - Milestones
@@ -45,7 +45,7 @@ The Grafana GitHub data source plugin provides several features, allow you to tr
 - Projects
 - Stargazers
 - Workflows
-- Workflow Usage
+- Workflow usage
 
 ### Supported features
 
