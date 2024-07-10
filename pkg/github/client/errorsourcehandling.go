@@ -1,6 +1,7 @@
 package githubclient
 
 import (
+	"context"
 	"errors"
 	"regexp"
 	"strconv"
@@ -21,6 +22,10 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	}
 
 	if errors.Is(err, syscall.ECONNREFUSED) {
+		return errorsource.DownstreamError(err, false)
+	}
+
+	if errors.Is(err, context.Canceled) {	
 		return errorsource.DownstreamError(err, false)
 	}
 	// Unfortunately graphql library that is used is not returning original error from the client.
