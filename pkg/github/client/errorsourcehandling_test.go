@@ -1,6 +1,7 @@
 package githubclient
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"syscall"
@@ -48,6 +49,12 @@ func TestAddErrorSourceToError(t *testing.T) {
 			err:      nil,
 			resp:     &googlegithub.Response{Response: &http.Response{StatusCode: 200}},
 			expected: nil,
+		},
+		{
+			name:     "context canceled error",
+			err:      context.Canceled,
+			resp:     nil,
+			expected: errorsource.DownstreamError( context.Canceled, false),
 		},
 	}
 
