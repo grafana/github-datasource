@@ -1,7 +1,7 @@
 ---
-title: 'Install & configure'
+title: Set up the GitHub data source plugin
 menuTitle: Setup
-description: Install & configure
+description: Learn how to install and configure the GitHub data source plugin.
 aliases:
   - github
 keywords:
@@ -17,6 +17,6 @@ labels:
 weight: 100
 ---
 
-# Installation & Configuration
+# Set up the GitHub data source plugin
 
 {{< section menuTitle="true" withDescriptions="true" >}}

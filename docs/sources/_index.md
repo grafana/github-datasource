@@ -15,7 +15,7 @@ title: GitHub data source plugin for Grafana
 weight: 10
 ---
 
-# Overview
+# GitHub data source plugin for Grafana
 
 With the GitHub data source, you can visualize GitHub API data in Grafana dashboards.
 
