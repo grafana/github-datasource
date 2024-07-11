@@ -21,9 +21,9 @@ The Grafana GitHub data source plugin provides, allow you to track and analyze G
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
 
-## Key features
+The plugin provide the features listed below:
 
-### Query types
+## Query types
 
 - Commits
 - Issues
@@ -41,14 +41,14 @@ The Grafana GitHub data source plugin provides, allow you to track and analyze G
 - Workflows
 - Workflow usage
 
-### Supported features
+## Supported features
 
 - Visualize queries
 - Template variables
 - Annotations
 - Query caching
 
-### Caching
+## Caching
 
 Caching on this plugin is always enabled.
 
@@ -56,9 +56,12 @@ Caching on this plugin is always enabled.
 
 The GitHub data source plugin has the following requirements:
 
-- A [GitHub](https://github.com/) or [GitHub Enterprise](https://github.com/enterprise) account.
-- Any free or paid [Grafana Cloud](https://grafana.com/pricing/) plan or an [activated on-prem Grafana Enterprise](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/) license. Contracted Cloud customers should refer to their agreement.
-- Port `3000` enabled.
+- A free [GitHub](https://github.com/) or a [GitHub Enterprise](https://github.com/enterprise) account.
+- Any of the following Grafana flavours:
+  - Grafana OSS
+  - Free or paid [Grafana Cloud](https://grafana.com/pricing/) server
+  - An [activated on-prem Grafana Enterprise](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/) server.
+  - Port `3000` enabled.
 
 ## Get the most out of the plugin
 
