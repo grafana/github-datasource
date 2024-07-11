@@ -21,10 +21,6 @@ With the GitHub data source, you can visualize GitHub API data in Grafana dashbo
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
 
-## GitHub API V4 (GraphQL)
-
-This datasource uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
-
 ## Key features
 
 The Grafana GitHub data source plugin provides several features, allow you to track and analyze GitHub data directly within Grafana, providing insights and visualizations for your GitHub repositories and projects.
