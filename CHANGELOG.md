@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.7.2]
+
+- **Chore** - Bump grafana-plugin-sdk-go to v0.240.0
+
 ## [1.7.1]
 
 - **Chore** - Add provisioning folder to .gitignore
