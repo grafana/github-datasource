@@ -2,8 +2,6 @@
 title: Set up the GitHub data source plugin
 menuTitle: Setup
 description: Learn how to install and configure the GitHub data source plugin.
-aliases:
-  - github
 keywords:
   - data source
   - github

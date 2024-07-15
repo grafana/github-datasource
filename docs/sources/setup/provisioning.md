@@ -2,8 +2,6 @@
 title: 'Provisioning'
 menuTitle: Provisioning
 description: Provisioning the GitHub data source plugin
-aliases:
-  - github
 keywords:
   - data source
   - github

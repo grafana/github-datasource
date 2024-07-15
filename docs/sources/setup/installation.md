@@ -2,8 +2,6 @@
 title: 'Installation'
 menuTitle: Installation
 description: Installation of the GitHub data source plugin
-aliases:
-  - github
 keywords:
   - data source
   - github

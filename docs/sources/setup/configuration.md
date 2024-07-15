@@ -3,8 +3,6 @@ slug: '/configuration'
 title: 'Configuration'
 menuTitle: Configuration
 description: Configuration of the GitHub data source plugin
-aliases:
-  - github
 keywords:
   - data source
   - github

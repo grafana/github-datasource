@@ -3,8 +3,6 @@ slug: '/variables'
 title: 'Variables'
 menuTitle: Variables
 description: Using variables for the GitHub data source plugin
-aliases:
-  - github
 keywords:
   - data source
   - github

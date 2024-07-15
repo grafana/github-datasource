@@ -2,8 +2,6 @@
 title: 'Variables & macros'
 menuTitle: Variables & macros
 description: Variables & macros
-aliases:
-  - github
 keywords:
   - data source
   - github

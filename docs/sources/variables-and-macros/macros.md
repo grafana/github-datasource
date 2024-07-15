@@ -3,8 +3,6 @@ slug: '/macros'
 title: 'Macros'
 menuTitle: Macros
 description: Using macros for the GitHub data source plugin
-aliases:
-  - github
 keywords:
   - data source
   - github

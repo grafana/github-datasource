@@ -2,8 +2,6 @@
 title: 'Configure authentication'
 menuTitle: Configure authentication
 description: Configure the GitHub data source plugin to authenticate to GitHub.
-aliases:
-  - github
 keywords:
   - data source
   - github

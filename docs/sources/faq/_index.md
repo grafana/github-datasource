@@ -2,8 +2,6 @@
 title: 'Frequently asked questions'
 menuTitle: Frequently asked questions
 description: Frequently asked questions
-aliases:
-  - github
 keywords:
   - data source
   - github

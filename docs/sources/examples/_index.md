@@ -2,8 +2,6 @@
 title: 'Examples dashboards'
 menuTitle: Examples dashboards
 description: Examples dashboards
-aliases:
-  - github
 keywords:
   - data source
   - github

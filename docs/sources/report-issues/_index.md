@@ -2,8 +2,6 @@
 title: 'Reporting issues'
 menuTitle: Reporting issues
 description: Reporting issues
-aliases:
-  - github
 keywords:
   - data source
   - github
