@@ -61,7 +61,6 @@ The GitHub data source plugin has the following requirements:
   - Grafana OSS
   - Free or paid [Grafana Cloud](https://grafana.com/pricing/) server
   - An [activated on-prem Grafana Enterprise](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/) server.
-  - Port `3000` enabled.
 
 ## Get the most out of the plugin
 
