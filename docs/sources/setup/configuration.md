@@ -18,18 +18,20 @@ weight: 102
 
 # Configuration
 
-You will need a **GitHub Access Token** to use the plugin. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
+You will need a **personal access token** to use the plugin. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
 
 Options:
 
-| Setting               | Required |
-| --------------------- | -------- |
-| Access token          | true     |
-| Default Organization  | false    |
-| Default Repository    | true     |
-| GitHub Enterprise URL | false    |
+| Setting               | Required |  Details                                              |
+| --------------------- | -------- |-------------------------------------------------------|
+| Access token          | true     | This is required to allow plugin to connect to GitHub |
+| Default Organization  | false    | Only if you want to set a specfic organization as a default selection while creating Dashboards    |
+| Default Repository    | true     | A repository is required to access the data           |
+| GitHub Enterprise URL | false    | Only if you are using GitHub Enterprise account            |
 
-To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and press Generate new token.
+Read more about [creating a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+
+To create a new personal access token, navigate to [Personal access tokens](https://github.com/settings/tokens) and press Generate new token.
 
 ## Access token permissions
 
