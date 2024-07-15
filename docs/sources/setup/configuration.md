@@ -22,7 +22,7 @@ You will need a **personal access token** to use the plugin. Below is a table th
 
 Options:
 
-| Setting               | Required |  Details                                              |
+| Setting               | Required |  Description                                              |
 | --------------------- | -------- |-------------------------------------------------------|
 | Access token          | true     | This is required to allow plugin to connect to GitHub |
 | Default Organization  | false    | Only if you want to set a specfic organization as a default selection while creating Dashboards    |
