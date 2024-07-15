@@ -68,6 +68,10 @@ The GitHub data source plugin has the following requirements:
 - Configure and use [Templates and variables](https://grafana.com/docs/grafana/latest/variables/)
 - Add [Transformations](https://grafana.com/docs/grafana/latest/panels/transformations/)
 
+## Reporting issues
+
+Use the [official GitHub repository](https://github.com/grafana/github-datasource/issues) to report issues, bugs and feature requests.
+
 ### Further reading
 
 - [GitHub v4 client library](https://github.com/shurcooL/githubv4)
