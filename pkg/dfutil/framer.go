@@ -23,7 +23,7 @@ func FrameResponse(f Framer) backend.DataResponse {
 func FrameResponseWithError(f Framer, err error) backend.DataResponse {
 	if err != nil {
 		res := errorsource.Response(err)
-		backend.Logger.Error("Error response", "errorsource", res.ErrorSource, "error", res.Error)
+		backend.Logger.Debug("Error response", "errorsource", res.ErrorSource, "error", res.Error)
 		return res
 	}
 
