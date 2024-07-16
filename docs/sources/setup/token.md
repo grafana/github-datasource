@@ -22,7 +22,7 @@ You will need a **personal access token** to use the plugin. GitHub currently su
 1. fine-grained personal access tokens
 1. personal access tokens (classic)
 
-Read more about [personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+Read more about [personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
 The Grafana GitHub data source plugin works with both. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
 
@@ -65,6 +65,6 @@ For GitHub projects:
 - `read:org`
 - `read:project`
 
-An extra setting is required for private repositories
+An extra setting is required for private repositories:
 
 - `repo (Full control of private repositories)`
