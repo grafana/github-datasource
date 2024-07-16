@@ -1,7 +1,7 @@
 ---
 title: 'Configuring data source'
 menuTitle: Configure data source
-description: Configure the GitHub data source plugin to authenticate to GitHub.
+description: Configure the GitHub data source plugin to authenticate to GitHub
 keywords:
   - data source
   - github
