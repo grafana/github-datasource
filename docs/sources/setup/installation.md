@@ -21,9 +21,9 @@ There are multiple ways to install this plugin into your Grafana instance
 
 ## Install from plugin catalog
 
-1. Login to Grafana Web UI as *Server Admin*
+1. Login to Grafana Web UI as **Server Admin**.
 1. Click **Administration** > **Plugins and data** > **Plugins** in the side navigation menu to view all plugins.
-1. Type **GitHub** in the Search box
+1. Type **GitHub** in the Search box.
 1. Click the **All** in the **State** filter option.
 1. Click the plugin’s logo.
 1. Click Install.
@@ -38,7 +38,7 @@ Install the plugin from the [grafana.com plugins page](https://grafana.com/grafa
 
 1. Go to [Releases](https://github.com/grafana/github-datasource/releases/) on the GitHub project page.
 
-1. Find the release you want to install
+1. Find the release you want to install.
 
 1. Download the release by clicking the release asset called `grafana-github-datasource-<version>.zip`. You may need to un-collapse the **Assets** section to see it.
 
@@ -61,11 +61,11 @@ Install the plugin from the [grafana.com plugins page](https://grafana.com/grafa
 
 ## Install using grafana-cli
 
-If you are using grafana-cli, execute the following command to install the latest published version of the plugin
+If you are using `grafana-cli`, execute the following command to install the latest published version of the plugin:
 
-1. Login to your machine as root user.
+1. Login to your machine as `root` user.
 
-1. In Linux/macOS, ypen your terminal and write the command:
+1. In Linux/macOS, open your terminal and write the command:
 
    ```bash
    grafana-cli plugins install grafana-github-datasource
