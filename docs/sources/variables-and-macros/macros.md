@@ -18,7 +18,7 @@ weight: 202
 
 # Macros
 
-A macro is a feature that allows you to simplify the syntax and add dynamic parts to your queries. They help make your queries more flexible and adaptable to changing conditions. It's important to note that while not all data source plugins have macros as it availability and implementation depends on the specific design and capabilities of each plugin.
+A Macro is a feature that allows you to simplify the syntax and add dynamic parts to your queries. They help make your queries more flexible and adaptable to changing conditions. It's important to note that while not all data source plugins have macros as it availability and implementation depends on the specific design and capabilities of each plugin.
 
 The GitHub data source plugin do support the macro feature and you can use the following macros in your queries:
 
