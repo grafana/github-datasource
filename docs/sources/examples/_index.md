@@ -31,7 +31,7 @@ There are two ways to use the pre-configure dashboards:
 
 ### Importing from the official Website
 
-Import the dashboards form the official page [located here](https://grafana.com/grafana/dashboards/14000).
+Import the dashboards from the official page [located here](https://grafana.com/grafana/dashboards/14000).
 
 For documentation on importing dashboards, check out the documentation on [grafana.com](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) and replace the ID with `1400`.
 
