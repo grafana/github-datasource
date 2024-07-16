@@ -21,7 +21,7 @@ You can define and configure the GitHub data source in YAML files with Grafana p
 
 **Example**
 
-Here is an example to provision the Data source while using the [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator)
+Here is an example to provision the data source while using the [prometheus-operator](https://github.com/prometheus-operator/prometheus-operator)
 
 ```yaml
 promop:
