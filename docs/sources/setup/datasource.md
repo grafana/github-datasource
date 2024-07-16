@@ -34,10 +34,10 @@ weight: 103
 
 If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section (as show in the image of the **step 4** described above) and paste the URL of your GitHub Enterprise.
 
-   {{< admonition type="tip" >}}
-   If you see errors, check the Grafana logs for troubleshooting.
-   {{< /admonition >}}
+{{< admonition type="tip" >}}
+If you see errors, check the Grafana logs for troubleshooting.
+{{< /admonition >}}
 
-   {{< admonition type="note" >}}
-   If you are using GitHub OAuth on Grafana, then it is not possible that the users to make requests with their individual GitHub accounts instead of a shared `access_token`. Please refer to [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
-   {{< /admonition >}}
+{{< admonition type="note" >}}
+If you are using GitHub OAuth on Grafana, then it is not possible that the users to make requests with their individual GitHub accounts instead of a shared `access_token`. Please refer to [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
+{{< /admonition >}}
