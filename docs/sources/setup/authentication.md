@@ -1,6 +1,6 @@
 ---
-title: 'Creating access token'
-menuTitle: Configure authentication
+title: 'Configuring data source'
+menuTitle: Configure data source
 description: Configure the GitHub data source plugin to authenticate to GitHub.
 keywords:
   - data source
@@ -15,9 +15,9 @@ labels:
 weight: 103
 ---
 
-# Configure authentication
+# Configure Data source
 
-1. After completing the **Access Token Permissions** in GitHub, navigate into Grafana and click on the menu option on the top left.
+1. After creating the **personal access token** in GitHub, navigate into Grafana and click on the menu option on the top left.
 
 1. Browse to the **Connections** menu and then click on the **Data sources**.
 
@@ -27,6 +27,10 @@ weight: 103
    ![Configuring API Token](/media/docs/grafana/data-sources/github/github-plugin-confg-token.png)
 
 1. Click **Save & Test** button and you should see a confirmation dialog box that says "Data source is working".
+
+## For GitHub Enterprise
+
+If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section (as show in the image of the **step 4** describe above) and paste the URL of your GitHub Enterprise.
 
    {{< admonition type="tip" >}}
    If you see errors, check the Grafana logs for troubleshooting.

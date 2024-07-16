@@ -1,8 +1,7 @@
 ---
-slug: '/configuration'
-title: 'Configuration'
-menuTitle: Configuration
-description: Configuration of the GitHub data source plugin
+title: 'Configure Token'
+menuTitle: Configure Token
+description: Configuring the GitHub personal access token
 keywords:
   - data source
   - github
@@ -17,6 +16,18 @@ weight: 102
 ---
 
 # Configuration
+
+## Creating a PAT
+
+2 options
+
+fine grained 
+classic
+
+Split it into 2 sections as tasks
+
+
+### 
 
 You will need a **personal access token** to use the plugin. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
 
