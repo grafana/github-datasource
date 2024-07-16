@@ -17,8 +17,7 @@ weight: 104
 
 # Provisioning
 
-You can define and configure the GitHub data source in YAML files with Grafana provisioning.
-For more information about provisioning a data source, and for available configuration options, refer to [Provision Grafana](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
+You can define and configure the GitHub data source in YAML files with Grafana provisioning. For more information about provisioning a data source, and for available configuration options, refer to [Provision Grafana](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
 
 **Example**
 
@@ -31,8 +30,14 @@ promop:
       - name: GitHub Repo Insights
         type: grafana-github-datasource
         jsonData:
-          owner: ''
-          repository: ''
+          owner: ’<repostiory_owner>’
+          repository: ’<repostiory_name>’
         secureJsonData:
-          accessToken: '<github api token>'
+          accessToken: ’<personal_access_token>’
 ```
+
+Replace;
+
+- _`<repostiory_owner>`_: name of the owner who owns the repository
+- _`<repostiory_name>`_: name of the repository to get the data
+- _`<personal_access_token>`_: your GitHub personal access token

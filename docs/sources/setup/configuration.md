@@ -26,7 +26,7 @@ Options:
 | --------------------- | -------- |-------------------------------------------------------|
 | Access token          | true     | This is required to allow plugin to connect to GitHub |
 | Default Organization  | false    | Only if you want to set a specfic organization as a default selection while creating Dashboards    |
-| Default Repository    | true     | A repository is required to access the data           |
+| Repository Access     | true     | Atleast a single repository is required to access the data           |
 | GitHub Enterprise URL | false    | Only if you are using GitHub Enterprise account            |
 
 Read more about [creating a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).

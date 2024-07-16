@@ -1,5 +1,5 @@
 ---
-title: 'Configure authentication'
+title: 'Creating access token'
 menuTitle: Configure authentication
 description: Configure the GitHub data source plugin to authenticate to GitHub.
 keywords:
