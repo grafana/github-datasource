@@ -1,7 +1,7 @@
 ---
 title: 'Installation'
 menuTitle: Installation
-description: Installation of the GitHub data source plugin
+description: Install the GitHub data source plugin
 keywords:
   - data source
   - github
@@ -15,7 +15,7 @@ labels:
 weight: 101
 ---
 
-# Installing GitHub data source plugin
+# Install the GitHub data source plugin
 
 There are multiple ways to install this plugin into your Grafana instance
 
