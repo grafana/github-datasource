@@ -15,7 +15,7 @@ labels:
 weight: 103
 ---
 
-# Configure Data source
+# Configure data source
 
 1. After creating the **personal access token** in GitHub, navigate into Grafana and click on the menu option on the top left.
 
@@ -23,14 +23,16 @@ weight: 103
 
 1. Click on the GitHub data source plugin which you have installed.
 
-1. Go to its settings tab and at the bottom, paste the GitHub token which you have created above.
+1. Go to its settings tab and at the bottom, you will find the **Connection** section.
+
+1. Paste the personal access token.
    ![Configuring API Token](/media/docs/grafana/data-sources/github/github-plugin-confg-token.png)
 
 1. Click **Save & Test** button and you should see a confirmation dialog box that says "Data source is working".
 
 ## For GitHub Enterprise
 
-If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section (as show in the image of the **step 4** describe above) and paste the URL of your GitHub Enterprise.
+If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section (as show in the image of the **step 4** described above) and paste the URL of your GitHub Enterprise.
 
    {{< admonition type="tip" >}}
    If you see errors, check the Grafana logs for troubleshooting.
