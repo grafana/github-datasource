@@ -45,11 +45,15 @@ If you want to add titles or tags to the annotations, you can add additional fie
 For more information on how to configure a query, refer to [Built-in query editor](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/annotate-visualizations/#built-in-query).
 
 {{< admonition type="note" >}}
-There are two times that affect an annotation:
 
-The time range of the dashboard or panel
-The time that should be used to display the event on the graph
-The first selection is used to filter the events that display on the graph. For example, if you select "closed at", only events that were "closed" in your dashboard's time range will be displayed on the graph.
+There two selection options for Pull Requests and Issue times when creating annotation. This is because as there are two times that affect an annotation:
+
+- The time range of the dashboard or panel
+- The time that should be used to display the event on the graph
+
+The first selection is used to filter the events that display on the graph.
+
+For example, if you select "closed at", only events that were "closed" in your dashboard's time range will be displayed on the graph.
 
 The second selection is used to determine where on the graph the event should be displayed.
 

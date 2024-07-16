@@ -28,7 +28,7 @@ weight: 103
 
 1. Click **Save & Test** button and you should see a confirmation dialog box that says "Data source is working".
 
-   {{< admonition type="note" >}}
+   {{< admonition type="tip" >}}
    If you see errors, check the Grafana logs for troubleshooting.
    {{< /admonition >}}
 

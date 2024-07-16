@@ -87,7 +87,7 @@ If you need custom version of the plugin from github, you can install using the 
 grafana-cli --pluginUrl <ZIP_FILE_URL> plugins install grafana-github-datasource
 ```
 
-Example:
+**Example:**
 
 1. In Linux/macOS:
 

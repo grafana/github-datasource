@@ -51,4 +51,6 @@ The sample dashboard can be obtained from either of two places.
 
 ## 2. Play demo
 
-You can also take a look at the live dashboards on play using this [link](https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github).
+You can also take a look at the live dashboards on Grafana Play.
+
+{{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github" >}}
