@@ -52,6 +52,10 @@ The plugin provide the features listed below:
 
 Caching on this plugin is always enabled.
 
+{{< admonition type="note" >}}
+Sometimes it may take up to 5 minutes as we have aggressive caching enabled due to [GitHub's rate limiting](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28) policies. When selecting a time range like "Last hour", a combination of the queries for each panel and the time range is cached temporarily.
+{{< /admonition >}}
+
 ## Requirements
 
 The GitHub data source plugin has the following requirements:
