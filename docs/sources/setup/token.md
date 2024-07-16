@@ -15,21 +15,16 @@ labels:
 weight: 102
 ---
 
-# Configuration
+# Configure Token
 
-## Creating a PAT
+You will need a **personal access token** to use the plugin. GitHub currently supports two types of personal access tokens:
 
-2 options
+1. fine-grained personal access tokens
+1. personal access tokens (classic)
 
-fine grained 
-classic
+Read more about [personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
 
-Split it into 2 sections as tasks
-
-
-### 
-
-You will need a **personal access token** to use the plugin. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
+The Grafana GitHub data source plugin works with both. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
 
 Options:
 
@@ -40,11 +35,17 @@ Options:
 | Repository Access     | true     | Atleast a single repository is required to access the data           |
 | GitHub Enterprise URL | false    | Only if you are using GitHub Enterprise account            |
 
-Read more about [creating a personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+## Creating a personal access token (classic)
 
-To create a new personal access token, navigate to [Personal access tokens](https://github.com/settings/tokens) and press Generate new token.
+This is an example when you want to use the personal access token (classic).
 
-## Access token permissions
+1. Login to your GitHub account.
+1. Navigate to [Personal access tokens](https://github.com/settings/tokens) and click **Generate new token**.
+1. Select the **personal access token (classic)**.
+1. Define the permissions which you want to allow.
+1. Click **Generate Token**.
+
+### personal access token permissions
 
 You will need to define the access permissions for your token in order to allow it to access the data.
 

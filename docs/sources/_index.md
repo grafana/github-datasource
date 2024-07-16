@@ -17,7 +17,7 @@ weight: 10
 
 # GitHub data source plugin for Grafana
 
-The Grafana GitHub data source plugin provides, allow you to track and analyze GitHub data directly within Grafana, providing insights and visualizations for your GitHub repositories and projects.
+The Grafana GitHub data source plugin allows you to track and analyze GitHub data directly within Grafana, providing insights and visualizations for your GitHub repositories and projects.
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
 
@@ -62,9 +62,9 @@ The GitHub data source plugin has the following requirements:
 
 - A free [GitHub](https://github.com/) or a [GitHub Enterprise](https://github.com/enterprise) account.
 - Any of the following Grafana flavours:
-  - Grafana OSS
-  - Free or paid [Grafana Cloud](https://grafana.com/pricing/) server
-  - An [activated on-prem Grafana Enterprise](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/) server
+  - Grafana OSS server.
+  - Free or paid [Grafana Cloud](https://grafana.com/pricing/) server.
+  - An [activated on-prem Grafana Enterprise](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/) server.
 
 ## Get the most out of the plugin
 
