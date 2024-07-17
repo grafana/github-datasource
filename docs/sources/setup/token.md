@@ -28,10 +28,10 @@ The Grafana GitHub data source plugin works with both. Below is a table that ind
 
 Options:
 
-| Setting               | Required | Description                                                                                     |
-| --------------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| Access token          | true     | This is required to allow plugin to connect to GitHub                                           |
-| GitHub Enterprise URL | false    | Only if you are using GitHub Enterprise account                                                 |
+| Setting               | Required | Description                                           |
+| --------------------- | -------- | ----------------------------------------------------- |
+| Access token          | true     | This is required to allow plugin to connect to GitHub |
+| GitHub Enterprise URL | false    | Only if you are using GitHub Enterprise account       |
 
 ## Creating a personal access token (classic)
 
