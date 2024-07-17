@@ -35,16 +35,8 @@ Caching on this plugin is always enabled.
 
 ## Configuration
 
-Options:
-
-| Setting               | Required |
-| --------------------- | -------- |
-| Access token          | true     |
-| Default Organization  | false    |
-| Default Repository    | true     |
-| GitHub Enterprise URL | false    |
-
-To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and press **Generate new token.**
+You need to configure an Access Token. To create a new Access Token, navigate to [Personal Access Tokens](https://github.com/settings/tokens) and press **Generate new token.**
+If you use a self-hosted Github Enterprise instance, you can configure it's URL in the Additional Settings section.
 
 ### Provisioning
 
