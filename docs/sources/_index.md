@@ -72,6 +72,11 @@ To use the GitHub data source plugin, you will need:
 
 ## Getting Started
 
+## Get started
+
+To start using the plugin, you need to generate an access token, then install and configure the plugin.
+To do this, refer to [Setup](LINK).
+
 ## Get the most out of the plugin
 
 - Add [Annotations](https://grafana.com/docs/grafana/latest/dashboards/annotations/)
