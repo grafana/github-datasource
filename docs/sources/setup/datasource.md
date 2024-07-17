@@ -28,16 +28,10 @@ weight: 103
 1. Paste the personal access token.
    ![Configuring API Token](/media/docs/grafana/data-sources/github/github-plugin-confg-token.png)
 
+   (Optional): If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section and paste the URL of your GitHub Enterprise.
+
 1. Click **Save & Test** button and you should see a confirmation dialog box that says "Data source is working".
-
-## For GitHub Enterprise
-
-If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section (as show in the image of the **step 4** described above) and paste the URL of your GitHub Enterprise.
 
 {{< admonition type="tip" >}}
 If you see errors, check the Grafana logs for troubleshooting.
-{{< /admonition >}}
-
-{{< admonition type="note" >}}
-It's not yet possible to use the GitHub OAuth 2.0 for authenticating Grafana users to make requests with their individual GitHub accounts instead of the data source personal access token.
 {{< /admonition >}}

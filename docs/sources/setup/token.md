@@ -47,7 +47,7 @@ This is an example when you want to use the personal access token (classic).
 
 You will need to define the access permissions for your token in order to allow it to access the data.
 
-Here is a list of the required minimum permissions defined below:
+The following lists include the required permissions for the access token:
 
 For all repositories:
 

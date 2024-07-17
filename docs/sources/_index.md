@@ -62,13 +62,15 @@ This can mean that it takes up to five minutes for a new pull request, commit, o
 
 ## Requirements
 
-The GitHub data source plugin has the following requirements:
+To use the GitHub data source plugin, you will need:
 
 - A free [GitHub](https://github.com/) or a [GitHub Enterprise](https://github.com/enterprise) account.
 - Any of the following Grafana editions:
   - Grafana OSS server.
   - A [Grafana Cloud](https://grafana.com/pricing/) stack.
   - An on-premise Grafana Enterprise server with an [activated license](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/).
+
+## Getting Started
 
 ## Get the most out of the plugin
 
@@ -79,8 +81,3 @@ The GitHub data source plugin has the following requirements:
 ## Report issues
 
 Use the [official GitHub repository](https://github.com/grafana/github-datasource/issues) to report issues, bugs, and feature requests.
-
-### Further reading
-
-- [GitHub v4 client library](https://github.com/shurcooL/githubv4)
-- [Manage personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
