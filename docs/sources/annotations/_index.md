@@ -1,7 +1,7 @@
 ---
 title: 'Annotations'
 menuTitle: Annotations
-description: Using annotations for the GitHub data source plugin
+description: Learn about annotations for the GitHub data source plugin for Grafana
 keywords:
   - data source
   - github

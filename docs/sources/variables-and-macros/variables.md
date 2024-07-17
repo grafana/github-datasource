@@ -1,8 +1,7 @@
 ---
-slug: '/variables'
 title: 'Variables'
 menuTitle: Variables
-description: Using variables for the GitHub data source plugin
+description: Learn about the variables you can use in the GitHub data source plugin for Grafana
 keywords:
   - data source
   - github
@@ -18,7 +17,7 @@ weight: 201
 
 # Variables
 
-A [Variable](https://grafana.com/docs/grafana/latest/variables/) is a placeholder for a value that can be used in queries for a dashboard.
+A [variable](https://grafana.com/docs/grafana/latest/variables/) is a placeholder for a value that you can use in dashboard queries.
 
 Variables allow you to create more interactive and dynamic dashboards by replacing hard-coded values with dynamic options. They are displayed as dropdown lists at the top of the dashboard, making it easy to change the data being displayed.
 

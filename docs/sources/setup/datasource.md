@@ -1,6 +1,6 @@
 ---
-title: 'Configuring data source'
-menuTitle: Configure data source
+title: Configure the GitHub data source plugin for Grafana
+menuTitle: Configure
 description: Configure the GitHub data source plugin to authenticate to GitHub
 keywords:
   - data source
@@ -15,7 +15,7 @@ labels:
 weight: 103
 ---
 
-# Configure data source
+# Configure the GitHub data source plugin for Grafana
 
 1. After creating the **personal access token** in GitHub, navigate into Grafana and click on the menu option on the top left.
 
@@ -39,5 +39,5 @@ If you see errors, check the Grafana logs for troubleshooting.
 {{< /admonition >}}
 
 {{< admonition type="note" >}}
-If you are using GitHub OAuth on Grafana, then it is not possible that the users to make requests with their individual GitHub accounts instead of a shared `access_token`. Please refer to [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
+It's not yet possible to use the GitHub OAuth 2.0 for authenticating Grafana users to make requests with their individual GitHub accounts instead of the data source personal access token.
 {{< /admonition >}}

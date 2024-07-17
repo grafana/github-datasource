@@ -17,13 +17,13 @@ weight: 10
 
 # GitHub data source plugin for Grafana
 
-The Grafana GitHub data source plugin allows you to track and analyze GitHub data directly within Grafana, providing insights and visualizations for your GitHub repositories and projects.
+The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
 
-The plugin provide the features listed below:
-
 ## Query types
+
+The plugin supports the following query types:
 
 - Commits
 - Issues
@@ -43,17 +43,21 @@ The plugin provide the features listed below:
 
 ## Supported features
 
+With the plugin you can:
+
 - Visualize queries
-- Template variables
-- Annotations
-- Query caching
+- Use template variables
+- Configure Annotations
+- Cache queries
 
 ## Caching
 
 Caching on this plugin is always enabled.
 
 {{< admonition type="note" >}}
-Sometimes it may take up to 5 minutes as we have aggressive caching enabled due to [GitHub's rate limiting](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28) policies. When selecting a time range like "Last hour", a combination of the queries for each panel and the time range is cached temporarily.
+To work around [GitHub's rate limiting](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28), the plugin caches requests aggressively.
+
+This can mean that it takes up to five minutes for a new pull request, commit, or issue to show up in a query.
 {{< /admonition >}}
 
 ## Requirements
@@ -61,10 +65,10 @@ Sometimes it may take up to 5 minutes as we have aggressive caching enabled due 
 The GitHub data source plugin has the following requirements:
 
 - A free [GitHub](https://github.com/) or a [GitHub Enterprise](https://github.com/enterprise) account.
-- Any of the following Grafana flavours:
+- Any of the following Grafana editions:
   - Grafana OSS server.
-  - Free or paid [Grafana Cloud](https://grafana.com/pricing/) server.
-  - An [activated on-prem Grafana Enterprise](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/) server.
+  - A [Grafana Cloud](https://grafana.com/pricing/) stack.
+  - An on-premise Grafana Enterprise server with an [activated license](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/).
 
 ## Get the most out of the plugin
 
@@ -72,9 +76,9 @@ The GitHub data source plugin has the following requirements:
 - Configure and use [Templates and variables](https://grafana.com/docs/grafana/latest/variables/)
 - Add [Transformations](https://grafana.com/docs/grafana/latest/panels/transformations/)
 
-## Reporting issues
+## Report issues
 
-Use the [official GitHub repository](https://github.com/grafana/github-datasource/issues) to report issues, bugs and feature requests.
+Use the [official GitHub repository](https://github.com/grafana/github-datasource/issues) to report issues, bugs, and feature requests.
 
 ### Further reading
 
