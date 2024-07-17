@@ -31,8 +31,6 @@ Options:
 | Setting               | Required | Description                                                                                     |
 | --------------------- | -------- | ----------------------------------------------------------------------------------------------- |
 | Access token          | true     | This is required to allow plugin to connect to GitHub                                           |
-| Default Organization  | false    | Only if you want to set a specfic organization as a default selection while creating Dashboards |
-| Repository Access     | true     | Atleast a single repository is required to access the data                                      |
 | GitHub Enterprise URL | false    | Only if you are using GitHub Enterprise account                                                 |
 
 ## Creating a personal access token (classic)
