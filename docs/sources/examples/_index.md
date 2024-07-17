@@ -1,7 +1,7 @@
 ---
-title: 'Examples dashboards'
-menuTitle: Examples dashboards
-description: Examples dashboards
+title: Using Example dashboards for the GitHub data source plugin
+menuTitle: Example dashboards
+description: Learn how to import pre-made example dashboards
 keywords:
   - data source
   - github
