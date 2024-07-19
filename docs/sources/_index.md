@@ -75,7 +75,7 @@ To use the GitHub data source plugin, you will need:
 - To start using the plugin, you need to generate an access token, then install and configure the plugin. To do this, refer to [Setup](./setup).
 - To use variable and macros, for creating a dynamic dashboard, refer to [Variables and Macros](./variables-and-macros).
 - To annotate the data by displaying the GitHub resources on the dashboard, refer to [Annotations](./annotations/).
-- Try out some example pre-configured dashboard either by importing them or view live on play, refer to [Examples](./examples/).
+- To quickly visualize GitHub data in Grafana, refer to [Sample dashboards](./sample-dashboards/).
 
 ## Get the most out of the plugin
 
