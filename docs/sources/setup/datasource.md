@@ -28,7 +28,7 @@ weight: 103
 1. Paste the personal access token.
    ![Configuring API Token](/media/docs/grafana/data-sources/github/github-plugin-confg-token.png)
 
-   (*Optional*): If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section and paste the URL of your GitHub Enterprise.
+   (_Optional_): If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section and paste the URL of your GitHub Enterprise.
 
 1. Click **Save & Test** button and you should see a confirmation dialog box that says "Data source is working".
 
