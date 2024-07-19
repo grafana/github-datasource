@@ -1,5 +1,5 @@
 ---
-title: Variables and macros
+title: Use GitHub data source variables and macros in Grafana
 menuTitle: Variables and macros
 description: Learn about variables and macros you can use in the GitHub data source plugin for Grafana
 keywords:
@@ -15,7 +15,7 @@ labels:
 weight: 200
 ---
 
-# Variables and macros
+# Use GitHub data source variables and macros in Grafana
 
 To learn more about variables and macros you can use in the GitHub data source plugin for Grafana, refer to the following topics:
 

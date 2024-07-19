@@ -1,5 +1,5 @@
 ---
-title: Set up the GitHub data source plugin
+title: Set up the GitHub data source plugin for Grafana
 menuTitle: Setup
 description: Learn how to install and configure the GitHub data source plugin.
 keywords:
@@ -15,7 +15,7 @@ labels:
 weight: 100
 ---
 
-# Set up the GitHub data source plugin
+# Set up the GitHub data source plugin for Grafana
 
 To set up the GitHub data source plugin for Grafana, refer to the following topics:
 

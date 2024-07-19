@@ -1,6 +1,6 @@
 ---
-title: Using Example dashboards for the GitHub data source plugin
-menuTitle: Example dashboards
+title: Create a sample dashboards for the Grafana GitHub data source plugin
+menuTitle: Sample dashboards
 description: Learn how to import pre-made example dashboards
 keywords:
   - data source
@@ -15,16 +15,16 @@ labels:
 weight: 500
 ---
 
-# Example dashboard
+# Create a sample dashboards the GitHub data source plugin using Grafana
 
-There are multiple ways to use some of the examples dashboards that you can use for your use case.
+This page explains how you can create a sample dashboard in Grafana to get started with the GitHub data source plugin. You can obtain these sample dashboards by:
 
-1. Using pre-configured dashboards
-1. Using play demo
+- Using pre-configured dashboards
+- Using play demo
 
-## 1. Using pre-configure dashboards
+## Using pre-configure dashboards
 
-There are two ways to use the pre-configure dashboards:
+The pre-configured dashboards are ready-to-use and you only need to import them inside your Grafana server. There are two ways to use the pre-configure dashboards:
 
 - Importing from the official Website
 - Importing from the Grafana server WebUI
@@ -45,8 +45,8 @@ To view a list of pre-made GitHub dashboards do the following:
 1. Go to the **Dashboards** tab to view a list of pre-made dashboards.
 1. Click **Import** to import the pre-made dashboard.
 
-## 2. Play demo
+## Play demo
 
-You can also take a look at the live dashboards on Grafana Play.
+The Play demo dashboards prvoide a reference, allows you to create your own custom dashboards.
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github" >}}

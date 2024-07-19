@@ -1,5 +1,5 @@
 ---
-title: 'Macros'
+title: Use macros with GitHub data source plugin for Grafana
 menuTitle: Macros
 description: Learn about the macros you can use in the GitHub data source plugin for Grafana
 keywords:
@@ -15,7 +15,7 @@ labels:
 weight: 202
 ---
 
-# Macros
+# Use macros with GitHub data source plugin for Grafana
 
 A macro is a feature that allows you to simplify the syntax and add dynamic parts to your queries.
 They help make your queries more flexible.

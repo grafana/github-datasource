@@ -1,5 +1,5 @@
 ---
-title: 'Variables'
+title: Create variable with GitHub data source plugin for Grafana
 menuTitle: Variables
 description: Learn about the variables you can use in the GitHub data source plugin for Grafana
 keywords:
@@ -15,7 +15,7 @@ labels:
 weight: 201
 ---
 
-# Variables
+# Create variable with GitHub data source plugin for Grafana
 
 A [variable](https://grafana.com/docs/grafana/latest/variables/) is a placeholder for a value that you can use in dashboard queries.
 

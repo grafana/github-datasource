@@ -1,4 +1,6 @@
 ---
+title: GitHub data source plugin for Grafana
+menuTitle: GitHub data source
 description: The GitHub data source lets you visualize GitHub data in Grafana dashboards.
 keywords:
   - data source
@@ -10,8 +12,6 @@ labels:
     - oss
     - enterprise
     - cloud
-menuTitle: GitHub data source
-title: GitHub data source plugin for Grafana
 weight: 10
 ---
 
