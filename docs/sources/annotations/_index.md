@@ -1,5 +1,5 @@
 ---
-title: 'Annotations'
+title: Create annotations with GitHub data source plugin for Grafana
 menuTitle: Annotations
 description: Learn about annotations for the GitHub data source plugin for Grafana
 keywords:
@@ -15,7 +15,7 @@ labels:
 weight: 400
 ---
 
-# Annotations
+# Create annotations with GitHub data source plugin for Grafana
 
 [Annotations](https://grafana.com/docs/grafana/latest/dashboards/annotations) let you extract data from a data source and use it to annotate a dashboard.
 
