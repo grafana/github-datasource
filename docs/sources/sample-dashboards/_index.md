@@ -1,7 +1,7 @@
 ---
-title: Create a sample dashboards for the Grafana GitHub data source plugin
-menuTitle: Sample dashboards
-description: Learn how to import pre-made example dashboards
+title: Create sample dashboards for the Grafana GitHub data source plugin for Grafana
+menuTitle: Create sample dashboards
+description: Learn how to import example dashboards into Grafana for use with the GitHub data source plugin for Grafana
 keywords:
   - data source
   - github
@@ -15,29 +15,30 @@ labels:
 weight: 500
 ---
 
-# Create a sample dashboards the GitHub data source plugin using Grafana
+# Create sample dashboards for the GitHub data source plugin for Grafana
 
 This page explains how you can create a sample dashboard in Grafana to get started with the GitHub data source plugin. You can obtain these sample dashboards by:
 
 - Using pre-configured dashboards
 - Using play demo
 
-## Using pre-configure dashboards
+## Use pre-configured dashboards
 
 The pre-configured dashboards are ready-to-use and you only need to import them inside your Grafana server. There are two ways to use the pre-configure dashboards:
 
 - Importing from the official Website
 - Importing from the Grafana server WebUI
 
-### Importing from the official Website
+### Import from the Dashboards page on grafana.com
 
-Import the dashboards from the official page [located here](https://grafana.com/grafana/dashboards/14000).
+Import the [GitHub Default dashboard](https://grafana.com/grafana/dashboards/14000).
 
-For instructions on how to import dashboards in Grafana, see [Import a dashboard](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard) and replace the ID with `1400`.
+For instructions on how to import dashboards in Grafana, refer to [Import a dashboard](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard).
+The dashboard ID is `1400`.
 
-### Importing from the Grafana server WebUI
+### Import in the Grafana UI
 
-To view a list of pre-made GitHub dashboards do the following:
+To import a dashboard in the Grafana UI:
 
 1. Go to **Connections** in the sidebar menu.
 1. Under Connections, click **Data sources**.
@@ -47,6 +48,6 @@ To view a list of pre-made GitHub dashboards do the following:
 
 ## Play demo
 
-The Play demo dashboards prvoide a reference, allows you to create your own custom dashboards.
+The Play demo dashboards provides a reference dashboard and allows you to create your own custom dashboards.
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github" >}}
