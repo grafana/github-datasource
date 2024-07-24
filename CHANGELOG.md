@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.7.4]
+
+- **Chore** - Update documentation
+
 ## [1.7.3]
 
 - **Fix** - Fix error in `Packages` query where no package type was initially selected
