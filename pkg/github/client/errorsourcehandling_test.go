@@ -39,6 +39,12 @@ func TestAddErrorSourceToError(t *testing.T) {
 			expected: errorsource.SourceError(backend.ErrorSourceFromHTTPStatus(404), errors.New("non-200 OK status code: 404 Not Found"), false),
 		},
 		{
+			name:     "identified downstream graphql error",
+			err:      errors.New("Your token has not been granted the required scopes to execute this query"),
+			resp:     nil,
+			expected: errorsource.DownstreamError(errors.New("Your token has not been granted the required scopes to execute this query"),false),
+		},
+		{
 			name:     "response with non-2xx status code",
 			err:      errors.New("some other error"),
 			resp:     &googlegithub.Response{Response: &http.Response{StatusCode: 500}},
