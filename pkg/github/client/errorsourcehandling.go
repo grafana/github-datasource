@@ -14,6 +14,13 @@ import (
 )
 
 var statusErrorStringFromGraphQLPackage = "non-200 OK status code: "
+// Identified downstream errors. Unfortunately, could not find a better way to identify them.
+var (
+	downstreamErrors = []string{
+		"Could not resolve to",
+		"Your token has not been granted the required scopes to execute this query",
+	}
+)
 
 func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	// If there is no error then return nil
@@ -21,12 +28,14 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 		return nil
 	}
 
-	if errors.Is(err, syscall.ECONNREFUSED) {
+	if errors.Is(err, syscall.ECONNREFUSED) || errors.Is(err, context.Canceled)  {
 		return errorsource.DownstreamError(err, false)
 	}
 
-	if errors.Is(err, context.Canceled) {	
-		return errorsource.DownstreamError(err, false)
+	for _, downstreamError := range downstreamErrors {
+		if strings.Contains(err.Error(), downstreamError) {
+			return errorsource.DownstreamError(err, false)
+		}
 	}
 	// Unfortunately graphql library that is used is not returning original error from the client.
 	// It creates a new error with "non-200 OK status code: ..." error message. It includes status code
