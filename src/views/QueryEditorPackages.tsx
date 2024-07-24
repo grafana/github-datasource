@@ -10,7 +10,7 @@ interface Props extends PackagesOptions {
   onChange: (value: PackagesOptions) => void;
 }
 
-const DefaultPackageType = PackageType.NPM;
+export const DefaultPackageType = PackageType.NPM;
 
 const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageType).map((v) => {
   return {
