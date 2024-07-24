@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.7.3]
+
+- **Fix** - Fix error in `Packages` query where no package type was initially selected
+- **Chore** - Update documentation
+- **Chore** - Bump grafana-plugin-sdk-go to v0.241.0
+- **Chore** - Mark downstream errors
+
 ## [1.7.2]
 
 - **Chore** - Bump grafana-plugin-sdk-go to v0.240.0
