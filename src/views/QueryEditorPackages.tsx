@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
@@ -10,7 +10,7 @@ interface Props extends PackagesOptions {
   onChange: (value: PackagesOptions) => void;
 }
 
-const DefaultPackageType = PackageType.NPM;
+export const DefaultPackageType = PackageType.NPM;
 
 const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageType).map((v) => {
   return {
@@ -21,6 +21,16 @@ const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageTy
 
 const QueryEditorPackages = (props: Props) => {
   const [names, setNames] = useState<string>(props.names || '');
+
+  // Set default package type if not set
+  useEffect(() => {
+    if (!props.packageType) {
+      props.onChange({
+        ...props,
+        packageType: DefaultPackageType,
+      });
+    }
+  }, [props]);
 
   return (
     <>
