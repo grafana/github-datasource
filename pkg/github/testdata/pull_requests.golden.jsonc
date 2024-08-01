@@ -2,16 +2,16 @@
 //  
 //  Frame[0] 
 //  Name: pull_requests
-//  Dimensions: 18 Fields by 3 Rows
-//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+-----------------+
-//  | Name: number  | Name: title    | Name: url                                            | Name: repository          | Name: state    | Name: author_login | Name: author_email | Name: author_company | Name: closed | Name: is_draft | Name: locked | Name: merged | Name: mergeable | Name: closed_at                 | Name: merged_at                 | Name: updated_at                | Name: created_at                | Name: open_time |
-//  | Labels:       | Labels:        | Labels:                                              | Labels:                   | Labels:        | Labels:            | Labels:            | Labels:              | Labels:      | Labels:        | Labels:      | Labels:      | Labels:         | Labels:                         | Labels:                         | Labels:                         | Labels:                         | Labels:         |
-//  | Type: []int64 | Type: []string | Type: []string                                       | Type: []string            | Type: []string | Type: []string     | Type: []string     | Type: []string       | Type: []bool | Type: []bool   | Type: []bool | Type: []bool | Type: []string  | Type: []*time.Time              | Type: []*time.Time              | Type: []time.Time               | Type: []time.Time               | Type: []float64 |
-//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+-----------------+
-//  | 1             | PullRequest #1 | https://github.com/grafana/github-datasource/pulls/1 | grafana/github-datasource | OPEN           | testUser           | user@example.com   | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
-//  | 2             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/2 | grafana/github-datasource | OPEN           | testUser2          | user2@example.com  | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
-//  | 3             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/3 | grafana/github-datasource | OPEN           | testUser2          | user2@example.com  | ACME corp            | false        | false          | false        | false        | MERGEABLE       | null                            | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
-//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+-----------------+
+//  Dimensions: 23 Fields by 3 Rows
+//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
+//  | Name: number  | Name: title    | Name: url                                            | Name: repository          | Name: state    | Name: author_name | Name: author_login | Name: author_email | Name: author_company | Name: closed | Name: is_draft | Name: locked | Name: merged | Name: mergeable | Name: closed_at                 | Name: merged_at                 | Name: merged_by_name | Name: merged_by_login | Name: merged_by_email | Name: merged_by_company | Name: updated_at                | Name: created_at                | Name: open_time |
+//  | Labels:       | Labels:        | Labels:                                              | Labels:                   | Labels:        | Labels:           | Labels:            | Labels:            | Labels:              | Labels:      | Labels:        | Labels:      | Labels:      | Labels:         | Labels:                         | Labels:                         | Labels:              | Labels:               | Labels:               | Labels:                 | Labels:                         | Labels:                         | Labels:         |
+//  | Type: []int64 | Type: []string | Type: []string                                       | Type: []string            | Type: []string | Type: []string    | Type: []string     | Type: []string     | Type: []string       | Type: []bool | Type: []bool   | Type: []bool | Type: []bool | Type: []string  | Type: []*time.Time              | Type: []*time.Time              | Type: []*string      | Type: []*string       | Type: []*string       | Type: []*string         | Type: []time.Time               | Type: []time.Time               | Type: []float64 |
+//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
+//  | 1             | PullRequest #1 | https://github.com/grafana/github-datasource/pulls/1 | grafana/github-datasource | OPEN           | Test User         | testUser           | user@example.com   | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | null                 | null                  | null                  | null                    | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
+//  | 2             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/2 | grafana/github-datasource | OPEN           | Second User       | testUser2          | user2@example.com  | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | Test User            | testUser              | user@example.com      | ACME corp               | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
+//  | 3             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/3 | grafana/github-datasource | OPEN           | Second User       | testUser2          | user2@example.com  | ACME corp            | false        | false          | false        | false        | MERGEABLE       | null                            | 2020-08-25 18:01:56 +0000 +0000 | null                 | null                  | null                  | null                    | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
+//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
@@ -52,6 +52,13 @@
           },
           {
             "name": "state",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author_name",
             "type": "string",
             "typeInfo": {
               "frame": "string"
@@ -130,6 +137,38 @@
             }
           },
           {
+            "name": "merged_by_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "merged_by_login",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "merged_by_email",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "merged_by_company",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
             "name": "updated_at",
             "type": "time",
             "typeInfo": {
@@ -183,6 +222,11 @@
             "OPEN"
           ],
           [
+            "Test User",
+            "Second User",
+            "Second User"
+          ],
+          [
             "testUser",
             "testUser2",
             "testUser2"
@@ -231,6 +275,26 @@
             1598378516000,
             1598378516000,
             1598378516000
+          ],
+          [
+            null,
+            "Test User",
+            null
+          ],
+          [
+            null,
+            "testUser",
+            null
+          ],
+          [
+            null,
+            "user@example.com",
+            null
+          ],
+          [
+            null,
+            "ACME corp",
+            null
           ],
           [
             1598372516000,
