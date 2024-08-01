@@ -4,3 +4,10 @@
 # The '*' pattern is global owners.
 
 * @grafana/oss-big-tent
+
+docs/docs.mk       @jdbaldry
+docs/make-docs     @jdbaldry
+docs/Makefile      @jdbaldry
+docs/variables.mk  @jdbaldry
+
+.github/workflows/update-make-docs.yml  @jdbaldry

@@ -4,7 +4,7 @@ import { InlineField } from '@grafana/ui';
 
 import QueryEditor from './QueryEditor';
 import { GithubDataSource } from '../DataSource';
-import { GitHubVariableQuery, DefaultQueryType, QueryType } from '../types';
+import { GitHubVariableQuery, DefaultQueryType } from '../types';
 import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
 
@@ -39,15 +39,6 @@ const VariableQueryEditor = (props: Props) => {
           )
         }
         onRunQuery={() => {}}
-        queryTypes={[
-          QueryType.Repositories,
-          QueryType.Contributors,
-          QueryType.Tags,
-          QueryType.Releases,
-          QueryType.Labels,
-          QueryType.Milestones,
-          QueryType.Projects,
-        ]}
       />
       <InlineField labelWidth={20} label="Field Value" tooltip="This field determines the value used for the variable">
         <FieldSelect

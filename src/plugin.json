@@ -15,7 +15,7 @@
       "name": "Grafana Labs",
       "url": "https://grafana.com"
     },
-    "keywords": ["github", "datasource"],
+    "keywords": ["github", "git", "devops", "developer tools"],
     "logos": {
       "small": "img/github.svg",
       "large": "img/github.svg"
@@ -31,8 +31,7 @@
     "updated": "%TODAY%"
   },
   "dependencies": {
-    "grafanaDependency": ">=8.4.7",
-    "grafanaVersion": "8.4.x",
+    "grafanaDependency": ">=9.1.0",
     "plugins": []
   }
 }

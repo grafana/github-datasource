@@ -4,7 +4,7 @@ import { Input, InlineLabel } from '@grafana/ui';
 import { QueryEditorRow } from '../components/Forms';
 import { RepositoryOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-import { selectors } from '../components/selectors';
+import { components } from '../components/selectors';
 
 interface Props extends RepositoryOptions {
   onChange: (value: RepositoryOptions) => void;
@@ -31,7 +31,7 @@ const QueryEditorRepositories = (props: Props) => {
         Owner
       </InlineLabel>
       <Input
-        aria-label={selectors.components.QueryEditor.Owner.input}
+        aria-label={components.QueryEditor.Owner.input}
         width={RightColumnWidth}
         value={owner}
         onChange={(el) => setOwner(el.currentTarget.value)}
@@ -46,7 +46,7 @@ const QueryEditorRepositories = (props: Props) => {
         Repository
       </InlineLabel>
       <Input
-        aria-label={selectors.components.QueryEditor.Repository.input}
+        aria-label={components.QueryEditor.Repository.input}
         width={RightColumnWidth}
         value={repository}
         onChange={(el) => setRepository(el.currentTarget.value)}

@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	githubclient "github.com/grafana/github-datasource/pkg/github/client"
@@ -126,7 +127,6 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 	opt := models.ListVulnerabilitiesOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
-		Query:      query.Options.Query,
 	}
 
 	return GetAllVulnerabilities(ctx, d.client, opt)
@@ -183,10 +183,13 @@ func (d *Datasource) HandleWorkflowUsageQuery(ctx context.Context, query *models
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
-		Owner: "grafana",
+		Owner:      "grafana",
+		Repository: "github-datasource",
 	})
-
 	if err != nil {
+		if strings.Contains(err.Error(), "401 Unauthorized") {
+			return newHealthResult(backend.HealthStatusError, "401 Unauthorized. check your API key/Access token")
+		}
 		return newHealthResult(backend.HealthStatusError, "Health check failed")
 	}
 

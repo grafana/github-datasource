@@ -3,11 +3,16 @@ coverage/
 ci/
 dist/
 
-# e2e
-provisioning/
-cypress/screenshots/actual
-cypress/videos/
-cypress/report.json
+# e2e test directories
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
 
 .eslintcache
 __debug_bin
+mage_output_file.go
+
+# provisioning
+/provisioning/

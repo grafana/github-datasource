@@ -1,5 +1,56 @@
 # Change Log
 
+## [1.7.4]
+
+- **Chore** - Update documentation
+
+## [1.7.3]
+
+- **Fix** - Fix error in `Packages` query where no package type was initially selected
+- **Chore** - Update documentation
+- **Chore** - Bump grafana-plugin-sdk-go to v0.241.0
+- **Chore** - Mark downstream errors
+
+## [1.7.2]
+
+- **Chore** - Bump grafana-plugin-sdk-go to v0.240.0
+
+## [1.7.1]
+
+- **Chore** - Add provisioning folder to .gitignore
+- **Chore** - Add error source to error response
+
+## [1.7.0]
+
+- **Feature** - Add `updated_at` field to results in `Issue` query
+- **Feature** - Add `UpdatedAt` field to query options in `Issue` query
+- **Fix** - Fix error when response has data with empty array in templating
+- **Fix** - Fix per page limit to 100 in `Workflows` query as it is max supported value
+- **Fix** - Remove query input in `Vulnerabilities` query as API does not support it
+- **Chore** - Move e2e from cypress to playwright
+- **Chore** - Update dependencies
+
+## [1.6.0]
+
+- **Feature** - Add `message` field to `Commit` query
+- **Feature** - Add `name` field to `Workflow status` query
+- **Fix** - Variable editor to support all query types
+
+## [1.5.7]
+
+- **Chore** - Update dependencies
+
+## [1.5.6]
+
+- **Chore** - Build with go 1.22.2
+- **Chore** - Bump grafana-plugin-sdk-go to v0.220.0 (latest)
+- **Bug Fix** - Prevent partial queries running on change of query type
+
+## [1.5.5]
+
+- **Chore** - Build with go 1.22
+- **Fix** - Make health check faster by using github-datasource repository instead of grafana
+
 ## [1.5.4]
 
 - **Chore** - Bump grafana-plugin-sdk-go to v0.198.0 (latest)

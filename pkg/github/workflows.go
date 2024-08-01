@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/go-github/v53/github"
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -56,8 +55,9 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 	}
 
 	// Fetch this many workflows per page because this API endpoint does not allow filtering by time.
-	// It's unlikely a repository will have more workflows than this.
-	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &github.ListOptions{Page: 0, PerPage: 1000})
+	// 100 is the maximum number of workflows that can be retrieved per request as specified in the GitHub API documentation.
+	// Also, it's unlikely a repository will have more workflows than this.
+	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &googlegithub.ListOptions{Page: 1, PerPage: 100})
 	if err != nil {
 		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
 	}
@@ -104,6 +104,7 @@ type WorkflowUsageWrapper models.WorkflowUsage
 func (usage WorkflowUsageWrapper) Frames() data.Frames {
 	frame := data.NewFrame(
 		"workflow",
+		data.NewField("name", nil, []string{}),
 		data.NewField("unique triggering actors", nil, []uint64{}),
 		data.NewField("runs", nil, []uint64{}),
 		data.NewField("current billing cycle cost (approx.)", nil, []string{}),
@@ -146,6 +147,7 @@ func (usage WorkflowUsageWrapper) Frames() data.Frames {
 
 	frame.InsertRow(
 		0,
+		usage.Name,
 		usage.UniqueActors,
 		usage.Runs,
 		fmt.Sprintf("$ %.2f", usage.CostUSD),
