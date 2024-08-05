@@ -10,20 +10,28 @@
   "metrics": true,
   "includes": [{ "type": "dashboard", "name": "GitHub (demo)", "path": "dashboards/dashboard.json" }],
   "info": {
-    "description": "Show data about github issues/pull requests",
+    "description": "The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.",
     "author": {
       "name": "Grafana Labs",
       "url": "https://grafana.com"
     },
-    "keywords": ["github", "git", "devops", "developer tools"],
+    "keywords": ["github", "git", "devops", "developer tools", "api", "grafana"],
     "logos": {
       "small": "img/github.svg",
       "large": "img/github.svg"
     },
     "links": [
       {
+        "name": "Docs",
+        "url": "https://grafana.com/docs/plugins/grafana-github-datasource"
+      },
+      {
         "name": "Website",
         "url": "https://github.com/grafana/github-datasource"
+      },
+      {
+        "name": "Report bug",
+        "url": "https://github.com/grafana/github-datasource/issues"
       }
     ],
     "screenshots": [],
