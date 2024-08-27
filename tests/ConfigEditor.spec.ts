@@ -14,7 +14,7 @@ test('ConfigEditor smoke test', async ({ createDataSourceConfigPage, page, selec
   });
   await configPage.getByGrafanaSelector(components.ConfigEditor.AccessToken).fill('my-access-token');
   // TODO: Move this logic to plugin-e2e
-  if (semver.lt(grafanaVersion, '10.0.0')) {
+  if (semver.lt(grafanaVersion, '10.2.0')) {
     await page.getByText('Enterprise', { exact: true }).click();
   } else {
     await page.getByRole('radio', { name: 'Enterprise' }).check();
