@@ -165,8 +165,8 @@ jobs:
 
       - name: Start Grafana
         run: |
-          docker-compose pull
-          DEVELOPMENT=false GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }} GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }} docker-compose up -d
+          docker compose pull
+          DEVELOPMENT=false GRAFANA_VERSION=${{ matrix.GRAFANA_IMAGE.VERSION }} GRAFANA_IMAGE=${{ matrix.GRAFANA_IMAGE.NAME }} docker compose up -d
 
       - name: Wait for Grafana to start
         uses: nev7n/wait_for_response@v1
@@ -189,7 +189,7 @@ jobs:
           docker logs test-test-datasource >& grafana-server.log
 
       - name: Stop grafana docker
-        run: docker-compose down
+        run: docker compose down
 
       - name: Upload server log
         uses: actions/upload-artifact@v4
