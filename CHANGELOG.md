@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.8.0]
+
+- **Feature** - Add additional user field to results in `Pull Request` query
+- **Chore** - Update documentation
+
 ## [1.7.4]
 
 - **Chore** - Update documentation
