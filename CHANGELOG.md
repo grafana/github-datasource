@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.8.1]
+
+- **Chore** - Bump micromatch from 4.0.5 to 4.0.8
+- **Chore** - Bump webpack from 5.91.0 to 5.94.0
+- **Chore** - Bump grafana-plugin-sdk-go to v0.245.0
+
 ## [1.8.0]
 
 - **Feature** - Add additional user field to results in `Pull Request` query
