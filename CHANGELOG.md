@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.8.2]
+
+- **Chore** - Bump grafana-plugin-sdk-go to v0.247.0
+
 ## [1.8.1]
 
 - **Chore** - Bump micromatch from 4.0.5 to 4.0.8
