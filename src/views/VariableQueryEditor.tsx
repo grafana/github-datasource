@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { InlineField } from '@grafana/ui';
 
 import QueryEditor from './QueryEditor';
-import { GithubDataSource } from '../DataSource';
+import { GitHubDataSource } from '../DataSource';
 import { GitHubVariableQuery, DefaultQueryType } from '../types';
 import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
@@ -11,7 +11,7 @@ import { isValid } from '../validation';
 interface Props {
   query: GitHubVariableQuery;
   onChange: (query: GitHubVariableQuery, definition: string) => void;
-  datasource: GithubDataSource;
+  datasource: GitHubDataSource;
 }
 
 const VariableQueryEditor = (props: Props) => {
