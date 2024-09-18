@@ -20,6 +20,7 @@
     "dfutil",
     "dserrors",
     "errorsource",
+    "ghinstallation",
     "githubclient",
     "githubv",
     "googlegithub",
