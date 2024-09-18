@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/bradleyfalzon/ghinstallation/v2"
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -52,11 +53,59 @@ var runnerPerMinuteRate = map[string]float64{
 
 // New instantiates a new GitHub API client.
 func New(ctx context.Context, settings models.Settings) (*Client, error) {
-	if settings.AccessToken == "" {
-		// If access token is not set, return downstream error as it is required.
-		return nil, errorsource.DownstreamError(fmt.Errorf("access token is required"), false)
+	if settings.PrivateKey != "" {
+		return createAppClient(settings)
 	}
 
+	if settings.AccessToken != "" {
+		return createAccessTokenClient(ctx, settings)
+	}
+
+	return nil, errorsource.DownstreamError(fmt.Errorf("access token or app token are required"), false)
+}
+
+func createAppClient(settings models.Settings) (*Client, error) {
+	appId, err := strconv.ParseInt(settings.AppId, 10, 64)
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing app id: %w", err), false)
+	}
+
+	installationId, err := strconv.ParseInt(settings.InstallationId, 10, 64)
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing installation id: %w", err), false)
+	}
+
+	itr, err := ghinstallation.New(http.DefaultTransport, appId, installationId, []byte(settings.PrivateKey))
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("error creating token source"), false)
+	}
+
+	httpClient := &http.Client{Transport: itr}
+
+	if settings.GithubURL == "" {
+		return &Client{
+			restClient:    googlegithub.NewClient(httpClient),
+			graphqlClient: githubv4.NewClient(httpClient),
+		}, nil
+	}
+
+	_, err = url.Parse(settings.GithubURL)
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("incorrect enterprise url"), false)
+	}
+
+	restClient, err := googlegithub.NewEnterpriseClient(settings.GithubURL, settings.GithubURL, httpClient)
+	if err != nil {
+		return nil, fmt.Errorf("instantiating enterprise rest client: %w", err)
+	}
+
+	return &Client{
+		restClient:    restClient,
+		graphqlClient: githubv4.NewEnterpriseClient(fmt.Sprintf("%s/api/graphql", settings.GithubURL), httpClient),
+	}, nil
+}
+
+func createAccessTokenClient(ctx context.Context, settings models.Settings) (*Client, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: settings.AccessToken},
 	)

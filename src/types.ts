@@ -16,13 +16,24 @@ export interface GithubEnterpriseOptions {
   githubUrl?: string;
 }
 
-export interface GithubDataSourceOptions extends DataSourceJsonData, RepositoryOptions, GithubEnterpriseOptions {
+export interface GitHubAppAuth {
+  appId?: string;
+  installationId?: string;
+}
+
+export interface GithubDataSourceOptions
+  extends DataSourceJsonData,
+    RepositoryOptions,
+    GithubEnterpriseOptions,
+    GitHubAppAuth {
   // Any global settings
 }
 
 export interface GithubSecureJsonData {
   // accessToken is set if the user is using a Personal Access Token to connect to GitHub
   accessToken?: string;
+  // privateKey is set if the user is using a GitHub App to connect to GitHub
+  privateKey?: string;
 }
 
 export enum QueryType {

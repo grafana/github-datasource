@@ -1,7 +1,12 @@
 import { css } from '@emotion/css';
-import { DataSourcePluginOptionsEditorProps, GrafanaTheme2, onUpdateDatasourceJsonDataOption } from '@grafana/data';
+import {
+  DataSourcePluginOptionsEditorProps,
+  GrafanaTheme2,
+  onUpdateDatasourceJsonDataOption,
+  onUpdateDatasourceSecureJsonDataOption,
+} from '@grafana/data';
 import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
-import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, useStyles2 } from '@grafana/ui';
+import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useState } from 'react';
 import { components } from '../components/selectors';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
@@ -14,13 +19,24 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   const { jsonData, secureJsonData, secureJsonFields } = options;
   const secureSettings = (secureJsonData || {}) as GithubSecureJsonData;
   const styles = useStyles2(getStyles);
+  const WIDTH_LONG = 40;
+  const authOptions = [
+    { label: 'Personal Access Token', value: 'personal-access-token' },
+    { label: 'GitHub App', value: 'github-app' },
+  ];
+  const licenseOptions = [
+    { label: 'Basic', value: 'github-basic' },
+    { label: 'Enterprise', value: 'github-enterprise' },
+  ];
 
-  const [selectedLicense, setSelectedLicense] = useState(jsonData.githubUrl ? 'github-enterprise' : 'github-basic');
   const [isOpen, setIsOpen] = useState(true);
+  const [selectedLicense, setSelectedLicense] = useState(jsonData.githubUrl ? 'github-enterprise' : 'github-basic');
+  const [selectedAuthType, setSelectedAuthType] = useState(
+    secureJsonFields!['privateKey'] ? 'github-app' : 'personal-access-token'
+  );
 
-  const onSettingUpdate =
-    (prop: string, set = true) =>
-    (event: ChangeEvent<HTMLInputElement>) => {
+  const onSettingUpdate = (prop: string, set = true) => {
+    return (event: ChangeEvent<HTMLInputElement>) => {
       const { onOptionsChange, options } = props;
       onOptionsChange({
         ...options,
@@ -34,25 +50,34 @@ const ConfigEditor = (props: ConfigEditorProps) => {
         },
       });
     };
+  };
 
   const onSettingReset = (prop: string) => () => {
     onSettingUpdate(prop, false)({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
   };
 
+  const onAuthChange = (value: string) => {
+    // clear out personal access token when switching to app auth
+    if (value === 'github-app') {
+      onSettingReset('accessToken')();
+    }
+
+    // clear out app token when switching to personal access token
+    if (value === 'personal-access-token') {
+      onSettingReset('privateKey')();
+    }
+
+    setSelectedAuthType(value);
+  };
+
   const onLicenseChange = (value: string) => {
+    // clear out githubUrl when switching to basic
     if (value === 'github-basic') {
       onOptionsChange({ ...options, jsonData: { ...jsonData, githubUrl: '' } });
     }
 
     setSelectedLicense(value);
   };
-
-  const licenseOptions = [
-    { label: 'Basic', value: 'github-basic' },
-    { label: 'Enterprise', value: 'github-enterprise' },
-  ];
-
-  const WIDTH_LONG = 40;
 
   return (
     <>
@@ -88,17 +113,57 @@ const ConfigEditor = (props: ConfigEditorProps) => {
       <Divider />
 
       <ConfigSection title="Connection">
-        <Field label="Access Token">
-          <SecretInput
-            placeholder="GitHub Personal Access Token"
-            data-testid={components.ConfigEditor.AccessToken}
-            value={secureSettings.accessToken || ''}
-            isConfigured={secureJsonFields!['accessToken']}
-            onChange={onSettingUpdate('accessToken', false)}
-            onReset={onSettingReset('accessToken')}
-            width={WIDTH_LONG}
-          />
-        </Field>
+        <RadioButtonGroup
+          options={authOptions}
+          value={selectedAuthType}
+          onChange={onAuthChange}
+          className={styles.radioButton}
+        />
+
+        {selectedAuthType === 'personal-access-token' && (
+          <Field label="Personal Access Token">
+            <SecretInput
+              placeholder="Personal Access Token"
+              data-testid={components.ConfigEditor.AccessToken}
+              value={secureSettings.accessToken || ''}
+              isConfigured={secureJsonFields!['accessToken']}
+              onChange={onSettingUpdate('accessToken', false)}
+              onReset={onSettingReset('accessToken')}
+              width={WIDTH_LONG}
+            />
+          </Field>
+        )}
+
+        {selectedAuthType === 'github-app' && (
+          <>
+            <Field label="App ID">
+              <Input
+                placeholder="App ID"
+                value={jsonData.appId}
+                onChange={onUpdateDatasourceJsonDataOption(props, 'appId')}
+                width={WIDTH_LONG}
+              />
+            </Field>
+            <Field label="Installation ID">
+              <Input
+                placeholder="Installation ID"
+                value={jsonData.installationId}
+                onChange={onUpdateDatasourceJsonDataOption(props, 'installationId')}
+                width={WIDTH_LONG}
+              />
+            </Field>
+            <Field label="Private Key">
+              <SecretTextArea
+                placeholder="-----BEGIN CERTIFICATE-----"
+                isConfigured={secureJsonFields!['privateKey']}
+                onChange={onUpdateDatasourceSecureJsonDataOption(props, 'privateKey')}
+                onReset={onSettingReset('privateKey')}
+                cols={55}
+                rows={7}
+              />
+            </Field>
+          </>
+        )}
       </ConfigSection>
 
       <Divider />
