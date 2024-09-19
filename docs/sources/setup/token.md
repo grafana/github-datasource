@@ -37,9 +37,12 @@ You can also authenticate using a GitHub App instead of a personal access token.
 1. Register a new GitHub App by following the instructions in the [GitHub App documentation](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app).
 1. After registering the App, generate a private key for authentication.
 1. Note down the App ID assigned to your GitHub App.
-1. Install the GitHub App on your GitHub account or organization.
+1. [Install the GitHub App](https://docs.github.com/en/apps/using-github-apps/installing-your-own-github-app) on your GitHub account or organization.
 1. Note the installation ID after completing the installation.
-1. In Grafana's data source settings, provide the **App ID**, **installation ID**, and **private key** in the appropriate fields.
+1. In Grafana's data source settings, provide the **app id**, **installation id**, and **private key** in the appropriate fields.
+
+> **Where to find your installation id?** \
+> Head over to Settings > Installed GitHub Apps > Configure. The installation ID can be found at the end of the URL `https://github.com/settings/installations/<installation_id>`.
 
 ## Permissions
 
