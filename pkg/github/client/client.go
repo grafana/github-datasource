@@ -89,20 +89,7 @@ func createAppClient(settings models.Settings) (*Client, error) {
 		}, nil
 	}
 
-	_, err = url.Parse(settings.GithubURL)
-	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("incorrect enterprise url"), false)
-	}
-
-	restClient, err := googlegithub.NewEnterpriseClient(settings.GithubURL, settings.GithubURL, httpClient)
-	if err != nil {
-		return nil, fmt.Errorf("instantiating enterprise rest client: %w", err)
-	}
-
-	return &Client{
-		restClient:    restClient,
-		graphqlClient: githubv4.NewEnterpriseClient(fmt.Sprintf("%s/api/graphql", settings.GithubURL), httpClient),
-	}, nil
+	return useGitHubEnterprise(httpClient, settings)
 }
 
 func createAccessTokenClient(ctx context.Context, settings models.Settings) (*Client, error) {
@@ -119,6 +106,10 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings) (*Cl
 		}, nil
 	}
 
+	return useGitHubEnterprise(httpClient, settings)
+}
+
+func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Client, error) {
 	_, err := url.Parse(settings.GithubURL)
 	if err != nil {
 		return nil, errorsource.DownstreamError(fmt.Errorf("incorrect enterprise url"), false)
