@@ -7,12 +7,13 @@ import (
 )
 
 type Settings struct {
-	AccessToken    string `json:"accessToken"`
-	PrivateKey     string `json:"privateKey"`
-	AppId          string `json:"appId"`
-	InstallationId string `json:"installationId"`
-	GithubURL      string `json:"githubUrl"`
-	CachingEnabled bool   `json:"cachingEnabled"`
+	SelectedAuthType string `json:"selectedAuthType"`
+	AccessToken      string `json:"accessToken"`
+	PrivateKey       string `json:"privateKey"`
+	AppId            string `json:"appId"`
+	InstallationId   string `json:"installationId"`
+	GithubURL        string `json:"githubUrl"`
+	CachingEnabled   bool   `json:"cachingEnabled"`
 }
 
 func LoadSettings(settings backend.DataSourceInstanceSettings) (Settings, error) {

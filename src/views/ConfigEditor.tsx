@@ -7,7 +7,7 @@ import {
 } from '@grafana/data';
 import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
 import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { components } from '../components/selectors';
 import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
 import { Divider } from 'components/Divider';
@@ -31,9 +31,15 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
   const [isOpen, setIsOpen] = useState(true);
   const [selectedLicense, setSelectedLicense] = useState(jsonData.githubUrl ? 'github-enterprise' : 'github-basic');
-  const [selectedAuthType, setSelectedAuthType] = useState(
-    secureJsonFields!['privateKey'] ? 'github-app' : 'personal-access-token'
-  );
+
+  useEffect(() => {
+    // set the default auth type if its a new datasource and nothing is set
+    if (!jsonData.selectedAuthType) {
+      onAuthChange('personal-access-token');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSettingUpdate = (prop: string, set = true) => {
     return (event: ChangeEvent<HTMLInputElement>) => {
@@ -57,17 +63,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   };
 
   const onAuthChange = (value: string) => {
-    // clear out personal access token when switching to app auth
-    if (value === 'github-app') {
-      onSettingReset('accessToken')();
-    }
-
-    // clear out app token when switching to personal access token
-    if (value === 'personal-access-token') {
-      onSettingReset('privateKey')();
-    }
-
-    setSelectedAuthType(value);
+    onOptionsChange({ ...options, jsonData: { ...jsonData, selectedAuthType: value } });
   };
 
   const onLicenseChange = (value: string) => {
@@ -115,12 +111,12 @@ const ConfigEditor = (props: ConfigEditorProps) => {
       <ConfigSection title="Connection">
         <RadioButtonGroup
           options={authOptions}
-          value={selectedAuthType}
+          value={jsonData.selectedAuthType}
           onChange={onAuthChange}
           className={styles.radioButton}
         />
 
-        {selectedAuthType === 'personal-access-token' && (
+        {jsonData.selectedAuthType === 'personal-access-token' && (
           <Field label="Personal Access Token">
             <SecretInput
               placeholder="Personal Access Token"
@@ -134,7 +130,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           </Field>
         )}
 
-        {selectedAuthType === 'github-app' && (
+        {jsonData.selectedAuthType === 'github-app' && (
           <>
             <Field label="App ID">
               <Input

@@ -26,7 +26,7 @@ export interface GithubDataSourceOptions
     RepositoryOptions,
     GithubEnterpriseOptions,
     GitHubAppAuth {
-  // Any global settings
+  selectedAuthType?: string;
 }
 
 export interface GithubSecureJsonData {

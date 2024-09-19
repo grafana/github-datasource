@@ -53,11 +53,11 @@ var runnerPerMinuteRate = map[string]float64{
 
 // New instantiates a new GitHub API client.
 func New(ctx context.Context, settings models.Settings) (*Client, error) {
-	if settings.PrivateKey != "" {
+	if settings.SelectedAuthType == "github-app" {
 		return createAppClient(settings)
 	}
 
-	if settings.AccessToken != "" {
+	if settings.SelectedAuthType == "personal-access-token" {
 		return createAccessTokenClient(ctx, settings)
 	}
 
