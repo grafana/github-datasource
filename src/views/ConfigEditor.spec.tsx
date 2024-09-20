@@ -9,6 +9,7 @@ describe('Config Editor', () => {
     const options = { jsonData: {}, secureJsonFields: {} } as any;
     render(<ConfigEditor options={options} onOptionsChange={onOptionsChange} />);
     await waitFor(() => expect(screen.getByText('Additional Settings')).toBeInTheDocument());
+    onOptionsChange.mockClear(); // this is called on component render, so we need to clear it to avoid false positives
     expect(screen.getByLabelText('Basic')).toBeChecked();
     expect(screen.getByLabelText('Enterprise')).not.toBeChecked();
     expect(screen.queryByText('GitHub Enterprise URL')).not.toBeInTheDocument();
@@ -22,6 +23,7 @@ describe('Config Editor', () => {
     const options = { jsonData: { githubUrl: 'https://foo.bar' }, secureJsonFields: {} } as any;
     render(<ConfigEditor options={options} onOptionsChange={onOptionsChange} />);
     await waitFor(() => expect(screen.getByText('Additional Settings')).toBeInTheDocument());
+    onOptionsChange.mockClear();
     expect(screen.getByLabelText('Basic')).not.toBeChecked();
     expect(screen.getByLabelText('Enterprise')).toBeChecked();
     expect(screen.queryByText('GitHub Enterprise URL')).toBeInTheDocument();
