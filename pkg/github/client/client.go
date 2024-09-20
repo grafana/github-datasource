@@ -67,12 +67,12 @@ func New(ctx context.Context, settings models.Settings) (*Client, error) {
 func createAppClient(settings models.Settings) (*Client, error) {
 	appId, err := strconv.ParseInt(settings.AppId, 10, 64)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing app id: %w", err), false)
+		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing app id"), false)
 	}
 
 	installationId, err := strconv.ParseInt(settings.InstallationId, 10, 64)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing installation id: %w", err), false)
+		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing installation id"), false)
 	}
 
 	itr, err := ghinstallation.New(http.DefaultTransport, appId, installationId, []byte(settings.PrivateKey))

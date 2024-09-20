@@ -14,7 +14,7 @@ import (
 func NewGitHubInstance(ctx context.Context, settings models.Settings) (instancemgmt.Instance, error) {
 	gh, err := github.NewDatasource(ctx, settings)
 	if err != nil {
-		return nil, fmt.Errorf("instantiating github datasource: %w", err)
+		return nil, err
 	}
 
 	var d Datasource = gh
@@ -37,7 +37,7 @@ func NewDataSourceInstance(_ context.Context, settings backend.DataSourceInstanc
 
 	instance, err := NewGitHubInstance(context.Background(), datasourceSettings)
 	if err != nil {
-		return instance, fmt.Errorf("instantiating github instance")
+		return instance, fmt.Errorf("instantiating github instance: %w", err)
 	}
 
 	return instance, nil
