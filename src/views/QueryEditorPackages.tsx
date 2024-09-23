@@ -54,7 +54,9 @@ const QueryEditorPackages = (props: Props) => {
       }
     }
     return packageTypeOptions;
-  }, [props.packageType]);
+    // We want to run this only once when component is mounted and not every time packageType is changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
