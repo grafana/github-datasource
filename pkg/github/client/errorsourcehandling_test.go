@@ -60,7 +60,13 @@ func TestAddErrorSourceToError(t *testing.T) {
 			name:     "context canceled error",
 			err:      context.Canceled,
 			resp:     nil,
-			expected: errorsource.DownstreamError( context.Canceled, false),
+			expected: errorsource.DownstreamError(context.Canceled, false),
+		},
+		{
+			name: "saml error message",
+			err: errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization."),
+			resp: nil,
+			expected: errorsource.DownstreamError(errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization."), false),
 		},
 	}
 
