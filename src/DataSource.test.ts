@@ -1,12 +1,12 @@
 import { DataQueryResponse, DataSourceInstanceSettings, toDataFrame } from '@grafana/data';
 import { GitHubVariableQuery } from 'types';
 import { of } from 'rxjs';
-import { GithubDataSource } from 'DataSource';
+import { GitHubDataSource } from 'DataSource';
 
 describe('DataSource', () => {
   describe('metricFindQuery', () => {
     it('should return empty array if data in response is empty array', async () => {
-      const ds = new GithubDataSource({} as DataSourceInstanceSettings);
+      const ds = new GitHubDataSource({} as DataSourceInstanceSettings);
       const query = {} as GitHubVariableQuery;
 
       jest.spyOn(ds, 'query').mockReturnValue(of({ data: [] }));
@@ -15,7 +15,7 @@ describe('DataSource', () => {
     });
 
     it('should return empty array if no data in response', async () => {
-      const ds = new GithubDataSource({} as DataSourceInstanceSettings);
+      const ds = new GitHubDataSource({} as DataSourceInstanceSettings);
       const query = {} as GitHubVariableQuery;
 
       jest.spyOn(ds, 'query').mockReturnValue(of({} as DataQueryResponse));
@@ -24,7 +24,7 @@ describe('DataSource', () => {
     });
 
     it('should return array with values if response has data', async () => {
-      const ds = new GithubDataSource({} as DataSourceInstanceSettings);
+      const ds = new GitHubDataSource({} as DataSourceInstanceSettings);
       const query = { key: 'test', field: 'test' } as GitHubVariableQuery;
 
       jest.spyOn(ds, 'query').mockReturnValue(

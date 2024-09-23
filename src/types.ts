@@ -12,7 +12,7 @@ export interface RepositoryOptions {
   owner?: string;
 }
 
-export interface GithubEnterpriseOptions {
+export interface GitHubEnterpriseOptions {
   githubUrl?: string;
 }
 
@@ -21,15 +21,15 @@ export interface GitHubAppAuth {
   installationId?: string;
 }
 
-export interface GithubDataSourceOptions
+export interface GitHubDataSourceOptions
   extends DataSourceJsonData,
     RepositoryOptions,
-    GithubEnterpriseOptions,
+    GitHubEnterpriseOptions,
     GitHubAppAuth {
   selectedAuthType?: string;
 }
 
-export interface GithubSecureJsonData {
+export interface GitHubSecureJsonData {
   // accessToken is set if the user is using a Personal Access Token to connect to GitHub
   accessToken?: string;
   // privateKey is set if the user is using a GitHub App to connect to GitHub

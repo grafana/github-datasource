@@ -12,7 +12,7 @@ type Settings struct {
 	PrivateKey       string `json:"privateKey"`
 	AppId            string `json:"appId"`
 	InstallationId   string `json:"installationId"`
-	GithubURL        string `json:"githubUrl"`
+	GitHubURL        string `json:"githubUrl"`
 	CachingEnabled   bool   `json:"cachingEnabled"`
 }
 
