@@ -51,7 +51,7 @@ const QueryEditorProjects = (props: Props) => {
   const tooltip =
     kind === ProjectQueryType.ORG
       ? "The organization for the GitHub project (example: 'grafana)"
-      : 'The user who owns the Github project';
+      : 'The user who owns the GitHub project';
 
   return (
     <>

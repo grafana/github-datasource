@@ -10,7 +10,7 @@ import {
   ScopedVars,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { GithubDataSourceOptions, GitHubQuery, GitHubVariableQuery } from './types';
+import { GitHubDataSourceOptions, GitHubQuery, GitHubVariableQuery } from './types';
 import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
@@ -18,10 +18,10 @@ import { prepareAnnotation } from 'migrations';
 import { Observable } from 'rxjs';
 import { trackRequest } from 'tracking';
 
-export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
+export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubDataSourceOptions> {
   templateSrv = getTemplateSrv();
 
-  constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
+  constructor(instanceSettings: DataSourceInstanceSettings<GitHubDataSourceOptions>) {
     super(instanceSettings);
     this.annotations = {
       prepareAnnotation,
@@ -40,7 +40,7 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
     return isValid(query) && !query.hide;
   };
 
-  // Implemented as a part of DataSourceApi. Interpolates variables and adds ad hoc filters to a list of Github queries.
+  // Implemented as a part of DataSourceApi. Interpolates variables and adds ad hoc filters to a list of GitHub queries.
   applyTemplateVariables(query: GitHubQuery, scoped: ScopedVars): GitHubQuery {
     return replaceVariables(this.templateSrv, query, scoped);
   }
