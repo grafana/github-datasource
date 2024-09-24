@@ -4,15 +4,15 @@ import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
 import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useState } from 'react';
 import { components } from '../components/selectors';
-import { GithubDataSourceOptions, GithubSecureJsonData } from '../types';
+import { GitHubDataSourceOptions, GitHubSecureJsonData } from '../types';
 import { Divider } from 'components/Divider';
 
-export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GithubDataSourceOptions, GithubSecureJsonData>;
+export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSourceOptions, GitHubSecureJsonData>;
 
 const ConfigEditor = (props: ConfigEditorProps) => {
   const { options, onOptionsChange } = props;
   const { jsonData, secureJsonData, secureJsonFields } = options;
-  const secureSettings = (secureJsonData || {}) as GithubSecureJsonData;
+  const secureSettings = (secureJsonData || {}) as GitHubSecureJsonData;
   const styles = useStyles2(getStyles);
 
   const [selectedLicense, setSelectedLicense] = useState(jsonData.githubUrl ? 'github-enterprise' : 'github-basic');
@@ -78,7 +78,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
         <b>For all repositories:</b>
         <pre>public_repo, repo:status, repo_deployment, read:packages, read:user, user:email</pre>
 
-        <b>For Github projects:</b>
+        <b>For GitHub projects:</b>
         <pre>read:org, read:project</pre>
 
         <b>An extra setting is required for private repositories:</b>
