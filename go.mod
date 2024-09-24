@@ -6,12 +6,12 @@ toolchain go1.22.1
 
 require (
 	github.com/google/go-github/v53 v53.2.0
-	github.com/grafana/grafana-plugin-sdk-go v0.247.0
+	github.com/grafana/grafana-plugin-sdk-go v0.250.0
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20230305132112-efb623903184
 	github.com/stretchr/testify v1.9.0
-	golang.org/x/oauth2 v0.22.0
+	golang.org/x/oauth2 v0.23.0
 	pgregory.net/rapid v1.0.0
 )
 
