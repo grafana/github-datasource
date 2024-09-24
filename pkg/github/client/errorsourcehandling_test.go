@@ -68,6 +68,12 @@ func TestAddErrorSourceToError(t *testing.T) {
 			resp: nil,
 			expected: errorsource.DownstreamError(errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization."), false),
 		},
+		{
+			name: "limit exceeded error message",
+			err: errors.New("API rate limit exceeded for ID 1"),
+			resp: nil,
+			expected: errorsource.DownstreamError(errors.New("API rate limit exceeded for ID 1"), false),
+		},
 	}
 
 	for _, tt := range tests {
