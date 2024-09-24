@@ -75,7 +75,7 @@
 ## [1.5.3]
 
 - **Chore** - Bump grafana-plugin-sdk-go to latest
-- **Chore** - Added lint github workflow
+- **Chore** - Added lint GitHub workflow
 - **Chore** - Remove legacy form styling
 
 ## [1.5.2]
@@ -140,12 +140,12 @@
 
 ## [1.3.0] 2022-11-3
 
-- **Feature** - Github projects - query items, user projects
+- **Feature** - GitHub projects - query items, user projects
 - **Chore** - Updated build to use go 1.19.3
 
 ## [1.2.0] 2022-10-20
 
-- **Feature** - Github projects
+- **Feature** - GitHub projects
 
 ## [1.1.0] - next
 
