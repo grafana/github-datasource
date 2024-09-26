@@ -30,5 +30,11 @@ func LoadSettings(settings backend.DataSourceInstanceSettings) (Settings, error)
 		s.PrivateKey = val
 	}
 
+	// Data sources created before the auth type was introduced will have an accessToken but no auth type.
+	// In this case, we default to personal access token.
+	if s.AccessToken != "" && s.SelectedAuthType == "" {
+		s.SelectedAuthType = "personal-access-token"
+	}
+
 	return s, nil
 }
