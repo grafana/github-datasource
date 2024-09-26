@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
@@ -10,14 +10,7 @@ interface Props extends PackagesOptions {
   onChange: (value: PackagesOptions) => void;
 }
 
-export const DefaultPackageType = PackageType.NPM;
-
-const packageTypeOptions: Array<SelectableValue<string>> = Object.keys(PackageType).map((v) => {
-  return {
-    label: v.replace('/_/gi', ' '),
-    value: v,
-  };
-});
+export const DefaultPackageType = PackageType.DOCKER;
 
 const QueryEditorPackages = (props: Props) => {
   const [names, setNames] = useState<string>(props.names || '');
@@ -31,6 +24,39 @@ const QueryEditorPackages = (props: Props) => {
       });
     }
   }, [props]);
+
+  const packageTypeOptions = useMemo(() => {
+    // @TODO: These package types are not supported through GraphQL endpoint that we are using in our queries.
+    // We should remove them from the list of options, but for now we will just ignore them
+    // and not show them in the dropdown, if they have not been selected before.
+    // Not sure if they ever been supported.
+    const notSupportedTroughGraphQL: string[] = [PackageType.NPM, PackageType.RUBYGEMS, PackageType.NUGET];
+    const packageTypeOptions: SelectableValue[] = Object.values(PackageType)
+      .filter((packageType) => {
+        // Filter out package types that are not supported through GraphQL
+        return !notSupportedTroughGraphQL.includes(packageType);
+      })
+      .map((v) => {
+        return {
+          label: v.replace('/_/gi', ' '),
+          value: v,
+        };
+      });
+
+    // If user has selected a package type that is not in the list of options, add it to the list
+    if (props.packageType) {
+      const selectedPackageType = packageTypeOptions.find((opt: SelectableValue) => opt.value === props.packageType);
+      if (!selectedPackageType) {
+        packageTypeOptions.push({
+          label: props.packageType.replace('/_/gi', ' '),
+          value: props.packageType,
+        });
+      }
+    }
+    return packageTypeOptions;
+    // We want to run this only once when component is mounted and not every time packageType is changed
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
