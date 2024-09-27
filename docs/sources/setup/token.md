@@ -1,7 +1,7 @@
 ---
-title: Create a GitHub personal access token
-menuTitle: Create a personal access token
-description: Create a GitHub personal access token
+title: Create a GitHub access token
+menuTitle: Create an access token
+description: Create a GitHub access token
 keywords:
   - data source
   - github
@@ -15,27 +15,14 @@ labels:
 weight: 102
 ---
 
-# Create a GitHub personal access token
+# Create a GitHub access token
 
-You will need a _personal access token_ to use the plugin. GitHub currently supports two types of personal access tokens:
-
-1. fine-grained personal access tokens
-1. personal access tokens (classic)
-
-Read more about [personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
-
-The Grafana GitHub data source plugin works with both. Below is a table that indicates what minimum requirements must be matched before the plugin can be used.
-
-Options:
-
-| Setting               | Required | Description                                           |
-| --------------------- | -------- | ----------------------------------------------------- |
-| Access token          | true     | This is required to allow plugin to connect to GitHub |
-| GitHub Enterprise URL | false    | Only if you are using GitHub Enterprise account       |
+You will need either a `GitHub App` or a `Personal Access Token` to use this plugin.
 
 ## Creating a personal access token (classic)
 
-This is an example when you want to use the personal access token (classic).
+This is an example when you want to use the personal access token (classic). \
+Read more about [personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
 1. Login to your GitHub account.
 1. Navigate to [Personal access tokens](https://github.com/settings/tokens) and click **Generate new token**.
@@ -43,9 +30,23 @@ This is an example when you want to use the personal access token (classic).
 1. Define the permissions which you want to allow.
 1. Click **Generate Token**.
 
-### Permissions
+## Using GitHub App Authentication
 
-You will need to define the access permissions for your token in order to allow it to access the data.
+You can also authenticate using a GitHub App instead of a personal access token. This method allows for better security and fine-grained access to resources.
+
+1. Register a new GitHub App by following the instructions in the [GitHub App documentation](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app).
+1. After registering the App, generate a private key for authentication.
+1. Note down the App ID assigned to your GitHub App.
+1. [Install the GitHub App](https://docs.github.com/en/apps/using-github-apps/installing-your-own-github-app) on your GitHub account or organization.
+1. Note the installation ID after completing the installation.
+1. In Grafana's data source settings, provide the **app id**, **installation id**, and **private key** in the appropriate fields.
+
+> **Where to find your installation id?** \
+> Head over to Settings > Installed GitHub Apps > Configure. The installation ID can be found at the end of the URL `https://github.com/settings/installations/<installation_id>`.
+
+## Permissions
+
+You will need to define the access permissions for your **personal access token** in order to allow it to access the data.
 
 The following lists include the required permissions for the access token:
 

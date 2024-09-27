@@ -16,13 +16,34 @@ export interface GitHubEnterpriseOptions {
   githubUrl?: string;
 }
 
-export interface GitHubDataSourceOptions extends DataSourceJsonData, RepositoryOptions, GitHubEnterpriseOptions {
-  // Any global settings
+export interface GitHubAppAuth {
+  appId?: string;
+  installationId?: string;
+}
+
+export interface GitHubDataSourceOptions
+  extends DataSourceJsonData,
+    RepositoryOptions,
+    GitHubEnterpriseOptions,
+    GitHubAppAuth {
+  selectedAuthType?: GitHubAuthType;
 }
 
 export interface GitHubSecureJsonData {
   // accessToken is set if the user is using a Personal Access Token to connect to GitHub
   accessToken?: string;
+  // privateKey is set if the user is using a GitHub App to connect to GitHub
+  privateKey?: string;
+}
+
+export enum GitHubAuthType {
+  Personal = 'personal-access-token',
+  App = 'github-app',
+}
+
+export enum GitHubLicenseType {
+  Basic = 'github-basic',
+  Enterprise = 'github-enterprise',
 }
 
 export enum QueryType {
