@@ -9,7 +9,7 @@ import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
 import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { components } from '../components/selectors';
-import { GitHubDataSourceOptions, GitHubSecureJsonData } from '../types';
+import { GitHubAuthType, GitHubDataSourceOptions, GitHubSecureJsonData } from '../types';
 import { Divider } from 'components/Divider';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSourceOptions, GitHubSecureJsonData>;
@@ -21,8 +21,8 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   const styles = useStyles2(getStyles);
   const WIDTH_LONG = 40;
   const authOptions = [
-    { label: 'Personal Access Token', value: 'personal-access-token' },
-    { label: 'GitHub App', value: 'github-app' },
+    { label: 'Personal Access Token', value: GitHubAuthType.Personal },
+    { label: 'GitHub App', value: GitHubAuthType.App },
   ];
   const licenseOptions = [
     { label: 'Basic', value: 'github-basic' },
@@ -35,7 +35,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   useEffect(() => {
     // set the default auth type if its a new datasource and nothing is set
     if (!jsonData.selectedAuthType) {
-      onAuthChange('personal-access-token');
+      onAuthChange(GitHubAuthType.Personal);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,7 +116,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           className={styles.radioButton}
         />
 
-        {jsonData.selectedAuthType === 'personal-access-token' && (
+        {jsonData.selectedAuthType === GitHubAuthType.Personal && (
           <Field label="Personal Access Token">
             <SecretInput
               placeholder="Personal Access Token"
@@ -130,7 +130,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           </Field>
         )}
 
-        {jsonData.selectedAuthType === 'github-app' && (
+        {jsonData.selectedAuthType === GitHubAuthType.App && (
           <>
             <Field label="App ID">
               <Input

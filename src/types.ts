@@ -36,6 +36,11 @@ export interface GitHubSecureJsonData {
   privateKey?: string;
 }
 
+export enum GitHubAuthType {
+  Personal = 'personal-access-token',
+  App = 'github-app',
+}
+
 export enum QueryType {
   Commits = 'Commits',
   Issues = 'Issues',
