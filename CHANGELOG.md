@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.9.0]
+
+- **Feature** - Add support for GitHub App authentication
+- **Fix** - Fix error source for saml error and limit error
+- **Fix** - Hide package types that are not supported by the GraphQL API
+- **Chore** - Update spelling of GitHub
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.247.0 to 0.250.0
+- **Chore** - Bump path-to-regexp from 1.8.0 to 1.9.0
+
 ## [1.8.2]
 
 - **Chore** - Bump grafana-plugin-sdk-go to v0.247.0
