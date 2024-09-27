@@ -72,10 +72,8 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   };
 
   useEffect(() => {
-    console.log('UE CALLED');
     // set the default auth type if its a new datasource and nothing is set
     if (!jsonData.selectedAuthType) {
-      console.log('UE CALLED && SET');
       onAuthChange(GitHubAuthType.Personal);
     }
   }, [jsonData.selectedAuthType, onAuthChange]);
