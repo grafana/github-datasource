@@ -9,7 +9,7 @@ import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
 import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { components } from '../components/selectors';
-import { GitHubAuthType, GitHubDataSourceOptions, GitHubSecureJsonData } from '../types';
+import { GitHubAuthType, GitHubDataSourceOptions, GitHubLicenseType, GitHubSecureJsonData } from '../types';
 import { Divider } from 'components/Divider';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSourceOptions, GitHubSecureJsonData>;
@@ -25,12 +25,14 @@ const ConfigEditor = (props: ConfigEditorProps) => {
     { label: 'GitHub App', value: GitHubAuthType.App },
   ];
   const licenseOptions = [
-    { label: 'Basic', value: 'github-basic' },
-    { label: 'Enterprise', value: 'github-enterprise' },
+    { label: 'Basic', value: GitHubLicenseType.Basic },
+    { label: 'Enterprise', value: GitHubLicenseType.Enterprise },
   ];
 
   const [isOpen, setIsOpen] = useState(true);
-  const [selectedLicense, setSelectedLicense] = useState(jsonData.githubUrl ? 'github-enterprise' : 'github-basic');
+  const [selectedLicense, setSelectedLicense] = useState(
+    jsonData.githubUrl ? GitHubLicenseType.Enterprise : GitHubLicenseType.Basic
+  );
 
   useEffect(() => {
     // set the default auth type if its a new datasource and nothing is set
@@ -62,13 +64,13 @@ const ConfigEditor = (props: ConfigEditorProps) => {
     onSettingUpdate(prop, false)({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
   };
 
-  const onAuthChange = (value: string) => {
+  const onAuthChange = (value: GitHubAuthType) => {
     onOptionsChange({ ...options, jsonData: { ...jsonData, selectedAuthType: value } });
   };
 
-  const onLicenseChange = (value: string) => {
+  const onLicenseChange = (value: GitHubLicenseType) => {
     // clear out githubUrl when switching to basic
-    if (value === 'github-basic') {
+    if (value === GitHubLicenseType.Basic) {
       onOptionsChange({ ...options, jsonData: { ...jsonData, githubUrl: '' } });
     }
 
@@ -173,7 +175,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           className={styles.radioButton}
         />
 
-        {selectedLicense === 'github-enterprise' && (
+        {selectedLicense === GitHubLicenseType.Enterprise && (
           <Field label="GitHub Enterprise URL">
             <Input
               placeholder="URL of GitHub Enterprise"

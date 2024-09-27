@@ -26,7 +26,7 @@ export interface GitHubDataSourceOptions
     RepositoryOptions,
     GitHubEnterpriseOptions,
     GitHubAppAuth {
-  selectedAuthType?: string;
+  selectedAuthType?: GitHubAuthType;
 }
 
 export interface GitHubSecureJsonData {
@@ -39,6 +39,11 @@ export interface GitHubSecureJsonData {
 export enum GitHubAuthType {
   Personal = 'personal-access-token',
   App = 'github-app',
+}
+
+export enum GitHubLicenseType {
+  Basic = 'github-basic',
+  Enterprise = 'github-enterprise',
 }
 
 export enum QueryType {
