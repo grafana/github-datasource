@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/bradleyfalzon/ghinstallation/v2"
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
@@ -52,11 +53,46 @@ var runnerPerMinuteRate = map[string]float64{
 
 // New instantiates a new GitHub API client.
 func New(ctx context.Context, settings models.Settings) (*Client, error) {
-	if settings.AccessToken == "" {
-		// If access token is not set, return downstream error as it is required.
-		return nil, errorsource.DownstreamError(fmt.Errorf("access token is required"), false)
+	if settings.SelectedAuthType == "github-app" {
+		return createAppClient(settings)
 	}
 
+	if settings.SelectedAuthType == "personal-access-token" {
+		return createAccessTokenClient(ctx, settings)
+	}
+
+	return nil, errorsource.DownstreamError(fmt.Errorf("access token or app token are required"), false)
+}
+
+func createAppClient(settings models.Settings) (*Client, error) {
+	appId, err := strconv.ParseInt(settings.AppId, 10, 64)
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing app id"), false)
+	}
+
+	installationId, err := strconv.ParseInt(settings.InstallationId, 10, 64)
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing installation id"), false)
+	}
+
+	itr, err := ghinstallation.New(http.DefaultTransport, appId, installationId, []byte(settings.PrivateKey))
+	if err != nil {
+		return nil, errorsource.DownstreamError(fmt.Errorf("error creating token source"), false)
+	}
+
+	httpClient := &http.Client{Transport: itr}
+
+	if settings.GitHubURL == "" {
+		return &Client{
+			restClient:    googlegithub.NewClient(httpClient),
+			graphqlClient: githubv4.NewClient(httpClient),
+		}, nil
+	}
+
+	return useGitHubEnterprise(httpClient, settings)
+}
+
+func createAccessTokenClient(ctx context.Context, settings models.Settings) (*Client, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: settings.AccessToken},
 	)
@@ -70,6 +106,10 @@ func New(ctx context.Context, settings models.Settings) (*Client, error) {
 		}, nil
 	}
 
+	return useGitHubEnterprise(httpClient, settings)
+}
+
+func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Client, error) {
 	_, err := url.Parse(settings.GitHubURL)
 	if err != nil {
 		return nil, errorsource.DownstreamError(fmt.Errorf("incorrect enterprise url"), false)

@@ -2,7 +2,6 @@ package github
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
@@ -209,7 +208,7 @@ func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataReques
 func NewDatasource(ctx context.Context, settings models.Settings) (*Datasource, error) {
 	client, err := githubclient.New(ctx, settings)
 	if err != nil {
-		return nil, fmt.Errorf("instantiating github client: %w", err)
+		return nil, err
 	}
 	return &Datasource{client: client}, nil
 }
