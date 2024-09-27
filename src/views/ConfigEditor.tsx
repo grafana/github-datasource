@@ -7,7 +7,7 @@ import {
 } from '@grafana/data';
 import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
 import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { components } from '../components/selectors';
 import { GitHubAuthType, GitHubDataSourceOptions, GitHubLicenseType, GitHubSecureJsonData } from '../types';
 import { Divider } from 'components/Divider';
@@ -34,15 +34,6 @@ const ConfigEditor = (props: ConfigEditorProps) => {
     jsonData.githubUrl ? GitHubLicenseType.Enterprise : GitHubLicenseType.Basic
   );
 
-  useEffect(() => {
-    // set the default auth type if its a new datasource and nothing is set
-    if (!jsonData.selectedAuthType) {
-      onAuthChange(GitHubAuthType.Personal);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onSettingUpdate = (prop: string, set = true) => {
     return (event: ChangeEvent<HTMLInputElement>) => {
       const { onOptionsChange, options } = props;
@@ -64,9 +55,12 @@ const ConfigEditor = (props: ConfigEditorProps) => {
     onSettingUpdate(prop, false)({ target: { value: '' } } as ChangeEvent<HTMLInputElement>);
   };
 
-  const onAuthChange = (value: GitHubAuthType) => {
-    onOptionsChange({ ...options, jsonData: { ...jsonData, selectedAuthType: value } });
-  };
+  const onAuthChange = useCallback(
+    (value: GitHubAuthType) => {
+      onOptionsChange({ ...options, jsonData: { ...jsonData, selectedAuthType: value } });
+    },
+    [jsonData, onOptionsChange, options]
+  );
 
   const onLicenseChange = (value: GitHubLicenseType) => {
     // clear out githubUrl when switching to basic
@@ -76,6 +70,15 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
     setSelectedLicense(value);
   };
+
+  useEffect(() => {
+    console.log('UE CALLED');
+    // set the default auth type if its a new datasource and nothing is set
+    if (!jsonData.selectedAuthType) {
+      console.log('UE CALLED && SET');
+      onAuthChange(GitHubAuthType.Personal);
+    }
+  }, [jsonData.selectedAuthType, onAuthChange]);
 
   return (
     <>
