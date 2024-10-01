@@ -54,19 +54,25 @@ To create a new Access Token, navigate to [Personal Access Tokens](https://githu
 
 [It’s possible to configure data sources using config files with Grafana’s provisioning system](https://grafana.com/docs/grafana/latest/administration/provisioning/#data-sources).
 
-#### With the [prom-operator](https://github.com/prometheus-operator/prometheus-operator)
-
 ```yaml
-promop:
-  grafana:
-    additionalDataSources:
-      - name: GitHub Repo Insights
-        type: grafana-github-datasource
-        jsonData:
-          owner: ''
-          repository: ''
-        secureJsonData:
-          accessToken: '<github api token>'
+apiVersion: 1
+
+datasources:
+  - name: GitHub (Personal Access Token)
+    type: grafana-github-datasource
+    jsonData:
+      selectedAuthType: personal-access-token
+    secureJsonData:
+      accessToken: <your_access_token>
+
+  - name: GitHub (App)
+    type: grafana-github-datasource
+    jsonData:
+      selectedAuthType: github-app
+      appId: <your_app_id>
+      installationId: <your_installation_id>
+    secureJsonData:
+      privateKey: <your_private_key>
 ```
 
 ## Annotations
