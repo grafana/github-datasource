@@ -50,20 +50,10 @@ You will need to define the access permissions for your **personal access token*
 
 The following lists include the required permissions for the access token:
 
-For all repositories:
+`public_repo`, `repo:status`, `repo_deployment`, `read:packages`, `read:user`, `user:email`, `read:org`, `read:project`, `repo (For full control of private repositories)`
 
-- `public_repo`
-- `repo:status`
-- `repo_deployment`
-- `read:packages`
-- `read:user`
-- `user:email`
+You will need to define the access permissions for your **GitHub App** in order to allow it to access the data.
 
-For GitHub projects:
+**Repositories:**
 
-- `read:org`
-- `read:project`
-
-An extra setting is required for private repositories:
-
-- `repo (Full control of private repositories)`
+`metadata: read-only`, `contents: read-only`, `issues: read-only`, `pull requests: read-only`, `packages: read-only`, `repository security advisories: read-only`, `projects: read-only`
