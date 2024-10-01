@@ -21,6 +21,8 @@ weight: 103
 
 1. Browse to the **Connections** menu and then click on the **Data sources**.
 
+1. Click on the **Add new data source** button
+
 1. Click on the GitHub data source plugin which you have installed.
 
 1. Go to its settings tab and at the bottom, you will find the **Connection** section.
