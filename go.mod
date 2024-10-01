@@ -7,7 +7,7 @@ toolchain go1.23.1
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.11.0
 	github.com/google/go-github/v53 v53.2.0
-	github.com/grafana/grafana-plugin-sdk-go v0.250.0
+	github.com/grafana/grafana-plugin-sdk-go v0.251.0
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20230305132112-efb623903184
