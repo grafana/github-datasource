@@ -12,10 +12,6 @@ This data source uses the [`githubv4` package](https://github.com/shurcooL/githu
 
 ## Frequently Asked Questions
 
-- **I am using GitHub OAuth on Grafana. Can my users make requests with their individual GitHub accounts instead of a shared `access_token`?**
-
-No. This requires changes in Grafana first. See [this issue](https://github.com/grafana/grafana/issues/26023) in the Grafana project.
-
 - **Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?**
 
 We have aggressive caching enabled due to GitHub's rate limiting policies. When selecting a time range like "Last hour", a combination of the queries for each panel and the time range is cached temporarily.
