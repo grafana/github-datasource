@@ -21,17 +21,23 @@ You can define and configure the GitHub data source in YAML files with Grafana p
 
 **Example**
 
-The following YAML snippet can be used to provision the GitHub data source for Grafana if you are using [Prometheus Operator](https://github.com/prometheus-operator/prometheus-operator):
-
 ```yaml
-promop:
-  grafana:
-    additionalDataSources:
-      - name: GitHub Repo Insights
-        type: grafana-github-datasource
-        jsonData:
-          owner: ’<REPOSITORY_OWNER>’
-          repository: ’<REPOSITORY_NAME>’
-        secureJsonData:
-          accessToken: ’<PERSONAL_ACCESS_TOKEN>’
+apiVersion: 1
+
+datasources:
+  - name: GitHub (Personal Access Token)
+    type: grafana-github-datasource
+    jsonData:
+      selectedAuthType: personal-access-token
+    secureJsonData:
+      accessToken: <your_access_token>
+
+  - name: GitHub (App)
+    type: grafana-github-datasource
+    jsonData:
+      selectedAuthType: github-app
+      appId: <your_app_id>
+      installationId: <your_installation_id>
+    secureJsonData:
+      privateKey: <your_private_key>
 ```
