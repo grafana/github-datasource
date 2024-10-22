@@ -131,6 +131,16 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 	return GetAllVulnerabilities(ctx, d.client, opt)
 }
 
+// ListAlertsForRepo is the query handler for listing GitHub Security Alerts
+func (d *Datasource) ListAlertsForRepo(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListCodeScanningOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+	}
+
+	return d.HandleCodeScanningQuery(ctx, &models.CodeScanningQuery{Query: query.Query, Options: opt}, req)
+}
+
 // HandleProjectsQuery is the query handler for listing GitHub Projects
 func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.ProjectsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ProjectOptions{
@@ -181,12 +191,8 @@ func (d *Datasource) HandleWorkflowUsageQuery(ctx context.Context, query *models
 
 // HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository
 func (d *Datasource) HandleCodeScanningQuery(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.ListCodeScanningOptions{
-		Repository: query.Repository,
-		Owner:      query.Owner,
-	}
 
-	return GetCodeScanningAlerts(ctx, d.client, opt, req.TimeRange)
+	return GetCodeScanningAlerts(ctx, query.Owner, query.Repository, d.client)
 }
 
 // CheckHealth is the health check for GitHub

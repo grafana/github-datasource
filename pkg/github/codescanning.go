@@ -14,58 +14,76 @@ type CodeScanningWrapper []*googlegithub.Alert
 func (alerts CodeScanningWrapper) Frames() data.Frames {
 	frames := data.NewFrame("code_scanning_alerts",
 		data.NewField("Number", nil, []*int64{}),
-		data.NewField("CreatedAt", nil, []*string{}),
-		data.NewField("UpdatedAt", nil, []*string{}),
-		data.NewField("HTMLURL", nil, []*string{}),
-		data.NewField("State", nil, []*string{}),
-		data.NewField("DismissedBy", nil, []*string{}),
-		data.NewField("DismissedAt", nil, []*string{}),
-		data.NewField("DismissedReason", nil, []*string{}),
-		data.NewField("DismissedComment", nil, []*string{}),
-		data.NewField("RuleID", nil, []*string{}),
-		data.NewField("RuleSeverity", nil, []*string{}),
-		data.NewField("RuleSecuritySeverityLevel", nil, []*string{}),
-		data.NewField("RuleDescription", nil, []*string{}),
-		data.NewField("RuleFullDescription", nil, []*string{}),
-		data.NewField("RuleTags", nil, []*string{}),
-		data.NewField("RuleHelp", nil, []*string{}),
-		data.NewField("ToolName", nil, []*string{}),
-		data.NewField("ToolVersion", nil, []*string{}),
-		data.NewField("ToolGUID", nil, []*string{}),
+		data.NewField("CreatedAt", nil, []string{}),
+		data.NewField("UpdatedAt", nil, []string{}),
+		data.NewField("DismissedAt", nil, []string{}),
+		data.NewField("HTMLURL", nil, []string{}),
+		data.NewField("State", nil, []string{}),
+		data.NewField("DismissedBy", nil, []string{}),
+		data.NewField("DismissedReason", nil, []string{}),
+		data.NewField("DismissedComment", nil, []string{}),
+		data.NewField("RuleID", nil, []string{}),
+		data.NewField("RuleSeverity", nil, []string{}),
+		data.NewField("RuleSecuritySeverityLevel", nil, []string{}),
+		data.NewField("RuleDescription", nil, []string{}),
+		data.NewField("RuleFullDescription", nil, []string{}),
+		data.NewField("RuleTags", nil, []string{}),
+		data.NewField("RuleHelp", nil, []string{}),
+		data.NewField("ToolName", nil, []string{}),
+		data.NewField("ToolVersion", nil, []string{}),
+		data.NewField("ToolGUID", nil, []string{}),
 	)
 
 	for _, alert := range alerts {
 		frames.AppendRow(
-			alert.GetNumber(),
+			func() *int64 {
+				num := int64(alert.GetNumber())
+				return &num
+			}(),
 			func() string {
 				if !alert.GetCreatedAt().Time.IsZero() {
-					return alert.GetCreatedAt().String()
+					str := alert.GetCreatedAt().String()
+					return str
 				}
 				return ""
 			}(),
 			func() string {
 				if !alert.GetUpdatedAt().Time.IsZero() {
-					return alert.GetUpdatedAt().String()
+					str := alert.GetUpdatedAt().String()
+					return str
 				}
 				return ""
 			}(),
 			func() string {
 				if !alert.GetDismissedAt().Time.IsZero() {
-					return alert.GetDismissedAt().String()
+					str := alert.GetDismissedAt().String()
+					return str
 				}
 				return ""
 			}(),
-			alert.GetHTMLURL(),
-			alert.GetState(),
+			func() string {
+				str := alert.GetHTMLURL()
+				return str
+			}(),
+			func() string {
+				str := alert.GetState()
+				return str
+			}(),
 			func() string {
 				if alert.GetDismissedBy() != nil {
-					return alert.GetDismissedBy().GetLogin()
+					str := alert.GetDismissedBy().GetLogin()
+					return str
 				}
 				return ""
 			}(),
-			alert.GetDismissedAt().String(),
-			alert.GetDismissedReason(),
-			alert.GetDismissedComment(),
+			func() string {
+				str := alert.GetDismissedReason()
+				return str
+			}(),
+			func() string {
+				str := alert.GetDismissedComment()
+				return str
+			}(),
 			func() string {
 				if alert.GetRule() != nil {
 					return *alert.GetRule().ID
@@ -98,7 +116,8 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 			}(),
 			func() string {
 				if alert.GetRule() != nil {
-					return strings.Join(alert.GetRule().Tags, ", ")
+					str := strings.Join(alert.GetRule().Tags, ", ")
+					return str
 				}
 				return ""
 			}(),
@@ -115,13 +134,13 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 				return ""
 			}(),
 			func() string {
-				if alert.GetTool() != nil {
+				if alert.GetTool() != nil && alert.GetTool().Version != nil {
 					return *alert.GetTool().Version
 				}
 				return ""
 			}(),
 			func() string {
-				if alert.GetTool() != nil {
+				if alert.GetTool() != nil && alert.GetTool().GUID != nil {
 					return *alert.GetTool().GUID
 				}
 				return ""
