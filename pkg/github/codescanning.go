@@ -3,6 +3,7 @@ package github
 import (
 	"context"
 	"strings"
+	"time"
 
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/github-datasource/pkg/models"
@@ -13,25 +14,25 @@ type CodeScanningWrapper []*googlegithub.Alert
 
 func (alerts CodeScanningWrapper) Frames() data.Frames {
 	frames := data.NewFrame("code_scanning_alerts",
-		data.NewField("Number", nil, []*int64{}),
-		data.NewField("CreatedAt", nil, []string{}),
-		data.NewField("UpdatedAt", nil, []string{}),
-		data.NewField("DismissedAt", nil, []string{}),
-		data.NewField("HTMLURL", nil, []string{}),
-		data.NewField("State", nil, []string{}),
-		data.NewField("DismissedBy", nil, []string{}),
-		data.NewField("DismissedReason", nil, []string{}),
-		data.NewField("DismissedComment", nil, []string{}),
-		data.NewField("RuleID", nil, []string{}),
-		data.NewField("RuleSeverity", nil, []string{}),
-		data.NewField("RuleSecuritySeverityLevel", nil, []string{}),
-		data.NewField("RuleDescription", nil, []string{}),
-		data.NewField("RuleFullDescription", nil, []string{}),
-		data.NewField("RuleTags", nil, []string{}),
-		data.NewField("RuleHelp", nil, []string{}),
-		data.NewField("ToolName", nil, []string{}),
-		data.NewField("ToolVersion", nil, []string{}),
-		data.NewField("ToolGUID", nil, []string{}),
+		data.NewField("number", nil, []*int64{}),
+		data.NewField("created_at", nil, []time.Time{}),
+		data.NewField("updated_at", nil, []time.Time{}),
+		data.NewField("dismissed_at", nil, []*time.Time{}),
+		data.NewField("url", nil, []string{}),
+		data.NewField("state", nil, []string{}),
+		data.NewField("dismissed_by", nil, []string{}),
+		data.NewField("dismissed_reason", nil, []string{}),
+		data.NewField("dismissed_comment", nil, []string{}),
+		data.NewField("rule_id", nil, []string{}),
+		data.NewField("rule_severity", nil, []string{}),
+		data.NewField("rule_security_severity_level", nil, []string{}),
+		data.NewField("rule_description", nil, []string{}),
+		data.NewField("rule_full_description", nil, []string{}),
+		data.NewField("rule_tags", nil, []string{}),
+		data.NewField("rule_help", nil, []string{}),
+		data.NewField("tool_name", nil, []string{}),
+		data.NewField("tool_version", nil, []string{}),
+		data.NewField("tool_guid", nil, []string{}),
 	)
 
 	for _, alert := range alerts {
@@ -40,26 +41,24 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 				num := int64(alert.GetNumber())
 				return &num
 			}(),
-			func() string {
+			func() time.Time {
 				if !alert.GetCreatedAt().Time.IsZero() {
-					str := alert.GetCreatedAt().String()
-					return str
+					return alert.GetCreatedAt().Time
 				}
-				return ""
+				return time.Time{}
 			}(),
-			func() string {
+			func() time.Time {
 				if !alert.GetUpdatedAt().Time.IsZero() {
-					str := alert.GetUpdatedAt().String()
-					return str
+					return alert.GetUpdatedAt().Time
 				}
-				return ""
+				return time.Time{}
 			}(),
-			func() string {
+			func() *time.Time {
 				if !alert.GetDismissedAt().Time.IsZero() {
-					str := alert.GetDismissedAt().String()
-					return str
+					t := alert.GetDismissedAt().Time
+					return &t
 				}
-				return ""
+				return nil
 			}(),
 			func() string {
 				str := alert.GetHTMLURL()
