@@ -47,6 +47,7 @@ export enum GitHubLicenseType {
 }
 
 export enum QueryType {
+  Code_Scanning = 'Code_Scanning',
   Commits = 'Commits',
   Issues = 'Issues',
   Contributors = 'Contributors',

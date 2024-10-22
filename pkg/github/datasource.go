@@ -179,6 +179,16 @@ func (d *Datasource) HandleWorkflowUsageQuery(ctx context.Context, query *models
 	return GetWorkflowUsage(ctx, d.client, opt, req.TimeRange)
 }
 
+// HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository
+func (d *Datasource) HandleCodeScanningQuery(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListCodeScanningOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+	}
+
+	return GetCodeScanningAlerts(ctx, d.client, opt, req.TimeRange)
+}
+
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
