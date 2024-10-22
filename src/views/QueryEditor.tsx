@@ -14,6 +14,7 @@ import QueryEditorIssues from './QueryEditorIssues';
 import QueryEditorMilestones from './QueryEditorMilestones';
 import QueryEditorPullRequests from './QueryEditorPullRequests';
 import QueryEditorTags from './QueryEditorTags';
+import QueryEditorCodeScanning from './QueryEditorCodeScanning';
 import QueryEditorContributors from './QueryEditorContributors';
 import QueryEditorLabels from './QueryEditorLabels';
 import QueryEditorPackages from './QueryEditorPackages';
@@ -47,6 +48,9 @@ const queryEditors: {
   },
   [QueryType.Tags]: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorTags {...(props.query.options || {})} />,
+  },
+  [QueryType.Code_Scanning]: {
+    component: (props: Props, _: (val: any) => void) => <QueryEditorCodeScanning {...(props.query.options || {})} />,
   },
   [QueryType.Releases]: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorReleases {...(props.query.options || {})} />,
