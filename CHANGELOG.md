@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.9.1]
+
+- **Docs** - Add video tutorial to the README
+- **Docs** - Update documentation for permissions and provisioning
+- **Docs** - Update documentation plugin setup
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.252.0 to 0.255.0
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.251.0 to 0.252.0
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.250.0 to 0.251.0
+
 ## [1.9.0]
 
 - **Feature** - Add support for GitHub App authentication
