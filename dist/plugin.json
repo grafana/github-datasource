@@ -1,0 +1,61 @@
+{
+    "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+    "type": "datasource",
+    "name": "GitHub",
+    "id": "grafana-github-datasource",
+    "backend": true,
+    "executable": "gpx_github",
+    "annotations": true,
+    "alerting": true,
+    "metrics": true,
+    "includes": [
+        {
+            "type": "dashboard",
+            "name": "GitHub (demo)",
+            "path": "dashboards/dashboard.json"
+        }
+    ],
+    "info": {
+        "description": "The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.",
+        "author": {
+            "name": "Grafana Labs",
+            "url": "https://grafana.com"
+        },
+        "keywords": [
+            "github",
+            "git",
+            "devops",
+            "developer tools",
+            "api",
+            "grafana"
+        ],
+        "logos": {
+            "small": "img/github.svg",
+            "large": "img/github.svg"
+        },
+        "links": [
+            {
+                "name": "Docs",
+                "url": "https://grafana.com/docs/plugins/grafana-github-datasource"
+            },
+            {
+                "name": "Website",
+                "url": "https://github.com/grafana/github-datasource"
+            },
+            {
+                "name": "Report bug",
+                "url": "https://github.com/grafana/github-datasource/issues"
+            }
+        ],
+        "screenshots": [],
+        "version": "1.9.1",
+        "updated": "2024-10-25"
+    },
+    "dependencies": {
+        "grafanaDependency": ">=9.1.0",
+        "plugins": []
+    },
+    "generated": {
+        "extensions": []
+    }
+}
