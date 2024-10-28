@@ -62,10 +62,11 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
 	}
 
-	workflows, err := keepWorkflowsInTimeRange(data.Workflows, opts.TimeField, timeRange)
-	if err != nil {
-		return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v %w", opts.TimeField, timeRange, err)
-	}
+	workflows := data.Workflows
+	// workflows, err := keepWorkflowsInTimeRange(data.Workflows, opts.TimeField, timeRange)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v %w", opts.TimeField, timeRange, err)
+	// }
 
 	return WorkflowsWrapper(workflows), nil
 }
