@@ -2,12 +2,3 @@
 # Each line is a file pattern followed by one or more owners.
 # More details are here: https://help.github.com/articles/about-codeowners/
 # The '*' pattern is global owners.
-
-* @grafana/oss-big-tent
-
-docs/docs.mk       @jdbaldry
-docs/make-docs     @jdbaldry
-docs/Makefile      @jdbaldry
-docs/variables.mk  @jdbaldry
-
-.github/workflows/update-make-docs.yml  @jdbaldry
