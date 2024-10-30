@@ -1,5 +1,10 @@
 # Change Log
 
+## [1.9.2]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.255.0 to 0.258.0
+- **Chore** - Update uplot dependency to 1.6.31
+
 ## [1.9.1]
 
 - **Docs** - Add video tutorial to the README
