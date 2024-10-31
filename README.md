@@ -12,7 +12,7 @@ Watch this video to learn more about setting up the Grafana GitHub data source p
 
 [![GitHub data source plugin | Visualize GitHub using Grafana | Tutorial](https://img.youtube.com/vi/DW693S3cO48/hq720.jpg)](https://youtu.be/DW693S3cO48 "Grafana GitHub data source plugin")
 
-{{< docs/play title="Google Sheets data source plugin demo" url="https://play.grafana.org/d/d5b56357-1a57-4821-ab27-16fdf79cab57/github3a-queries-and-multi-variables" >}}
+{{< docs/play title="Github data source plugin demo" url="https://play.grafana.org/d/d5b56357-1a57-4821-ab27-16fdf79cab57/github3a-queries-and-multi-variables" >}}
 
 ## GitHub API V4 (GraphQL)
 
