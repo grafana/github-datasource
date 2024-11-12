@@ -26,7 +26,7 @@ To create annotations, you need to specify at least the following two fields:
 
 Annotations overlay events on a graph.
 
-![Annotations on a graph](/media/docs/grafana/data-sources/github/annotations.png)
+{{< figure alt="Annotations on a graph" src="/media/docs/grafana/data-sources/github/annotations.png" >}}
 
 With annotations, you can display the following GitHub resources on a graph:
 
@@ -38,7 +38,7 @@ With annotations, you can display the following GitHub resources on a graph:
 
 All annotations require that you select a field to display on the annotation, and a field that represents the time that the event occurred.
 
-![Annotations editor](/media/docs/grafana/data-sources/github/annotations-editor.png)
+{{< figure alt="Annotations editor" src="/media/docs/grafana/data-sources/github/annotations-editor.png" >}}
 
 If you want to add titles or tags to the annotations, you can add additional fields with the appropriate types.
 
