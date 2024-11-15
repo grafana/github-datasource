@@ -28,7 +28,7 @@ weight: 103
 1. Go to its settings tab and at the bottom, you will find the **Connection** section.
 
 1. Paste the access token.
-   ![Configuring API Token](/media/docs/grafana/data-sources/github/github-plugin-confg-token.png)
+   {{< figure alt="Configuring API Token" src="/media/docs/grafana/data-sources/github/github-plugin-confg-token.png" >}}
 
    (_Optional_): If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section and paste the URL of your GitHub Enterprise.
 

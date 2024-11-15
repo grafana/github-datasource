@@ -1,13 +1,6 @@
 {
-  "ignorePaths": [
-    "node_modules/**",
-    "dist/**",
-    "mage_output_file.go"
-  ],
-  "ignoreRegExpList": [
-    "import\\s*\\((.|[\r\n])*?\\)",
-    "import\\s*.*\".*?\""
-  ],
+  "ignorePaths": ["node_modules/**", "dist/**", "mage_output_file.go"],
+  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
   "words": [
     "araddon",
     "bmike",
@@ -61,6 +54,7 @@
     "uplot",
     "vals",
     "vladimirdotk",
-    "Wrapf"
+    "Wrapf",
+    "confg" //this is unfortunately a typo in a file name that is not easy to fix
   ]
 }
