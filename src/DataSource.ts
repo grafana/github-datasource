@@ -15,7 +15,7 @@ import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
 import { Observable } from 'rxjs';
-import { trackRequest } from 'tracking';
+import { trackRequest, trackHealthCheck } from 'tracking';
 import type { GitHubQuery, GitHubVariableQuery } from './types';
 import type { GitHubDataSourceOptions } from './types/config';
 
@@ -33,6 +33,19 @@ export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubD
   query(request: DataQueryRequest<GitHubQuery>): Observable<DataQueryResponse> {
     trackRequest(request);
     return super.query(request);
+  }
+
+  testDatasource() {
+    return super
+      .testDatasource()
+      .then((hc) => {
+        trackHealthCheck(hc, this.meta);
+        return Promise.resolve(hc);
+      })
+      .catch((ex) => {
+        trackHealthCheck(ex, this.meta);
+        return Promise.reject(ex);
+      });
   }
 
   // Implemented as a part of DataSourceApi
