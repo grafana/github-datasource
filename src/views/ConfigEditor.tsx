@@ -183,7 +183,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
       <Divider />
 
       <ConfigSection title="Connection" isCollapsible>
-        <Label>GitHub license type</Label>
+        <Label>GitHub License Type</Label>
         <RadioButtonGroup
           options={licenseOptions}
           value={selectedLicense}
