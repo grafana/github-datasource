@@ -1,37 +1,42 @@
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
+import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
+import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
+import { Divider } from 'components/Divider';
+import { components as selectors } from '../components/selectors';
 import {
-  DataSourcePluginOptionsEditorProps,
-  GrafanaTheme2,
   onUpdateDatasourceJsonDataOption,
   onUpdateDatasourceSecureJsonDataOption,
+  type DataSourcePluginOptionsEditorProps,
+  type GrafanaTheme2,
+  type SelectableValue,
 } from '@grafana/data';
-import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
-import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { components } from '../components/selectors';
-import { GitHubAuthType, GitHubDataSourceOptions, GitHubLicenseType, GitHubSecureJsonData } from '../types';
-import { Divider } from 'components/Divider';
+import type { GitHubAuthType, GitHubLicenseType, GitHubDataSourceOptions, GitHubSecureJsonData } from 'types/config';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSourceOptions, GitHubSecureJsonData>;
 
 const ConfigEditor = (props: ConfigEditorProps) => {
   const { options, onOptionsChange } = props;
   const { jsonData, secureJsonData, secureJsonFields } = options;
-  const secureSettings = (secureJsonData || {}) as GitHubSecureJsonData;
+  const secureSettings = secureJsonData || {};
   const styles = useStyles2(getStyles);
   const WIDTH_LONG = 40;
-  const authOptions = [
-    { label: 'Personal Access Token', value: GitHubAuthType.Personal },
-    { label: 'GitHub App', value: GitHubAuthType.App },
+
+  const authOptions: Array<SelectableValue<GitHubAuthType>> = [
+    { label: 'Personal Access Token', value: 'personal-access-token' },
+    { label: 'GitHub App', value: 'github-app' },
   ];
-  const licenseOptions = [
-    { label: 'Basic', value: GitHubLicenseType.Basic },
-    { label: 'Enterprise', value: GitHubLicenseType.Enterprise },
+
+  const licenseOptions: Array<SelectableValue<GitHubLicenseType>> = [
+    { label: 'Free, Pro & Team', value: 'github-basic' },
+    { label: 'Enterprise Cloud', value: 'github-enterprise-cloud' },
+    { label: 'Enterprise Server', value: 'github-enterprise-server' },
   ];
 
   const [isOpen, setIsOpen] = useState(true);
-  const [selectedLicense, setSelectedLicense] = useState(
-    jsonData.githubUrl ? GitHubLicenseType.Enterprise : GitHubLicenseType.Basic
+
+  const [selectedLicense, setSelectedLicense] = useState<GitHubLicenseType>(
+    jsonData.githubPlan || jsonData.githubUrl ? 'github-enterprise-server' : jsonData?.githubPlan || 'github-basic'
   );
 
   const onSettingUpdate = (prop: string, set = true) => {
@@ -62,19 +67,22 @@ const ConfigEditor = (props: ConfigEditorProps) => {
     [jsonData, onOptionsChange, options]
   );
 
-  const onLicenseChange = (value: GitHubLicenseType) => {
-    // clear out githubUrl when switching to basic
-    if (value === GitHubLicenseType.Basic) {
-      onOptionsChange({ ...options, jsonData: { ...jsonData, githubUrl: '' } });
-    }
-
-    setSelectedLicense(value);
+  const onLicenseChange = (githubPlan: GitHubLicenseType) => {
+    onOptionsChange({
+      ...options,
+      jsonData: {
+        ...jsonData,
+        githubPlan,
+        githubUrl: githubPlan === 'github-enterprise-server' ? jsonData.githubUrl : '',
+      },
+    });
+    setSelectedLicense(githubPlan);
   };
 
   useEffect(() => {
     // set the default auth type if its a new datasource and nothing is set
     if (!jsonData.selectedAuthType) {
-      onAuthChange(GitHubAuthType.Personal);
+      onAuthChange('personal-access-token');
     }
   }, [jsonData.selectedAuthType, onAuthChange]);
 
@@ -82,7 +90,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
     <>
       <DataSourceDescription
         dataSourceName="GitHub"
-        docsLink="https://grafana.com/grafana/plugins/grafana-github-datasource/"
+        docsLink="https://grafana.com/docs/plugins/grafana-github-datasource"
         hasRequiredFields={false}
       />
 
@@ -91,7 +99,12 @@ const ConfigEditor = (props: ConfigEditorProps) => {
       <Collapse collapsible label="Access Token Permissions" isOpen={isOpen} onToggle={() => setIsOpen((x) => !x)}>
         <p>
           To create a new Access Token, navigate to{' '}
-          <a className={styles.externalLink} href="https://github.com/settings/tokens" target="_blank" rel="noreferrer">
+          <a
+            className={styles.externalLink}
+            href="https://github.com/settings/tokens?type=beta"
+            target="_blank"
+            rel="noreferrer"
+          >
             Personal Access Tokens
           </a>{' '}
           and create a click &quot;Generate new token.&quot;
@@ -111,19 +124,21 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
       <Divider />
 
-      <ConfigSection title="Connection">
-        <RadioButtonGroup
-          options={authOptions}
-          value={jsonData.selectedAuthType}
-          onChange={onAuthChange}
-          className={styles.radioButton}
-        />
+      <ConfigSection title="Authentication">
+        <Field label="Authentication Type">
+          <RadioButtonGroup<GitHubAuthType>
+            options={authOptions}
+            value={jsonData.selectedAuthType}
+            onChange={onAuthChange}
+            className={styles.radioButton}
+          />
+        </Field>
 
-        {jsonData.selectedAuthType === GitHubAuthType.Personal && (
+        {jsonData.selectedAuthType === 'personal-access-token' && (
           <Field label="Personal Access Token">
             <SecretInput
               placeholder="Personal Access Token"
-              data-testid={components.ConfigEditor.AccessToken}
+              data-testid={selectors.ConfigEditor.AccessToken}
               value={secureSettings.accessToken || ''}
               isConfigured={secureJsonFields!['accessToken']}
               onChange={onSettingUpdate('accessToken', false)}
@@ -133,7 +148,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           </Field>
         )}
 
-        {jsonData.selectedAuthType === GitHubAuthType.App && (
+        {jsonData.selectedAuthType === 'github-app' && (
           <>
             <Field label="App ID">
               <Input
@@ -167,8 +182,8 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
       <Divider />
 
-      <ConfigSection title="Additional Settings" isCollapsible>
-        <Label>GitHub License</Label>
+      <ConfigSection title="Connection" isCollapsible>
+        <Label>GitHub license type</Label>
         <RadioButtonGroup
           options={licenseOptions}
           value={selectedLicense}
@@ -176,10 +191,10 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           className={styles.radioButton}
         />
 
-        {selectedLicense === GitHubLicenseType.Enterprise && (
-          <Field label="GitHub Enterprise URL">
+        {selectedLicense === 'github-enterprise-server' && (
+          <Field label="GitHub Enterprise Server URL">
             <Input
-              placeholder="URL of GitHub Enterprise"
+              placeholder="http(s)://HOSTNAME/"
               value={jsonData.githubUrl}
               onChange={onUpdateDatasourceJsonDataOption(props, 'githubUrl')}
               width={WIDTH_LONG}
