@@ -21,6 +21,7 @@ var (
 		"Your token has not been granted the required scopes to execute this query",
 		"Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization.",
 		"API rate limit exceeded",
+		"Resource not accessible by integration",
 	}
 )
 

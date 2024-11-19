@@ -74,6 +74,12 @@ func TestAddErrorSourceToError(t *testing.T) {
 			resp: nil,
 			expected: errorsource.DownstreamError(errors.New("API rate limit exceeded for ID 1"), false),
 		},
+				{
+			name: "permission error message",
+			err: errors.New("Resource not accessible by integration"),
+			resp: nil,
+			expected: errorsource.DownstreamError(errors.New("Resource not accessible by integration"), false),
+		},
 	}
 
 	for _, tt := range tests {
