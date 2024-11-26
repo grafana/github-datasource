@@ -5,7 +5,7 @@ import {
   onUpdateDatasourceJsonDataOption,
   onUpdateDatasourceSecureJsonDataOption,
 } from '@grafana/data';
-import { ConfigSection, DataSourceDescription } from '@grafana/experimental';
+import { ConfigSection, DataSourceDescription } from '@grafana/plugin-ui';
 import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { components } from '../components/selectors';
