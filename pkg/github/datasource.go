@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
@@ -187,9 +188,15 @@ func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRe
 	})
 	if err != nil {
 		if strings.Contains(err.Error(), "401 Unauthorized") {
-			return newHealthResult(backend.HealthStatusError, "401 Unauthorized. check your API key/Access token")
+			return newHealthResult(backend.HealthStatusError, "401 Unauthorized. Check your API key/Access token")
 		}
-		return newHealthResult(backend.HealthStatusError, "Health check failed")
+		if strings.Contains(err.Error(), "404 Not Found") {
+			return newHealthResult(backend.HealthStatusError, "404 Not Found. Check the Github Enterprise Server URL")
+		}
+		if strings.HasSuffix(err.Error(), "no such host") {
+			return newHealthResult(backend.HealthStatusError, "Unable to reach the Github Enterprise Server URL from the Grafana server. Check the Github Enterprise Server URL and/or proxy settings")
+		}
+		return newHealthResult(backend.HealthStatusError, fmt.Sprintf("Health check failed. %s", err.Error()))
 	}
 
 	return newHealthResult(backend.HealthStatusOk, "Data source is working")

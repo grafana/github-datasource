@@ -10,13 +10,14 @@ import {
   ScopedVars,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { GitHubDataSourceOptions, GitHubQuery, GitHubVariableQuery } from './types';
 import { replaceVariables } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
 import { Observable } from 'rxjs';
 import { trackRequest } from 'tracking';
+import type { GitHubQuery, GitHubVariableQuery } from './types';
+import type { GitHubDataSourceOptions } from './types/config';
 
 export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubDataSourceOptions> {
   templateSrv = getTemplateSrv();
