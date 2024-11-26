@@ -19,7 +19,7 @@ weight: 102
 
 You will need either a `GitHub App` or a `Personal Access Token` to use this plugin.
 
-### Creating a personal access token (classic)
+## Creating a personal access token (classic)
 
 This is an example when you want to use the personal access token (classic). \
 Read more about [personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
@@ -30,7 +30,7 @@ Read more about [personal access tokens](https://docs.github.com/en/authenticati
 1. Define the permissions which you want to allow.
 1. Click **Generate Token**.
 
-### Creating a fine-grained personal access token
+## Creating a fine-grained personal access token
 
 This is an example when you want to use the fine-grained personal access token. \
 Read more about [fine-grained personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
@@ -41,7 +41,7 @@ Read more about [fine-grained personal access tokens](https://docs.github.com/en
 1. Provide necessary permissions which you want to allow. Ensure you are providing `read-only` permissions.
 1. Click **Generate token**.
 
-### Using GitHub App Authentication
+## Using GitHub App Authentication
 
 You can also authenticate using a GitHub App instead of a personal access token. This method allows for better security and fine-grained access to resources.
 
