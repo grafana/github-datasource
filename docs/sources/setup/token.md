@@ -30,16 +30,16 @@ Read more about [personal access tokens](https://docs.github.com/en/authenticati
 1. Define the permissions which you want to allow.
 1. Click **Generate Token**.
 
-### Creating a fine-grained personal access token (preview)
+### Creating a fine-grained personal access token
 
-This is an example when you want to use the fine-grained personal access token (preview). \
+This is an example when you want to use the fine-grained personal access token. \
 Read more about [fine-grained personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
 
 1. Login to your GitHub account.
 1. Navigate to [Personal access tokens](https://github.com/settings/tokens?type=beta) and click **Generate new token**.
 1. Provide a name for the token.
 1. Provide necessary permissions which you want to allow. Ensure you are providing `read-only` permissions.
-1. Click **Generate Token**.
+1. Click **Generate token**.
 
 ### Using GitHub App Authentication
 
