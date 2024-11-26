@@ -37,6 +37,8 @@ const (
 	QueryTypeWorkflows = "Workflows"
 	// QueryTypeWorkflowUsage is used when querying a specific workflow usage
 	QueryTypeWorkflowUsage = "Workflow_Usage"
+	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
+	QueryTypeCodeScanning = "Code_Scanning"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -128,4 +130,10 @@ type WorkflowsQuery struct {
 type WorkflowUsageQuery struct {
 	Query
 	Options WorkflowUsageOptions `json:"options"`
+}
+
+// CodeScanningQuery is used when querying code scanning alerts for a repository
+type CodeScanningQuery struct {
+	Query
+	Options ListCodeScanningOptions `json:"options"`
 }
