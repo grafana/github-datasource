@@ -1,5 +1,5 @@
-import { DataQuery, DataSourceJsonData } from '@grafana/data';
-import { Filter } from 'components/Filters';
+import type { DataQuery } from '@grafana/schema';
+import type { Filter } from 'components/Filters';
 
 export interface Label {
   color: string;
@@ -10,40 +10,6 @@ export interface Label {
 export interface RepositoryOptions {
   repository?: string;
   owner?: string;
-}
-
-export interface GitHubEnterpriseOptions {
-  githubUrl?: string;
-}
-
-export interface GitHubAppAuth {
-  appId?: string;
-  installationId?: string;
-}
-
-export interface GitHubDataSourceOptions
-  extends DataSourceJsonData,
-    RepositoryOptions,
-    GitHubEnterpriseOptions,
-    GitHubAppAuth {
-  selectedAuthType?: GitHubAuthType;
-}
-
-export interface GitHubSecureJsonData {
-  // accessToken is set if the user is using a Personal Access Token to connect to GitHub
-  accessToken?: string;
-  // privateKey is set if the user is using a GitHub App to connect to GitHub
-  privateKey?: string;
-}
-
-export enum GitHubAuthType {
-  Personal = 'personal-access-token',
-  App = 'github-app',
-}
-
-export enum GitHubLicenseType {
-  Basic = 'github-basic',
-  Enterprise = 'github-enterprise',
 }
 
 export enum QueryType {

@@ -25,12 +25,12 @@ weight: 103
 
 1. Click on the GitHub data source plugin which you have installed.
 
-1. Go to its settings tab and at the bottom, you will find the **Connection** section.
+1. Go to its settings tab and at the bottom, you will find the **Authentication** section.
 
 1. Paste the access token.
    {{< figure alt="Configuring API Token" src="/media/docs/grafana/data-sources/github/github-plugin-confg-token.png" >}}
 
-   (_Optional_): If you using the GitHub Enterprise, then select the **Enterprise** option inside the **Additional Settings** section and paste the URL of your GitHub Enterprise.
+1. (_Optional_): If you using the GitHub Enterprise Server, then select the **Enterprise Server** option inside the **Connection** section and paste the URL of your GitHub Enterprise Server.
 
 1. Click **Save & Test** button and you should see a confirmation dialog box that says "Data source is working".
 

@@ -3,7 +3,6 @@ import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { Select, InlineField } from '@grafana/ui';
 
 import { GitHubDataSource } from '../DataSource';
-import { GitHubDataSourceOptions, GitHubQuery, QueryType, DefaultQueryType } from '../types';
 import { isValid } from '../validation';
 import { components } from './../components/selectors';
 
@@ -21,6 +20,8 @@ import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
 import QueryEditorProjects from './QueryEditorProjects';
 import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
+import { type GitHubQuery, QueryType, DefaultQueryType } from '../types';
+import type { GitHubDataSourceOptions } from '../types/config';
 
 interface Props extends QueryEditorProps<GitHubDataSource, GitHubQuery, GitHubDataSourceOptions> {
   queryTypes?: string[];
