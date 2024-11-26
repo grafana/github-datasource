@@ -1,5 +1,6 @@
 import { isEmpty } from 'lodash';
-import { GitHubQuery, ProjectQueryType, QueryType } from './types';
+import { ProjectQueryType, QueryType } from './constants';
+import type { GitHubQuery } from './types/query';
 
 export const isValid = (query: GitHubQuery): boolean => {
   if (query.queryType === QueryType.Repositories) {

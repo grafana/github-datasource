@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Input, InlineLabel, RadioButtonGroup, InlineField } from '@grafana/ui';
-
 import { QueryEditorRow } from '../components/Forms';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { components } from '../components/selectors';
-import { ProjectsOptions, ProjectQueryType } from 'types';
 import { SelectableValue } from '@grafana/data';
 import { Filter, Filters } from 'components/Filters';
+import { ProjectQueryType } from './../constants';
+import type { ProjectsOptions } from 'types/query';
 
 interface Props extends ProjectsOptions {
   onChange: (value: ProjectsOptions) => void;

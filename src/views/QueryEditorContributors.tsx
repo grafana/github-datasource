@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Input, InlineField } from '@grafana/ui';
-
-import { ContributorsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import type { ContributorsOptions } from '../types/query';
 
 interface Props extends ContributorsOptions {
   onChange: (value: ContributorsOptions) => void;

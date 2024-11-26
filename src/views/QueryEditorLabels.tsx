@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Input, InlineField } from '@grafana/ui';
-
-import { LabelsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import type { LabelsOptions } from '../types/query';
 
 interface Props extends LabelsOptions {
   onChange: (value: LabelsOptions) => void;

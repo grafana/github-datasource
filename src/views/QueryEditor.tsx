@@ -20,7 +20,8 @@ import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
 import QueryEditorProjects from './QueryEditorProjects';
 import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
-import { type GitHubQuery, QueryType, DefaultQueryType } from '../types';
+import { QueryType, DefaultQueryType } from '../constants';
+import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
 
 interface Props extends QueryEditorProps<GitHubDataSource, GitHubQuery, GitHubDataSourceOptions> {

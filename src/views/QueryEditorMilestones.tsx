@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-
 import { Input, InlineField } from '@grafana/ui';
-
-import { MilestonesOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import type { MilestonesOptions } from '../types/query';
 
 interface Props extends MilestonesOptions {
   onChange: (value: MilestonesOptions) => void;

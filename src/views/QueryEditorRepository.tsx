@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Input, InlineLabel } from '@grafana/ui';
-
 import { QueryEditorRow } from '../components/Forms';
-import { RepositoryOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { components } from '../components/selectors';
+import type { RepositoryOptions } from '../types/query';
 
 interface Props extends RepositoryOptions {
   onChange: (value: RepositoryOptions) => void;

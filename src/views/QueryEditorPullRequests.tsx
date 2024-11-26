@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-
 import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
-
-import { PullRequestsOptions, PullRequestTimeField } from '../types';
-
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { PullRequestTimeField } from '../constants';
+import type { PullRequestsOptions } from '../types/query';
 
 interface Props extends PullRequestsOptions {
   onChange: (value: PullRequestsOptions) => void;

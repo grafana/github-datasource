@@ -1,12 +1,11 @@
 import React, { useMemo, useState } from 'react';
-
 import { InlineField } from '@grafana/ui';
-
 import QueryEditor from './QueryEditor';
 import { GitHubDataSource } from '../DataSource';
-import { GitHubVariableQuery, DefaultQueryType } from '../types';
 import FieldSelect from '../components/FieldSelect';
 import { isValid } from '../validation';
+import { DefaultQueryType } from '../constants';
+import type { GitHubVariableQuery } from '../types/query';
 
 interface Props {
   query: GitHubVariableQuery;

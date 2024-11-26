@@ -1,8 +1,9 @@
 import React from 'react';
 import { Select, InlineField } from '@grafana/ui';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-import { WorkflowsOptions, WorkflowsTimeField } from 'types';
 import { SelectableValue } from '@grafana/data';
+import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { WorkflowsTimeField } from './../constants';
+import type { WorkflowsOptions } from 'types/query';
 
 interface Props extends WorkflowsOptions {
   onChange: (value: WorkflowsOptions) => void;

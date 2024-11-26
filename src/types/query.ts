@@ -1,5 +1,25 @@
+import { PullRequestTimeField, IssueTimeField, WorkflowsTimeField, PackageType, ProjectQueryType } from '../constants';
 import type { DataQuery } from '@grafana/schema';
 import type { Filter } from 'components/Filters';
+
+export interface RepositoryOptions {
+  repository?: string;
+  owner?: string;
+}
+
+export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
+  options?:
+    | PullRequestsOptions
+    | ReleasesOptions
+    | LabelsOptions
+    | TagsOptions
+    | CommitsOptions
+    | IssuesOptions
+    | ContributorsOptions
+    | ProjectsOptions
+    | WorkflowsOptions
+    | WorkflowUsageOptions;
+}
 
 export interface Label {
   color: string;
@@ -7,66 +27,14 @@ export interface Label {
   name: string;
 }
 
-export interface RepositoryOptions {
-  repository?: string;
-  owner?: string;
-}
-
-export enum QueryType {
-  Commits = 'Commits',
-  Issues = 'Issues',
-  Contributors = 'Contributors',
-  Tags = 'Tags',
-  Releases = 'Releases',
-  Pull_Requests = 'Pull_Requests',
-  Labels = 'Labels',
-  Repositories = 'Repositories',
-  Organizations = 'Organizations',
-  GraphQL = 'GraphQL',
-  Milestones = 'Milestones',
-  Packages = 'Packages',
-  Vulnerabilities = 'Vulnerabilities',
-  Projects = 'Projects',
-  ProjectItems = 'ProjectItems',
-  Stargazers = 'Stargazers',
-  Workflows = 'Workflows',
-  Workflow_Usage = 'Workflow_Usage',
-}
-
-export enum PackageType {
-  NPM = 'NPM',
-  RUBYGEMS = 'RUBYGEMS',
-  MAVEN = 'MAVEN',
-  DOCKER = 'DOCKER',
-  DEBIAN = 'DEBIAN',
-  NUGET = 'NUGET',
-  PYPI = 'PYPI',
-}
-
-export enum PullRequestTimeField {
-  ClosedAt,
-  CreatedAt,
-  MergedAt,
-  None,
-}
-
-export enum IssueTimeField {
-  CreatedAt,
-  ClosedAt,
-  UpdatedAt,
-}
-
-export enum WorkflowsTimeField {
-  CreatedAt,
-  UpdatedAt,
-}
-
 export interface Indexable {
   [index: string]: any;
 }
 
 export interface ReleasesOptions extends Indexable {}
+
 export interface TagsOptions extends Indexable {}
+
 export interface PullRequestsOptions extends Indexable {
   timeField?: PullRequestTimeField;
   query?: string;
@@ -115,25 +83,6 @@ export interface ProjectsOptions extends Indexable {
   filters?: Filter[];
 }
 
-export enum ProjectQueryType {
-  ORG = 0,
-  USER = 1,
-}
-
-export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
-  options?:
-    | PullRequestsOptions
-    | ReleasesOptions
-    | LabelsOptions
-    | TagsOptions
-    | CommitsOptions
-    | IssuesOptions
-    | ContributorsOptions
-    | ProjectsOptions
-    | WorkflowsOptions
-    | WorkflowUsageOptions;
-}
-
 export interface GitHubVariableQuery extends GitHubQuery {
   key?: string;
   field?: string;
@@ -142,5 +91,3 @@ export interface GitHubVariableQuery extends GitHubQuery {
 export interface GitHubAnnotationQuery extends GitHubVariableQuery {
   timeField?: string;
 }
-
-export const DefaultQueryType = QueryType.Issues;

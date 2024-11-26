@@ -1,7 +1,7 @@
 import { DataQueryResponse, DataSourceInstanceSettings, toDataFrame } from '@grafana/data';
-import { GitHubVariableQuery } from 'types';
 import { of } from 'rxjs';
 import { GitHubDataSource } from 'DataSource';
+import type { GitHubVariableQuery } from 'types/query';
 
 describe('DataSource', () => {
   describe('metricFindQuery', () => {
