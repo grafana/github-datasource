@@ -35,8 +35,15 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
   const [isOpen, setIsOpen] = useState(true);
 
+  // Previously we used only githubUrl property to determine if the github plan is enterprise which is incorrect way
+  // Also only on prem github enterprise will be having their own base URLs where as cloud will be having common URL and this causes confusions to the user
+  // So we are adding a new prop called githubPlan to determine if the github instance is on-prem / cloud / basic plan
+  // Also if no plan exist and no url exist, we need to fallback to github-basic
+  // https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs
   const [selectedLicense, setSelectedLicense] = useState<GitHubLicenseType>(
-    jsonData.githubPlan || jsonData.githubUrl ? 'github-enterprise-server' : jsonData?.githubPlan || 'github-basic'
+    jsonData.githubPlan === 'github-enterprise-server' || jsonData.githubUrl
+      ? 'github-enterprise-server'
+      : jsonData?.githubPlan || 'github-basic'
   );
 
   const onSettingUpdate = (prop: string, set = true) => {
@@ -96,32 +103,42 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
       <Divider />
 
-      <Collapse collapsible label="Access Token Permissions" isOpen={isOpen} onToggle={() => setIsOpen((x) => !x)}>
+      <Collapse collapsible label="Access Token & Permissions" isOpen={isOpen} onToggle={() => setIsOpen((x) => !x)}>
+        <h4>How to create a access token</h4>
         <p>
-          To create a new Access Token, navigate to{' '}
+          To create a new fine grained access token, navigate to{' '}
           <a
             className={styles.externalLink}
-            href="https://github.com/settings/tokens?type=beta"
+            href="https://github.com/settings/personal-access-tokens/new"
             target="_blank"
             rel="noreferrer"
           >
             Personal Access Tokens
           </a>{' '}
-          and create a click &quot;Generate new token.&quot;
+          or refer the guidelines from{' '}
+          <a
+            className={styles.externalLink}
+            href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token"
+            target="_blank"
+            rel="noreferrer"
+          >
+            the Github documentation.
+          </a>
         </p>
-
-        <p>Ensure that your token has the following permissions:</p>
-
-        <b>For all repositories:</b>
-        <pre>public_repo, repo:status, repo_deployment, read:packages, read:user, user:email</pre>
-
-        <b>For GitHub projects:</b>
-        <pre>read:org, read:project</pre>
-
-        <b>An extra setting is required for private repositories:</b>
-        <pre>repo (Full control of private repositories)</pre>
+        <h4>Repository access</h4>
+        <p>
+          In the <b>Repository access</b> section, Select the required repositories you want to use with the plugin.
+        </p>
+        <h4>Permissions</h4>
+        <p>
+          In the repository permissions, Ensure to provide <b>read-only access</b> to the necessary section which you
+          want to use with the plugin. <b>The plugin does not require any write access.</b> <br />
+          Along with other permissions such as `Issues`, `Pull Requests`, ensure to provide read-only access to `Meta
+          data` section as well.
+          <br />
+          This plugin does not require any org level permissions
+        </p>
       </Collapse>
-
       <Divider />
 
       <ConfigSection title="Authentication">

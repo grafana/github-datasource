@@ -15,7 +15,7 @@ labels:
 weight: 102
 ---
 
-## Create a GitHub access token
+# Create a GitHub access token
 
 You will need either a `GitHub App` or a `Personal Access Token` to use this plugin.
 

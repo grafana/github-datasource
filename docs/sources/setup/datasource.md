@@ -15,7 +15,7 @@ labels:
 weight: 103
 ---
 
-## Configure the GitHub data source plugin for Grafana
+# Configure the GitHub data source plugin for Grafana
 
 1. After creating the **access token** in GitHub, navigate into Grafana and click on the menu option on the top left.
 
