@@ -3,7 +3,7 @@ import { GitHubDataSource } from './DataSource';
 import ConfigEditor from './views/ConfigEditor';
 import QueryEditor from './views/QueryEditor';
 import VariableQueryEditor from './views/VariableQueryEditor';
-import type { GitHubQuery } from './types';
+import type { GitHubQuery } from './types/query';
 import type { GitHubDataSourceOptions, GitHubSecureJsonData } from './types/config';
 
 export const plugin = new DataSourcePlugin<

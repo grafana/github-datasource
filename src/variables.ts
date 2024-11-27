@@ -1,6 +1,6 @@
-import { GitHubQuery } from './types';
 import { TemplateSrv } from '@grafana/runtime';
 import { ScopedVars } from '@grafana/data';
+import type { GitHubQuery } from './types/query';
 
 export const replaceVariable = (
   t: TemplateSrv,

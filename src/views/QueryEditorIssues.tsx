@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
-import { IssuesOptions, IssueTimeField } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { components } from 'components/selectors';
+import { IssueTimeField } from '../constants';
+import type { IssuesOptions } from '../types/query';
 
 interface Props extends IssuesOptions {
   onChange: (value: IssuesOptions) => void;

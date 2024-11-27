@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, InlineField } from '@grafana/ui';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-import { WorkflowUsageOptions } from 'types';
+import type { WorkflowUsageOptions } from 'types/query';
 
 interface Props extends WorkflowUsageOptions {
   onChange: (value: WorkflowUsageOptions) => void;

@@ -1,5 +1,5 @@
 import { replaceVariables } from './variables';
-import { GitHubQuery } from './types';
+import type { GitHubQuery } from './types/query';
 
 describe('variables', () => {
   it('should not interpolate refId', () => {

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Input, InlineField } from '@grafana/ui';
-
-import { CommitsOptions } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { components } from 'components/selectors';
+import type { CommitsOptions } from '../types/query';
 
 interface Props extends CommitsOptions {
   onChange: (value: CommitsOptions) => void;

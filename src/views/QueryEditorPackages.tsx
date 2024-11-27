@@ -1,10 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-
 import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
-
-import { PackagesOptions, PackageType } from '../types';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { PackageType } from '../constants';
+import type { PackagesOptions } from '../types/query';
 
 interface Props extends PackagesOptions {
   onChange: (value: PackagesOptions) => void;

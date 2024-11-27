@@ -1,7 +1,7 @@
 import React from 'react';
 import QueryEditorIssues, { DefaultPackageType } from './QueryEditorPackages';
 import { render } from '@testing-library/react';
-import { PackageType } from 'types';
+import { PackageType } from './../constants';
 
 describe('QueryEditorPackages', () => {
   it('should update package type to default one if no package is selected', async () => {

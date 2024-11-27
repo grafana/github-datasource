@@ -1,6 +1,7 @@
 import { CoreApp, DataQueryRequest } from '@grafana/data';
 import { reportInteraction } from '@grafana/runtime';
-import { GitHubQuery, IssueTimeField, PullRequestTimeField, WorkflowsTimeField } from 'types';
+import { IssueTimeField, PullRequestTimeField, WorkflowsTimeField } from './constants';
+import type { GitHubQuery } from 'types/query';
 
 export const trackRequest = (request: DataQueryRequest<GitHubQuery>) => {
   if (request.app === CoreApp.Dashboard || request.app === CoreApp.PanelViewer) {

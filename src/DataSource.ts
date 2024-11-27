@@ -16,7 +16,7 @@ import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
 import { Observable } from 'rxjs';
 import { trackRequest } from 'tracking';
-import type { GitHubQuery, GitHubVariableQuery } from './types';
+import type { GitHubQuery, GitHubVariableQuery } from './types/query';
 import type { GitHubDataSourceOptions } from './types/config';
 
 export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubDataSourceOptions> {
