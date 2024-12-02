@@ -7,12 +7,12 @@ toolchain go1.23.1
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.11.0
 	github.com/google/go-github/v53 v53.2.0
-	github.com/grafana/grafana-plugin-sdk-go v0.259.4
+	github.com/grafana/grafana-plugin-sdk-go v0.260.1
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20230305132112-efb623903184
-	github.com/stretchr/testify v1.9.0
-	golang.org/x/oauth2 v0.23.0
+	github.com/stretchr/testify v1.10.0
+	golang.org/x/oauth2 v0.24.0
 	pgregory.net/rapid v1.0.0
 )
 
@@ -75,7 +75,7 @@ require (
 	go.opentelemetry.io/otel/sdk v1.32.0 // indirect
 	go.opentelemetry.io/otel/trace v1.32.0 // indirect
 	go.opentelemetry.io/proto/otlp v1.3.1 // indirect
-	golang.org/x/crypto v0.28.0 // indirect
+	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/sync v0.9.0 // indirect
@@ -109,7 +109,7 @@ require (
 	github.com/prometheus/common v0.60.1 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/shurcooL/graphql v0.0.0-20220606043923-3cf50f8a0a29 // indirect
-	golang.org/x/net v0.30.0 // indirect
+	golang.org/x/net v0.31.0 // indirect
 	golang.org/x/sys v0.27.0 // indirect
 	golang.org/x/text v0.20.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
