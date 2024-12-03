@@ -60,3 +60,8 @@ func (c *TestClient) ListWorkflows(ctx context.Context, owner, repo string, opts
 func (c *TestClient) GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (models.WorkflowUsage, error) {
 	panic("unimplemented")
 }
+
+// GetWorkflowRuns is not implemented because it is not being used at the moment.
+func (c *TestClient) GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error) {
+	panic("unimplemented")
+}

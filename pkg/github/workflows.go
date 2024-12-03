@@ -185,3 +185,62 @@ func GetWorkflowUsage(ctx context.Context, client models.Client, opts models.Wor
 
 	return WorkflowUsageWrapper(data), nil
 }
+
+// WorkflowRunsWrapper is a list of GitHub workflow runs
+type WorkflowRunsWrapper []*googlegithub.WorkflowRun
+
+// Frames converts the list of workflow runs to a Grafana DataFrame
+func (workflowRuns WorkflowRunsWrapper) Frames() data.Frames {
+	frame := data.NewFrame(
+		"workflow_run",
+		data.NewField("id", nil, []*int64{}),
+		data.NewField("name", nil, []*string{}),
+		data.NewField("head_branch", nil, []*string{}),
+		data.NewField("head_sha", nil, []*string{}),
+		data.NewField("created_at", nil, []*time.Time{}),
+		data.NewField("updated_at", nil, []*time.Time{}),
+		data.NewField("html_url", nil, []*string{}),
+		data.NewField("url", nil, []*string{}),
+		data.NewField("status", nil, []*string{}),
+		data.NewField("conclusion", nil, []*string{}),
+		data.NewField("event", nil, []*string{}),
+		data.NewField("workflow_id", nil, []*int64{}),
+		data.NewField("run_number", nil, []int64{}),
+	)
+
+	for _, workflowRun := range workflowRuns {
+		frame.InsertRow(
+			0,
+			workflowRun.ID,
+			workflowRun.Name,
+			workflowRun.HeadBranch,
+			workflowRun.HeadSHA,
+			workflowRun.CreatedAt.GetTime(),
+			workflowRun.UpdatedAt.GetTime(),
+			workflowRun.HTMLURL,
+			workflowRun.URL,
+			workflowRun.Status,
+			workflowRun.Conclusion,
+			workflowRun.Event,
+			workflowRun.WorkflowID,
+			int64(*workflowRun.RunNumber),
+		)
+	}
+
+	frame.Meta = &data.FrameMeta{PreferredVisualization: data.VisTypeTable}
+	return data.Frames{frame}
+}
+
+// GetWorkflowRuns gets all workflows runs for a GitHub repository and workflow
+func GetWorkflowRuns(ctx context.Context, client models.Client, opts models.WorkflowRunsOptions, timeRange backend.TimeRange) (WorkflowRunsWrapper, error) {
+	if opts.Owner == "" || opts.Repository == "" {
+		return nil, nil
+	}
+
+	workflowRuns, err := client.GetWorkflowRuns(ctx, opts.Owner, opts.Repository, opts.Workflow, opts.Branch, timeRange)
+	if err != nil {
+		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
+	}
+
+	return WorkflowRunsWrapper(workflowRuns), nil
+}
