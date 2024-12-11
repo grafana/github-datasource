@@ -13,65 +13,141 @@ import (
 
 // QueryListPullRequests lists all pull requests in a repository
 //
-//		{
-//		  search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
-//		    nodes {
-//		      ... on PullRequest {
-//	         reviews(first: 100) {
-//
-//
-//		      }
-//		  }
-//		}
+//			{
+//			  search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
+//			    nodes {
+//			      ... on PullRequest {
+//	              Number
+//	              Title
+//	              URL
+//	              State
+//	              Author
+//	              Repository
+//				     reviews(first: 100) {
+//			           createdAt
+//			           updatedAt
+//			           state
+//			           url
+//			           author {
+//			             id
+//			             login
+//			             name
+//			             company
+//			             email
+//			             url
+//			           }
+//			           comments(first: 0) {
+//			             totalCount
+//		               }
+//				     }
+//				  }
+//				}
+//			  }
+//			}
 type QueryListPullRequestReviews struct {
 	Search struct {
 		Nodes []struct {
-			Reviews struct {
-				Nodes []struct {
-					Review Review `graphql:"... on PullRequestReview"`
-				}
-			} `graphql:"reviews(first: 100)"`
+			PullRequest struct {
+				Number     int64
+				Title      string
+				URL        string
+				State      githubv4.PullRequestState
+				Author     Author
+				Repository Repository
+				Reviews    struct {
+					Nodes []struct {
+						Review struct {
+							CreatedAt githubv4.DateTime
+							UpdatedAt githubv4.DateTime
+							URL       string
+							Author    Author
+							State     githubv4.PullRequestReviewState
+							Comments  struct {
+								TotalCount int64
+							} `graphql:"comments(first: 0)"`
+						} `graphql:"... on PullRequestReview"`
+					}
+					PageInfo models.PageInfo
+				} `graphql:"reviews(first: 100, after: $reviewCursor)"`
+			} `graphql:"... on PullRequest"`
 		}
 		PageInfo models.PageInfo
-	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $cursor)"`
+	} `graphql:"search(query: $query, type: ISSUE, first: 100, after: $prCursor)"`
 }
 
-type ReviewComments struct {
-	TotalCount int64
-}
-
-type ReviewAuthor struct {
+type Author struct {
 	User models.User `graphql:"... on User"`
 }
 
 type Review struct {
-	Author   ReviewAuthor
-	State    githubv4.PullRequestReviewState
-	Comments ReviewComments `graphsql:"comments(first: 0)"`
+	CreatedAt     githubv4.DateTime
+	UpdatedAt     githubv4.DateTime
+	URL           string
+	Author        Author
+	State         githubv4.PullRequestReviewState
+	CommentsCount int64
+}
+
+type PullRequestWithReviews struct {
+	Number     int64
+	Title      string
+	State      githubv4.PullRequestState
+	URL        string
+	Author     Author
+	Repository Repository
+	Reviews    []Review
 }
 
 // PullRequestReviews is a list of GitHub Pull Request Reviews
-type PullRequestReviews []Review
+type PullRequestReviews []PullRequestWithReviews
 
 // Frames coverts the list of Pull Request Reviews to a Grafana DataFrame
-func (r PullRequestReviews) Frames() data.Frames {
+func (prs PullRequestReviews) Frames() data.Frames {
 	frame := data.NewFrame(
 		"pull_request_reviews",
-		data.NewField("state", nil, []string{}),
-		data.NewField("author_name", nil, []string{}),
-		data.NewField("author_login", nil, []string{}),
-		data.NewField("author_company", nil, []string{}),
-		data.NewField("comment_count", nil, []int64{}),
+		data.NewField("pull_request_number", nil, []int64{}),
+		data.NewField("pull_request_title", nil, []string{}),
+		data.NewField("pull_request_state", nil, []string{}),
+		data.NewField("pull_request_url", nil, []string{}),
+		data.NewField("pull_request_author_name", nil, []string{}),
+		data.NewField("pull_request_author_login", nil, []string{}),
+		data.NewField("pull_request_author_email", nil, []string{}),
+		data.NewField("pull_request_author_company", nil, []string{}),
+		data.NewField("repository", nil, []string{}),
+		data.NewField("review_author_name", nil, []string{}),
+		data.NewField("review_author_login", nil, []string{}),
+		data.NewField("review_author_email", nil, []string{}),
+		data.NewField("review_author_company", nil, []string{}),
+		data.NewField("review_url", nil, []string{}),
+		data.NewField("review_state", nil, []string{}),
+		data.NewField("review_comment_count", nil, []int64{}),
+		data.NewField("review_updated_at", nil, []time.Time{}),
+		data.NewField("review_created_at", nil, []time.Time{}),
 	)
 
-	for _, v := range r {
-		frame.AppendRow(
-			string(v.State),
-			v.Author.User.Name,
-			v.Author.User.Login,
-			v.Author.User.Company,
-			v.Comments.TotalCount,
-		)
+	for _, pr := range prs {
+		for _, review := range pr.Reviews {
+			frame.AppendRow(
+				pr.Number,
+				pr.Title,
+				string(pr.State),
+				pr.URL,
+				pr.Author.User.Name,
+				pr.Author.User.Login,
+				pr.Author.User.Email,
+				pr.Author.User.Company,
+				pr.Repository.NameWithOwner,
+				review.Author.User.Name,
+				review.Author.User.Login,
+				review.Author.User.Email,
+				review.Author.User.Company,
+				review.URL,
+				string(review.State),
+				review.CommentsCount,
+				review.UpdatedAt.Time,
+				review.CreatedAt.Time,
+			)
+		}
 	}
 
 	return data.Frames{frame}
@@ -82,8 +158,9 @@ func (r PullRequestReviews) Frames() data.Frames {
 func GetAllPullRequestReviews(ctx context.Context, client models.Client, opts models.ListPullRequestsOptions) (PullRequestReviews, error) {
 	var (
 		variables = map[string]interface{}{
-			"cursor": (*githubv4.String)(nil),
-			"query":  githubv4.String(buildQuery(opts)),
+			"prCursor":     (*githubv4.String)(nil),
+			"reviewCursor": (*githubv4.String)(nil),
+			"query":        githubv4.String(buildQuery(opts)),
 		}
 
 		pullRequestReviews = PullRequestReviews{}
@@ -95,14 +172,47 @@ func GetAllPullRequestReviews(ctx context.Context, client models.Client, opts mo
 			return nil, errors.WithStack(err)
 		}
 
-		reviews := make(PullRequestReviews, 0)
-		for _, pr := range q.Search.Nodes {
-			for _, v := range pr.Reviews.Nodes {
-				reviews = append(reviews, v.Review)
+		prs := make([]PullRequestWithReviews, len(q.Search.Nodes))
+
+		for i, prNode := range q.Search.Nodes {
+			pr := prNode.PullRequest
+
+			prs[i] = PullRequestWithReviews{
+				Number:     pr.Number,
+				Title:      pr.Title,
+				State:      pr.State,
+				URL:        pr.URL,
+				Author:     pr.Author,
+				Repository: pr.Repository,
+			}
+
+			for {
+				for _, reviewNode := range pr.Reviews.Nodes {
+					review := reviewNode.Review
+
+					prs[i].Reviews = append(prs[i].Reviews, Review{
+						CreatedAt:     review.CreatedAt,
+						UpdatedAt:     review.UpdatedAt,
+						URL:           review.URL,
+						Author:        review.Author,
+						State:         review.State,
+						CommentsCount: review.Comments.TotalCount,
+					})
+				}
+
+				if !pr.Reviews.PageInfo.HasNextPage {
+					variables["reviewCursor"] = (*githubv4.String)(nil)
+					break
+				}
+
+				variables["reviewCursor"] = pr.Reviews.PageInfo.EndCursor
+				if err := client.Query(ctx, q, variables); err != nil {
+					return nil, errors.WithStack(err)
+				}
 			}
 		}
 
-		pullRequestReviews = append(pullRequestReviews, reviews...)
+		pullRequestReviews = append(pullRequestReviews, prs...)
 
 		if !q.Search.PageInfo.HasNextPage {
 			break

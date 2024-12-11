@@ -8,7 +8,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
-func (s *QueryHandler) handleReviewsQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
+func (s *QueryHandler) handlePullRequestReviewsQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
 	query := &models.PullRequestsQuery{}
 	if err := UnmarshalQuery(q.JSON, query); err != nil {
 		return *err
@@ -19,6 +19,6 @@ func (s *QueryHandler) handleReviewsQuery(ctx context.Context, q backend.DataQue
 // HandlePullRequests handles the plugin query for github PullRequests
 func (s *QueryHandler) HandlePullRequestReviews(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
-		Responses: processQueries(ctx, req, s.handleReviewsQuery),
+		Responses: processQueries(ctx, req, s.handlePullRequestReviewsQuery),
 	}, nil
 }
