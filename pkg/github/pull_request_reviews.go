@@ -217,7 +217,7 @@ func GetAllPullRequestReviews(ctx context.Context, client models.Client, opts mo
 		if !q.Search.PageInfo.HasNextPage {
 			break
 		}
-		variables["cursor"] = q.Search.PageInfo.EndCursor
+		variables["prCursor"] = q.Search.PageInfo.EndCursor
 	}
 
 	return pullRequestReviews, nil
