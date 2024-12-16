@@ -66,10 +66,12 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			Repository: Repository{
 				NameWithOwner: "grafana/github-datasource",
 			},
-			Closed:  true,
-			IsDraft: false,
-			Locked:  false,
-			Merged:  true,
+			Closed:    true,
+			IsDraft:   false,
+			Locked:    false,
+			Merged:    true,
+			Additions: 5,
+			Deletions: 1,
 			CreatedAt: githubv4.DateTime{
 				Time: openedAt,
 			},
