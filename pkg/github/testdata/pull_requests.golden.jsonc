@@ -2,16 +2,16 @@
 //  
 //  Frame[0] 
 //  Name: pull_requests
-//  Dimensions: 23 Fields by 3 Rows
-//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
-//  | Name: number  | Name: title    | Name: url                                            | Name: repository          | Name: state    | Name: author_name | Name: author_login | Name: author_email | Name: author_company | Name: closed | Name: is_draft | Name: locked | Name: merged | Name: mergeable | Name: closed_at                 | Name: merged_at                 | Name: merged_by_name | Name: merged_by_login | Name: merged_by_email | Name: merged_by_company | Name: updated_at                | Name: created_at                | Name: open_time |
-//  | Labels:       | Labels:        | Labels:                                              | Labels:                   | Labels:        | Labels:           | Labels:            | Labels:            | Labels:              | Labels:      | Labels:        | Labels:      | Labels:      | Labels:         | Labels:                         | Labels:                         | Labels:              | Labels:               | Labels:               | Labels:                 | Labels:                         | Labels:                         | Labels:         |
-//  | Type: []int64 | Type: []string | Type: []string                                       | Type: []string            | Type: []string | Type: []string    | Type: []string     | Type: []string     | Type: []string       | Type: []bool | Type: []bool   | Type: []bool | Type: []bool | Type: []string  | Type: []*time.Time              | Type: []*time.Time              | Type: []*string      | Type: []*string       | Type: []*string       | Type: []*string         | Type: []time.Time               | Type: []time.Time               | Type: []float64 |
-//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
-//  | 1             | PullRequest #1 | https://github.com/grafana/github-datasource/pulls/1 | grafana/github-datasource | OPEN           | Test User         | testUser           | user@example.com   | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | null                 | null                  | null                  | null                    | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
-//  | 2             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/2 | grafana/github-datasource | OPEN           | Second User       | testUser2          | user2@example.com  | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | Test User            | testUser              | user@example.com      | ACME corp               | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
-//  | 3             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/3 | grafana/github-datasource | OPEN           | Second User       | testUser2          | user2@example.com  | ACME corp            | false        | false          | false        | false        | MERGEABLE       | null                            | 2020-08-25 18:01:56 +0000 +0000 | null                 | null                  | null                  | null                    | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
-//  +---------------+----------------+------------------------------------------------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
+//  Dimensions: 25 Fields by 3 Rows
+//  +---------------+----------------+------------------------------------------------------+-----------------+-----------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
+//  | Name: number  | Name: title    | Name: url                                            | Name: additions | Name: deletions | Name: repository          | Name: state    | Name: author_name | Name: author_login | Name: author_email | Name: author_company | Name: closed | Name: is_draft | Name: locked | Name: merged | Name: mergeable | Name: closed_at                 | Name: merged_at                 | Name: merged_by_name | Name: merged_by_login | Name: merged_by_email | Name: merged_by_company | Name: updated_at                | Name: created_at                | Name: open_time |
+//  | Labels:       | Labels:        | Labels:                                              | Labels:         | Labels:         | Labels:                   | Labels:        | Labels:           | Labels:            | Labels:            | Labels:              | Labels:      | Labels:        | Labels:      | Labels:      | Labels:         | Labels:                         | Labels:                         | Labels:              | Labels:               | Labels:               | Labels:                 | Labels:                         | Labels:                         | Labels:         |
+//  | Type: []int64 | Type: []string | Type: []string                                       | Type: []int64   | Type: []int64   | Type: []string            | Type: []string | Type: []string    | Type: []string     | Type: []string     | Type: []string       | Type: []bool | Type: []bool   | Type: []bool | Type: []bool | Type: []string  | Type: []*time.Time              | Type: []*time.Time              | Type: []*string      | Type: []*string       | Type: []*string       | Type: []*string         | Type: []time.Time               | Type: []time.Time               | Type: []float64 |
+//  +---------------+----------------+------------------------------------------------------+-----------------+-----------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
+//  | 1             | PullRequest #1 | https://github.com/grafana/github-datasource/pulls/1 | 5               | 1               | grafana/github-datasource | OPEN           | Test User         | testUser           | user@example.com   | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | null                 | null                  | null                  | null                    | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
+//  | 2             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/2 | 0               | 0               | grafana/github-datasource | OPEN           | Second User       | testUser2          | user2@example.com  | ACME corp            | true         | false          | false        | true         | MERGEABLE       | 2020-08-25 18:01:56 +0000 +0000 | 2020-08-25 18:01:56 +0000 +0000 | Test User            | testUser              | user@example.com      | ACME corp               | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
+//  | 3             | PullRequest #2 | https://github.com/grafana/github-datasource/pulls/3 | 0               | 0               | grafana/github-datasource | OPEN           | Second User       | testUser2          | user2@example.com  | ACME corp            | false        | false          | false        | false        | MERGEABLE       | null                            | 2020-08-25 18:01:56 +0000 +0000 | null                 | null                  | null                  | null                    | 2020-08-25 18:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 | 6000            |
+//  +---------------+----------------+------------------------------------------------------+-----------------+-----------------+---------------------------+----------------+-------------------+--------------------+--------------------+----------------------+--------------+----------------+--------------+--------------+-----------------+---------------------------------+---------------------------------+----------------------+-----------------------+-----------------------+-------------------------+---------------------------------+---------------------------------+-----------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
@@ -41,6 +41,20 @@
             "type": "string",
             "typeInfo": {
               "frame": "string"
+            }
+          },
+          {
+            "name": "additions",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "deletions",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
             }
           },
           {
@@ -210,6 +224,16 @@
             "https://github.com/grafana/github-datasource/pulls/1",
             "https://github.com/grafana/github-datasource/pulls/2",
             "https://github.com/grafana/github-datasource/pulls/3"
+          ],
+          [
+            5,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0
           ],
           [
             "grafana/github-datasource",
