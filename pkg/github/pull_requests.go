@@ -42,6 +42,8 @@ type PullRequest struct {
 	Number     int64
 	Title      string
 	URL        string
+	Additions  int64
+	Deletions  int64
 	State      githubv4.PullRequestState
 	Author     PullRequestAuthor
 	Closed     bool
@@ -72,6 +74,8 @@ func (p PullRequests) Frames() data.Frames {
 		data.NewField("number", nil, []int64{}),
 		data.NewField("title", nil, []string{}),
 		data.NewField("url", nil, []string{}),
+		data.NewField("additions", nil, []int64{}),
+		data.NewField("deletions", nil, []int64{}),
 		data.NewField("repository", nil, []string{}),
 		data.NewField("state", nil, []string{}),
 		data.NewField("author_name", nil, []string{}),
@@ -150,6 +154,8 @@ func (p PullRequests) Frames() data.Frames {
 			v.Number,
 			v.Title,
 			v.URL,
+			v.Additions,
+			v.Deletions,
 			v.Repository.NameWithOwner,
 			string(v.State),
 			v.Author.User.Name,
