@@ -3,19 +3,19 @@ services:
     user: root
     container_name: 'grafana-github-datasource'
 
-    platform: 'linux/amd64'
     build:
       context: ./.config
       args:
         grafana_image: ${GRAFANA_IMAGE:-grafana-enterprise}
-        grafana_version: ${GRAFANA_VERSION:-10.4.2}
-        development: ${DEVELOPMENT:-true}
+        grafana_version: ${GRAFANA_VERSION:-11.3.2}
+        development: ${DEVELOPMENT:-false}
+        anonymous_auth_enabled: ${ANONYMOUS_AUTH_ENABLED:-true}
     ports:
       - 3000:3000/tcp
       - 2345:2345/tcp # delve
     security_opt:
-      - 'apparmor:unconfined'
-      - 'seccomp:unconfined'
+      - "apparmor:unconfined"
+      - "seccomp:unconfined"
     cap_add:
       - SYS_PTRACE
     volumes:
