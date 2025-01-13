@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.0.1]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.260.3 to 0.261.0
+
 ## [2.0.0]
 
 - **Chore**: Plugin now requires Grafana 10.4.8 or newer
