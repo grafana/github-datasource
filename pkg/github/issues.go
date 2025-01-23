@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -47,7 +48,7 @@ func (c Issues) Frames() data.Frames {
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
 		data.NewField("updated_at", nil, []time.Time{}),
-		data.NewField("labels", nil, []string{}),
+		data.NewField("labels", nil, []json.RawMessage{}),
 	)
 
 	for _, v := range c {
@@ -62,6 +63,9 @@ func (c Issues) Frames() data.Frames {
 			labels[i] = label.Name
 		}
 
+		labelsBytes, _ := json.Marshal(labels)
+		rawLabelArray := json.RawMessage(labelsBytes)
+
 		frame.AppendRow(
 			v.Title,
 			v.Author.User.Login,
@@ -72,7 +76,7 @@ func (c Issues) Frames() data.Frames {
 			v.CreatedAt.Time,
 			closedAt,
 			v.UpdatedAt.Time,
-			strings.Join(labels, ", "),
+			rawLabelArray,
 		)
 	}
 
