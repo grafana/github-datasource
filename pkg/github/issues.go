@@ -20,7 +20,12 @@ type Issue struct {
 	CreatedAt githubv4.DateTime
 	UpdatedAt githubv4.DateTime
 	Closed    bool
-	Author    struct {
+	Labels    struct {
+		Nodes []struct {
+			Name string
+		}
+	} `graphql:"labels(first: 100)"`
+	Author struct {
 		models.User `graphql:"... on User"`
 	}
 	Repository Repository
@@ -42,6 +47,7 @@ func (c Issues) Frames() data.Frames {
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
 		data.NewField("updated_at", nil, []time.Time{}),
+		data.NewField("labels", nil, []string{}),
 	)
 
 	for _, v := range c {
@@ -49,6 +55,11 @@ func (c Issues) Frames() data.Frames {
 		if !v.ClosedAt.Time.IsZero() {
 			t := v.ClosedAt.Time
 			closedAt = &t
+		}
+
+		labels := make([]string, len(v.Labels.Nodes))
+		for i, label := range v.Labels.Nodes {
+			labels[i] = label.Name
 		}
 
 		frame.AppendRow(
@@ -61,6 +72,7 @@ func (c Issues) Frames() data.Frames {
 			v.CreatedAt.Time,
 			closedAt,
 			v.UpdatedAt.Time,
+			strings.Join(labels, ", "),
 		)
 	}
 
