@@ -53,6 +53,14 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt,
 			},
 			Closed: false,
+			Labels: struct {
+				Nodes []struct{ Name string }
+			}{
+				Nodes: []struct{ Name string }{
+					{Name: "bug"},
+					{Name: "help wanted"},
+				},
+			},
 			Author: struct {
 				models.User "graphql:\"... on User\""
 			}{
@@ -94,6 +102,13 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt.Add(time.Hour * 6),
 			},
 			Closed: true,
+			Labels: struct {
+				Nodes []struct{ Name string }
+			}{
+				Nodes: []struct{ Name string }{
+					{Name: "enhancement"},
+				},
+			},
 			Author: struct {
 				models.User "graphql:\"... on User\""
 			}{
@@ -135,6 +150,11 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt,
 			},
 			Closed: false,
+			Labels: struct {
+				Nodes []struct{ Name string }
+			}{
+				Nodes: []struct{ Name string }{},
+			},
 			Author: struct {
 				models.User "graphql:\"... on User\""
 			}{
