@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.0.2]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.265.0
+
 ## [2.0.1]
 
 - **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.260.3 to 0.261.0
