@@ -10,6 +10,7 @@ export interface RepositoryOptions {
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
   options?:
     | PullRequestsOptions
+    | PullRequestReviewsOptions
     | ReleasesOptions
     | LabelsOptions
     | TagsOptions
@@ -36,6 +37,11 @@ export interface ReleasesOptions extends Indexable {}
 export interface TagsOptions extends Indexable {}
 
 export interface PullRequestsOptions extends Indexable {
+  timeField?: PullRequestTimeField;
+  query?: string;
+}
+
+export interface PullRequestReviewsOptions extends Indexable {
   timeField?: PullRequestTimeField;
   query?: string;
 }
