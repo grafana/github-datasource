@@ -1,0 +1,200 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "preferredVisualisationType": "table"
+//  }
+//  Name: workflow_run
+//  Dimensions: 13 Fields by 2 Rows
+//  +----------------+-----------------+-------------------+-----------------+-------------------------------+-------------------------------+-----------------+-----------------+-----------------+------------------+-----------------+-------------------+------------------+
+//  | Name: id       | Name: name      | Name: head_branch | Name: head_sha  | Name: created_at              | Name: updated_at              | Name: html_url  | Name: url       | Name: status    | Name: conclusion | Name: event     | Name: workflow_id | Name: run_number |
+//  | Labels:        | Labels:         | Labels:           | Labels:         | Labels:                       | Labels:                       | Labels:         | Labels:         | Labels:         | Labels:          | Labels:         | Labels:           | Labels:          |
+//  | Type: []*int64 | Type: []*string | Type: []*string   | Type: []*string | Type: []*time.Time            | Type: []*time.Time            | Type: []*string | Type: []*string | Type: []*string | Type: []*string  | Type: []*string | Type: []*int64    | Type: []int64    |
+//  +----------------+-----------------+-------------------+-----------------+-------------------------------+-------------------------------+-----------------+-----------------+-----------------+------------------+-----------------+-------------------+------------------+
+//  | 2              | name_2          | head_branch_2     | head_sha_2      | 2013-02-03 00:00:00 +0000 UTC | 2013-02-04 00:00:00 +0000 UTC | html_url_2      | url_2           | status_2        | conclusion_2     | event_2         | 2                 | 2                |
+//  | 1              | name_1          | head_branch_1     | head_sha_1      | 2013-02-01 00:00:00 +0000 UTC | 2013-02-02 00:00:00 +0000 UTC | html_url_1      | url_1           | status_1        | conclusion_1     | event_1         | 1                 | 1                |
+//  +----------------+-----------------+-------------------+-----------------+-------------------------------+-------------------------------+-----------------+-----------------+-----------------+------------------+-----------------+-------------------+------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "workflow_run",
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "preferredVisualisationType": "table"
+        },
+        "fields": [
+          {
+            "name": "id",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "head_branch",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "head_sha",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "updated_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "html_url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "conclusion",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "event",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "workflow_id",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "run_number",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            2,
+            1
+          ],
+          [
+            "name_2",
+            "name_1"
+          ],
+          [
+            "head_branch_2",
+            "head_branch_1"
+          ],
+          [
+            "head_sha_2",
+            "head_sha_1"
+          ],
+          [
+            1359849600000,
+            1359676800000
+          ],
+          [
+            1359936000000,
+            1359763200000
+          ],
+          [
+            "html_url_2",
+            "html_url_1"
+          ],
+          [
+            "url_2",
+            "url_1"
+          ],
+          [
+            "status_2",
+            "status_1"
+          ],
+          [
+            "conclusion_2",
+            "conclusion_1"
+          ],
+          [
+            "event_2",
+            "event_1"
+          ],
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ]
+      }
+    }
+  ]
+}
