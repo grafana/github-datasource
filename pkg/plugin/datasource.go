@@ -25,6 +25,7 @@ type Datasource interface {
 	HandleStargazersQuery(context.Context, *models.StargazersQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleWorkflowsQuery(context.Context, *models.WorkflowsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleWorkflowUsageQuery(context.Context, *models.WorkflowUsageQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleWorkflowRunsQuery(context.Context, *models.WorkflowRunsQuery, backend.DataQuery) (dfutil.Framer, error)
 	CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error)
 	QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error)
 }
