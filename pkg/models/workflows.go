@@ -34,7 +34,12 @@ type WorkflowUsageOptions struct {
 
 	// Workflow is the id or the workflow file name.
 	Workflow string `json:"workflow"`
+
+	// Branch is the branch to filter the runs by.
+	Branch string `json:"branch"`
 }
+
+type WorkflowRunsOptions = WorkflowUsageOptions
 
 // WorkflowUsage contains a specific workflow usage information.
 type WorkflowUsage struct {
