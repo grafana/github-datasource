@@ -47,6 +47,7 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux.HandleFunc(models.QueryTypeContributors, s.HandleContributors)
 	mux.HandleFunc(models.QueryTypeLabels, s.HandleLabels)
 	mux.HandleFunc(models.QueryTypePullRequests, s.HandlePullRequests)
+	mux.HandleFunc(models.QueryTypePullRequestReviews, s.HandlePullRequestReviews)
 	mux.HandleFunc(models.QueryTypeReleases, s.HandleReleases)
 	mux.HandleFunc(models.QueryTypeTags, s.HandleTags)
 	mux.HandleFunc(models.QueryTypePackages, s.HandlePackages)
