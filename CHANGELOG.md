@@ -1,5 +1,11 @@
 # Change Log
 
+## [2.1.0]
+
+- **Feature** - Add a new query to retrieve Workflow runs
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.266.0
+- **Chore** - Bump dompurify to 3.2.4
+
 ## [2.0.2]
 
 - **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.265.0
