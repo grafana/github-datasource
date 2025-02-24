@@ -11,6 +11,7 @@
     "datasources",
     "dateparse",
     "dfutil",
+    "dompurify",
     "dserrors",
     "errorsource",
     "ghinstallation",
