@@ -3,7 +3,9 @@ package githubclient
 import (
 	"context"
 	"errors"
+	"net"
 	"net/http"
+	"os"
 	"syscall"
 	"testing"
 
@@ -27,9 +29,15 @@ func TestAddErrorSourceToError(t *testing.T) {
 		},
 		{
 			name:     "ECONNREFUSED error",
-			err:      syscall.ECONNREFUSED,
+			err:      &net.OpError{Err: &os.SyscallError{Err: syscall.ECONNREFUSED}},
 			resp:     nil,
-			expected: backend.DownstreamError(syscall.ECONNREFUSED),
+			expected: backend.DownstreamError(&net.OpError{Err: &os.SyscallError{Err: syscall.ECONNREFUSED}}),
+		},
+		{
+			name:     "DNS not found error",
+			err:      &net.DNSError{IsNotFound: true},
+			resp:     nil,
+			expected: backend.DownstreamError(&net.DNSError{IsNotFound: true}),
 		},
 		{
 			name:     "graphql error with status code",
