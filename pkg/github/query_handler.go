@@ -32,6 +32,7 @@ func UnmarshalQuery(b []byte, v interface{}) *backend.DataResponse {
 	if err := json.Unmarshal(b, v); err != nil {
 		return &backend.DataResponse{
 			Error: errors.Wrap(err, "failed to unmarshal JSON request into query"),
+			ErrorSource: backend.ErrorSourceDownstream,
 		}
 	}
 	return nil

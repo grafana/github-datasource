@@ -3,13 +3,14 @@ package githubclient
 import (
 	"context"
 	"errors"
+	"net"
 	"net/http"
+	"os"
 	"syscall"
 	"testing"
 
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/stretchr/testify/require"
 )
 
@@ -28,27 +29,33 @@ func TestAddErrorSourceToError(t *testing.T) {
 		},
 		{
 			name:     "ECONNREFUSED error",
-			err:      syscall.ECONNREFUSED,
+			err:      &net.OpError{Err: &os.SyscallError{Err: syscall.ECONNREFUSED}},
 			resp:     nil,
-			expected: errorsource.DownstreamError(syscall.ECONNREFUSED, false),
+			expected: backend.DownstreamError(&net.OpError{Err: &os.SyscallError{Err: syscall.ECONNREFUSED}}),
+		},
+		{
+			name:     "DNS not found error",
+			err:      &net.DNSError{IsNotFound: true},
+			resp:     nil,
+			expected: backend.DownstreamError(&net.DNSError{IsNotFound: true}),
 		},
 		{
 			name:     "graphql error with status code",
 			err:      errors.New("non-200 OK status code: 404 Not Found"),
 			resp:     nil,
-			expected: errorsource.SourceError(backend.ErrorSourceFromHTTPStatus(404), errors.New("non-200 OK status code: 404 Not Found"), false),
+			expected: backend.DownstreamError(errors.New("non-200 OK status code: 404 Not Found")),
 		},
 		{
 			name:     "identified downstream graphql error",
 			err:      errors.New("Your token has not been granted the required scopes to execute this query"),
 			resp:     nil,
-			expected: errorsource.DownstreamError(errors.New("Your token has not been granted the required scopes to execute this query"),false),
+			expected: backend.DownstreamError(errors.New("Your token has not been granted the required scopes to execute this query")),
 		},
 		{
 			name:     "response with non-2xx status code",
 			err:      errors.New("some other error"),
 			resp:     &googlegithub.Response{Response: &http.Response{StatusCode: 500}},
-			expected: errorsource.SourceError(backend.ErrorSourceFromHTTPStatus(500), errors.New("some other error"), false),
+			expected: backend.DownstreamError(errors.New("some other error")),
 		},
 		{
 			name:     "other error with 2xx status code",
@@ -60,25 +67,25 @@ func TestAddErrorSourceToError(t *testing.T) {
 			name:     "context canceled error",
 			err:      context.Canceled,
 			resp:     nil,
-			expected: errorsource.DownstreamError(context.Canceled, false),
+			expected: backend.DownstreamError(context.Canceled),
 		},
 		{
 			name: "saml error message",
 			err: errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization."),
 			resp: nil,
-			expected: errorsource.DownstreamError(errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization."), false),
+			expected: backend.DownstreamError(errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization.")),
 		},
 		{
 			name: "limit exceeded error message",
 			err: errors.New("API rate limit exceeded for ID 1"),
 			resp: nil,
-			expected: errorsource.DownstreamError(errors.New("API rate limit exceeded for ID 1"), false),
+			expected: backend.DownstreamError(errors.New("API rate limit exceeded for ID 1")),
 		},
 		{
 			name: "permission error message",
 			err: errors.New("Resource not accessible by integration"),
 			resp: nil,
-			expected: errorsource.DownstreamError(errors.New("Resource not accessible by integration"), false),
+			expected: backend.DownstreamError(errors.New("Resource not accessible by integration")),
 		},
 	}
 

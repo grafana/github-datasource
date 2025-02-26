@@ -3,7 +3,6 @@ package dfutil
 import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 )
 
 // Framer is an interface that allows any type to be treated as a data frame
@@ -22,7 +21,10 @@ func FrameResponse(f Framer) backend.DataResponse {
 // This function is particularly useful if you have a function that returns `(Framer, error)`, which is a very common pattern
 func FrameResponseWithError(f Framer, err error) backend.DataResponse {
 	if err != nil {
-		res := errorsource.Response(err)
+		if backend.IsDownstreamHTTPError(err) {
+			err = backend.DownstreamError(err)
+		}
+		res := backend.ErrorResponseWithErrorSource(err)
 		backend.Logger.Debug("Error response", "errorsource", res.ErrorSource, "error", res.Error)
 		return res
 	}
