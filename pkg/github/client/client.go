@@ -13,7 +13,6 @@ import (
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -61,23 +60,23 @@ func New(ctx context.Context, settings models.Settings) (*Client, error) {
 		return createAccessTokenClient(ctx, settings)
 	}
 
-	return nil, errorsource.DownstreamError(fmt.Errorf("access token or app token are required"), false)
+	return nil, backend.DownstreamError(errors.New("access token or app token are required"))
 }
 
 func createAppClient(settings models.Settings) (*Client, error) {
 	appId, err := strconv.ParseInt(settings.AppId, 10, 64)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing app id"), false)
+		return nil, backend.DownstreamError(errors.New("error parsing app id"))
 	}
 
 	installationId, err := strconv.ParseInt(settings.InstallationId, 10, 64)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing installation id"), false)
+		return nil, backend.DownstreamError(errors.New("error parsing installation id"))
 	}
 
 	itr, err := ghinstallation.New(http.DefaultTransport, appId, installationId, []byte(settings.PrivateKey))
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error creating token source"), false)
+		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
 
 	httpClient := &http.Client{Transport: itr}
@@ -112,12 +111,12 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings) (*Cl
 func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Client, error) {
 	_, err := url.Parse(settings.GitHubURL)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("incorrect enterprise url"), false)
+		return nil, backend.DownstreamError(errors.New("incorrect enterprise url"))
 	}
 
 	restClient, err := googlegithub.NewEnterpriseClient(settings.GitHubURL, settings.GitHubURL, httpClient)
 	if err != nil {
-		return nil, fmt.Errorf("instantiating enterprise rest client: %w", err)
+		return nil, backend.DownstreamError(errors.New("instantiating enterprise rest client"))
 	}
 
 	return &Client{
@@ -227,7 +226,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	usage, response, err := client.getWorkflowUsage(ctx, owner, repo, workflow)
 	if err != nil {
 		if response.StatusCode == http.StatusNotFound {
-			return models.WorkflowUsage{}, errorsource.DownstreamError(errWorkflowNotFound, false)
+			return models.WorkflowUsage{}, backend.DownstreamError(errWorkflowNotFound)
 		}
 		return models.WorkflowUsage{}, addErrorSourceToError(fmt.Errorf("fetching workflow usage: %w", err), response)
 	}
@@ -333,7 +332,7 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 	if err != nil {
 		// If the workflow is not found, return a specific error.
 		if response != nil && response.StatusCode == http.StatusNotFound {
-			return nil, 0, errorsource.SourceError(backend.ErrorSourceDownstream, errWorkflowNotFound, false)
+			return nil, 0, backend.DownstreamError(errWorkflowNotFound)
 		}
 		return nil, 0, addErrorSourceToError(fmt.Errorf("fetching workflow runs: %w", err), response)
 	}
