@@ -88,6 +88,8 @@ func createAppClient(settings models.Settings) (*Client, error) {
 		}, nil
 	}
 
+	itr.BaseURL = settings.GitHubURL
+
 	return useGitHubEnterprise(httpClient, settings)
 }
 
