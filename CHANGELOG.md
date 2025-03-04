@@ -1,5 +1,10 @@
 # Change Log
 
+## [2.1.1]
+
+- **Fix** - GitHub enterprise url wrong with app authentication
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.268.1
+
 ## [2.1.0]
 
 - **Feature** - Add a new query to retrieve Workflow runs
