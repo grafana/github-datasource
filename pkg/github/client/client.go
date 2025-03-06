@@ -88,7 +88,7 @@ func createAppClient(settings models.Settings) (*Client, error) {
 		}, nil
 	}
 
-	itr.BaseURL = settings.GitHubURL
+	itr.BaseURL = fmt.Sprintf("%s/api/v3", settings.GitHubURL)
 
 	return useGitHubEnterprise(httpClient, settings)
 }

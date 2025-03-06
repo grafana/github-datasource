@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.1.2]
+
+- **Fix** - GitHub enterprise url missing /api/v3
+
 ## [2.1.1]
 
 - **Fix** - GitHub enterprise url wrong with app authentication
