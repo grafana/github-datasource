@@ -6,6 +6,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"sync"
 	"time"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
@@ -46,7 +47,9 @@ var (
 // If there is no cached data to respond with, the CachedDatasource forwards the request to the Datasource
 type CachedDatasource struct {
 	datasource Datasource
-	cache      map[string]CachedResult
+
+	mu    sync.RWMutex // protects the cache map against concurrent access
+	cache map[string]CachedResult
 }
 
 func (c *CachedDatasource) getCache(req backend.DataQuery) (dfutil.Framer, error) {
@@ -54,6 +57,9 @@ func (c *CachedDatasource) getCache(req backend.DataQuery) (dfutil.Framer, error
 	if err != nil {
 		return nil, err
 	}
+
+	c.mu.RLock()
+	defer c.mu.RUnlock()
 
 	// Return cached value if it's there and it's not expired
 	res, ok := c.cache[key]
@@ -76,6 +82,9 @@ func (c *CachedDatasource) saveCache(req backend.DataQuery, f dfutil.Framer, err
 	if err != nil {
 		return nil, err
 	}
+
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
 	c.cache[key] = newCachedResult(f)
 	return f, err
@@ -277,6 +286,9 @@ func getCacheKey(req backend.DataQuery) (string, error) {
 
 // Cleanup removes old cache keys
 func (c *CachedDatasource) Cleanup() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
 	for k, v := range c.cache {
 		// If it's an expired value, then delete it
 		if v.ExpiresAt.Before(time.Now()) {
