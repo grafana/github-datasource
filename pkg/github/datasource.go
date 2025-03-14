@@ -117,7 +117,10 @@ func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.Mi
 
 // HandlePackagesQuery is the query handler for listing GitHub Packages
 func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	opt, err := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	if err != nil {
+		return nil, err
+	}
 
 	return GetAllPackages(ctx, d.client, opt)
 }

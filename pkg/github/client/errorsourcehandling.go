@@ -20,7 +20,6 @@ var (
 		"Resource not accessible by personal access token",
 		"API rate limit exceeded",
 		"Resource not accessible by integration", // issue with incorrectly set permissions for token/app
-		"registry is not supported by GraphQL APIs",
 	}
 )
 
