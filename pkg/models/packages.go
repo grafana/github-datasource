@@ -18,7 +18,7 @@ type ListPackagesOptions struct {
 
 // PackagesOptionsWithRepo adds Owner and Repo to a ListPackagesOptions. This is just for convenience
 func PackagesOptionsWithRepo(opt ListPackagesOptions, owner string, repo string) (ListPackagesOptions, error) {
-	validPackageType, err := validatePackageType(opt.PackageType)
+	err := validatePackageType(opt.PackageType)
 	if err != nil {
 		return ListPackagesOptions{}, err
 	}
@@ -27,7 +27,7 @@ func PackagesOptionsWithRepo(opt ListPackagesOptions, owner string, repo string)
 		Owner:       owner,
 		Repository:  repo,
 		Names:       opt.Names,
-		PackageType: validPackageType,
+		PackageType: opt.PackageType,
 	}, nil
 }
 
@@ -47,13 +47,13 @@ var notSupportedPackageTypes = []githubv4.PackageType{
 	githubv4.PackageTypeNuget,
 }
 
-func validatePackageType(packageType githubv4.PackageType) (githubv4.PackageType, error) {
+func validatePackageType(packageType githubv4.PackageType) error {
 	if slices.Contains(validPackageTypes, packageType) {
-		return packageType, nil
+		return nil
 	}
 
 	if slices.Contains(notSupportedPackageTypes, packageType) {
-		return "", backend.DownstreamError(fmt.Errorf("package type %q is not supported. Valid types are: MAVEN, DOCKER, DEBIAN, PYPI", packageType))
+		return backend.DownstreamError(fmt.Errorf("package type %q is not supported. Valid types are: MAVEN, DOCKER, DEBIAN, PYPI", packageType))
 	}
-	return "", backend.DownstreamError(fmt.Errorf("invalid package type %q. Valid types are: MAVEN, DOCKER, DEBIAN, PYPI", packageType))
+	return backend.DownstreamError(fmt.Errorf("invalid package type %q. Valid types are: MAVEN, DOCKER, DEBIAN, PYPI", packageType))
 }

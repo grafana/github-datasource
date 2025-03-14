@@ -11,7 +11,6 @@ func Test_validatePackageType(t *testing.T) {
 	tests := []struct {
 		name        string
 		packageType githubv4.PackageType
-		wantType    githubv4.PackageType
 		wantErr     bool
 		errMessage  string
 	}{
@@ -19,46 +18,39 @@ func Test_validatePackageType(t *testing.T) {
 		{
 			name:        "valid PYPI package type",
 			packageType: githubv4.PackageTypePypi,
-			wantType:    githubv4.PackageTypePypi,
 			wantErr:     false,
 		},
 		{
 			name:        "valid Docker package type",
 			packageType: githubv4.PackageTypeDocker,
-			wantType:    githubv4.PackageTypeDocker,
 			wantErr:     false,
 		},
 		{
 			name:        "valid Maven package type",
 			packageType: githubv4.PackageTypeMaven,
-			wantType:    githubv4.PackageTypeMaven,
 			wantErr:     false,
 		},
 		{
 			name:        "valid Debian package type",
 			packageType: githubv4.PackageTypeDebian,
-			wantType:    githubv4.PackageTypeDebian,
 			wantErr:     false,
 		},
 		// Not supported package types by GraphQL API anymore
 		{
 			name:        "not supported NPM package type",
 			packageType: githubv4.PackageTypeNpm,
-			wantType:    "",
 			wantErr:     true,
 			errMessage:  `package type "NPM" is not supported`,
 		},
 		{
 			name:        "not supported Rubygems package type",
 			packageType: githubv4.PackageTypeRubygems,
-			wantType:    "",
 			wantErr:     true,
 			errMessage:  `package type "RUBYGEMS" is not supported`,
 		},
 		{
 			name:        "not supported Nuget package type",
 			packageType: githubv4.PackageTypeNuget,
-			wantType:    "",
 			wantErr:     true,
 			errMessage:  `package type "NUGET" is not supported`,
 		},
@@ -66,14 +58,12 @@ func Test_validatePackageType(t *testing.T) {
 		{
 			name:        "invalid package type",
 			packageType: "INVALID",
-			wantType:    "",
 			wantErr:     true,
 			errMessage:  `invalid package type "INVALID"`,
 		},
 		{
 			name:        "empty package type",
 			packageType: "",
-			wantType:    "",
 			wantErr:     true,
 			errMessage:  `invalid package type ""`,
 		},
@@ -81,14 +71,12 @@ func Test_validatePackageType(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotType, err := validatePackageType(tt.packageType)
+			err := validatePackageType(tt.packageType)
 			if tt.wantErr {
 				require.Error(t, err)
 				require.ErrorContains(t, err, tt.errMessage)
-				require.Equal(t, tt.wantType, gotType)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, tt.wantType, gotType)
 			}
 		})
 	}
