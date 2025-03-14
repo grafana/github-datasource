@@ -88,7 +88,7 @@ func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField mode
 			}
 
 		default:
-			return nil, fmt.Errorf("unexpected time field: %d", timeField)
+			return nil, backend.DownstreamError(fmt.Errorf("unexpected time field: %d", timeField))
 		}
 
 		out = append(out, workflow)
