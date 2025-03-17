@@ -1,5 +1,10 @@
 # Change Log
 
+## [2.1.3]
+
+- **Fix** - Add mutex protection to prevent data races in datasource cache
+- **Chore** - Add validation for package types
+
 ## [2.1.2]
 
 - **Fix** - GitHub enterprise url missing /api/v3
