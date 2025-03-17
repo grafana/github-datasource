@@ -2,6 +2,7 @@ node_modules/
 coverage/
 ci/
 dist/
+.idea/
 
 # e2e test directories
 /test-results/
