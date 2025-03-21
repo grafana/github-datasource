@@ -32,6 +32,12 @@ func (p ProjectItemsWithFields) Frames() data.Frames {
 			continue
 		}
 		fieldType := fieldTypes[f.Common.DataType]
+		// there might be added new fields where we don't have a type yet, so we will skip them
+		// we will log a debug message so we can add a type for them
+		if fieldType == nil {
+			backend.Logger.Debug("no type for field in project items", "field", f.Common.Name, "dataType", f.Common.DataType)
+			continue
+		}
 		field := data.NewField(f.Common.Name, nil, fieldType)
 		frame.Fields = append(frame.Fields, field)
 		fields = append(fields, f)
