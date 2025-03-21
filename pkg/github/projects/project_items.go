@@ -241,6 +241,8 @@ var fieldTypes = map[string]any{
 var exclude = map[string]bool{
 	"LINKED_PULL_REQUESTS": true,
 	"TRACKED_BY":           true,
+	"PARENT_ISSUE":         true,
+	"SUB_ISSUES_PROGRESS":  true,
 }
 
 // convert fieldValue to time
