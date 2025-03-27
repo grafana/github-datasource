@@ -3,6 +3,8 @@
 ## [2.1.4]
 
 - **Fix** - Workflow runs - date filter now filters by time
+- **Fix** - Panic in project query
+- **Security** - Bump prismjs to 1.30.0
 
 ## [2.1.3]
 
