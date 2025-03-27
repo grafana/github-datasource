@@ -308,7 +308,7 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 
 	workflowRuns := []*googlegithub.WorkflowRun{}
 
-	format := "2006-01-02"
+	format := time.RFC3339
 	created := fmt.Sprintf("%s..%s", timeRange.From.Format(format), timeRange.To.Format(format))
 
 	var (

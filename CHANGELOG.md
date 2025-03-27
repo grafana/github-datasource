@@ -1,5 +1,9 @@
 # Change Log
 
+## [2.1.4]
+
+- **Fix** - Workflow runs - date filter now filters by time
+
 ## [2.1.3]
 
 - **Fix** - Add mutex protection to prevent data races in datasource cache
