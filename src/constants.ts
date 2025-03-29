@@ -5,6 +5,7 @@ export enum QueryType {
   Tags = 'Tags',
   Releases = 'Releases',
   Pull_Requests = 'Pull_Requests',
+  Pull_Request_Reviews = 'Pull_Request_Reviews',
   Labels = 'Labels',
   Repositories = 'Repositories',
   Organizations = 'Organizations',
