@@ -11,11 +11,12 @@ import (
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
 	googlegithub "github.com/google/go-github/v53/github"
-	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // Client is a wrapper of GitHub clients that can access the GraphQL and rest API.
@@ -74,7 +75,12 @@ func createAppClient(settings models.Settings) (*Client, error) {
 		return nil, backend.DownstreamError(errors.New("error parsing installation id"))
 	}
 
-	itr, err := ghinstallation.New(http.DefaultTransport, appId, installationId, []byte(settings.PrivateKey))
+	transportPtr, ok := http.DefaultTransport.(*http.Transport)
+	if !ok {
+		return nil, backend.DownstreamError(errors.New("error: http.DefaultTransport is not of type *http.Transport"))
+	}
+	transport := transportPtr.Clone()
+	itr, err := ghinstallation.New(transport, appId, installationId, []byte(settings.PrivateKey))
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
