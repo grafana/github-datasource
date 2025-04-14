@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.1.5
+
+### Patch Changes
+
+🐛 Update golang-jwt/jwt dependency to v4.5.2
+🐛 Get default http transport from plugin-sdk-go
+
 ## [2.1.4]
 
 - **Fix** - Workflow runs - date filter now filters by time
