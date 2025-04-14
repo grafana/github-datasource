@@ -12,6 +12,7 @@ import (
 	"github.com/bradleyfalzon/ghinstallation/v2"
 	googlegithub "github.com/google/go-github/v53/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -75,11 +76,10 @@ func createAppClient(settings models.Settings) (*Client, error) {
 		return nil, backend.DownstreamError(errors.New("error parsing installation id"))
 	}
 
-	transportPtr, ok := http.DefaultTransport.(*http.Transport)
-	if !ok {
+	transport, err := httpclient.GetDefaultTransport()
+	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error: http.DefaultTransport is not of type *http.Transport"))
 	}
-	transport := transportPtr.Clone()
 	itr, err := ghinstallation.New(transport, appId, installationId, []byte(settings.PrivateKey))
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error creating token source"))
