@@ -237,7 +237,7 @@ func GetWorkflowRuns(ctx context.Context, client models.Client, opts models.Work
 		return nil, nil
 	}
 
-	workflowRuns, err := client.GetWorkflowRuns(ctx, opts.Owner, opts.Repository, opts.Workflow, opts.Branch, timeRange)
+	workflowRuns, err := client.GetWorkflowRuns(ctx, opts.Owner, opts.Repository, opts.Workflow, opts.Branch, opts.Status, timeRange)
 	if err != nil {
 		return nil, err
 	}
