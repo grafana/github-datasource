@@ -1,22 +1,18 @@
 import {
   AnnotationEvent,
-  DataFrame,
-  DataFrameView,
   DataQueryRequest,
   DataQueryResponse,
   DataSourceInstanceSettings,
-  LegacyMetricFindQueryOptions,
-  MetricFindValue,
   ScopedVars,
 } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { replaceVariables } from './variables';
+import { replaceVariables, GithubVariableSupport } from './variables';
 import { isValid } from './validation';
 import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
 import { Observable } from 'rxjs';
 import { trackRequest } from 'tracking';
-import type { GitHubQuery, GitHubVariableQuery } from './types/query';
+import type { GitHubQuery } from './types/query';
 import type { GitHubDataSourceOptions } from './types/config';
 
 export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubDataSourceOptions> {
@@ -27,6 +23,7 @@ export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubD
     this.annotations = {
       prepareAnnotation,
     };
+    this.variables = new GithubVariableSupport(this);
   }
 
   // Required by DataSourceApi. It executes queries based on the provided DataQueryRequest.
@@ -100,35 +97,6 @@ export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubD
       return columns;
     } catch (err) {
       return Promise.reject(err);
-    }
-  }
-
-  // Implemented as part of DataSourceAPI and used for template variable queries
-  async metricFindQuery(query: GitHubVariableQuery, options: LegacyMetricFindQueryOptions): Promise<MetricFindValue[]> {
-    const request = {
-      targets: [
-        {
-          ...query,
-          refId: 'metricFindQuery',
-        },
-      ],
-      range: options.range,
-    } as DataQueryRequest;
-    try {
-      const res = await this.query(request).toPromise();
-      if (!res?.data?.length) {
-        return [];
-      }
-      const view = new DataFrameView(res.data[0] as DataFrame);
-      return view.map((item) => {
-        const value = item[query.key || ''] || item[query.field || 'name'];
-        return {
-          value,
-          text: item[query.field || 'name'],
-        };
-      });
-    } catch (ex) {
-      return Promise.reject(ex);
     }
   }
 }
