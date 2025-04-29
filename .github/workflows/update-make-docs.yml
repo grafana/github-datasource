@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: grafana/writers-toolkit/update-make-docs@update-make-docs/v1
+      - uses: grafana/writers-toolkit/update-make-docs@update-make-docs/v1 # zizmor: ignore[unpinned-uses]
         with:
           pr_options: >
             --label type/docs
