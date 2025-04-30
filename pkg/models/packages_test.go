@@ -80,4 +80,4 @@ func Test_validatePackageType(t *testing.T) {
 			}
 		})
 	}
-} 
+}
