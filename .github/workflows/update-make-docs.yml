@@ -1,5 +1,6 @@
 name: Update `make docs` procedure
-permissions: {}
+permissions:
+  contents: read
 
 on:
   schedule:

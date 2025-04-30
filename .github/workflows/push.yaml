@@ -1,5 +1,6 @@
 name: Plugins - CI
-permissions: {}
+permissions:
+  contents: read
 
 on:
   push:
