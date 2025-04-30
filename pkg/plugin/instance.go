@@ -4,10 +4,11 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/grafana/github-datasource/pkg/github"
-	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
+
+	"github.com/grafana/github-datasource/pkg/github"
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // NewGitHubInstance creates a new GitHubInstance using the settings to determine if things like the Caching Wrapper should be enabled
