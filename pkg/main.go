@@ -3,9 +3,10 @@ package main
 import (
 	"os"
 
-	"github.com/grafana/github-datasource/pkg/plugin"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
+
+	"github.com/grafana/github-datasource/pkg/plugin"
 )
 
 const dsID = "grafana-github-datasource"
