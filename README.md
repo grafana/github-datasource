@@ -1,4 +1,5 @@
 <base target="_blank">
+
 # Grafana GitHub data source
 
 The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.
