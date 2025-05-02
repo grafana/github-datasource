@@ -1,16 +1,9 @@
-import {
-  AnnotationEvent,
-  DataQueryRequest,
-  DataQueryResponse,
-  DataSourceInstanceSettings,
-  ScopedVars,
-} from '@grafana/data';
+import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
 import { replaceVariables, GithubVariableSupport } from './variables';
 import { isValid } from './validation';
-import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { trackRequest } from 'tracking';
 import type { GitHubQuery } from './types/query';
 import type { GitHubDataSourceOptions } from './types/config';
@@ -43,39 +36,6 @@ export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubD
     return replaceVariables(this.templateSrv, query, scoped);
   }
 
-  /**
-   * Implemented as part of the DataSourceAPI. It allows the datasource to serve as a source of annotations for a dashboard.
-   * @returns A promise that resolves to an array of AnnotationEvent objects representing the annotations for the dashboard.
-   * @todo This is deprecated and it is recommended to use the `AnnotationSupport` feature for annotations.
-   */
-  async annotationQuery(request: any): Promise<AnnotationEvent[]> {
-    const { annotation } = request.annotation;
-
-    const query = {
-      targets: [
-        {
-          ...annotation,
-          datasourceId: this.id,
-          refId: this.name,
-        },
-      ],
-      range: request.range,
-      interval: request.interval,
-    } as DataQueryRequest<GitHubQuery>;
-
-    const res = await this.query(query).toPromise();
-
-    if (!res?.data?.length) {
-      return [];
-    }
-    return getAnnotationsFromFrame(res.data[0], {
-      field: {
-        time: annotation.timeField, // or first time field
-        text: annotation.field || 'name',
-      },
-    });
-  }
-
   // Used in VariableQueryEditor to get the choices for variables
   async getChoices(query: GitHubQuery): Promise<string[]> {
     const request = {
@@ -92,7 +52,7 @@ export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubD
     } as DataQueryRequest;
 
     try {
-      const res = await this.query(request).toPromise();
+      const res = await lastValueFrom(this.query(request));
       const columns = (res?.data[0]?.fields || []).map((f: any) => f.name) || [];
       return columns;
     } catch (err) {
