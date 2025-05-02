@@ -6,7 +6,7 @@ The GitHub data source plugin for Grafana lets you to query the GitHub API in Gr
 
 ## Documentation
 
-For the plugin documentation, visit [plugin documentation website](https://grafana.com/docs/plugins/grafana-github-datasource).
+For the plugin documentation, visit <a href="https://grafana.com/docs/plugins/grafana-github-datasource" target="_blank">plugin documentation website</a>
 
 ## Video Tutorial
 
