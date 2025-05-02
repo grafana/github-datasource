@@ -39,4 +39,4 @@ The first selection is used to filter the events that display on the graph. For 
 
 The second selection is used to determine where on the graph the event should be displayed.
 
-Typically these will be the same, however there are some cases where you may want them to be different.
+Typically, these will be the same, however there are some cases where you may want them to be different.

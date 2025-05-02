@@ -9,10 +9,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/grafana/github-datasource/pkg/dfutil"
-	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/pkg/errors"
+
+	"github.com/grafana/github-datasource/pkg/dfutil"
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // CacheDuration is a constant that defines how long to keep cached elements before they are refreshed

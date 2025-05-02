@@ -5,9 +5,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental"
+
+	"github.com/grafana/github-datasource/pkg/dfutil"
 )
 
 // UpdateGoldenFiles defines whether or not to update the files locally after checking the responses for validity

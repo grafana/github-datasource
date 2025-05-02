@@ -39,7 +39,7 @@ var validPackageTypes = []githubv4.PackageType{
 	githubv4.PackageTypePypi,
 }
 
-// notSupportedPackageTypes is a list of package types that are not supported by the GitHub graphql API 
+// notSupportedPackageTypes is a list of package types that are not supported by the GitHub graphql API
 // They were supported in the past but are not supported anymore and we want to return an error if they are used
 var notSupportedPackageTypes = []githubv4.PackageType{
 	githubv4.PackageTypeNpm,
