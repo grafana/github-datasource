@@ -154,8 +154,16 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 // GetCodeScanningAlerts to get a list of alerts for a repository
 // GET /repos/{owner}/{repo}/code-scanning/alerts
 // https://docs.github.com/en/rest/reference/code-scanning#get-a-list-of-code-scanning-alerts-for-a-repository
-func GetCodeScanningAlerts(context context.Context, owner, repo string, c models.Client) (CodeScanningWrapper, error) {
-	alerts, _, err := c.ListAlertsForRepo(context, owner, repo, &googlegithub.AlertListOptions{ListOptions: googlegithub.ListOptions{Page: 1, PerPage: 100}})
+func GetCodeScanningAlerts(context context.Context, c models.Client, opt models.CodeScanningOptions, from time.Time, to time.Time) (CodeScanningWrapper, error) {
+	alerts, _, err := c.ListAlertsForRepo(
+		context,
+		opt.Owner,
+		opt.Repository,
+		&googlegithub.AlertListOptions{
+			State: opt.State,
+			Ref:   opt.Ref,
+		},
+	)
 	if err != nil {
 		return nil, err
 	}

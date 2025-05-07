@@ -1,14 +1,11 @@
 package models
 
-type ListCodeScanningOptions struct {
+type CodeScanningOptions struct {
 	// Owner is the owner of the repository (ex: grafana)
 	Owner string `json:"owner"`
 
 	// Repository is the name of the repository being queried (ex: grafana)
 	Repository string `json:"repository"`
-
-	// The field used to check if an entry is in the requested range.
-	TimeField uint32 `json:"timeField"`
 
 	// State is the state of the code scanning alerts. Can be one of: open, closed, dismissed, fixed.
 	State string `json:"state"`
@@ -19,9 +16,9 @@ type ListCodeScanningOptions struct {
 	Ref string `json:"gitRef"`
 }
 
-// ListCodeScanningOptionsWithRepo adds Owner and Repo to a ListCodeScanningOptions. This is just for convenience
-func ListCodeScanningOptionsWithRepo(opt ListCodeScanningOptions, owner string, repo string) ListCodeScanningOptions {
-	return ListCodeScanningOptions{
+// CodeScanningOptionsWithRepo adds Owner and Repo to a CodeScanningOptions. This is just for convenience
+func CodeScanningOptionsWithRepo(opt CodeScanningOptions, owner string, repo string) CodeScanningOptions {
+	return CodeScanningOptions{
 		Owner:      owner,
 		Repository: repo,
 		Ref:        opt.Ref,

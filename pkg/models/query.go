@@ -143,5 +143,5 @@ type WorkflowRunsQuery struct {
 // CodeScanningQuery is used when querying code scanning alerts for a repository
 type CodeScanningQuery struct {
 	Query
-	Options ListCodeScanningOptions `json:"options"`
+	Options CodeScanningOptions `json:"options"`
 }

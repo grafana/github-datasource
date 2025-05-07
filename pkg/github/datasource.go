@@ -46,6 +46,12 @@ func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.Commi
 	return GetCommitsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository
+func (d *Datasource) HandleCodeScanningQuery(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.CodeScanningOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetCodeScanningAlerts(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
 // HandleTagsQuery is the query handler for listing GitHub Tags
 func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListTagsOptions{
@@ -136,12 +142,6 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 	return GetAllVulnerabilities(ctx, d.client, opt)
 }
 
-// ListAlertsForRepo is the query handler for listing GitHub Security Alerts
-func (d *Datasource) ListAlertsForRepo(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.ListCodeScanningOptionsWithRepo(query.Options, query.Owner, query.Repository)
-	return d.HandleCodeScanningQuery(ctx, &models.CodeScanningQuery{Query: query.Query, Options: opt}, req)
-}
-
 // HandleProjectsQuery is the query handler for listing GitHub Projects
 func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.ProjectsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ProjectOptions{
@@ -200,11 +200,6 @@ func (d *Datasource) HandleWorkflowRunsQuery(ctx context.Context, query *models.
 	}
 
 	return GetWorkflowRuns(ctx, d.client, opt, req.TimeRange)
-}
-
-// HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository
-func (d *Datasource) HandleCodeScanningQuery(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	return GetCodeScanningAlerts(ctx, query.Owner, query.Repository, d.client)
 }
 
 // CheckHealth is the health check for GitHub
