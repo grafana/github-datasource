@@ -16,7 +16,8 @@ export const isValid = (query: GitHubQuery): boolean => {
     query.queryType === QueryType.Labels ||
     query.queryType === QueryType.Milestones ||
     query.queryType === QueryType.Vulnerabilities ||
-    query.queryType === QueryType.Stargazers
+    query.queryType === QueryType.Stargazers ||
+    query.queryType === QueryType.Code_Scanning
   ) {
     if (isEmpty(query.owner) || isEmpty(query.repository)) {
       return false;

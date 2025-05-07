@@ -4,7 +4,7 @@ import { Select, InlineField } from '@grafana/ui';
 
 import { GitHubDataSource } from '../DataSource';
 import { isValid } from '../validation';
-import { components } from './../components/selectors';
+import { components } from '../components/selectors';
 
 import QueryEditorRepository from './QueryEditorRepository';
 import QueryEditorReleases from './QueryEditorReleases';
@@ -21,6 +21,7 @@ import QueryEditorProjects from './QueryEditorProjects';
 import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
 import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
+import QueryEditorCodeScanning from './QueryEditorCodeScanning';
 import { QueryType, DefaultQueryType } from '../constants';
 import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
@@ -50,6 +51,9 @@ const queryEditors: {
   },
   [QueryType.Tags]: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorTags {...(props.query.options || {})} />,
+  },
+  [QueryType.Code_Scanning]: {
+    component: (props: Props, _: (val: any) => void) => <QueryEditorCodeScanning {...(props.query.options || {})} />,
   },
   [QueryType.Releases]: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorReleases {...(props.query.options || {})} />,
