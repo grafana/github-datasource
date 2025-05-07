@@ -53,7 +53,7 @@ const queryEditors: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorTags {...(props.query.options || {})} />,
   },
   [QueryType.Code_Scanning]: {
-    component: (props: Props, _: (val: any) => void) => <QueryEditorCodeScanning {...(props.query.options || {})} />,
+    component: (props: Props, onChange: (val: any) => void) => <QueryEditorCodeScanning {...(props.query.options || {})}  onChange={onChange} />,
   },
   [QueryType.Releases]: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorReleases {...(props.query.options || {})} />,

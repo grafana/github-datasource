@@ -138,11 +138,7 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 
 // ListAlertsForRepo is the query handler for listing GitHub Security Alerts
 func (d *Datasource) ListAlertsForRepo(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.ListCodeScanningOptions{
-		Repository: query.Repository,
-		Owner:      query.Owner,
-	}
-
+	opt := models.ListCodeScanningOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return d.HandleCodeScanningQuery(ctx, &models.CodeScanningQuery{Query: query.Query, Options: opt}, req)
 }
 
