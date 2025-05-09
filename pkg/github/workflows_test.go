@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/github-datasource/pkg/testutil"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"

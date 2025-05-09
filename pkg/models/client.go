@@ -3,7 +3,7 @@ package models
 import (
 	"context"
 
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
