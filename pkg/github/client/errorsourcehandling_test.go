@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"testing"
 
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/stretchr/testify/require"
 )
@@ -70,21 +70,21 @@ func TestAddErrorSourceToError(t *testing.T) {
 			expected: backend.DownstreamError(context.Canceled),
 		},
 		{
-			name: "saml error message",
-			err: errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization."),
-			resp: nil,
+			name:     "saml error message",
+			err:      errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization."),
+			resp:     nil,
 			expected: backend.DownstreamError(errors.New("Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization.")),
 		},
 		{
-			name: "limit exceeded error message",
-			err: errors.New("API rate limit exceeded for ID 1"),
-			resp: nil,
+			name:     "limit exceeded error message",
+			err:      errors.New("API rate limit exceeded for ID 1"),
+			resp:     nil,
 			expected: backend.DownstreamError(errors.New("API rate limit exceeded for ID 1")),
 		},
 		{
-			name: "permission error message",
-			err: errors.New("Resource not accessible by integration"),
-			resp: nil,
+			name:     "permission error message",
+			err:      errors.New("Resource not accessible by integration"),
+			resp:     nil,
 			expected: backend.DownstreamError(errors.New("Resource not accessible by integration")),
 		},
 	}

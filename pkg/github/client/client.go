@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/influxdata/tdigest"
@@ -122,7 +122,7 @@ func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Cl
 		return nil, backend.DownstreamError(errors.New("incorrect enterprise url"))
 	}
 
-	restClient, err := googlegithub.NewEnterpriseClient(settings.GitHubURL, settings.GitHubURL, httpClient)
+	restClient, err := googlegithub.NewClient(httpClient).WithEnterpriseURLs(settings.GitHubURL, settings.GitHubURL)
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("instantiating enterprise rest client"))
 	}
@@ -232,6 +232,9 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	}
 
 	usage, response, err := client.getWorkflowUsage(ctx, owner, repo, workflow)
+	if response == nil {
+		return models.WorkflowUsage{}, backend.DownstreamError(errWorkflowNotFound)
+	}
 	if err != nil {
 		if response.StatusCode == http.StatusNotFound {
 			return models.WorkflowUsage{}, backend.DownstreamError(errWorkflowNotFound)
