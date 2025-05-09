@@ -6,8 +6,9 @@ import (
 	"time"
 
 	googlegithub "github.com/google/go-github/v53/github"
-	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 type mockClient struct {
@@ -35,9 +36,17 @@ func (m *mockClient) GetWorkflowRuns(ctx context.Context, owner, repo, workflow 
 }
 
 func (m *mockClient) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
-	// Verify input parameters
 	if owner != m.expectedOwner || repo != m.expectedRepo {
 		m.t.Errorf("Expected owner/repo to be %s/%s, got %s/%s", m.expectedOwner, m.expectedRepo, owner, repo)
+	}
+
+	return m.mockAlerts, m.mockResponse, nil
+}
+
+func (m *mockClient) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert,
+	*googlegithub.Response, error) {
+	if owner != m.expectedOwner {
+		m.t.Errorf("Expected owner to be %s, got %s", m.expectedOwner, owner)
 	}
 
 	return m.mockAlerts, m.mockResponse, nil
