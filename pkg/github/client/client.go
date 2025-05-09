@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/influxdata/tdigest"

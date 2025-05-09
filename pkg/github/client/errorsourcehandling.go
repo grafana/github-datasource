@@ -6,11 +6,12 @@ import (
 	"strconv"
 	"strings"
 
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
 var statusErrorStringFromGraphQLPackage = "non-200 OK status code: "
+
 // Identified downstream errors. Unfortunately, could not find a better way to identify them.
 var (
 	downstreamErrors = []string{
