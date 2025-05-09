@@ -87,6 +87,43 @@ func TestGetCodeScanningAlerts(t *testing.T) {
 	}
 }
 
+func TestGetCodeScanningAlertsForOrg(t *testing.T) {
+	var (
+		ctx  = context.Background()
+		opts = models.CodeScanningOptions{
+			Repository: "", // Empty repository to trigger organization-level alerts
+			Owner:      "grafana",
+			State:      "open",
+			Ref:        "main",
+		}
+		from = time.Now().Add(-30 * 24 * time.Hour)
+		to   = time.Now()
+	)
+
+	// Mock response data
+	mockAlerts := []*googlegithub.Alert{}
+	mockResponse := &googlegithub.Response{}
+
+	client := &mockClient{
+		mockAlerts:    mockAlerts,
+		mockResponse:  mockResponse,
+		expectedOwner: "grafana",
+		// No expectedRepo since we're testing org-level
+		t: t,
+	}
+
+	// Call the function
+	alerts, err := GetCodeScanningAlerts(ctx, client, opts, from, to)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Verify result
+	if len(alerts) != len(mockAlerts) {
+		t.Errorf("Expected %d alerts, got %d", len(mockAlerts), len(alerts))
+	}
+}
+
 func TestCodeScanningWrapperFrames(t *testing.T) {
 	// Create test data
 	createdAt := &googlegithub.Timestamp{Time: time.Now().Add(-48 * time.Hour)}
