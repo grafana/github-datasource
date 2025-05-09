@@ -3,7 +3,7 @@ import { ProjectQueryType, QueryType } from './constants';
 import type { GitHubQuery } from './types/query';
 
 export const isValid = (query: GitHubQuery): boolean => {
-  if (query.queryType === QueryType.Repositories) {
+  if (query.queryType === QueryType.Repositories || query.queryType === QueryType.Code_Scanning) {
     if (isEmpty(query.owner)) {
       return false;
     }
@@ -16,8 +16,7 @@ export const isValid = (query: GitHubQuery): boolean => {
     query.queryType === QueryType.Labels ||
     query.queryType === QueryType.Milestones ||
     query.queryType === QueryType.Vulnerabilities ||
-    query.queryType === QueryType.Stargazers ||
-    query.queryType === QueryType.Code_Scanning
+    query.queryType === QueryType.Stargazers
   ) {
     if (isEmpty(query.owner) || isEmpty(query.repository)) {
       return false;
