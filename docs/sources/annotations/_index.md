@@ -12,7 +12,7 @@ labels:
     - oss
     - enterprise
     - cloud
-weight: 400
+weight: 500
 ---
 
 # Create annotations with GitHub data source plugin for Grafana

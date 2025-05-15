@@ -12,7 +12,7 @@ labels:
     - oss
     - enterprise
     - cloud
-weight: 201
+weight: 401
 ---
 
 # Create variable with GitHub data source plugin for Grafana
