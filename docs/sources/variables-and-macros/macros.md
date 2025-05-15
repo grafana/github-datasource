@@ -12,7 +12,7 @@ labels:
     - oss
     - enterprise
     - cloud
-weight: 202
+weight: 402
 ---
 
 # Use macros with GitHub data source plugin for Grafana

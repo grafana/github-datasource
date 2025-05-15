@@ -2,6 +2,25 @@
 title: GitHub data source plugin for Grafana
 menuTitle: GitHub data source
 description: The GitHub data source lets you visualize GitHub data in Grafana dashboards.
+hero:
+  title: Github data source plugin for Grafana
+  level: 1
+  width: 110
+  image: https://raw.githubusercontent.com/grafana/github-datasource/refs/heads/main/src/img/github.svg
+  height: 110
+  description: The Github data source plugin allows you to query and visualize data from Github.
+query_types:
+  title_class: pt-0 lh-1
+  items:
+    - title: Repositories
+      description: List the github repositories for an organization
+      href: /docs/grafana-github-datasource/latest/query/repositories/
+    - title: Issues
+      description: List the issues created for a github repo
+      href: /docs/grafana-github-datasource/latest/query/issues/
+    - title: Pull Requests
+      description: List the pull requests created for a github repo
+      href: /docs/grafana-github-datasource/latest/query/pull-requests/
 keywords:
   - data source
   - github
@@ -15,6 +34,12 @@ labels:
 weight: 10
 ---
 
+<!-- markdownlint-configure-file { "MD013": false, "MD033": false, "MD025": false, "MD034": false } -->
+
+{{< docs/hero-simple key="hero" >}}
+
+<hr style="margin-bottom:30px"/>
+
 # GitHub data source plugin for Grafana
 
 The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.
@@ -25,16 +50,19 @@ Watch this video to learn more about setting up the Grafana GitHub data source p
 
 ## Query types
 
-The plugin supports the following query types:
+Grafana Github datasource plugin allows you query various data from github. To know more about supported query types and details, refer the [Query page](/docs/grafana-github-datasource/latest/query/)
+
+{{< card-grid key="query_types" type="simple" >}}
+
+### Other query types
+
+The plugin also supports the following query types:
 
 - Commits
-- Issues
 - Contributors
 - Tags
 - Releases
-- Pull requests
 - Labels
-- Repositories
 - Milestones
 - Packages
 - Vulnerabilities
