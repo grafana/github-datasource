@@ -27,6 +27,7 @@ Watch this video to learn more about setting up the Grafana GitHub data source p
 
 The plugin supports the following query types:
 
+- Code Scan
 - Commits
 - Issues
 - Contributors

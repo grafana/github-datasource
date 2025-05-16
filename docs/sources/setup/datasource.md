@@ -29,6 +29,7 @@ weight: 103
 
 1. Paste the access token.
    {{< figure alt="Configuring API Token" src="/media/docs/grafana/data-sources/github/github-plugin-confg-token.png" >}}
+2. 
 
 1. (_Optional_): If you using the GitHub Enterprise Server, then select the **Enterprise Server** option inside the **Connection** section and paste the URL of your GitHub Enterprise Server.
 
