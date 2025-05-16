@@ -121,6 +121,16 @@ func (c *CachedDatasource) HandleCommitsQuery(ctx context.Context, q *models.Com
 	return c.saveCache(req, f, err)
 }
 
+// HandleCodeScanningQuery is the cache wrapper for the issue query handler
+func (c *CachedDatasource) HandleCodeScanningQuery(ctx context.Context, q *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleCodeScanningQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // HandleTagsQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleTagsQuery(ctx context.Context, q *models.TagsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {

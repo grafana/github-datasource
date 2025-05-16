@@ -151,6 +151,24 @@ func (client *Client) ListWorkflows(ctx context.Context, owner, repo string, opt
 	return wf, resp, err
 }
 
+// ListAlertsForRepo sends a request to the GitHub rest API to list the code scanning alerts in a specific repository.
+func (client *Client) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForRepo(ctx, owner, repo, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
+}
+
+// ListAlertsForOrg sends a request to the GitHub rest API to list the code scanning alerts in a specific organization.
+func (client *Client) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForOrg(ctx, owner, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
+}
+
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
 func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (models.WorkflowUsage, error) {
 	actors := make(map[string]struct{}, 0)

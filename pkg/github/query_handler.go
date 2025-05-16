@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/pkg/errors"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // QueryHandler is the main handler for datasource queries.
@@ -31,7 +32,7 @@ func processQueries(ctx context.Context, req *backend.QueryDataRequest, handler 
 func UnmarshalQuery(b []byte, v interface{}) *backend.DataResponse {
 	if err := json.Unmarshal(b, v); err != nil {
 		return &backend.DataResponse{
-			Error: errors.Wrap(err, "failed to unmarshal JSON request into query"),
+			Error:       errors.Wrap(err, "failed to unmarshal JSON request into query"),
 			ErrorSource: backend.ErrorSourceDownstream,
 		}
 	}
@@ -59,6 +60,7 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux.HandleFunc(models.QueryTypeWorkflows, s.HandleWorkflows)
 	mux.HandleFunc(models.QueryTypeWorkflowUsage, s.HandleWorkflowUsage)
 	mux.HandleFunc(models.QueryTypeWorkflowRuns, s.HandleWorkflowRuns)
+	mux.HandleFunc(models.QueryTypeCodeScanning, s.HandleCodeScanning)
 
 	return mux
 }

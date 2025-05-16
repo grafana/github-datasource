@@ -41,6 +41,11 @@ export interface PullRequestsOptions extends Indexable {
   query?: string;
 }
 
+export interface CodeScanningOptions extends Indexable {
+  gitRef?: string;
+  state?: string
+}
+
 export interface CommitsOptions extends Indexable {
   gitRef?: string;
 }

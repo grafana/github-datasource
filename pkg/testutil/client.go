@@ -66,3 +66,13 @@ func (c *TestClient) GetWorkflowUsage(ctx context.Context, owner, repo, workflow
 func (c *TestClient) GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error) {
 	panic("unimplemented")
 }
+
+// ListAlertsForRepo is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// ListAlertsForOrg is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
