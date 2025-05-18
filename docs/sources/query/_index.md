@@ -46,11 +46,12 @@ Retrieve a list of commits for a repository or branch, including commit messages
 #### Query options
 
 | Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
 | Owner | The GitHub user or organization that owns the repository. | Yes |
 | Repository | The name of the repository | Yes |
 | Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
 
-**Sample queries:**  
+##### Sample queries
 Show all commits to the `main` branch of the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -66,6 +67,7 @@ Show all commits against a tag
 #### Response
 
 | Name | Description |
+| ---- | ----------- |
 | id | commit ID |
 | author | Name of the commit author |
 | author_login | GitHub handle of the commit author |
@@ -81,6 +83,7 @@ List issues in a repository using the GitHub query syntax to filter the response
 #### Query options
 
 | Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
 | Owner | The GitHub user or organization that owns the repository. | Yes |
 | Repository | The name of the repository | Yes |
 | Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
@@ -90,7 +93,7 @@ List issues in a repository using the GitHub query syntax to filter the response
 - **Query**: (Optional)  A GitHub search query string to filter issues using GitHub's advanced search syntax. This allows you to search by keywords, labels, assignee, author, milestone, state, and more. For details on supported syntax, see [Searching issues and pull requests](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
 - **Time Field**: The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt` or `UpdatedAt`  
 
-**Sample queries:**  
+##### Sample queries 
 Show all closed issues labeled `type/bug` in the grafana repository.
 
 - Owner: `grafana`
@@ -105,6 +108,7 @@ Show all issues with 'sql expressions' in the title
 #### Response
 
 | Name | Description |
+| ---- | ----------- |
 | title | Issue title |
 | author | GitHub handle of the author |
 | author_company | Company name of the commit author |
@@ -116,7 +120,9 @@ Show all issues with 'sql expressions' in the title
 | updated_at | YYYY-MM-DD HH:MM:SS |
 | labels | Array of labels i.e. [ "type/bug", "needs more info"] |
 
-Note: This query returns a maximum of 1000 results.
+{{< admonition type="note" >}}
+This query returns a maximum of 1000 results.
+{{< /admonition >}}
 
 ### Contributors
 
@@ -124,11 +130,13 @@ Get a list of contributors to a repository.
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
-- **Query (optional)**: Filter for contributors by name or GitHub handle
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository. | Yes |
+| Repository | The name of the repository. | |
+| Query | Filter for contributors by name or GitHub handle | No |
 
-**Sample queries:**  
+##### Sample queries
 Show all contributors to the `grafana` repository.
 
 - Owner: `grafana`
@@ -143,6 +151,7 @@ Search for contributors with `bob` in their name or handle
 #### Response
 
 | Name | Description |
+| ---- | ----------- |
 | Name | Name of the contributor |
 | author | Name of the commit author |
 | author_login | GitHub handle of the commit author |
@@ -151,7 +160,9 @@ Search for contributors with `bob` in their name or handle
 | pushed_at | YYYY-MM-DD HH:MM:SS |
 | message | commit message |
 
-Note: This query returns a maximum of 200 results.
+{{< admonition type="note" >}}
+This query returns a maximum of 200 results.
+{{< /admonition >}}
 
 ### Tags
 
@@ -162,7 +173,7 @@ List created tags for a repository.
 - **Owner**: The GitHub user or organization that owns the repository.
 - **Repository**: The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all tags created for the `grafana` repository within the current selected time range.
 
 - Owner: `grafana`
@@ -171,6 +182,7 @@ Show all tags created for the `grafana` repository within the current selected t
 #### Response
 
 | Name | Description |
+| ---- | ----------- |
 | Name | Name of tag |
 | id | Sha for the tag|
 | author | Name of the GitHub user who created the tag |
@@ -187,7 +199,7 @@ List created releases for a repository.
 - **Owner**: The GitHub user or organization that owns the repository.
 - **Repository**: The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all releases for the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -196,6 +208,7 @@ Show all releases for the `grafana/grafana` repository.
 #### Response
 
 | Name | Description |
+| ---- | ----------- |
 | Name | Name of release |
 | created_by | Name of the GitHub user who created the release |
 | is_draft | true / false|
@@ -215,7 +228,7 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 - **Repository**: (Optional) The name of the repository.
 
 
-**Sample query:**  
+##### Sample queries
 Show all open pull requests authored by `octocat` in the `grafana/grafana` repository.
 
 - Owner : `grafana`
@@ -232,7 +245,7 @@ Get all labels defined in a repository, useful for categorizing issues and pull 
 - **Owner**: The GitHub user or organization that owns the repository.
 - **Repository**: The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all labels for the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -253,7 +266,7 @@ List repositories for a user or organization.
 
 - **Owner/Organization**: The GitHub user or organization.
 
-**Sample query:**  
+##### Sample queries
 Show all repositories for the `grafana` organization.
 
 - Organization: `grafana`
@@ -268,7 +281,7 @@ Retrieve milestones for a repository, which can be used to group issues and pull
 - **Repository**: The name of the repository.
 - **State**: (Optional) Filter by milestone state (`open`, `closed`, or `all`).
 
-**Sample query:**  
+##### Sample queries
 Show all open milestones for the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -284,7 +297,7 @@ List packages published in a repository or organization.
 - **Owner/Organization**: The GitHub user or organization.
 - **Repository**: (Optional) The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all packages for the `grafana` organization.
 
 - Organization: `grafana`
@@ -298,7 +311,7 @@ Query security vulnerabilities detected in a repository.
 - **Owner**: The GitHub user or organization that owns the repository.
 - **Repository**: The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all security advisories for the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -313,7 +326,7 @@ List classic projects associated with a repository or organization.
 - **Owner/Organization**: The GitHub user or organization.
 - **Repository**: (Optional) The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all projects for the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -328,7 +341,7 @@ Get a list of users who have starred a repository.
 - **Owner**: The GitHub user or organization that owns the repository.
 - **Repository**: The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all stargazers for the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -343,7 +356,7 @@ List GitHub Actions workflows defined in a repository.
 - **Owner**: The GitHub user or organization that owns the repository.
 - **Repository**: The name of the repository.
 
-**Sample query:**  
+##### Sample queries
 Show all workflows for the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -359,7 +372,7 @@ Retrieve usage statistics for a workflow, such as run counts and durations.
 - **Repository**: The name of the repository.
 - **Workflow**: The workflow to get usage for.
 
-**Sample query:**  
+##### Sample queries
 Show usage statistics for the `CI` workflow in the `grafana/grafana` repository.
 
 - Owner: `grafana`
@@ -381,7 +394,7 @@ List runs for a specific workflow, including status, conclusion, and timing info
 - **Conclusion**: (Optional) Filter by conclusion (`success`, `failure`, etc.).
 - **Created**: (Optional) Filter by creation date.
 
-**Sample query:**  
+##### Sample queries
 Show all completed runs for the `CI` workflow on the `main` branch in the `grafana/grafana` repository.
 
 - Owner: `grafana`
