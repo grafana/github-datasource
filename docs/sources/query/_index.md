@@ -22,13 +22,13 @@ The GitHub data source plugin for Grafana enables you to query and visualize dat
 
 The data source supports the following queries, which you can select from in the query editor under the `Query Type` dropdown:
 
-- [**Commits**](#commits): Retrieve a list of commits for a repository or branch, including commit messages, authors, and timestamps.
-- [**Issues**](#issues): List issues in a repository, with options to filter by state, assignee, and labels.
-- [**Contributors**](#contributors): Get a list of contributors to a repository, including their contribution counts.
-- [**Tags**](#tags): List tags for a repository, often used to identify release points.
-- [**Releases**](#releases): Retrieve information about releases published in a repository.
-- [**Pull requests**](#pull-requests): List pull requests for a repository, with filtering by state, author, and labels.
-- [**Labels**](#labels): Get all labels defined in a repository, useful for categorizing issues and pull requests.
+- [**Commits**](#commits): Retrieve a list of commits for a repository or branch, including commit message, author, and timestamp.
+- [**Issues**](#issues): List issues in a repository, using the GitHub query syntax to filter the response.
+- [**Contributors**](#contributors): Get a list of contributors to a repository.
+- [**Tags**](#tags): List created tags for a repository.
+- [**Releases**](#releases): List created releases for a repository.
+- [**Pull requests**](#pull-requests): List pull requests for a repository, using the GitHub query syntax to filter the response.
+- [**Labels**](#labels): List labels defined in a repository.
 - [**Repositories**](#repositories): List repositories for a user or organization.
 - [**Milestones**](#milestones): Retrieve milestones for a repository, which can be used to group issues and pull requests.
 - [**Packages**](#packages): List packages published in a repository or organization.
@@ -39,19 +39,16 @@ The data source supports the following queries, which you can select from in the
 - [**Workflow usage**](#workflow-usage): Retrieve usage statistics for a workflow, such as run counts and durations.
 - [**Workflow runs**](#workflow-runs): List runs for a specific workflow, including status, conclusion, and timing information.
 
----
-
-## Examples
-
 ### Commits
 
 Retrieve a list of commits for a repository or branch, including commit messages, authors, and timestamps. Useful for tracking code changes, deployment activity, or contributor history.
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
-- **Ref (Branch/Tag)**: The branch to filter commits by.
+| Name | Description | Required (yes/no) |
+| Owner | The GitHub user or organization that owns the repository. | Yes |
+| Repository | The name of the repository | Yes |
+| Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
 
 **Sample queries:**  
 Show all commits to the `main` branch of the `grafana/grafana` repository.
@@ -66,22 +63,35 @@ Show all commits against a tag
 - Repository: `grafana`
 - Ref: `v12.0.0`
 
+#### Response
 
----
+| Name | Description |
+| id | commit ID |
+| author | Name of the commit author |
+| author_login | GitHub handle of the commit author |
+| author_company | Company name of the commit author |
+| committed_at | YYYY-MM-DD HH:MM:SS |
+| pushed_at | YYYY-MM-DD HH:MM:SS |
+| message | commit message |
 
 ### Issues
 
-List issues in a repository, with options to filter by state, assignee, and labels. Useful for tracking open bugs, feature requests, or project tasks.
+List issues in a repository using the GitHub query syntax to filter the response. Useful for tracking open bugs, feature requests, or project tasks. 
 
 #### Query options
 
+| Name | Description | Required (yes/no) |
+| Owner | The GitHub user or organization that owns the repository. | Yes |
+| Repository | The name of the repository | Yes |
+| Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
+
 - **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
-- **Query**: A GitHub search query string to filter issues using GitHub's advanced search syntax. This allows you to search by keywords, labels, assignee, author, milestone, state, and more. For details on supported syntax, see [Searching issues and pull requests](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
+- **Repository**: (Optional) The name of the repository.
+- **Query**: (Optional)  A GitHub search query string to filter issues using GitHub's advanced search syntax. This allows you to search by keywords, labels, assignee, author, milestone, state, and more. For details on supported syntax, see [Searching issues and pull requests](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
 - **Time Field**: The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt` or `UpdatedAt`  
 
 **Sample queries:**  
-Show all closed issues labeled `type/bug`
+Show all closed issues labeled `type/bug` in the grafana repository.
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -91,11 +101,26 @@ Show all issues with 'sql expressions' in the title
 - Owner: `grafana`
 - Repository: `grafana`
 - Query: `sql expressions in:title`
----
+
+#### Response
+
+| Name | Description |
+| title | Issue title |
+| author | GitHub handle of the author |
+| author_company | Company name of the commit author |
+| repo | Issue repository |
+| number | Issue number |
+| closed | true / false |
+| created_at | YYYY-MM-DD HH:MM:SS |
+| closed_at | YYYY-MM-DD HH:MM:SS |
+| updated_at | YYYY-MM-DD HH:MM:SS |
+| labels | Array of labels i.e. [ "type/bug", "needs more info"] |
+
+Note: This query returns a maximum of 1000 results.
 
 ### Contributors
 
-Get a list of contributors to a repository, including their contribution counts. Useful for understanding project activity and top contributors.
+Get a list of contributors to a repository. 
 
 #### Query options
 
@@ -104,7 +129,7 @@ Get a list of contributors to a repository, including their contribution counts.
 - **Query (optional)**: Filter for contributors by name or GitHub handle
 
 **Sample queries:**  
-Show all contributors to the `grafana/grafana` repository.
+Show all contributors to the `grafana` repository.
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -115,12 +140,22 @@ Search for contributors with `bob` in their name or handle
 - Repository: `grafana`
 - Query: `bob`
 
+#### Response
 
----
+| Name | Description |
+| Name | Name of the contributor |
+| author | Name of the commit author |
+| author_login | GitHub handle of the commit author |
+| author_company | Company name of the commit author |
+| committed_at | YYYY-MM-DD HH:MM:SS |
+| pushed_at | YYYY-MM-DD HH:MM:SS |
+| message | commit message |
+
+Note: This query returns a maximum of 200 results.
 
 ### Tags
 
-List tags for a repository, often used to identify release points.
+List created tags for a repository.
 
 #### Query options
 
@@ -128,16 +163,24 @@ List tags for a repository, often used to identify release points.
 - **Repository**: The name of the repository.
 
 **Sample query:**  
-Show all tags for the `grafana/grafana` repository.
+Show all tags created for the `grafana` repository within the current selected time range.
 
 - Owner: `grafana`
 - Repository: `grafana`
 
----
+#### Response
+
+| Name | Description |
+| Name | Name of tag |
+| id | Sha for the tag|
+| author | Name of the GitHub user who created the tag |
+| author_login | GitHub handle of the GitHub user who created the tag |
+| author_company | Company name of the GitHub user who created the tag |
+| date | YYYY-MM-DD HH:MM:SS |
 
 ### Releases
 
-Retrieve information about releases published in a repository.
+List created releases for a repository.
 
 #### Query options
 
@@ -148,28 +191,35 @@ Retrieve information about releases published in a repository.
 Show all releases for the `grafana/grafana` repository.
 
 - Owner: `grafana`
-- Repository: `grafana`
+- Repository : `grafana`
 
----
+#### Response
+
+| Name | Description |
+| Name | Name of release |
+| created_by | Name of the GitHub user who created the release |
+| is_draft | true / false|
+| is_prerelease | true / false|
+| tag | Tag name associated with the release |
+| url | URL for the tag associated with the release |
+| created_at | YYYY-MM-DD HH:MM:SS |
+| published_at | YYYY-MM-DD HH:MM:SS |
 
 ### Pull requests
 
-List pull requests for a repository, with filtering by state, author, and labels.
+List pull requests for a repository, using the GitHub query syntax to filter the response.
 
 #### Query options
 
 - **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
-- **State**: Filter by PR state (`open`, `closed`, or `all`).
-- **Author**: (Optional) Filter by author.
-- **Labels**: (Optional) Filter by labels.
-- **Base**: (Optional) Filter by base branch.
+- **Repository**: (Optional) The name of the repository.
+
 
 **Sample query:**  
 Show all open pull requests authored by `octocat` in the `grafana/grafana` repository.
 
-- Owner: `grafana`
-- Repository: `grafana`
+- Owner : `grafana`
+- Repository : `grafana`
 - State: `open`
 - Author: `octocat`
 
@@ -187,6 +237,13 @@ Show all labels for the `grafana/grafana` repository.
 
 - Owner: `grafana`
 - Repository: `grafana`
+
+#### Response
+
+| Name | Description |
+| color | Hexadecimal number |
+| name | Label name | 
+| description | Label description |
 
 ### Repositories
 
