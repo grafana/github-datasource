@@ -148,7 +148,7 @@ Search for contributors with `bob` in their name or handle
 
 | Name | Description |
 | ---- | ----------- |
-| Name | Name of the contributor |
+| name | Name of the contributor |
 | author | Name of the commit author |
 | author_login | GitHub handle of the commit author |
 | author_company | Company name of the commit author |
@@ -181,7 +181,7 @@ Show all tags created for the `grafana` repository within the current selected t
 
 | Name | Description |
 | ---- | ----------- |
-| Name | Name of tag |
+| name | Name of tag |
 | id | Sha for the tag|
 | author | Name of the GitHub user who created the tag |
 | author_login | GitHub handle of the GitHub user who created the tag |
@@ -209,7 +209,7 @@ Show all releases for the `grafana/grafana` repository.
 
 | Name | Description |
 | ---- | ----------- |
-| Name | Name of release |
+| name | Name of release |
 | created_by | Name of the GitHub user who created the release |
 | is_draft | true / false|
 | is_prerelease | true / false|
@@ -243,13 +243,13 @@ Show all open pull requests authored by renovate in the `grafana/plugin-tools` r
 #### Response
 | Name | Description |
 | ---- | ----------- |
-| Number | Pull request number |
-| Title | Pull request title | 
-| URL | URL to the pull request | 
-| Additions | Total number of lines of code that have been added or altered in the pull request | 
-| Deletions | Total number of lines of code that have been removed or altered in the pull request |
-| Repository | Repository for the pull request | 
-| State | Can be `open`, `closed` or `merged` |
+| number | Pull request number |
+| title | Pull request title | 
+| url | URL to the pull request | 
+| additions | Total number of lines of code that have been added or altered in the pull request | 
+| deletions | Total number of lines of code that have been removed or altered in the pull request |
+| repository | Repository for the pull request | 
+| state | Can be `open`, `closed` or `merged` |
 | author_name | Name of the GitHub user who created the pull request |
 | author_login | GitHub handle of the GitHub user who created the pull request |
 | author_email | Email address of the GitHub user who created the pull request |
