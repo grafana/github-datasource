@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
 	"github.com/grafana/github-datasource/pkg/models"
