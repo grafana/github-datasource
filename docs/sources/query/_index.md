@@ -317,6 +317,8 @@ Show all repositories for the `grafana` organization.
 | Url | URL for the repository | 
 | Forks | The number of forks for a repository |
 | Is_mirror | Whether the repository is a mirror of another repository: `true` / `false` |
+| is_private | Whether the repository is private: `true` / `false` |
+| created_at | When the repository was created: YYYY-MM-DD HH:MM:SS |
 
 
 {{< admonition type="note" >}}
