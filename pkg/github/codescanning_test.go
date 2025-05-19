@@ -131,24 +131,24 @@ func TestCodeScanningWrapperFrames(t *testing.T) {
 
 	alerts := CodeScanningWrapper{
 		&googlegithub.Alert{
-			Number:    googlegithub.Int(1),
+			Number:    googlegithub.Ptr(1),
 			CreatedAt: createdAt,
 			UpdatedAt: updatedAt,
-			HTMLURL:   googlegithub.String("https://github.com/grafana/grafana/security/code-scanning/1"),
-			State:     googlegithub.String("open"),
+			HTMLURL:   googlegithub.Ptr("https://github.com/grafana/grafana/security/code-scanning/1"),
+			State:     googlegithub.Ptr("open"),
 			Rule: &googlegithub.Rule{
-				ID:                    googlegithub.String("test-rule-id"),
-				Severity:              googlegithub.String("warning"),
-				SecuritySeverityLevel: googlegithub.String("medium"),
-				Description:           googlegithub.String("Test description"),
-				FullDescription:       googlegithub.String("Test full description"),
-				Help:                  googlegithub.String("Test help"),
+				ID:                    googlegithub.Ptr("test-rule-id"),
+				Severity:              googlegithub.Ptr("warning"),
+				SecuritySeverityLevel: googlegithub.Ptr("medium"),
+				Description:           googlegithub.Ptr("Test description"),
+				FullDescription:       googlegithub.Ptr("Test full description"),
+				Help:                  googlegithub.Ptr("Test help"),
 				Tags:                  []string{"security", "test"},
 			},
 			Tool: &googlegithub.Tool{
-				Name:    googlegithub.String("Test Tool"),
-				Version: googlegithub.String("1.0.0"),
-				GUID:    googlegithub.String("test-guid"),
+				Name:    googlegithub.Ptr("Test Tool"),
+				Version: googlegithub.Ptr("1.0.0"),
+				GUID:    googlegithub.Ptr("test-guid"),
 			},
 		},
 	}
