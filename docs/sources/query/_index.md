@@ -233,12 +233,12 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 
 
 ##### Sample queries
-Show all open pull requests authored by `octocat` in the `grafana/grafana` repository.
+Show all open pull requests authored by renovate in the `grafana/plugin-tools` repository.
 
 - Owner : `grafana`
 - Repository : `grafana`
-- State: `open`
-- Author: `octocat`
+- Query: `is:open author:app/renovate`
+- Time field: `none`
 
 #### Response
 | Name | Description |
@@ -270,8 +270,11 @@ Get all labels defined in a repository, useful for categorizing issues and pull 
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Query | Filter on text in name and description for labels | No | 
 
 ##### Sample queries
 Show all labels for the `grafana/grafana` repository.
@@ -281,6 +284,8 @@ Show all labels for the `grafana/grafana` repository.
 
 #### Response
 
+| Name | Description |
+| ---- | ----------- |
 | Name | Description |
 | color | Hexadecimal number |
 | name | Label name | 
@@ -292,12 +297,31 @@ List repositories for a user or organization.
 
 #### Query options
 
-- **Owner/Organization**: The GitHub user or organization.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository - can be used for getting details on a single repository | No |
 
 ##### Sample queries
 Show all repositories for the `grafana` organization.
 
 - Organization: `grafana`
+
+#### Response
+
+| Name | Description |
+| ---- | ----------- |
+| Name | Name of the repository |
+| Owner | Organization or user who owns the repository |
+| Name_with_owner| Returns the owner and repository name in the format <owner>/<repository> i.e. `grafana/loki` |
+| Url | URL for the repository | 
+| Forks | The number of forks for a repository |
+| Is_mirror | Whether the repository is a mirror of another repository: `true` / `false` |
+
+
+{{< admonition type="note" >}}
+This query returns a maximum of 1000 results.
+{{< /admonition >}}
 
 ### Milestones
 
