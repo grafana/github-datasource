@@ -31,9 +31,9 @@ The data source supports the following queries, which you can select from in the
 - [**Labels**](#labels): List labels defined in a repository.
 - [**Repositories**](#repositories): List repositories for a user or organization.
 - [**Milestones**](#milestones): Retrieve milestones for a repository, which can be used to group issues and pull requests.
-- [**Packages**](#packages): List packages published in a repository or organization.
+- [**Packages**](#packages): List packages published from a repository in an organization.
 - [**Vulnerabilities**](#vulnerabilities): Query security vulnerabilities detected in a repository.
-- [**Projects**](#projects): List classic projects associated with a repository or organization.
+- [**Projects**](#projects): List projects associated with a user or organization.
 - [**Stargazers**](#stargazers): Get a list of users who have starred a repository.
 - [**Workflows**](#workflows): List GitHub Actions workflows defined in a repository.
 - [**Workflow usage**](#workflow-usage): Retrieve usage statistics for a workflow, such as run counts and durations.
@@ -331,30 +331,71 @@ Retrieve milestones for a repository, which can be used to group issues and pull
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
-- **State**: (Optional) Filter by milestone state (`open`, `closed`, or `all`).
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Query | Filter on text in the milestone title | No |
 
 ##### Sample queries
-Show all open milestones for the `grafana/grafana` repository.
+Show all milestones for the `grafana/grafana` repository for v11 of Grafana
 
 - Owner: `grafana`
 - Repository: `grafana`
-- State: `open`
+- Query: `11.`
+
+#### Response
+
+| Name | Description |
+| ---- | ----------- |
+| title | Milestone title | 
+| author | GitHub handle of the user who created the milestone  |
+| closed | Whether the milestone is closed: `true` / `false` | 
+| state | One of `OPEN` or `CLOSED` | 
+| created_at | When the milestone was created: YYYY-MM-DD HH:MM:SS | 
+| closed_at | When the milestone was closed: YYYY-MM-DD HH:MM:SS | 
+| due_at | When the milestone is due by: YYYY-MM-DD HH:MM:SS | 
+
+{{< admonition type="note" >}}
+Milestone titles can be anything and are therefore parsed as a string. 
+This means sorting by title may appear incorrect if you have numeric milestones i.e. `12.0.0`.  
+[Transformations](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/) 
+can be used to change the data type in this scenario.
+{{< /admonition >}}
 
 ### Packages
 
-List packages published in a repository or organization.
+List packages published from a repository in an organization
 
 #### Query options
 
-- **Owner/Organization**: The GitHub user or organization.
-- **Repository**: (Optional) The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Package type | One of: `MAVEN`, `DOCKER`, `DEBIAN` or `PYPI` | Yes |
+| Names | Filter for packages using a comma separated list of names | No |
+
 
 ##### Sample queries
-Show all packages for the `grafana` organization.
+Show all packages uploaded t the `grafana` organization.
 
 - Organization: `grafana`
+
+#### Response
+
+| Name | Description |
+| ---- | ----------- |
+| name       | Package name |
+| platform   | Platform or registry where the package is published |
+| version    | Package version |
+| type       | Package type (e.g., MAVEN, DOCKER, DEBIAN, PYPI) |
+| prerelease | Whether the package version is a prerelease: `true` / `false` |
+| downloads  | Number of downloads for the package version |
+
+{{< admonition type="note" >}}
+This query does not support querying npm, RubyGems or NuGet packages.
+{{< /admonition >}}
 
 ### Vulnerabilities
 
@@ -362,8 +403,12 @@ Query security vulnerabilities detected in a repository.
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+
+
 
 ##### Sample queries
 Show all security advisories for the `grafana/grafana` repository.
@@ -371,20 +416,97 @@ Show all security advisories for the `grafana/grafana` repository.
 - Owner: `grafana`
 - Repository: `grafana`
 
+ When the vulnerability was : YYYY-MM-DD HH:MM:SS
+
+#### Response
+
+| Name                   | Description |
+|------------------------|-------------|
+| value                  | Custom field which allows for counting or aggregation, always returns `1` |
+| created_at             | When the vulnerability alert was created (when the vulnerability was published on GitHub): YYYY-MM-DD HH:MM:SS |
+| dismissed_at           | When the vulnerability alert was dismissed, if applicable: YYYY-MM-DD HH:MM:SS |
+| dismissed_reason       | Reason the vulnerability alert was dismissed (e.g., false positive, won't fix), if applicable |
+| withdrawn_at           | When the advisory was withdrawn, if applicable: YYYY-MM-DD HH:MM:SS |
+| packageName            | Name of the affected package |
+| advisoryDescription    | Description of the vulnerability/advisory |
+| firstPatchedVersion    | The first version of the package where the vulnerability is fixed |
+| vulnerableVersionRange | The range of package versions affected by the vulnerability |
+| cvssScore              | CVSS (Common Vulnerability Scoring System) score for the vulnerability |
+| cvssVector             | CVSS vector string describing the scoring metrics |
+| permalink              | URL to the GitHub Security Advisory or alert |
+| severity               | Severity level of the vulnerability (e.g., LOW, MODERATE, HIGH, CRITICAL) |
+| state                  | State of the vulnerability alert (e.g., OPEN, FIXED, DISMISSED) |
+
 ### Projects
 
-List classic projects associated with a repository or organization.
+List projects associated with a user or organization.
 
 #### Query options
 
-- **Owner/Organization**: The GitHub user or organization.
-- **Repository**: (Optional) The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Project Owner | One of `Organization` or `User` | Yes |
+| Organization | Organization for the Project (shown when Organization was previously selected) | Yes |
+| User | User for the Project (shown when User was previously selected) | Yes |
+| Project Number | Enter a specific Project Number to query for associated items | No |
+| Filter | Add key value filters based on the fields for project items (shown if Project Number specified) | No |
 
 ##### Sample queries
 Show all projects for the `grafana/grafana` repository.
 
-- Owner: `grafana`
-- Repository: `grafana`
+- Project Owner: `organization`
+- Organization: `grafana`
+
+Show all pull requests for the "Dashboards" project in the Grafana organization
+
+- Project Owner: `organization`
+- Organization: `grafana`
+- Project Number: `202`
+- Filter: `type equal PULL_REQUEST`
+
+#### Response
+
+##### When no Project Number is specified
+
+| Name         | Description |
+|--------------|-------------|
+| number| The project number | 
+| title | Title of the project | 
+| url | URL for the project |
+| closed | Whether the project has been closed: `true`/ `false` |
+| public | Whether the project is public: `true` / `false |
+| closed_at | When the project was closed: YYYY-MM-DD HH:MM:SS |
+| updated_at | When the project was last updated |
+| created_at | When the project was created | 
+| short_description | The description of the project |
+
+{{< admonition type="note" >}}
+This query returns a maximum of 200 results.
+{{< /admonition >}}
+
+##### When a Project Number is specified
+{{< admonition type="note" >}}
+GitHub Projects allow for customization of default fields and custom fields to be added, 
+therefore the response can vary significantly between projects."
+{{< /admonition >}}
+
+| Name         | Description |
+|--------------|-------------|
+| name         | Name of the project item (issue or pull request) |
+| id           | Unique identifier for the project item           |
+| type         | Type of the item (e.g., ISSUE, PULL_REQUEST)     |
+| status       | Status of the item (e.g., "In development", "Shipped") - this can be configured on the project |
+| labels       | Comma-separated list of labels assigned to the item |
+| assignees    | Comma-separated list of users assigned to the item |
+| reviewers    | Comma-separated list of reviewers (for pull requests) |
+| repository   | Name of the repository the item belongs to       |
+| milestone    | Milestone associated with the item      |
+| priority     | Priority value or label               |
+| archived     | Whether the item is archived: `true` / `false`   |
+| created_at   | When the item was created: YYYY-MM-DD HH:MM:SS   |
+| updated_at   | When the item was last updated: YYYY-MM-DD HH:MM:SS |
+| closed_at    | When the item was closed, if applicable: YYYY-MM-DD HH:MM:SS |
+| (custom fields) | Any custom defined fields will also be returned alongside their values |
 
 ### Stargazers
 
