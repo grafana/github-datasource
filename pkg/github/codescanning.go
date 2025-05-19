@@ -97,7 +97,7 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 				return ""
 			}(),
 			func() string {
-				if alert.GetRule() != nil {
+				if alert.GetRule() != nil && alert.GetRule().SecuritySeverityLevel != nil {
 					return *alert.GetRule().SecuritySeverityLevel
 				}
 				return ""
@@ -122,7 +122,7 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 				return ""
 			}(),
 			func() string {
-				if alert.GetRule() != nil {
+				if alert.GetRule() != nil && alert.GetRule().Help != nil {
 					return *alert.GetRule().Help
 				}
 				return ""
