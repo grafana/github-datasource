@@ -10,7 +10,7 @@ interface Props extends CodeScanningOptions {
 
 const QueryEditorCodeScanning = (props: Props) => {
   const [state, setState] = useState<string>(props.state || 'open');
-  const [ref, setRef] = useState<string>(props.gitRef || '');
+  const [gitRef, setGitRef] = useState<string>(props.gitRef || '');
   return (
     <>
       <InlineField
@@ -23,16 +23,16 @@ const QueryEditorCodeScanning = (props: Props) => {
           width={RightColumnWidth}
           value={state}
           onChange={(el) => setState(el.currentTarget.value)}
-          onBlur={(el) => props.onChange({ ...props, state: el.currentTarget.value })}
+          onBlur={(el) => props.onChange({ ...props, gitRef, state: el.currentTarget.value })}
         />
       </InlineField>
       <InlineField labelWidth={LeftColumnWidth * 2} label="Ref (Branch / Tag)">
         <Input
           aria-label={components.QueryEditor.Ref.input}
           width={RightColumnWidth}
-          value={ref}
-          onChange={(el) => setRef(el.currentTarget.value)}
-          onBlur={(el) => props.onChange({ ...props, gitRef: el.currentTarget.value })}
+          value={gitRef}
+          onChange={(el) => setGitRef(el.currentTarget.value)}
+          onBlur={(el) => props.onChange({ ...props, state, gitRef: el.currentTarget.value })}
         />
       </InlineField>
     </>
