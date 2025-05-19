@@ -84,14 +84,10 @@ List issues in a repository using the GitHub query syntax to filter the response
 
 | Name | Description | Required (yes/no) |
 | ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository. | Yes |
-| Repository | The name of the repository | Yes |
-| Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
-
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: (Optional) The name of the repository.
-- **Query**: (Optional)  A GitHub search query string to filter issues using GitHub's advanced search syntax. This allows you to search by keywords, labels, assignee, author, milestone, state, and more. For details on supported syntax, see [Searching issues and pull requests](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
-- **Time Field**: The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt` or `UpdatedAt`  
+| Owner | A GitHub user or organization | Yes |
+| Repository | The name of a repository | No |
+| Query | Use GitHub's [query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) to filter results | No |
+| Time field | The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt` or `UpdatedAt` |
 
 ##### Sample queries 
 Show all closed issues labeled `type/bug` in the grafana repository.
@@ -126,14 +122,14 @@ This query returns a maximum of 1000 results.
 
 ### Contributors
 
-Get a list of contributors to a repository. 
+Get a list of contributors to an organization or repository. 
 
 #### Query options
 
 | Name | Description | Required (yes/no) |
 | ---- | ----------- | ----------------- |
 | Owner | The GitHub user or organization that owns the repository. | Yes |
-| Repository | The name of the repository. | |
+| Repository | The name of a repository. | No |
 | Query | Filter for contributors by name or GitHub handle | No |
 
 ##### Sample queries
@@ -170,8 +166,10 @@ List created tags for a repository.
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository. | Yes |
 
 ##### Sample queries
 Show all tags created for the `grafana` repository within the current selected time range.
@@ -196,8 +194,10 @@ List created releases for a repository.
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository. | Yes |
 
 ##### Sample queries
 Show all releases for the `grafana/grafana` repository.
@@ -224,8 +224,12 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: (Optional) The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | No |
+| Query | | No |
+| Time field | The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt`, `UpdatedAt` or `none` |
 
 
 ##### Sample queries
@@ -235,6 +239,30 @@ Show all open pull requests authored by `octocat` in the `grafana/grafana` repos
 - Repository : `grafana`
 - State: `open`
 - Author: `octocat`
+
+#### Response
+| Name | Description |
+| ---- | ----------- |
+| Number | Pull request number |
+| Title | Pull request title | 
+| URL | URL to the pull request | 
+| Additions | Total number of lines of code that have been added or altered in the pull request | 
+| Deletions | Total number of lines of code that have been removed or altered in the pull request |
+| Repository | Repository for the pull request | 
+| State | Can be `open`, `closed` or `merged` |
+| author_name | Name of the GitHub user who created the pull request |
+| author_login | GitHub handle of the GitHub user who created the pull request |
+| author_email | Email address of the GitHub user who created the pull request |
+| author_company | Company name of the GitHub user who created the pull request |
+| closed | Whether the pull request is closed: `true` / `false` |
+| is_draft | Whether the pull request is in draft: `true` / `false` |
+| locked | Whether the pull request has been locked: `true` / `false` |
+| merged | Whether the pull request has been merged |
+| mergeable | Whether the pull request can be automatically merged: `MERGEABLE`, `CONFLICTING` or `UNKNOWN` |
+| closed_at | When the pull request was closed: YYYY-MM-DD HH:MM:SS |
+| merged_at | When the pull request was merged: YYYY-MM-DD HH:MM:SS |
+| merged_by_name | Name of the GitHub user who merged the pull request |
+| merged_by_login | GitHub handle of the GitHub user who merged the pull request |
 
 ### Labels
 
