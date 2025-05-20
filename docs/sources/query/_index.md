@@ -68,7 +68,7 @@ Show all commits against a tag:
 
 | Name           | Description                                        |
 | -------------- | -------------------------------------------------- |
-| id             | commit ID                                          |
+| id             | Commit ID                                          |
 | author         | Name of the commit author                          |
 | author_login   | GitHub handle of the commit author                 |
 | author_company | Company name of the commit author                  |
@@ -213,7 +213,7 @@ Show all releases for the `grafana/grafana` repository:
 | name          | Name of release |
 | created_by    | Name of the GitHub user who created the release |
 | is_draft      | Whether the release is a draft release: `true` / `false` |
-| is_prerelease | Whether the release is a pre-release: `true` / `false|
+| is_prerelease | Whether the release is a pre-release: `true` / `false` |
 | tag           | Tag name associated with the release |
 | url           | URL for the tag associated with the release |
 | created_at    | When the release was created: YYYY-MM-DD HH:MM:SS |
@@ -234,7 +234,7 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 
 
 ##### Sample queries
-Show all open pull requests authored by renovate in the `grafana/plugin-tools` repository:
+Show all open pull requests authored by Renovate in the `grafana/plugin-tools` repository:
 
 - Owner : `grafana`
 - Repository : `grafana`
@@ -271,11 +271,11 @@ Get all labels defined in a repository, useful for categorizing issues and pull 
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
-| Query | Filter on text in name and description for labels | No | 
+| Name       | Description                                              | Required (yes/no) |
+| ---------- | ---------------------------------------------------------| ----------------- |
+| Owner      | The GitHub user or organization that owns the repository | Yes               |
+| Repository | The name of the repository                               | Yes               |
+| Query      | Filter on text in name and description for labels        | No                | 
 
 ##### Sample queries
 Show all labels for the `grafana/grafana` repository:
@@ -285,11 +285,11 @@ Show all labels for the `grafana/grafana` repository:
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| Name | Description |
-| color | Hexadecimal number |
-| name | Label name | 
+| Name        | Description |
+| ----------- | ----------- |
+| name        | Description |
+| color       | Hexadecimal number |
+| name        | Label name | 
 | description | Label description |
 
 ### Repositories
@@ -298,10 +298,10 @@ List repositories for a user or organization.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository - can be used for getting details on a single repository | No |
+| Name               | Description                          | Required (yes/no) |
+| -------------------| ------------------------------------ | ------------------|
+| Owner              | A GitHub user or organization        | Yes               |
+| Repository         | Filter on the name of the repository | No                |
 
 ##### Sample queries
 Show all repositories for the `grafana` organization:
@@ -310,16 +310,16 @@ Show all repositories for the `grafana` organization:
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| Name | Name of the repository |
-| Owner | Organization or user who owns the repository |
-| Name_with_owner| Returns the owner and repository name in the format <owner>/<repository> i.e. `grafana/loki` |
-| Url | URL for the repository | 
-| Forks | The number of forks for a repository |
-| Is_mirror | Whether the repository is a mirror of another repository: `true` / `false` |
-| is_private | Whether the repository is private: `true` / `false` |
-| created_at | When the repository was created: YYYY-MM-DD HH:MM:SS |
+| Name           | Description |
+| -------------- | ----------- |
+| name           | Name of the repository |
+| owner          | Organization or user who owns the repository |
+| name_with_owner| Returns the owner and repository name in the format `<owner>/<repository>` i.e. `grafana/loki` |
+| url            | URL for the repository | 
+| forks          | The number of forks for a repository |
+| is_mirror      | Whether the repository is a mirror of another repository: `true` / `false` |
+| is_private     | Whether the repository is private: `true` / `false` |
+| created_at     | When the repository was created: YYYY-MM-DD HH:MM:SS |
 
 
 {{< admonition type="note" >}}
@@ -332,11 +332,11 @@ Retrieve milestones for a repository, which can be used to group issues and pull
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
-| Query | Filter on text in the milestone title | No |
+| Name       | Description                                              | Required (yes/no) |
+| ---------- | ---------------------------------------------------------| ----------------- |
+| Owner      | The GitHub user or organization that owns the repository | Yes               |
+| Repository | The name of the repository                               | Yes               |
+| Query      | Filter on text in the milestone title                    | No                |
 
 ##### Sample queries
 Show all milestones for the `grafana/grafana` repository for v11 of Grafana:
@@ -347,15 +347,15 @@ Show all milestones for the `grafana/grafana` repository for v11 of Grafana:
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| title | Milestone title | 
-| author | GitHub handle of the user who created the milestone  |
-| closed | Whether the milestone is closed: `true` / `false` | 
-| state | One of `OPEN` or `CLOSED` | 
+| Name       | Description |
+| ---------- | ----------- |
+| title      | Milestone title | 
+| author     | GitHub handle of the user who created the milestone  |
+| closed     | Whether the milestone is closed: `true` / `false` | 
+| state      | One of `OPEN` or `CLOSED` | 
 | created_at | When the milestone was created: YYYY-MM-DD HH:MM:SS | 
-| closed_at | When the milestone was closed: YYYY-MM-DD HH:MM:SS | 
-| due_at | When the milestone is due by: YYYY-MM-DD HH:MM:SS | 
+| closed_at  | When the milestone was closed: YYYY-MM-DD HH:MM:SS | 
+| due_at     | When the milestone is due by: YYYY-MM-DD HH:MM:SS | 
 
 {{< admonition type="note" >}}
 Milestone titles can be anything and are therefore parsed as a string. 
@@ -370,12 +370,12 @@ List packages published from a repository in an organization
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
-| Package type | One of: `MAVEN`, `DOCKER`, `DEBIAN` or `PYPI` | Yes |
-| Names | Filter for packages using a comma separated list of names | No |
+| Name         | Description                                               | Required (yes/no) |
+| ------------ | ----------------------------------------------------------| ----------------- |
+| Owner        | The GitHub user or organization that owns the repository  | Yes               |
+| Repository   | The name of the repository                                | Yes               |
+| Package type | One of: `MAVEN`, `DOCKER`, `DEBIAN` or `PYPI`             | Yes               |
+| Names        | Filter for packages using a comma separated list of names | No                |
 
 
 ##### Sample queries
@@ -385,8 +385,8 @@ Show all packages uploaded to the `grafana` organization:
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
+| Name       | Description |
+| ---------- | ----------- |
 | name       | Package name |
 | platform   | Platform or registry where the package is published |
 | version    | Package version |
@@ -404,10 +404,10 @@ Query security vulnerabilities detected in a repository.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
+| Name         | Description                                               | Required (yes/no) |
+| ------------ | ----------------------------------------------------------| ----------------- |
+| Owner        | The GitHub user or organization that owns the repository  | Yes               |
+| Repository   | The name of the repository                                | Yes               |
 
 
 
@@ -442,13 +442,13 @@ List projects associated with a user or organization.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Project Owner | One of `Organization` or `User` | Yes |
-| Organization | Organization for the Project (shown when Organization was previously selected) | Yes |
-| User | User for the Project (shown when User was previously selected) | Yes |
+| Name           | Description | Required (yes/no) |
+| -------------- | ----------- | ----------------- |
+| Project Owner  | One of `Organization` or `User` | Yes |
+| Organization   | Organization for the Project (shown when Organization was previously selected) | Yes |
+| User           | User for the Project (shown when User was previously selected) | Yes |
 | Project Number | Enter a specific Project Number to query for associated items | No |
-| Filter | Add key value filters based on the fields for project items (shown if Project Number specified) | No |
+| Filter         | Add key value filters based on the fields for project items (shown if Project Number specified) | No |
 
 ##### Sample queries
 Show all projects for the `grafana/grafana` repository:
@@ -467,16 +467,16 @@ Show all pull requests for the "Dashboards" project in the Grafana organization:
 
 ##### When no Project Number is specified
 
-| Name         | Description |
-|--------------|-------------|
-| number| The project number | 
-| title | Title of the project | 
-| url | URL for the project |
-| closed | Whether the project has been closed: `true`/ `false` |
-| public | Whether the project is public: `true` / `false |
-| closed_at | When the project was closed: YYYY-MM-DD HH:MM:SS |
-| updated_at | When the project was last updated |
-| created_at | When the project was created | 
+| Name              | Description |
+|-------------------|-------------|
+| number            | The project number | 
+| title             | Title of the project | 
+| url               | URL for the project |
+| closed            | Whether the project has been closed: `true`/ `false` |
+| public            | Whether the project is public: `true` / `false` |
+| closed_at         | When the project was closed: YYYY-MM-DD HH:MM:SS |
+| updated_at        | When the project was last updated |
+| created_at        | When the project was created | 
 | short_description | The description of the project |
 
 {{< admonition type="note" >}}
@@ -489,22 +489,22 @@ GitHub Projects allow for customization of default fields and custom fields to b
 therefore the response can vary significantly between projects."
 {{< /admonition >}}
 
-| Name         | Description |
-|--------------|-------------|
-| name         | Name of the project item (issue or pull request) |
-| id           | Unique identifier for the project item           |
-| type         | Type of the item (e.g., ISSUE, PULL_REQUEST)     |
-| status       | Status of the item (e.g., "In development", "Shipped") - this can be configured on the project |
-| labels       | Comma-separated list of labels assigned to the item |
-| assignees    | Comma-separated list of users assigned to the item |
-| reviewers    | Comma-separated list of reviewers (for pull requests) |
-| repository   | Name of the repository the item belongs to       |
-| milestone    | Milestone associated with the item      |
-| priority     | Priority value or label               |
-| archived     | Whether the item is archived: `true` / `false`   |
-| created_at   | When the item was created: YYYY-MM-DD HH:MM:SS   |
-| updated_at   | When the item was last updated: YYYY-MM-DD HH:MM:SS |
-| closed_at    | When the item was closed, if applicable: YYYY-MM-DD HH:MM:SS |
+| Name            | Description |
+|-----------------|-------------|
+| name            | Name of the project item (issue or pull request) |
+| id              | Unique identifier for the project item           |
+| type            | Type of the item (such as ISSUE, PULL_REQUEST)     |
+| status          | Status of the item (such as "In development", "Shipped") - this can be configured on the project |
+| labels          | Comma-separated list of labels assigned to the item |
+| assignees       | Comma-separated list of users assigned to the item |
+| reviewers       | Comma-separated list of reviewers (for pull requests) |
+| repository      | Name of the repository the item belongs to       |
+| milestone       | Milestone associated with the item      |
+| priority        | Priority value or label               |
+| archived        | Whether the item is archived: `true` / `false`   |
+| created_at      | When the item was created: YYYY-MM-DD HH:MM:SS   |
+| updated_at      | When the item was last updated: YYYY-MM-DD HH:MM:SS |
+| closed_at       | When the item was closed, if applicable: YYYY-MM-DD HH:MM:SS |
 | (custom fields) | Any custom defined fields will also be returned alongside their values |
 
 ### Stargazers
@@ -513,10 +513,10 @@ Get a list of users who have starred a repository, including being able to plot 
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
+| Name         | Description                                               | Required (yes/no) |
+| ------------ | ----------------------------------------------------------| ----------------- |
+| Owner        | The GitHub user or organization that owns the repository  | Yes               |
+| Repository   | The name of the repository                                | Yes               |
 
 ##### Sample queries
 Show all stargazers for the `grafana/grafana` repository within the current time range:
@@ -527,16 +527,16 @@ Show all stargazers for the `grafana/grafana` repository within the current time
 
 #### Response
 
-| Name         | Description |
-|--------------|-------------|
-| starred_at | When the user starred the repository: YYYY-MM-DD HH:MM:SS |
+| Name        | Description |
+|-------------|-------------|
+| starred_at  | When the user starred the repository: YYYY-MM-DD HH:MM:SS |
 | start_count | Current total of stars for the repository at the time of the event |
-| id | node_id - a unique identifier for the GitHub user which can be used in GitHub's GraphQL API |
-| login | GitHub handle of the user who starred the repository |
-| git_name | Name of the GitHub user who starred the repository |
-| company | Company name of the GitHub user who starred the repository |
-| email | Email address of the GitHub user who starred the repository |
-| url | URL to the GitHub profile for the user who starred the repository |
+| id          | node_id - a unique identifier for the GitHub user which can be used in GitHub's GraphQL API |
+| login       | GitHub handle of the user who starred the repository |
+| git_name    | Name of the GitHub user who starred the repository |
+| company     | Company name of the GitHub user who starred the repository |
+| email       | Email address of the GitHub user who starred the repository |
+| url         | URL to the GitHub profile for the user who starred the repository |
 
 ### Workflows
 
@@ -548,7 +548,7 @@ List GitHub Actions workflows defined in a repository.
 |------------|-----------------------------------------------------|-------------------|
 | owner      | GitHub user or organization that owns the repository| Yes               |
 | repository | Name of the repository                              | Yes               |
-| Time Field | The time field to filter the responses on, can be: `CreatedAt` or `UpdatedAt | Yes |
+| Time Field | The time field to filter the responses on, can be: `CreatedAt` or `UpdatedAt` | Yes |
 
 ##### Sample queries
 Show all workflows created within the `grafana/grafana` repository within the current time range:
@@ -578,11 +578,11 @@ Retrieve usage statistics for a workflow, such as run counts and durations.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
-| Workflow | The workflow ID or file name. Use `id` or the filename from `path` from [workflows](#workflows) queries | 
+| Name       | Description                                         | Required (yes/no) |
+|------------|-----------------------------------------------------|-------------------|
+| owner      | GitHub user or organization that owns the repository| Yes               |
+| repository | Name of the repository                              | Yes               |
+| Workflow   | The workflow ID or file name. Use `id` or the filename from `path` from [workflows](#workflows) queries | Yes |
 
 
 ##### Sample queries
@@ -622,12 +622,12 @@ List runs for a specific workflow, including status, conclusion, and timing info
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
-| Workflow | The workflow ID or file name. Use `id` or the filename from `path` from [workflows](#workflows) queries | Yes |
-| Branch | The head branch to filter on | No |
+| Name       | Description                                         | Required (yes/no) |
+|------------|-----------------------------------------------------|-------------------|
+| owner      | GitHub user or organization that owns the repository| Yes               |
+| repository | Name of the repository                              | Yes               |
+| Workflow   | The workflow ID or file name. Use `id` or the filename from `path` from [workflows](#workflows) queries | Yes |
+| Branch     | The head branch to filter on | No |
 
 ##### Sample queries
 Show all completed runs for the `Levitate` workflow in the `grafana/grafana` repository:
