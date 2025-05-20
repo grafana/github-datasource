@@ -147,15 +147,15 @@ Search for contributors with `bob` in their name or handle:
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| name | Name of the contributor |
-| author | Name of the commit author |
-| author_login | GitHub handle of the commit author |
-| author_company | Company name of the commit author |
-| committed_at | YYYY-MM-DD HH:MM:SS |
-| pushed_at | YYYY-MM-DD HH:MM:SS |
-| message | commit message |
+| Name           | Description                                     |
+|----------------|-------------------------------------------------|
+| name           | Name of the contributor                         |
+| author         | Name of the commit author                       |
+| author_login   | GitHub handle of the commit author              |
+| author_company | Company name of the commit author               |
+| committed_at   | When the commit was made: YYYY-MM-DD HH:MM:SS   |
+| pushed_at      | When the commit was pushed: YYYY-MM-DD HH:MM:SS |
+| message        | Commit message                                  |
 
 {{< admonition type="note" >}}
 This query returns a maximum of 200 results.
@@ -195,10 +195,10 @@ List created releases for a repository.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
+| Name       | Description                                              | Required (yes/no) |
+| ---------- | ---------------------------------------------------------| ----------------- |
+| Owner      | The GitHub user or organization that owns the repository | Yes               |
+| Repository | The name of the repository                               | Yes               |
 
 ##### Sample queries
 Show all releases for the `grafana/grafana` repository:
@@ -208,16 +208,16 @@ Show all releases for the `grafana/grafana` repository:
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| name | Name of release |
-| created_by | Name of the GitHub user who created the release |
-| is_draft | true / false|
-| is_prerelease | true / false|
-| tag | Tag name associated with the release |
-| url | URL for the tag associated with the release |
-| created_at | YYYY-MM-DD HH:MM:SS |
-| published_at | YYYY-MM-DD HH:MM:SS |
+| Name          | Description |
+| --------------| ----------- |
+| name          | Name of release |
+| created_by    | Name of the GitHub user who created the release |
+| is_draft      | Whether the release is a draft release: `true` / `false` |
+| is_prerelease | Whether the release is a pre-release: `true` / `false|
+| tag           | Tag name associated with the release |
+| url           | URL for the tag associated with the release |
+| created_at    | When the release was created: YYYY-MM-DD HH:MM:SS |
+| published_at  | When the release was published : YYYY-MM-DD HH:MM:SS |
 
 ### Pull requests
 
@@ -225,12 +225,12 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | No |
-| Query | | No |
-| Time field | The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt`, `UpdatedAt` or `none` |
+| Name               | Description                   | Required (yes/no) |
+| -------------------| ----------------------------- | ------------------|
+| Owner              | A GitHub user or organization | Yes               |
+| Repository         | The name of a repository      | No                |
+| Query              | Use GitHub's [query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) to filter results | No |
+| Time Field         | The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt`, `UpdatedAt` or `none` | Yes |
 
 
 ##### Sample queries
