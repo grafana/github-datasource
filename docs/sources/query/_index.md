@@ -180,14 +180,14 @@ Show all tags created for the `grafana` repository within the current selected t
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| name | Name of tag |
-| id | Sha for the tag|
-| author | Name of the GitHub user who created the tag |
-| author_login | GitHub handle of the GitHub user who created the tag |
-| author_company | Company name of the GitHub user who created the tag |
-| date | YYYY-MM-DD HH:MM:SS |
+| Name           | Description                                         |
+|----------------|-----------------------------------------------------|
+| name           | Name of the tag                                     |
+| id             | SHA for the tag                                     |
+| author         | Name of the user who created the tag                |
+| author_login   | GitHub handle of the user who created the tag       |
+| author_company | Company name of the user who created the tag        |
+| date           | When the tag was created: YYYY-MM-DD HH:MM:SS       |
 
 ### Releases
 
@@ -544,11 +544,11 @@ List GitHub Actions workflows defined in a repository.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository | Yes |
-| Time Field | The time field to filter the responses on - can be: `CreatedAt` or `UpdatedAt | Yes |
+| Name       | Description                                         | Required (yes/no) |
+|------------|-----------------------------------------------------|-------------------|
+| owner      | GitHub user or organization that owns the repository| Yes               |
+| repository | Name of the repository                              | Yes               |
+| Time Field | The time field to filter the responses on, can be: `CreatedAt` or `UpdatedAt | Yes |
 
 ##### Sample queries
 Show all workflows created within the `grafana/grafana` repository within the current time range:
