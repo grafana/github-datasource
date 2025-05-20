@@ -45,20 +45,20 @@ Retrieve a list of commits for a repository or branch, including commit messages
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository. | Yes |
-| Repository | The name of the repository | Yes |
-| Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
+| Name               | Description                                               | Required (yes/no) |
+| -------------------| --------------------------------------------------------- | ------------------|
+| Owner              | The GitHub user or organization that owns the repository  | Yes               |
+| Repository         | The name of the repository                                | Yes               |
+| Ref (Branch/Tag)   | The branch or tag to list commits against                 | Yes               |
 
 ##### Sample queries
-Show all commits to the `main` branch of the `grafana/grafana` repository.
+Show all commits to the `main` branch of the `grafana/grafana` repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
 - Ref: `main`
 
-Show all commits against a tag
+Show all commits against a tag:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -66,15 +66,15 @@ Show all commits against a tag
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| id | commit ID |
-| author | Name of the commit author |
-| author_login | GitHub handle of the commit author |
-| author_company | Company name of the commit author |
-| committed_at | YYYY-MM-DD HH:MM:SS |
-| pushed_at | YYYY-MM-DD HH:MM:SS |
-| message | commit message |
+| Name           | Description                                        |
+| -------------- | -------------------------------------------------- |
+| id             | commit ID                                          |
+| author         | Name of the commit author                          |
+| author_login   | GitHub handle of the commit author                 |
+| author_company | Company name of the commit author                  |
+| committed_at   | When the change was committed: YYYY-MM-DD HH:MM:SS |
+| pushed_at      | When the commit was pushed: YYYY-MM-DD HH:MM:SS    |
+| message        | The commit message                                 |
 
 ### Issues
 
@@ -82,39 +82,40 @@ List issues in a repository using the GitHub query syntax to filter the response
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | A GitHub user or organization | Yes |
-| Repository | The name of a repository | No |
-| Query | Use GitHub's [query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) to filter results | No |
-| Time field | The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt` or `UpdatedAt` |
+| Name               | Description                   | Required (yes/no) |
+| -------------------| ----------------------------- | ------------------|
+| Owner              | A GitHub user or organization | Yes               |
+| Repository         | The name of a repository      | No                |
+| Query              | Use GitHub's [query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) to filter results | No |
+| Time field         | The time field to filter the responses on - can be: `CreatedAt`, `ClosedAt` or `UpdatedAt` | Yes |
 
 ##### Sample queries 
-Show all closed issues labeled `type/bug` in the grafana repository.
+Show all closed issues labeled `type/bug` in the grafana repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
 - Query: `is:closed label:type/bug`
 
-Show all issues with 'sql expressions' in the title
+Show all issues with 'sql expressions' in the title:
+
 - Owner: `grafana`
 - Repository: `grafana`
 - Query: `sql expressions in:title`
 
 #### Response
 
-| Name | Description |
-| ---- | ----------- |
-| title | Issue title |
-| author | GitHub handle of the author |
+| Name           | Description |
+| ---------------| ----------- |
+| title          | Issue title |
+| author         | GitHub handle of the author |
 | author_company | Company name of the commit author |
-| repo | Issue repository |
-| number | Issue number |
-| closed | true / false |
-| created_at | YYYY-MM-DD HH:MM:SS |
-| closed_at | YYYY-MM-DD HH:MM:SS |
-| updated_at | YYYY-MM-DD HH:MM:SS |
-| labels | Array of labels i.e. [ "type/bug", "needs more info"] |
+| repo           | Issue repository |
+| number         | Issue number |
+| closed         | true / false |
+| created_at     | When the issue was created:YYYY-MM-DD HH:MM:SS |
+| closed_at      | When the issue was closed: YYYY-MM-DD HH:MM:SS |
+| updated_at     | When the issue was last updated :YYYY-MM-DD HH:MM:SS |
+| labels         | Array of labels i.e. [ "type/bug", "needs more info"] |
 
 {{< admonition type="note" >}}
 This query returns a maximum of 1000 results.
@@ -126,19 +127,19 @@ Get a list of contributors to an organization or repository.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository. | Yes |
-| Repository | The name of a repository. | No |
-| Query | Filter for contributors by name or GitHub handle | No |
+| Name               | Description                                               | Required (yes/no) |
+| -------------------| --------------------------------------------------------- | ------------------|
+| Owner              | The GitHub user or organization that owns the repository  | Yes               |
+| Repository         | The name of the repository                                | Yes               |
+| Query              | Filter for contributors by name or GitHub handle          | No                |
 
 ##### Sample queries
-Show all contributors to the `grafana` repository.
+Show all contributors to the `grafana` repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
 
-Search for contributors with `bob` in their name or handle
+Search for contributors with `bob` in their name or handle:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -166,13 +167,13 @@ List created tags for a repository.
 
 #### Query options
 
-| Name | Description | Required (yes/no) |
-| ---- | ----------- | ----------------- |
-| Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository. | Yes |
+| Name       | Description                                              | Required (yes/no) |
+| ---------- | ---------------------------------------------------------| ----------------- |
+| Owner      | The GitHub user or organization that owns the repository | Yes               |
+| Repository | The name of the repository                               | Yes               |
 
 ##### Sample queries
-Show all tags created for the `grafana` repository within the current selected time range.
+Show all tags created for the `grafana` repository within the current selected time range:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -197,10 +198,10 @@ List created releases for a repository.
 | Name | Description | Required (yes/no) |
 | ---- | ----------- | ----------------- |
 | Owner | The GitHub user or organization that owns the repository | Yes |
-| Repository | The name of the repository. | Yes |
+| Repository | The name of the repository | Yes |
 
 ##### Sample queries
-Show all releases for the `grafana/grafana` repository.
+Show all releases for the `grafana/grafana` repository:
 
 - Owner: `grafana`
 - Repository : `grafana`
@@ -233,7 +234,7 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 
 
 ##### Sample queries
-Show all open pull requests authored by renovate in the `grafana/plugin-tools` repository.
+Show all open pull requests authored by renovate in the `grafana/plugin-tools` repository:
 
 - Owner : `grafana`
 - Repository : `grafana`
@@ -277,7 +278,7 @@ Get all labels defined in a repository, useful for categorizing issues and pull 
 | Query | Filter on text in name and description for labels | No | 
 
 ##### Sample queries
-Show all labels for the `grafana/grafana` repository.
+Show all labels for the `grafana/grafana` repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -303,7 +304,7 @@ List repositories for a user or organization.
 | Repository | The name of the repository - can be used for getting details on a single repository | No |
 
 ##### Sample queries
-Show all repositories for the `grafana` organization.
+Show all repositories for the `grafana` organization:
 
 - Organization: `grafana`
 
@@ -338,7 +339,7 @@ Retrieve milestones for a repository, which can be used to group issues and pull
 | Query | Filter on text in the milestone title | No |
 
 ##### Sample queries
-Show all milestones for the `grafana/grafana` repository for v11 of Grafana
+Show all milestones for the `grafana/grafana` repository for v11 of Grafana:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -378,7 +379,7 @@ List packages published from a repository in an organization
 
 
 ##### Sample queries
-Show all packages uploaded t the `grafana` organization.
+Show all packages uploaded to the `grafana` organization:
 
 - Organization: `grafana`
 
@@ -411,12 +412,10 @@ Query security vulnerabilities detected in a repository.
 
 
 ##### Sample queries
-Show all security advisories for the `grafana/grafana` repository.
+Show all security advisories for the `grafana/grafana` repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
-
- When the vulnerability was : YYYY-MM-DD HH:MM:SS
 
 #### Response
 
@@ -452,12 +451,12 @@ List projects associated with a user or organization.
 | Filter | Add key value filters based on the fields for project items (shown if Project Number specified) | No |
 
 ##### Sample queries
-Show all projects for the `grafana/grafana` repository.
+Show all projects for the `grafana/grafana` repository:
 
 - Project Owner: `organization`
 - Organization: `grafana`
 
-Show all pull requests for the "Dashboards" project in the Grafana organization
+Show all pull requests for the "Dashboards" project in the Grafana organization:
 
 - Project Owner: `organization`
 - Organization: `grafana`
@@ -520,7 +519,7 @@ Get a list of users who have starred a repository, including being able to plot 
 | Repository | The name of the repository | Yes |
 
 ##### Sample queries
-Show all stargazers for the `grafana/grafana` repository within the current time range.
+Show all stargazers for the `grafana/grafana` repository within the current time range:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -552,7 +551,7 @@ List GitHub Actions workflows defined in a repository.
 | Time Field | The time field to filter the responses on - can be: `CreatedAt` or `UpdatedAt | Yes |
 
 ##### Sample queries
-Show all workflows created within the `grafana/grafana` repository within the current time range.
+Show all workflows created within the `grafana/grafana` repository within the current time range:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -587,7 +586,7 @@ Retrieve usage statistics for a workflow, such as run counts and durations.
 
 
 ##### Sample queries
-Show usage statistics for the `Levitate` detect breaking changes workflow in the `grafana/grafana` repository.
+Show usage statistics for the `Levitate` detect breaking changes workflow in the `grafana/grafana` repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -627,11 +626,11 @@ List runs for a specific workflow, including status, conclusion, and timing info
 | ---- | ----------- | ----------------- |
 | Owner | The GitHub user or organization that owns the repository | Yes |
 | Repository | The name of the repository | Yes |
-| Workflow | | Yes |
+| Workflow | The workflow ID or file name. Use `id` or the filename from `path` from [workflows](#workflows) queries | Yes |
 | Branch | The head branch to filter on | No |
 
 ##### Sample queries
-Show all completed runs for the `Levitate` workflow in the `grafana/grafana` repository.
+Show all completed runs for the `Levitate` workflow in the `grafana/grafana` repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
