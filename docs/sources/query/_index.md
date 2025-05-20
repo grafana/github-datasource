@@ -34,7 +34,7 @@ The data source supports the following queries, which you can select from in the
 - [**Packages**](#packages): List packages published from a repository in an organization.
 - [**Vulnerabilities**](#vulnerabilities): Query security vulnerabilities detected in a repository.
 - [**Projects**](#projects): List projects associated with a user or organization.
-- [**Stargazers**](#stargazers): Get a list of users who have starred a repository.
+- [**Stargazers**](#stargazers): Get a list of users who have starred a repository, including being able to plot a total count over time.
 - [**Workflows**](#workflows): List GitHub Actions workflows defined in a repository.
 - [**Workflow usage**](#workflow-usage): Retrieve usage statistics for a workflow, such as run counts and durations.
 - [**Workflow runs**](#workflow-runs): List runs for a specific workflow, including status, conclusion, and timing information.
@@ -510,18 +510,34 @@ therefore the response can vary significantly between projects."
 
 ### Stargazers
 
-Get a list of users who have starred a repository.
+Get a list of users who have starred a repository, including being able to plot a total count over time
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
 
 ##### Sample queries
-Show all stargazers for the `grafana/grafana` repository.
+Show all stargazers for the `grafana/grafana` repository within the current time range.
 
 - Owner: `grafana`
 - Repository: `grafana`
+
+
+#### Response
+
+| Name         | Description |
+|--------------|-------------|
+| starred_at | When the user starred the repository: YYYY-MM-DD HH:MM:SS |
+| start_count | Current total of stars for the repository at the time of the event |
+| id | node_id - a unique identifier for the GitHub user which can be used in GitHub's GraphQL API |
+| login | GitHub handle of the user who starred the repository |
+| git_name | Name of the GitHub user who starred the repository |
+| company | Company name of the GitHub user who starred the repository |
+| email | Email address of the GitHub user who starred the repository |
+| url | URL to the GitHub profile for the user who starred the repository |
 
 ### Workflows
 
@@ -529,14 +545,33 @@ List GitHub Actions workflows defined in a repository.
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Time Field | The time field to filter the responses on - can be: `CreatedAt` or `UpdatedAt | Yes |
 
 ##### Sample queries
-Show all workflows for the `grafana/grafana` repository.
+Show all workflows created within the `grafana/grafana` repository within the current time range.
 
 - Owner: `grafana`
 - Repository: `grafana`
+- Time Field: `CreatedAt`
+
+
+#### Response
+
+| Name       | Description |
+|------------|-------------|
+| id         | Unique identifier for the workflow |
+| name       | Name of the workflow |
+| path       | Path to the workflow YAML file in the repository |
+| state      | State of the workflow, can be: `active`, `deleted`, `disabled_fork`, `disabled_inactivity`, or `disabled_manually` |
+| created_at | When the workflow was created: YYYY-MM-DD HH:MM:SS |
+| updated_at | When the workflow was last updated: YYYY-MM-DD HH:MM:SS |
+| url        | API URL for the workflow |
+| html_url   | URL to the workflow file in the repository |
+| badge_url  | URL to the workflow status badge |
 
 ### Workflow usage
 
@@ -544,17 +579,43 @@ Retrieve usage statistics for a workflow, such as run counts and durations.
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
-- **Workflow**: The workflow to get usage for.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Workflow | The workflow ID or file name. Use `id` or the filename from `path` from [workflows](#workflows) queries | 
+
 
 ##### Sample queries
-Show usage statistics for the `CI` workflow in the `grafana/grafana` repository.
+Show usage statistics for the `Levitate` detect breaking changes workflow in the `grafana/grafana` repository.
 
 - Owner: `grafana`
 - Repository: `grafana`
-- Workflow: `CI`
+- Workflow: `detect-breaking-changes-levitate.yml`
 
+#### Response
+
+| Name                        | Description |
+|-----------------------------|-------------|
+| name                        | Name of the workflow (or workflow job) |
+| unique triggering actors    | Number of unique users or actors who triggered runs of this workflow |
+| runs                        | Total number of workflow runs in the selected period |
+| current billing cycle cost (approx.) | Approximate cost for the current billing cycle (if applicable) |
+| skipped                     | Number (and percentage) of runs that were skipped |
+| successes                   | Number (and percentage) of successful runs |
+| failures                    | Number (and percentage) of failed runs |
+| cancelled                   | Number (and percentage) of cancelled runs |
+| total run duration (approx.)| Total duration of all runs (formatted as hours, minutes, seconds) |
+| longest run duration (approx.) | Duration of the longest single run |
+| average run duration (approx.) | Average duration of all runs |
+| p95 run duration (approx.)  | 95th percentile run duration |
+| runs on Sunday              | Number of runs started on Sunday |
+| runs on Monday              | Number of runs started on Monday |
+| runs on Tuesday             | Number of runs started on Tuesday |
+| runs on Wednesday           | Number of runs started on Wednesday |
+| runs on Thursday            | Number of runs started on Thursday |
+| runs on Friday              | Number of runs started on Friday |
+| runs on Saturday            | Number of runs started on Saturday |
 
 ### Workflow runs
 
@@ -562,19 +623,34 @@ List runs for a specific workflow, including status, conclusion, and timing info
 
 #### Query options
 
-- **Owner**: The GitHub user or organization that owns the repository.
-- **Repository**: The name of the repository.
-- **Workflow**: The workflow to list runs for.
-- **Branch**: (Optional) Filter by branch.
-- **Status**: (Optional) Filter by status (`queued`, `in_progress`, `completed`).
-- **Conclusion**: (Optional) Filter by conclusion (`success`, `failure`, etc.).
-- **Created**: (Optional) Filter by creation date.
+| Name | Description | Required (yes/no) |
+| ---- | ----------- | ----------------- |
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Workflow | | Yes |
+| Branch | The head branch to filter on | No |
 
 ##### Sample queries
-Show all completed runs for the `CI` workflow on the `main` branch in the `grafana/grafana` repository.
+Show all completed runs for the `Levitate` workflow in the `grafana/grafana` repository.
 
 - Owner: `grafana`
 - Repository: `grafana`
-- Workflow: `CI`
-- Branch: `main`
-- Status: `completed`
+- Workflow: `detect-breaking-changes-levitate.yml`
+
+#### Response
+
+| Name         | Description |
+|--------------|-------------|
+| id           | Unique identifier for the workflow run |
+| name         | Name of the workflow or workflow job |
+| head_branch  | Name of the branch the workflow run was triggered on |
+| head_sha     | Commit SHA that triggered the workflow run |
+| created_at   | When the workflow run was created: YYYY-MM-DD HH:MM:SS |
+| updated_at   | When the workflow run was last updated: YYYY-MM-DD HH:MM:SS |
+| html_url     | URL to the workflow run in the GitHub web UI |
+| url          | API URL for the workflow run |
+| status       | Current status of the workflow run, can be: `queued`, `in_progress`, `completed`, `waiting`, `requested` or `pending |
+| conclusion   | Final conclusion of the workflow run, can be `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out` or action_required |
+| event        | Event that triggered the workflow run (e.g., push, pull_request) - see [Events that trigger workflows](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows) |
+| workflow_id  | Unique identifier for the workflow definition |
+| run_number   | The run number for this workflow run in the repository |
