@@ -22,7 +22,7 @@ The GitHub data source plugin for Grafana enables you to query and visualize dat
 
 The data source supports the following queries, which you can select from in the query editor under the `Query Type` dropdown:
 
-- [**Commits**](#commits): Retrieve a list of commits for a repository or branch, including commit message, author, and timestamp.
+- [**Commits**](#commits): Retrieve a list of commits for a branch or ref within a repository, including commit message, author, and timestamp.
 - [**Issues**](#issues): List issues in a repository, using the GitHub query syntax to filter the response.
 - [**Contributors**](#contributors): Get a list of contributors to a repository.
 - [**Tags**](#tags): List created tags for a repository.
@@ -41,7 +41,7 @@ The data source supports the following queries, which you can select from in the
 
 ### Commits
 
-Retrieve a list of commits for a repository or branch, including commit messages, authors, and timestamps. Useful for tracking code changes, deployment activity, or contributor history.
+Retrieve a list of commits for a branch or ref within a repository, including commit message, author, and timestamp. Useful for tracking code changes, deployment activity, or contributor history.
 
 #### Query options
 
@@ -80,6 +80,10 @@ Show all commits against a tag:
 
 List issues in a repository using the GitHub query syntax to filter the response. Useful for tracking open bugs, feature requests, or project tasks. 
 
+{{< admonition type="note" >}}
+This query returns a maximum of 1000 results.
+{{< /admonition >}}
+
 #### Query options
 
 | Name               | Description                   | Required (yes/no) |
@@ -117,13 +121,13 @@ Show all issues with 'sql expressions' in the title:
 | updated_at     | When the issue was last updated :YYYY-MM-DD HH:MM:SS |
 | labels         | Array of labels i.e. [ "type/bug", "needs more info"] |
 
-{{< admonition type="note" >}}
-This query returns a maximum of 1000 results.
-{{< /admonition >}}
-
 ### Contributors
 
 Get a list of contributors to an organization or repository. 
+
+{{< admonition type="note" >}}
+This query returns a maximum of 200 results.
+{{< /admonition >}}
 
 #### Query options
 
@@ -156,10 +160,6 @@ Search for contributors with `bob` in their name or handle:
 | committed_at   | When the commit was made: YYYY-MM-DD HH:MM:SS   |
 | pushed_at      | When the commit was pushed: YYYY-MM-DD HH:MM:SS |
 | message        | Commit message                                  |
-
-{{< admonition type="note" >}}
-This query returns a maximum of 200 results.
-{{< /admonition >}}
 
 ### Tags
 
@@ -296,6 +296,10 @@ Show all labels for the `grafana/grafana` repository:
 
 List repositories for a user or organization.
 
+{{< admonition type="note" >}}
+This query returns a maximum of 1000 results.
+{{< /admonition >}}
+
 #### Query options
 
 | Name               | Description                          | Required (yes/no) |
@@ -320,11 +324,6 @@ Show all repositories for the `grafana` organization:
 | is_mirror      | Whether the repository is a mirror of another repository: `true` / `false` |
 | is_private     | Whether the repository is private: `true` / `false` |
 | created_at     | When the repository was created: YYYY-MM-DD HH:MM:SS |
-
-
-{{< admonition type="note" >}}
-This query returns a maximum of 1000 results.
-{{< /admonition >}}
 
 ### Milestones
 
@@ -366,7 +365,11 @@ can be used to change the data type in this scenario.
 
 ### Packages
 
-List packages published from a repository in an organization
+List packages published from a repository in an organization.
+
+{{< admonition type="note" >}}
+This query does not support querying npm, RubyGems or NuGet packages.
+{{< /admonition >}}
 
 #### Query options
 
@@ -393,10 +396,6 @@ Show all packages uploaded to the `grafana` organization:
 | type       | Package type (e.g., MAVEN, DOCKER, DEBIAN, PYPI) |
 | prerelease | Whether the package version is a prerelease: `true` / `false` |
 | downloads  | Number of downloads for the package version |
-
-{{< admonition type="note" >}}
-This query does not support querying npm, RubyGems or NuGet packages.
-{{< /admonition >}}
 
 ### Vulnerabilities
 
@@ -440,6 +439,10 @@ Show all security advisories for the `grafana/grafana` repository:
 
 List projects associated with a user or organization.
 
+{{< admonition type="note" >}}
+This query returns a maximum of 200 results.
+{{< /admonition >}}
+
 #### Query options
 
 | Name           | Description | Required (yes/no) |
@@ -478,10 +481,6 @@ Show all pull requests for the "Dashboards" project in the Grafana organization:
 | updated_at        | When the project was last updated |
 | created_at        | When the project was created | 
 | short_description | The description of the project |
-
-{{< admonition type="note" >}}
-This query returns a maximum of 200 results.
-{{< /admonition >}}
 
 ##### When a Project Number is specified
 {{< admonition type="note" >}}
