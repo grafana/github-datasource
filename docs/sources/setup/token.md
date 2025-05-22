@@ -68,3 +68,7 @@ You will need to define the access permissions for your **GitHub App** in order 
 **Repositories:**
 
 `metadata: read-only`, `contents: read-only`, `issues: read-only`, `pull requests: read-only`, `packages: read-only`, `repository security advisories: read-only`, `projects: read-only`
+
+**Code scan**
+
+`code scanning alerts: read-only, security_events: read-only`
