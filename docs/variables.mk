@@ -1,1 +1,1 @@
-PROJECTS := github-datasource
+PROJECTS := grafana-github-datasource
