@@ -1,25 +1,24 @@
 package githubclient
 
 import (
-	"context"
 	"errors"
 	"regexp"
 	"strconv"
 	"strings"
-	"syscall"
 
-	googlegithub "github.com/google/go-github/v53/github"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
 )
 
 var statusErrorStringFromGraphQLPackage = "non-200 OK status code: "
+
 // Identified downstream errors. Unfortunately, could not find a better way to identify them.
 var (
 	downstreamErrors = []string{
 		"Could not resolve to",
 		"Your token has not been granted the required scopes to execute this query",
-		"Resource protected by organization SAML enforcement. You must grant your Personal Access token access to this organization.",
+		"Resource protected by organization SAML enforcement",
+		"Resource not accessible by personal access token",
 		"API rate limit exceeded",
 		"Resource not accessible by integration", // issue with incorrectly set permissions for token/app
 	}
@@ -31,13 +30,13 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 		return nil
 	}
 
-	if errors.Is(err, syscall.ECONNREFUSED) || errors.Is(err, context.Canceled)  {
-		return errorsource.DownstreamError(err, false)
+	if backend.IsDownstreamHTTPError(err) {
+		return backend.DownstreamError(err)
 	}
 
 	for _, downstreamError := range downstreamErrors {
 		if strings.Contains(err.Error(), downstreamError) {
-			return errorsource.DownstreamError(err, false)
+			return backend.DownstreamError(err)
 		}
 	}
 	// Unfortunately graphql library that is used is not returning original error from the client.
@@ -46,13 +45,19 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	if strings.Contains(err.Error(), statusErrorStringFromGraphQLPackage) {
 		statusCode, statusErr := extractStatusCode(err)
 		if statusErr == nil {
-			return errorsource.SourceError(backend.ErrorSourceFromHTTPStatus(statusCode), err, false)
+			if backend.ErrorSourceFromHTTPStatus(statusCode) == backend.ErrorSourceDownstream {
+				return backend.DownstreamError(err)
+			}
+			return backend.PluginError(err)
 		}
 	}
 	// If we have response we can use the status code from it
 	if resp != nil {
 		if resp.StatusCode/100 != 2 {
-			return errorsource.SourceError(backend.ErrorSourceFromHTTPStatus(resp.StatusCode), err, false)
+			if backend.ErrorSourceFromHTTPStatus(resp.StatusCode) == backend.ErrorSourceDownstream {
+				return backend.DownstreamError(err)
+			}
+			return backend.PluginError(err)
 		}
 	}
 	// Otherwise we are not adding source which means it is going to be plugin error

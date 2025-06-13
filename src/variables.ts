@@ -1,6 +1,9 @@
+import { map, Observable } from 'rxjs';
 import { TemplateSrv } from '@grafana/runtime';
-import { ScopedVars } from '@grafana/data';
-import type { GitHubQuery } from './types/query';
+import { ScopedVars, CustomVariableSupport, DataQueryResponse, DataQueryRequest, DataFrameView } from '@grafana/data';
+import { GitHubDataSource } from './DataSource';
+import VariableQueryEditor from 'views/VariableQueryEditor';
+import type { GitHubQuery, GitHubVariableQuery } from './types/query';
 
 export const replaceVariable = (
   t: TemplateSrv,
@@ -38,4 +41,33 @@ const interpolateObject = (input: any, t: TemplateSrv, scoped: ScopedVars = {}) 
     }
   });
   return newOptions;
+};
+
+export class GithubVariableSupport extends CustomVariableSupport<GitHubDataSource, GitHubVariableQuery, GitHubQuery> {
+  constructor(private readonly datasource: GitHubDataSource) {
+    super();
+    this.datasource = datasource;
+    this.query = this.query.bind(this);
+  }
+  editor = VariableQueryEditor;
+  query(request: DataQueryRequest<GitHubVariableQuery>): Observable<DataQueryResponse> {
+    let query = { ...request?.targets[0], refId: 'metricFindQuery' };
+    return this.datasource
+      .query({ ...request, targets: [query] })
+      .pipe(map((response) => ({ ...response, data: response.data || [] })))
+      .pipe(map((response) => queryResponseToVariablesFrame(query, response)));
+  }
+}
+
+const queryResponseToVariablesFrame = (query: GitHubVariableQuery, response: DataQueryResponse) => {
+  if (response?.data?.length < 1) {
+    return { ...response, data: [] };
+  }
+  const view = new DataFrameView(response.data[0] || {});
+  const data = view.map((item) => {
+    const value = item[query.key || ''] || item[query.field || 'name'];
+    const text = item[query.field || 'name'] || value;
+    return { value, text };
+  });
+  return { ...response, data };
 };

@@ -6,12 +6,14 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
+	"sync"
 	"time"
+
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/pkg/errors"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/github-datasource/pkg/models"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/pkg/errors"
 )
 
 // CacheDuration is a constant that defines how long to keep cached elements before they are refreshed
@@ -46,7 +48,9 @@ var (
 // If there is no cached data to respond with, the CachedDatasource forwards the request to the Datasource
 type CachedDatasource struct {
 	datasource Datasource
-	cache      map[string]CachedResult
+
+	mu    sync.RWMutex // protects the cache map against concurrent access
+	cache map[string]CachedResult
 }
 
 func (c *CachedDatasource) getCache(req backend.DataQuery) (dfutil.Framer, error) {
@@ -54,6 +58,9 @@ func (c *CachedDatasource) getCache(req backend.DataQuery) (dfutil.Framer, error
 	if err != nil {
 		return nil, err
 	}
+
+	c.mu.RLock()
+	defer c.mu.RUnlock()
 
 	// Return cached value if it's there and it's not expired
 	res, ok := c.cache[key]
@@ -76,6 +83,9 @@ func (c *CachedDatasource) saveCache(req backend.DataQuery, f dfutil.Framer, err
 	if err != nil {
 		return nil, err
 	}
+
+	c.mu.Lock()
+	defer c.mu.Unlock()
 
 	c.cache[key] = newCachedResult(f)
 	return f, err
@@ -108,6 +118,16 @@ func (c *CachedDatasource) HandleCommitsQuery(ctx context.Context, q *models.Com
 	}
 
 	f, err := c.datasource.HandleCommitsQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
+// HandleCodeScanningQuery is the cache wrapper for the issue query handler
+func (c *CachedDatasource) HandleCodeScanningQuery(ctx context.Context, q *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleCodeScanningQuery(ctx, q, req)
 	return c.saveCache(req, f, err)
 }
 
@@ -232,6 +252,16 @@ func (c *CachedDatasource) HandleWorkflowUsageQuery(ctx context.Context, q *mode
 	return c.saveCache(req, f, err)
 }
 
+// HandleWorkflowRunsQuery is the cache wrapper for the workflows runs query handler
+func (c *CachedDatasource) HandleWorkflowRunsQuery(ctx context.Context, q *models.WorkflowRunsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleWorkflowRunsQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // CheckHealth forwards the request to the datasource and does not perform any caching
 func (c *CachedDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return c.datasource.CheckHealth(ctx, req)
@@ -267,6 +297,9 @@ func getCacheKey(req backend.DataQuery) (string, error) {
 
 // Cleanup removes old cache keys
 func (c *CachedDatasource) Cleanup() {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
 	for k, v := range c.cache {
 		// If it's an expired value, then delete it
 		if v.ExpiresAt.Before(time.Now()) {

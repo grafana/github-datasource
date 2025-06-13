@@ -10,13 +10,14 @@ import (
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
-	googlegithub "github.com/google/go-github/v53/github"
-	"github.com/grafana/github-datasource/pkg/models"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/errorsource"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // Client is a wrapper of GitHub clients that can access the GraphQL and rest API.
@@ -61,23 +62,27 @@ func New(ctx context.Context, settings models.Settings) (*Client, error) {
 		return createAccessTokenClient(ctx, settings)
 	}
 
-	return nil, errorsource.DownstreamError(fmt.Errorf("access token or app token are required"), false)
+	return nil, backend.DownstreamError(errors.New("access token or app token are required"))
 }
 
 func createAppClient(settings models.Settings) (*Client, error) {
 	appId, err := strconv.ParseInt(settings.AppId, 10, 64)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing app id"), false)
+		return nil, backend.DownstreamError(errors.New("error parsing app id"))
 	}
 
 	installationId, err := strconv.ParseInt(settings.InstallationId, 10, 64)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error parsing installation id"), false)
+		return nil, backend.DownstreamError(errors.New("error parsing installation id"))
 	}
 
-	itr, err := ghinstallation.New(http.DefaultTransport, appId, installationId, []byte(settings.PrivateKey))
+	transport, err := httpclient.GetDefaultTransport()
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("error creating token source"), false)
+		return nil, backend.DownstreamError(errors.New("error: http.DefaultTransport is not of type *http.Transport"))
+	}
+	itr, err := ghinstallation.New(transport, appId, installationId, []byte(settings.PrivateKey))
+	if err != nil {
+		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
 
 	httpClient := &http.Client{Transport: itr}
@@ -88,6 +93,8 @@ func createAppClient(settings models.Settings) (*Client, error) {
 			graphqlClient: githubv4.NewClient(httpClient),
 		}, nil
 	}
+
+	itr.BaseURL = fmt.Sprintf("%s/api/v3", settings.GitHubURL)
 
 	return useGitHubEnterprise(httpClient, settings)
 }
@@ -112,12 +119,12 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings) (*Cl
 func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Client, error) {
 	_, err := url.Parse(settings.GitHubURL)
 	if err != nil {
-		return nil, errorsource.DownstreamError(fmt.Errorf("incorrect enterprise url"), false)
+		return nil, backend.DownstreamError(errors.New("incorrect enterprise url"))
 	}
 
-	restClient, err := googlegithub.NewEnterpriseClient(settings.GitHubURL, settings.GitHubURL, httpClient)
+	restClient, err := googlegithub.NewClient(httpClient).WithEnterpriseURLs(settings.GitHubURL, settings.GitHubURL)
 	if err != nil {
-		return nil, fmt.Errorf("instantiating enterprise rest client: %w", err)
+		return nil, backend.DownstreamError(errors.New("instantiating enterprise rest client"))
 	}
 
 	return &Client{
@@ -142,6 +149,24 @@ func (client *Client) ListWorkflows(ctx context.Context, owner, repo string, opt
 		return nil, nil, addErrorSourceToError(err, resp)
 	}
 	return wf, resp, err
+}
+
+// ListAlertsForRepo sends a request to the GitHub rest API to list the code scanning alerts in a specific repository.
+func (client *Client) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForRepo(ctx, owner, repo, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
+}
+
+// ListAlertsForOrg sends a request to the GitHub rest API to list the code scanning alerts in a specific organization.
+func (client *Client) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForOrg(ctx, owner, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
 }
 
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
@@ -177,7 +202,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 		}
 		var workflowRuns []*googlegithub.WorkflowRun
 		var err error
-		workflowRuns, page, err = client.getWorkflowRuns(ctx, owner, repo, workflow, timeRange, page)
+		workflowRuns, page, err = client.getWorkflowRuns(ctx, owner, repo, workflow, "", timeRange, page)
 		if err != nil {
 			return models.WorkflowUsage{}, fmt.Errorf("fetching workflow runs: %w", err)
 		}
@@ -225,9 +250,12 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	}
 
 	usage, response, err := client.getWorkflowUsage(ctx, owner, repo, workflow)
+	if response == nil {
+		return models.WorkflowUsage{}, backend.DownstreamError(errWorkflowNotFound)
+	}
 	if err != nil {
 		if response.StatusCode == http.StatusNotFound {
-			return models.WorkflowUsage{}, errorsource.DownstreamError(errWorkflowNotFound, false)
+			return models.WorkflowUsage{}, backend.DownstreamError(errWorkflowNotFound)
 		}
 		return models.WorkflowUsage{}, addErrorSourceToError(fmt.Errorf("fetching workflow usage: %w", err), response)
 	}
@@ -280,12 +308,34 @@ func (client *Client) getWorkflowUsage(ctx context.Context, owner, repo string, 
 	return client.restClient.Actions.GetWorkflowUsageByFileName(ctx, owner, repo, workflow)
 }
 
-func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange, page int) ([]*googlegithub.WorkflowRun, int, error) {
+func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error) {
+	workflowRuns := []*googlegithub.WorkflowRun{}
+
+	page := 1
+	for {
+		if page == 0 {
+			break
+		}
+
+		workflowRunsPage, nextPage, err := client.getWorkflowRuns(ctx, owner, repo, workflow, branch, timeRange, page)
+		if err != nil {
+			return nil, fmt.Errorf("fetching workflow runs: %w", err)
+		}
+
+		workflowRuns = append(workflowRuns, workflowRunsPage...)
+
+		page = nextPage
+	}
+
+	return workflowRuns, nil
+}
+
+func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange, page int) ([]*googlegithub.WorkflowRun, int, error) {
 	workflowID, _ := strconv.ParseInt(workflow, 10, 64)
 
 	workflowRuns := []*googlegithub.WorkflowRun{}
 
-	format := "2006-01-02"
+	format := time.RFC3339
 	created := fmt.Sprintf("%s..%s", timeRange.From.Format(format), timeRange.To.Format(format))
 
 	var (
@@ -298,18 +348,20 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 		runs, response, err = client.restClient.Actions.ListWorkflowRunsByID(ctx, owner, repo, workflowID, &googlegithub.ListWorkflowRunsOptions{
 			Created:     created,
 			ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
+			Branch:      branch,
 		})
 	} else {
 		runs, response, err = client.restClient.Actions.ListWorkflowRunsByFileName(ctx, owner, repo, workflow, &googlegithub.ListWorkflowRunsOptions{
 			Created:     created,
 			ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
+			Branch:      branch,
 		})
 	}
 
 	if err != nil {
 		// If the workflow is not found, return a specific error.
 		if response != nil && response.StatusCode == http.StatusNotFound {
-			return nil, 0, errorsource.SourceError(backend.ErrorSourceDownstream, errWorkflowNotFound, false)
+			return nil, 0, backend.DownstreamError(errWorkflowNotFound)
 		}
 		return nil, 0, addErrorSourceToError(fmt.Errorf("fetching workflow runs: %w", err), response)
 	}

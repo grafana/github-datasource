@@ -19,7 +19,7 @@ weight: 10
 
 The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.
 
-Watch this video to learn more about setting up the Grafana GitHub data source plugin:  {{< youtube id="DW693S3cO48">}}
+Watch this video to learn more about setting up the Grafana GitHub data source plugin: {{< youtube id="DW693S3cO48">}}
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
 
@@ -27,6 +27,7 @@ Watch this video to learn more about setting up the Grafana GitHub data source p
 
 The plugin supports the following query types:
 
+- Code Scan
 - Commits
 - Issues
 - Contributors
@@ -42,6 +43,7 @@ The plugin supports the following query types:
 - Stargazers
 - Workflows
 - Workflow usage
+- Workflow runs
 
 ## Supported features
 

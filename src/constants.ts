@@ -1,4 +1,5 @@
 export enum QueryType {
+  Code_Scanning = 'Code_Scanning',
   Commits = 'Commits',
   Issues = 'Issues',
   Contributors = 'Contributors',
@@ -18,6 +19,7 @@ export enum QueryType {
   Stargazers = 'Stargazers',
   Workflows = 'Workflows',
   Workflow_Usage = 'Workflow_Usage',
+  Workflow_Runs = 'Workflow_Runs',
 }
 
 export const DefaultQueryType = QueryType.Issues;

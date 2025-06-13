@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
+
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	githubclient "github.com/grafana/github-datasource/pkg/github/client"
 	"github.com/grafana/github-datasource/pkg/github/projects"
 	"github.com/grafana/github-datasource/pkg/models"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
 // Make sure Datasource implements required interfaces.
@@ -43,6 +44,12 @@ func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.Issues
 func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.CommitsOptionsWithRepo(query.Options, query.Owner, query.Repository)
 	return GetCommitsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
+// HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository
+func (d *Datasource) HandleCodeScanningQuery(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.CodeScanningOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetCodeScanningAlerts(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
 // HandleTagsQuery is the query handler for listing GitHub Tags
@@ -127,7 +134,10 @@ func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.Mi
 
 // HandlePackagesQuery is the query handler for listing GitHub Packages
 func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	opt, err := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	if err != nil {
+		return nil, err
+	}
 
 	return GetAllPackages(ctx, d.client, opt)
 }
@@ -188,6 +198,18 @@ func (d *Datasource) HandleWorkflowUsageQuery(ctx context.Context, query *models
 	}
 
 	return GetWorkflowUsage(ctx, d.client, opt, req.TimeRange)
+}
+
+// HandleWorkflowRunsQuery is the query handler for listing workflow runs of a GitHub repository
+func (d *Datasource) HandleWorkflowRunsQuery(ctx context.Context, query *models.WorkflowRunsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.WorkflowRunsOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		Workflow:   query.Options.Workflow,
+		Branch:     query.Options.Branch,
+	}
+
+	return GetWorkflowRuns(ctx, d.client, opt, req.TimeRange)
 }
 
 // CheckHealth is the health check for GitHub

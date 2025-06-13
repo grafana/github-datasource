@@ -66,8 +66,12 @@ If you make further changes into the code, be sure to run `yarn dev` again and r
 
 You can find example dashboard that uses GitHub data source in [dashboards folder](./src/dashboards/).
 
-## Create a pull request
+## Submitting PR
 
-After you are good to go, it is time to create a pull request to share your work with the community. Please read more about that [here](https://github.com/grafana/grafana/blob/master/contribute/create-pull-request.md).
+If you are creating a PR, ensure to run `yarn changeset` from your branch. Provide the details accordingly. It will create `*.md` file inside `./.changeset` folder. Later during the release, based on these changesets, package version will be bumped and changelog will be generated.
+
+## Releasing & Bumping version
+
+To create a new release, execute `yarn changeset version`. This will update the Changelog and bump the version in `package.json` file. Commit those changes. Run the `Plugins - CD` GitHub Action to publish the new release.
 
 ## Development resources

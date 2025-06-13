@@ -1,5 +1,5 @@
 {
-  "ignorePaths": ["node_modules/**", "dist/**", "mage_output_file.go"],
+  "ignorePaths": ["node_modules/**", "dist/**", "mage_output_file.go", "package.json", "yarn.lock"],
   "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
   "words": [
     "araddon",
@@ -11,6 +11,7 @@
     "datasources",
     "dateparse",
     "dfutil",
+    "dompurify",
     "dserrors",
     "errorsource",
     "ghinstallation",
@@ -21,6 +22,7 @@
     "grafanabot",
     "groupby",
     "healthcheck",
+    "httpclient",
     "HTMLURL",
     "instancemgmt",
     "jackspeak",
@@ -29,6 +31,7 @@
     "Mergeable",
     "mjseaman",
     "nazzzzz",
+    "prismjs",
     "promop",
     "PTRACE",
     "PYPI",

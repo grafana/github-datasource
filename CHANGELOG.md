@@ -1,5 +1,46 @@
 # Change Log
 
+## 2.1.5
+
+### Patch Changes
+
+🐛 Update golang-jwt/jwt dependency to v4.5.2
+🐛 Get default http transport from plugin-sdk-go
+
+## [2.1.4]
+
+- **Fix** - Workflow runs - date filter now filters by time
+- **Fix** - Panic in project query
+- **Security** - Bump prismjs to 1.30.0
+
+## [2.1.3]
+
+- **Fix** - Add mutex protection to prevent data races in datasource cache
+- **Chore** - Add validation for package types
+
+## [2.1.2]
+
+- **Fix** - GitHub enterprise url missing /api/v3
+
+## [2.1.1]
+
+- **Fix** - GitHub enterprise url wrong with app authentication
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.268.1
+
+## [2.1.0]
+
+- **Feature** - Add a new query to retrieve Workflow runs
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.266.0
+- **Chore** - Bump dompurify to 3.2.4
+
+## [2.0.2]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.265.0
+
+## [2.0.1]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.260.3 to 0.261.0
+
 ## [2.0.0]
 
 - **Chore**: Plugin now requires Grafana 10.4.8 or newer
