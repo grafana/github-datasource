@@ -54,33 +54,21 @@ var runnerPerMinuteRate = map[string]float64{
 
 // New instantiates a new GitHub API client.
 func New(ctx context.Context, settings models.Settings) (*Client, error) {
-	if settings.SelectedAuthType == "github-app" {
+	if settings.SelectedAuthType == models.AuthTypeGithubApp {
 		return createAppClient(settings)
 	}
-
-	if settings.SelectedAuthType == "personal-access-token" {
+	if settings.SelectedAuthType == models.AuthTypePAT {
 		return createAccessTokenClient(ctx, settings)
 	}
-
 	return nil, backend.DownstreamError(errors.New("access token or app token are required"))
 }
 
 func createAppClient(settings models.Settings) (*Client, error) {
-	appId, err := strconv.ParseInt(settings.AppId, 10, 64)
-	if err != nil {
-		return nil, backend.DownstreamError(errors.New("error parsing app id"))
-	}
-
-	installationId, err := strconv.ParseInt(settings.InstallationId, 10, 64)
-	if err != nil {
-		return nil, backend.DownstreamError(errors.New("error parsing installation id"))
-	}
-
 	transport, err := httpclient.GetDefaultTransport()
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error: http.DefaultTransport is not of type *http.Transport"))
 	}
-	itr, err := ghinstallation.New(transport, appId, installationId, []byte(settings.PrivateKey))
+	itr, err := ghinstallation.New(transport, settings.AppIdInt64, settings.InstallationIdInt64, []byte(settings.PrivateKey))
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
