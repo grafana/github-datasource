@@ -2,11 +2,12 @@ package plugin
 
 import (
 	"encoding/json"
+	"sync"
+	"testing"
+
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/stretchr/testify/assert"
-	"sync"
-	"testing"
 )
 
 // mockFramer is a struct implementing the Framer interface that returns predefined frames for testing purposes

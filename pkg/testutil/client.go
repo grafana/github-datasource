@@ -5,9 +5,10 @@ import (
 	"errors"
 	"testing"
 
-	googlegithub "github.com/google/go-github/v53/github"
-	"github.com/grafana/github-datasource/pkg/models"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 var (
@@ -63,5 +64,15 @@ func (c *TestClient) GetWorkflowUsage(ctx context.Context, owner, repo, workflow
 
 // GetWorkflowRuns is not implemented because it is not being used at the moment.
 func (c *TestClient) GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error) {
+	panic("unimplemented")
+}
+
+// ListAlertsForRepo is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// ListAlertsForOrg is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
 	panic("unimplemented")
 }

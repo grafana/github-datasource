@@ -9,10 +9,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/grafana/github-datasource/pkg/dfutil"
-	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/pkg/errors"
+
+	"github.com/grafana/github-datasource/pkg/dfutil"
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // CacheDuration is a constant that defines how long to keep cached elements before they are refreshed
@@ -117,6 +118,16 @@ func (c *CachedDatasource) HandleCommitsQuery(ctx context.Context, q *models.Com
 	}
 
 	f, err := c.datasource.HandleCommitsQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
+// HandleCodeScanningQuery is the cache wrapper for the issue query handler
+func (c *CachedDatasource) HandleCodeScanningQuery(ctx context.Context, q *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleCodeScanningQuery(ctx, q, req)
 	return c.saveCache(req, f, err)
 }
 

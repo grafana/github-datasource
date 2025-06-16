@@ -10,12 +10,14 @@ import (
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
-	googlegithub "github.com/google/go-github/v53/github"
-	"github.com/grafana/github-datasource/pkg/models"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // Client is a wrapper of GitHub clients that can access the GraphQL and rest API.
@@ -74,7 +76,11 @@ func createAppClient(settings models.Settings) (*Client, error) {
 		return nil, backend.DownstreamError(errors.New("error parsing installation id"))
 	}
 
-	itr, err := ghinstallation.New(http.DefaultTransport, appId, installationId, []byte(settings.PrivateKey))
+	transport, err := httpclient.GetDefaultTransport()
+	if err != nil {
+		return nil, backend.DownstreamError(errors.New("error: http.DefaultTransport is not of type *http.Transport"))
+	}
+	itr, err := ghinstallation.New(transport, appId, installationId, []byte(settings.PrivateKey))
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
@@ -116,7 +122,7 @@ func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Cl
 		return nil, backend.DownstreamError(errors.New("incorrect enterprise url"))
 	}
 
-	restClient, err := googlegithub.NewEnterpriseClient(settings.GitHubURL, settings.GitHubURL, httpClient)
+	restClient, err := googlegithub.NewClient(httpClient).WithEnterpriseURLs(settings.GitHubURL, settings.GitHubURL)
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("instantiating enterprise rest client"))
 	}
@@ -143,6 +149,24 @@ func (client *Client) ListWorkflows(ctx context.Context, owner, repo string, opt
 		return nil, nil, addErrorSourceToError(err, resp)
 	}
 	return wf, resp, err
+}
+
+// ListAlertsForRepo sends a request to the GitHub rest API to list the code scanning alerts in a specific repository.
+func (client *Client) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForRepo(ctx, owner, repo, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
+}
+
+// ListAlertsForOrg sends a request to the GitHub rest API to list the code scanning alerts in a specific organization.
+func (client *Client) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForOrg(ctx, owner, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
 }
 
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
@@ -226,6 +250,9 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	}
 
 	usage, response, err := client.getWorkflowUsage(ctx, owner, repo, workflow)
+	if response == nil {
+		return models.WorkflowUsage{}, backend.DownstreamError(errWorkflowNotFound)
+	}
 	if err != nil {
 		if response.StatusCode == http.StatusNotFound {
 			return models.WorkflowUsage{}, backend.DownstreamError(errWorkflowNotFound)

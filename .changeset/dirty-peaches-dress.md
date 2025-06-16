@@ -2,4 +2,4 @@
 'grafana-github-datasource': patch
 ---
 
-Security: Bump prismjs to 1.30.0
+Documentation links will open in a new tab
