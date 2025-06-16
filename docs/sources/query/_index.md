@@ -54,6 +54,7 @@ Retrieve a list of commits for a branch or ref within a repository, including co
 | Ref (Branch/Tag) | The branch or tag to list commits against                 | Yes      |
 
 ##### Sample queries
+
 Show all commits to the `main` branch of the `grafana/grafana` repository:
 
 - Owner: `grafana`
@@ -96,6 +97,7 @@ This query returns a maximum of 1000 results.
 | Time field | The time field to filter the responses on, can be: `CreatedAt`, `ClosedAt`, or `UpdatedAt` | Yes      |
 
 ##### Sample queries
+
 Show all closed issues labeled `type/bug` in the Grafana repository:
 
 - Owner: `grafana`
@@ -140,6 +142,7 @@ This query returns a maximum of 200 results.
 | Query      | Filter for contributors by name or GitHub handle          | No       |
 
 ##### Sample queries
+
 Show all contributors to the `grafana` repository:
 
 - Owner: `grafana`
@@ -175,6 +178,7 @@ List created tags for a repository.
 | Repository | The name of the repository                               | Yes      |
 
 ##### Sample queries
+
 Show all tags created for the `grafana` repository within the currently selected time range:
 
 - Owner: `grafana`
@@ -203,6 +207,7 @@ List created releases for a repository.
 | Repository | The name of the repository                               | Yes      |
 
 ##### Sample queries
+
 Show all releases for the `grafana/grafana` repository:
 
 - Owner: `grafana`
@@ -235,6 +240,7 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 | Time Field | The time field to filter the responses on, can be: `CreatedAt`, `ClosedAt`, `UpdatedAt`, or `none` | Yes      |
 
 ##### Sample queries
+
 Show all open pull requests authored by Renovate in the `grafana/plugin-tools` repository:
 
 - Owner: `grafana`
@@ -280,6 +286,7 @@ Get all labels defined in a repository, useful for categorizing issues and pull 
 | Query      | Filter on text in name and description for labels        | No       |
 
 ##### Sample queries
+
 Show all labels for the `grafana/grafana` repository:
 
 - Owner: `grafana`
@@ -309,6 +316,7 @@ This query returns a maximum of 1000 results.
 | Repository | Filter on the name of the repository | No       |
 
 ##### Sample queries
+
 Show all repositories for the `grafana` organization:
 
 - Organization: `grafana`
@@ -339,6 +347,7 @@ Retrieve milestones for a repository, which can be used to group issues and pull
 | Query      | Filter on text in the milestone title                    | No       |
 
 ##### Sample queries
+
 Show all milestones for the `grafana/grafana` repository for v11 of Grafana:
 
 - Owner: `grafana`
@@ -379,6 +388,7 @@ This query does not support querying npm, RubyGems, or NuGet packages.
 | Names        | Filter for packages using a comma-separated list of names | No       |
 
 ##### Sample queries
+
 Show all packages uploaded to the `grafana` organization:
 
 - Organization: `grafana`
@@ -406,6 +416,7 @@ Query security vulnerabilities detected in a repository.
 | Repository | The name of the repository                               | Yes      |
 
 ##### Sample queries
+
 Show all security advisories for the `grafana/grafana` repository:
 
 - Owner: `grafana`
@@ -449,6 +460,7 @@ This query returns a maximum of 200 results.
 | Filter        | Add key value filters based on the fields for project items (shown if Project Number specified) | No       |
 
 ##### Sample queries
+
 Show all projects for the `grafana/grafana` repository:
 
 - Project Owner: `organization`
@@ -512,6 +524,7 @@ Get a list of users who have starred a repository, including the ability to plot
 | Repository | The name of the repository                               | Yes      |
 
 ##### Sample queries
+
 Show all stargazers for the `grafana/grafana` repository within the current time range:
 
 - Owner: `grafana`
@@ -543,6 +556,7 @@ List GitHub Actions workflows defined in a repository.
 | Time Field | The time field to filter the responses on, can be: `CreatedAt` or `UpdatedAt` | Yes      |
 
 ##### Sample queries
+
 Show all workflows created within the `grafana/grafana` repository within the current time range:
 
 - Owner: `grafana`
@@ -576,6 +590,7 @@ Retrieve usage statistics for a workflow, such as run counts and durations.
 | Workflow   | The workflow ID or file name. Use `id` or the filename from `path` from [workflows](#workflows) queries | Yes      |
 
 ##### Sample queries
+
 Show usage statistics for the `Levitate` detect breaking changes workflow in the `grafana/grafana` repository:
 
 - Owner: `grafana`
@@ -620,6 +635,7 @@ List runs for a specific workflow, including status, conclusion, and timing info
 | Branch     | The head branch to filter on                               | No       |
 
 ##### Sample queries
+
 Show all completed runs for the `Levitate` workflow in the `grafana/grafana` repository:
 
 - Owner: `grafana`
