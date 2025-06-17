@@ -60,7 +60,7 @@ type PullRequestsQuery struct {
 	Options ListPullRequestsOptions `json:"options"`
 }
 
-// PullRequestsQuery is used when querying for GitHub Pull Requests
+// PullRequestReviewsQuery is used when querying for GitHub Pull Request Reviews
 type PullRequestReviewsQuery struct {
 	Query
 	Options ListPullRequestsOptions `json:"options"`

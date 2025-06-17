@@ -11,7 +11,7 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-// QueryListPullRequests lists all pull requests in a repository
+// QueryListPullRequestReviews lists all pull request reviews in a repository
 //
 //			{
 //			  search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
