@@ -57,7 +57,7 @@ const QueryEditorProjects = (props: Props) => {
     <>
       <QueryEditorRow>
         <InlineLabel
-          tooltip="The owner of the GitHub project. Does not support classic projects."
+          tooltip="The owner of the GitHub project."
           width={LeftColumnWidth * 2}
         >
           Project Owner
@@ -116,7 +116,7 @@ const QueryEditorProjects = (props: Props) => {
 
       <QueryEditorRow>
         <InlineLabel
-          tooltip="The project number for the GitHub project (example: 123). Does not support classic projects."
+          tooltip="The project number for the GitHub project (example: 123)."
           width={LeftColumnWidth * 2}
         >
           Project Number

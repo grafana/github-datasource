@@ -20,6 +20,9 @@ export const components = {
     Ref: {
       input: 'Query editor ref',
     },
+    CodeScanState: {
+      input: 'Query editor code scan state',
+    },
     Number: {
       input: 'Query editor number',
     },

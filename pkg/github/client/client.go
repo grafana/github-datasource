@@ -54,33 +54,21 @@ var runnerPerMinuteRate = map[string]float64{
 
 // New instantiates a new GitHub API client.
 func New(ctx context.Context, settings models.Settings) (*Client, error) {
-	if settings.SelectedAuthType == "github-app" {
+	if settings.SelectedAuthType == models.AuthTypeGithubApp {
 		return createAppClient(settings)
 	}
-
-	if settings.SelectedAuthType == "personal-access-token" {
+	if settings.SelectedAuthType == models.AuthTypePAT {
 		return createAccessTokenClient(ctx, settings)
 	}
-
 	return nil, backend.DownstreamError(errors.New("access token or app token are required"))
 }
 
 func createAppClient(settings models.Settings) (*Client, error) {
-	appId, err := strconv.ParseInt(settings.AppId, 10, 64)
-	if err != nil {
-		return nil, backend.DownstreamError(errors.New("error parsing app id"))
-	}
-
-	installationId, err := strconv.ParseInt(settings.InstallationId, 10, 64)
-	if err != nil {
-		return nil, backend.DownstreamError(errors.New("error parsing installation id"))
-	}
-
 	transport, err := httpclient.GetDefaultTransport()
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error: http.DefaultTransport is not of type *http.Transport"))
 	}
-	itr, err := ghinstallation.New(transport, appId, installationId, []byte(settings.PrivateKey))
+	itr, err := ghinstallation.New(transport, settings.AppIdInt64, settings.InstallationIdInt64, []byte(settings.PrivateKey))
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
@@ -149,6 +137,24 @@ func (client *Client) ListWorkflows(ctx context.Context, owner, repo string, opt
 		return nil, nil, addErrorSourceToError(err, resp)
 	}
 	return wf, resp, err
+}
+
+// ListAlertsForRepo sends a request to the GitHub rest API to list the code scanning alerts in a specific repository.
+func (client *Client) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForRepo(ctx, owner, repo, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
+}
+
+// ListAlertsForOrg sends a request to the GitHub rest API to list the code scanning alerts in a specific organization.
+func (client *Client) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
+	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForOrg(ctx, owner, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return alerts, resp, err
 }
 
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
