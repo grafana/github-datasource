@@ -2,16 +2,16 @@
 //  
 //  Frame[0] 
 //  Name: issues
-//  Dimensions: 10 Fields by 3 Rows
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+-------------------------+
-//  | Name: title    | Name: author   | Name: author_company | Name: repo      | Name: number  | Name: closed | Name: created_at                | Name: closed_at                 | Name: updated_at                | Name: labels            |
-//  | Labels:        | Labels:        | Labels:              | Labels:         | Labels:       | Labels:      | Labels:                         | Labels:                         | Labels:                         | Labels:                 |
-//  | Type: []string | Type: []string | Type: []string       | Type: []string  | Type: []int64 | Type: []bool | Type: []time.Time               | Type: []*time.Time              | Type: []time.Time               | Type: []json.RawMessage |
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+-------------------------+
-//  | Issue #1       | firstUser      | ACME Corp            | grafana/grafana | 1             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-25 16:21:56 +0000 +0000 | ["bug","help wanted"]   |
-//  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 | ["enhancement"]         |
-//  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-25 16:21:56 +0000 +0000 | []                      |
-//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+-------------------------+
+//  Dimensions: 11 Fields by 3 Rows
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+-------------------------+----------------------------+
+//  | Name: title    | Name: author   | Name: author_company | Name: repo      | Name: number  | Name: closed | Name: created_at                | Name: closed_at                 | Name: updated_at                | Name: labels            | Name: assignees            |
+//  | Labels:        | Labels:        | Labels:              | Labels:         | Labels:       | Labels:      | Labels:                         | Labels:                         | Labels:                         | Labels:                 | Labels:                    |
+//  | Type: []string | Type: []string | Type: []string       | Type: []string  | Type: []int64 | Type: []bool | Type: []time.Time               | Type: []*time.Time              | Type: []time.Time               | Type: []json.RawMessage | Type: []json.RawMessage    |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+-------------------------+----------------------------+
+//  | Issue #1       | firstUser      | ACME Corp            | grafana/grafana | 1             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-25 16:21:56 +0000 +0000 | ["bug","help wanted"]   | ["firstUser","secondUser"] |
+//  | Issue #2       | secondUser     | ACME Corp            | grafana/grafana | 2             | true         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 | 2020-08-25 22:21:56 +0000 +0000 | ["enhancement"]         | ["firstUser"]              |
+//  | Issue #3       | firstUser      | ACME Corp            | grafana/grafana | 3             | false        | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-25 16:21:56 +0000 +0000 | []                      | []                         |
+//  +----------------+----------------+----------------------+-----------------+---------------+--------------+---------------------------------+---------------------------------+---------------------------------+-------------------------+----------------------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
@@ -92,6 +92,13 @@
             "typeInfo": {
               "frame": "json.RawMessage"
             }
+          },
+          {
+            "name": "assignees",
+            "type": "other",
+            "typeInfo": {
+              "frame": "json.RawMessage"
+            }
           }
         ]
       },
@@ -149,6 +156,16 @@
             ],
             [
               "enhancement"
+            ],
+            []
+          ],
+          [
+            [
+              "firstUser",
+              "secondUser"
+            ],
+            [
+              "firstUser"
             ],
             []
           ]

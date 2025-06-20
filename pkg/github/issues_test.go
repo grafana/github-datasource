@@ -53,17 +53,13 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt,
 			},
 			Closed: false,
-			Labels: struct {
-				Nodes []struct{ Name string }
-			}{
+			Labels: struct { Nodes []struct{ Name string } }{
 				Nodes: []struct{ Name string }{
-					{Name: "bug"},
-					{Name: "help wanted"},
+					{ Name: "bug" },
+					{ Name: "help wanted" },
 				},
 			},
-			Author: struct {
-				models.User "graphql:\"... on User\""
-			}{
+			Author: struct { models.User "graphql:\"... on User\"" }{
 				User: models.User{
 					ID:      "1",
 					Login:   "firstUser",
@@ -71,6 +67,12 @@ func TestIssuesDataframe(t *testing.T) {
 					Company: "ACME Corp",
 					Email:   "first@example.com",
 					URL:     "",
+				},
+			},
+			Assignees: struct { Nodes []struct { models.User } }{
+				Nodes: []struct { models.User }{
+					{ User: models.User{ Login: "firstUser" } },
+					{ User: models.User{ Login: "secondUser" } },
 				},
 			},
 			Repository: Repository{
@@ -102,16 +104,12 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt.Add(time.Hour * 6),
 			},
 			Closed: true,
-			Labels: struct {
-				Nodes []struct{ Name string }
-			}{
+			Labels: struct { Nodes []struct{ Name string } }{
 				Nodes: []struct{ Name string }{
-					{Name: "enhancement"},
+					{ Name: "enhancement" },
 				},
 			},
-			Author: struct {
-				models.User "graphql:\"... on User\""
-			}{
+			Author: struct { models.User "graphql:\"... on User\"" }{
 				User: models.User{
 					ID:      "2",
 					Login:   "secondUser",
@@ -119,6 +117,11 @@ func TestIssuesDataframe(t *testing.T) {
 					Company: "ACME Corp",
 					Email:   "second@example.com",
 					URL:     "",
+				},
+			},
+			Assignees: struct { Nodes []struct { models.User } }{
+				Nodes: []struct { models.User }{
+					{ User: models.User{ Login: "firstUser" } },
 				},
 			},
 			Repository: Repository{
@@ -150,14 +153,10 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt,
 			},
 			Closed: false,
-			Labels: struct {
-				Nodes []struct{ Name string }
-			}{
+			Labels: struct { Nodes []struct{ Name string } }{
 				Nodes: []struct{ Name string }{},
 			},
-			Author: struct {
-				models.User "graphql:\"... on User\""
-			}{
+			Author: struct { models.User "graphql:\"... on User\"" }{
 				User: models.User{
 					ID:      "3",
 					Login:   "firstUser",
@@ -166,6 +165,9 @@ func TestIssuesDataframe(t *testing.T) {
 					Email:   "first@example.com",
 					URL:     "",
 				},
+			},
+			Assignees: struct { Nodes []struct { models.User }}{
+				Nodes: []struct { models.User }{},
 			},
 			Repository: Repository{
 				Name: "grafana",
