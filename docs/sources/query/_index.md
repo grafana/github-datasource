@@ -124,6 +124,7 @@ Show all issues with 'sql expressions' in the title:
 | closed_at      | When the issue was closed: YYYY-MM-DD HH:MM:SS |
 | updated_at     | When the issue was last updated: YYYY-MM-DD HH:MM:SS |
 | labels         | Array of labels, for example: `["type/bug", "needs more info"]` |
+| assignees      | Array of assignees, for example: `["user1", "user2"]` |
 
 ### Contributors
 

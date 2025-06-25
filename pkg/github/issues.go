@@ -26,6 +26,11 @@ type Issue struct {
 			Name string
 		}
 	} `graphql:"labels(first: 100)"`
+	Assignees struct {
+		Nodes []struct {
+			models.User
+		}
+	} `graphql:"assignees(first: 10)"`
 	Author struct {
 		models.User `graphql:"... on User"`
 	}
@@ -49,6 +54,7 @@ func (c Issues) Frames() data.Frames {
 		data.NewField("closed_at", nil, []*time.Time{}),
 		data.NewField("updated_at", nil, []time.Time{}),
 		data.NewField("labels", nil, []json.RawMessage{}),
+		data.NewField("assignees", nil, []json.RawMessage{}),
 	)
 
 	for _, v := range c {
@@ -63,8 +69,16 @@ func (c Issues) Frames() data.Frames {
 			labels[i] = label.Name
 		}
 
+		assignees := make([]string, len(v.Assignees.Nodes))
+		for i, assignee := range v.Assignees.Nodes {
+			assignees[i] = assignee.User.Login
+		}
+
 		labelsBytes, _ := json.Marshal(labels)
 		rawLabelArray := json.RawMessage(labelsBytes)
+		
+		assigneesBytes, _ := json.Marshal(assignees)
+		rawAssigneesArray := json.RawMessage(assigneesBytes)
 
 		frame.AppendRow(
 			v.Title,
@@ -77,6 +91,7 @@ func (c Issues) Frames() data.Frames {
 			closedAt,
 			v.UpdatedAt.Time,
 			rawLabelArray,
+			rawAssigneesArray,
 		)
 	}
 
