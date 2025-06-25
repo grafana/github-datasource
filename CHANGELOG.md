@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.1.6
+
+### Patch Changes
+
+🐛 Documentation links will open in a new tab
+🐛 Removed unused annotations method (replaced with new annotations support in [#196](https://github.com/grafana/github-datasource/pull/196))
+🐛 Fixes error parsing app id / client id through provisioning via environment variables. Fixes [#477](https://github.com/grafana/github-datasource/issues/477)
+🐛 Replaced the deprecated `setVariableQueryEditor` with `CustomVariableSupport`
+
 ## 2.1.5
 
 ### Patch Changes
