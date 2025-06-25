@@ -13,6 +13,8 @@ const (
 	QueryTypeReleases = "Releases"
 	// QueryTypePullRequests is used when querying pull requests in a GitHub repository
 	QueryTypePullRequests = "Pull_Requests"
+	// QueryTypePullRequestReviews is used when querying pull request reviews in a GitHub repository
+	QueryTypePullRequestReviews = "Pull_Request_Reviews"
 	// QueryTypeLabels is used when querying labels in a GitHub repository
 	QueryTypeLabels = "Labels"
 	// QueryTypeRepositories is used when querying for a GitHub repository
@@ -54,6 +56,12 @@ type Query struct {
 
 // PullRequestsQuery is used when querying for GitHub Pull Requests
 type PullRequestsQuery struct {
+	Query
+	Options ListPullRequestsOptions `json:"options"`
+}
+
+// PullRequestReviewsQuery is used when querying for GitHub Pull Request Reviews
+type PullRequestReviewsQuery struct {
 	Query
 	Options ListPullRequestsOptions `json:"options"`
 }

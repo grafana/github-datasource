@@ -89,6 +89,16 @@ func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.
 	return GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleReviewsQuery is the query handler for listing GitHub Pull Request Reviews
+func (d *Datasource) HandleReviewsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.PullRequestOptionsWithRepo(query.Options, query.Owner, query.Repository)
+
+	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
+		return GetAllPullRequestReviews(ctx, d.client, opt)
+	}
+	return GetPullRequestReviewsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
 // HandleContributorsQuery is the query handler for listing GitHub Contributors
 func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListContributorsOptions{

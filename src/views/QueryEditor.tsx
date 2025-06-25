@@ -12,6 +12,7 @@ import QueryEditorCommits from './QueryEditorCommits';
 import QueryEditorIssues from './QueryEditorIssues';
 import QueryEditorMilestones from './QueryEditorMilestones';
 import QueryEditorPullRequests from './QueryEditorPullRequests';
+import QueryEditorPullRequestReviews from './QueryEditorPullRequestReviews';
 import QueryEditorTags from './QueryEditorTags';
 import QueryEditorContributors from './QueryEditorContributors';
 import QueryEditorLabels from './QueryEditorLabels';
@@ -81,6 +82,11 @@ const queryEditors: {
   [QueryType.Pull_Requests]: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorPullRequests {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  [QueryType.Pull_Request_Reviews]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorPullRequestReviews {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   [QueryType.Vulnerabilities]: {
