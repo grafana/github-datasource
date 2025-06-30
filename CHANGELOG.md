@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.7
+
+### Patch Changes
+
+🐛 Return assignees with issues queries
+
 ## 2.1.6
 
 ### Patch Changes
