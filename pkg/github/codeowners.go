@@ -37,14 +37,12 @@ func (c Codeowners) Frames() data.Frames {
 		"codeowners",
 		data.NewField("path_pattern", nil, []string{}),
 		data.NewField("owners", nil, []string{}),
-		data.NewField("line_number", nil, []int{}),
 	)
 
 	for _, entry := range c {
 		frame.AppendRow(
 			entry.PathPattern,
 			strings.Join(entry.Owners, ", "),
-			// entry.LineNumber,
 		)
 	}
 
