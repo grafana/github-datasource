@@ -19,7 +19,8 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
     | ProjectsOptions
     | WorkflowsOptions
     | WorkflowUsageOptions
-    | WorkflowRunsOptions;
+    | WorkflowRunsOptions
+    | CodeownersOptions;
 }
 
 export interface Label {
@@ -93,6 +94,8 @@ export interface ProjectsOptions extends Indexable {
   kind?: ProjectQueryType;
   filters?: Filter[];
 }
+
+export interface CodeownersOptions extends Indexable {}
 
 export interface GitHubVariableQuery extends GitHubQuery {
   key?: string;

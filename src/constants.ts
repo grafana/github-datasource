@@ -19,6 +19,7 @@ export enum QueryType {
   Workflows = 'Workflows',
   Workflow_Usage = 'Workflow_Usage',
   Workflow_Runs = 'Workflow_Runs',
+  Codeowners = 'Codeowners',
 }
 
 export const DefaultQueryType = QueryType.Issues;

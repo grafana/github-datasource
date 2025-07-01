@@ -41,6 +41,8 @@ const (
 	QueryTypeWorkflowRuns = "Workflow_Runs"
 	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
 	QueryTypeCodeScanning = "Code_Scanning"
+	// QueryTypeCodeowners is used when querying the CODEOWNERS file for a repository
+	QueryTypeCodeowners = "Codeowners"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -144,4 +146,9 @@ type WorkflowRunsQuery struct {
 type CodeScanningQuery struct {
 	Query
 	Options CodeScanningOptions `json:"options"`
+}
+
+// CodeownersQuery is used when querying the CODEOWNERS file for a repository
+type CodeownersQuery struct {
+	Query
 }

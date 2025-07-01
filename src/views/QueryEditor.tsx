@@ -22,6 +22,7 @@ import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
 import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
 import QueryEditorCodeScanning from './QueryEditorCodeScanning';
+import QueryEditorCodeowners from './QueryEditorCodeowners';
 import { QueryType, DefaultQueryType } from '../constants';
 import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
@@ -38,6 +39,11 @@ const queryEditors: {
 } = {
   [QueryType.Repositories]: {
     component: (_: Props, onChange: (val: any) => void) => <></>,
+  },
+  [QueryType.Codeowners]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCodeowners {...(props.query.options || {})}  />
+    ),
   },
   [QueryType.Labels]: {
     component: (props: Props, onChange: (val: any) => void) => (

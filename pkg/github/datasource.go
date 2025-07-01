@@ -34,6 +34,16 @@ func (d *Datasource) HandleRepositoriesQuery(ctx context.Context, query *models.
 	return GetAllRepositories(ctx, d.client, opt)
 }
 
+// HandleCodeownersQuery is the query handler for getting the CODEOWNERS file from a GitHub repository
+func (d *Datasource) HandleCodeownersQuery(ctx context.Context, query *models.CodeownersQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListCodeownersOptions{
+		Owner:      query.Owner,
+		Repository: query.Repository,
+	}
+
+	return GetCodeowners(ctx, d.client, opt)
+}
+
 // HandleIssuesQuery is the query handler for listing GitHub Issues
 func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.IssueOptionsWithRepo(query.Options, query.Owner, query.Repository)
