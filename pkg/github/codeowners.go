@@ -81,11 +81,12 @@ func GetCodeowners(ctx context.Context, client models.Client, opts models.ListCo
 }
 
 // parseCodeowners parses the CODEOWNERS file content and returns structured data
-// If filePath is provided, only returns entries that match that path
+// If filePath is provided, returns only the closest match (last matching pattern)
 func parseCodeowners(content string, filePath string) Codeowners {
 	lines := strings.Split(content, "\n")
-	var entries []CodeownersEntry
+	var allEntries []CodeownersEntry
 
+	// First, parse all entries from the CODEOWNERS file
 	for _, line := range lines {
 		line = strings.TrimSpace(line)
 
@@ -107,20 +108,33 @@ func parseCodeowners(content string, filePath string) Codeowners {
 			Owners:      owners,
 		}
 
-		// If filePath is specified, only include entries that match
-		if filePath != "" {
-			backend.Logger.Info("Is this getting called", "pathPattern", pathPattern, "filePath", filePath)
-			if matchesPattern(pathPattern, filePath) {
-				entries = append(entries, entry)
-			}
-		} else {
-			backend.Logger.Info("or Is this getting called", "pathPattern", pathPattern, "filePath", filePath)
-			// If no filePath specified, include all entries
-			entries = append(entries, entry)
+		allEntries = append(allEntries, entry)
+	}
+
+	// If no filePath specified, return all entries
+	if filePath == "" {
+		backend.Logger.Info("No filePath specified, returning all entries", "count", len(allEntries))
+		return allEntries
+	}
+
+	// Find the closest match (last matching pattern wins in CODEOWNERS)
+	var closestMatch *CodeownersEntry
+	for _, entry := range allEntries {
+		if matchesPattern(entry.PathPattern, filePath) {
+			backend.Logger.Info("Pattern matched", "pattern", entry.PathPattern, "filePath", filePath)
+			closestMatch = &entry // Keep updating to get the last match
 		}
 	}
 
-	return entries
+	// Return only the closest match
+	if closestMatch != nil {
+		backend.Logger.Info("Returning closest match", "pattern", closestMatch.PathPattern, "owners", closestMatch.Owners)
+		return Codeowners{*closestMatch}
+	}
+
+	// No matches found
+	backend.Logger.Info("No matches found for filePath", "filePath", filePath)
+	return Codeowners{}
 }
 
 // matchesPattern checks if a file path matches a CODEOWNERS pattern
