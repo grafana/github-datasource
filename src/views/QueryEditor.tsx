@@ -42,7 +42,7 @@ const queryEditors: {
   },
   [QueryType.Codeowners]: {
     component: (props: Props, onChange: (val: any) => void) => (
-      <QueryEditorCodeowners {...(props.query.options || {})}  />
+      <QueryEditorCodeowners {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   [QueryType.Labels]: {

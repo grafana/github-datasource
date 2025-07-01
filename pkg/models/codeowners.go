@@ -7,4 +7,7 @@ type ListCodeownersOptions struct {
 
 	// Owner is the owner of the repository (ex: grafana)
 	Owner string `json:"owner"`
+
+	// FilePath is an optional file path to find owners for (ex: "src/main.go")
+	FilePath string `json:"filePath"`
 }

@@ -95,7 +95,9 @@ export interface ProjectsOptions extends Indexable {
   filters?: Filter[];
 }
 
-export interface CodeownersOptions extends Indexable {}
+export interface CodeownersOptions extends Indexable {
+  filePath?: string;
+}
 
 export interface GitHubVariableQuery extends GitHubQuery {
   key?: string;

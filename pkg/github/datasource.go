@@ -39,6 +39,7 @@ func (d *Datasource) HandleCodeownersQuery(ctx context.Context, query *models.Co
 	opt := models.ListCodeownersOptions{
 		Owner:      query.Owner,
 		Repository: query.Repository,
+		FilePath:   query.Options.FilePath,
 	}
 
 	return GetCodeowners(ctx, d.client, opt)

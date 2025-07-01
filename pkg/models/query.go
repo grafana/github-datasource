@@ -151,4 +151,5 @@ type CodeScanningQuery struct {
 // CodeownersQuery is used when querying the CODEOWNERS file for a repository
 type CodeownersQuery struct {
 	Query
+	Options ListCodeownersOptions `json:"options"`
 }

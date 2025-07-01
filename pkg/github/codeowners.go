@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"path/filepath"
 	"strings"
 
 	"github.com/grafana/github-datasource/pkg/models"
@@ -25,7 +26,6 @@ type QueryGetCodeowners struct {
 type CodeownersEntry struct {
 	PathPattern string
 	Owners      []string
-	// LineNumber  int
 }
 
 // Codeowners is a list of CODEOWNERS entries
@@ -51,6 +51,7 @@ func (c Codeowners) Frames() data.Frames {
 
 // GetCodeowners retrieves and parses the CODEOWNERS file from a repository
 func GetCodeowners(ctx context.Context, client models.Client, opts models.ListCodeownersOptions) (Codeowners, error) {
+	backend.Logger.Info("GetCodeowners called", "opts.FilePath", opts.FilePath)
 	// Try different possible locations for CODEOWNERS file
 	possiblePaths := []string{
 		"HEAD:CODEOWNERS",
@@ -71,9 +72,8 @@ func GetCodeowners(ctx context.Context, client models.Client, opts models.ListCo
 			continue // Try next location
 		}
 
-		backend.Logger.Info("HIIIIIIIIII", "q.Repository.Object.Blob.Text", q.Repository.Object.Blob.Text, "q.Repository.Object.Blob", q.Repository.Object.Blob)
 		if q.Repository.Object.Blob.Text != "" {
-			return parseCodeowners(q.Repository.Object.Blob.Text), nil
+			return parseCodeowners(q.Repository.Object.Blob.Text, opts.FilePath), nil
 		}
 	}
 
@@ -81,7 +81,8 @@ func GetCodeowners(ctx context.Context, client models.Client, opts models.ListCo
 }
 
 // parseCodeowners parses the CODEOWNERS file content and returns structured data
-func parseCodeowners(content string) Codeowners {
+// If filePath is provided, only returns entries that match that path
+func parseCodeowners(content string, filePath string) Codeowners {
 	lines := strings.Split(content, "\n")
 	var entries []CodeownersEntry
 
@@ -101,12 +102,73 @@ func parseCodeowners(content string) Codeowners {
 		pathPattern := parts[0]
 		owners := parts[1:]
 
-		entries = append(entries, CodeownersEntry{
+		entry := CodeownersEntry{
 			PathPattern: pathPattern,
 			Owners:      owners,
-			// LineNumber:  i + 1,
-		})
+		}
+
+		// If filePath is specified, only include entries that match
+		if filePath != "" {
+			backend.Logger.Info("Is this getting called", "pathPattern", pathPattern, "filePath", filePath)
+			if matchesPattern(pathPattern, filePath) {
+				entries = append(entries, entry)
+			}
+		} else {
+			backend.Logger.Info("or Is this getting called", "pathPattern", pathPattern, "filePath", filePath)
+			// If no filePath specified, include all entries
+			entries = append(entries, entry)
+		}
 	}
 
 	return entries
+}
+
+// matchesPattern checks if a file path matches a CODEOWNERS pattern
+func matchesPattern(pattern, filePath string) bool {
+	// Handle different CODEOWNERS pattern types
+
+	// Remove leading slash from pattern if present (GitHub CODEOWNERS format)
+	if strings.HasPrefix(pattern, "/") {
+		pattern = pattern[1:]
+	}
+
+	// Handle directory patterns (ending with /)
+	if strings.HasSuffix(pattern, "/") {
+		// Directory pattern - check if file is within this directory
+		return strings.HasPrefix(filePath, pattern) || strings.HasPrefix(filePath+"/", pattern)
+	}
+
+	// Handle glob patterns
+	if strings.Contains(pattern, "*") {
+		// Use filepath.Match for simple glob patterns
+		matched, err := filepath.Match(pattern, filePath)
+		if err == nil && matched {
+			return true
+		}
+
+		// Also try matching just the filename for patterns like *.js
+		filename := filepath.Base(filePath)
+		matched, err = filepath.Match(pattern, filename)
+		if err == nil && matched {
+			return true
+		}
+
+		// Handle directory + glob patterns like docs/*.md
+		if strings.Contains(pattern, "/") {
+			matched, err := filepath.Match(pattern, filePath)
+			return err == nil && matched
+		}
+	}
+
+	// Exact match
+	if pattern == filePath {
+		return true
+	}
+
+	// Check if pattern matches a parent directory
+	if strings.HasSuffix(filePath, pattern) {
+		return true
+	}
+
+	return false
 }
