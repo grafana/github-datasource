@@ -285,12 +285,13 @@ func matchesPattern(pattern, filePath string) bool {
 	// Remove leading slash from pattern if present (GitHub CODEOWNERS format)
 	pattern = strings.TrimPrefix(pattern, "/")
 
-	// Handle directory patterns (ending with /)
-	if strings.HasSuffix(pattern, "/") {
-		// Directory pattern - check if file is within this directory
+	// Normalize filePath by removing trailing slash (files shouldn't have trailing slashes)
+	filePath = strings.TrimSuffix(filePath, "/")
+
+	// Handle directory patterns (ending with /), or just clear prefix matches
+	if strings.HasSuffix(pattern, "/") || strings.HasPrefix(filePath, pattern) || strings.HasPrefix(filePath+"/", pattern) {
 		return strings.HasPrefix(filePath, pattern) || strings.HasPrefix(filePath+"/", pattern)
 	}
-
 	// Handle glob patterns
 	if strings.Contains(pattern, "*") {
 		// Use filepath.Match for simple glob patterns
@@ -336,10 +337,10 @@ func getFileCountsForCodeowners(ctx context.Context, client models.Client, repoF
 	}
 
 	for _, file := range repoFiles {
-		for _, entry := range codeOwners {
-			if matchesPattern(entry.PathPattern, file) {
-				backend.Logger.Info("Match found", "pattern", entry.PathPattern, "file", file)
-				fileCounts[entry.PathPattern]++
+		for _, coEntry := range codeOwners {
+			if matchesPattern(coEntry.PathPattern, file) {
+				backend.Logger.Info("Match found", "pattern", coEntry.PathPattern, "file", file)
+				fileCounts[coEntry.PathPattern]++
 			}
 		}
 	}
