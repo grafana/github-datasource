@@ -76,3 +76,8 @@ func (c *TestClient) ListAlertsForRepo(ctx context.Context, owner, repo string, 
 func (c *TestClient) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
+
+// GetRepositoryTree is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) GetRepositoryTree(ctx context.Context, owner, repo, sha string, recursive bool) (*googlegithub.Tree, *googlegithub.Response, error) {
+	panic("unimplemented")
+}

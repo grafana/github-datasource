@@ -157,6 +157,15 @@ func (client *Client) ListAlertsForOrg(ctx context.Context, owner string, opts *
 	return alerts, resp, err
 }
 
+// GetRepositoryTree sends a request to the GitHub rest API to get the repository tree.
+func (client *Client) GetRepositoryTree(ctx context.Context, owner, repo, sha string, recursive bool) (*googlegithub.Tree, *googlegithub.Response, error) {
+	tree, resp, err := client.restClient.Git.GetTree(ctx, owner, repo, sha, recursive)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return tree, resp, err
+}
+
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
 func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (models.WorkflowUsage, error) {
 	actors := make(map[string]struct{}, 0)

@@ -16,4 +16,5 @@ type Client interface {
 	GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error)
 	ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error)
 	ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error)
+	GetRepositoryTree(ctx context.Context, owner, repo, sha string, recursive bool) (*googlegithub.Tree, *googlegithub.Response, error)
 }

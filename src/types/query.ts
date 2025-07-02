@@ -97,6 +97,7 @@ export interface ProjectsOptions extends Indexable {
 
 export interface CodeownersOptions extends Indexable {
   filePath?: string;
+  includeFileCount?: boolean;
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {
