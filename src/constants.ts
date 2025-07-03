@@ -21,6 +21,7 @@ export enum QueryType {
   Workflow_Runs = 'Workflow_Runs',
   Codeowners = 'Codeowners',
   Teams = 'Teams',
+  File_Contributors = 'File_Contributors',
 }
 
 export const DefaultQueryType = QueryType.Issues;

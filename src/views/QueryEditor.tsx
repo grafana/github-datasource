@@ -24,6 +24,7 @@ import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
 import QueryEditorCodeScanning from './QueryEditorCodeScanning';
 import QueryEditorCodeowners from './QueryEditorCodeowners';
 import QueryEditorTeams from './QueryEditorTeams';
+import { QueryEditorFileContributors } from './QueryEditorFileContributors';
 import { QueryType, DefaultQueryType } from '../constants';
 import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
@@ -131,6 +132,14 @@ const queryEditors: {
             options: { query: value.query }
           });
         }} 
+      />
+    ),
+  },
+  [QueryType.File_Contributors]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorFileContributors 
+        options={props.query.options || {}}
+        onOptionsChange={onChange}
       />
     ),
   },

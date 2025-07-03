@@ -45,6 +45,8 @@ const (
 	QueryTypeCodeowners = "Codeowners"
 	// QueryTypeTeams is used when querying teams for an organization
 	QueryTypeTeams = "Teams"
+	// QueryTypeFileContributors is used when querying contributors for a specific file
+	QueryTypeFileContributors = "File_Contributors"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -160,4 +162,10 @@ type CodeownersQuery struct {
 type TeamsQuery struct {
 	Query
 	Options ListTeamsOptions `json:"options"`
+}
+
+// FileContributorsQuery is used when querying contributors for a specific file
+type FileContributorsQuery struct {
+	Query
+	Options ListFileContributorsOptions `json:"options"`
 }

@@ -21,7 +21,8 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
     | WorkflowUsageOptions
     | WorkflowRunsOptions
     | CodeownersOptions
-    | TeamsOptions;
+    | TeamsOptions
+    | FileContributorsOptions;
 }
 
 export interface Label {
@@ -103,6 +104,11 @@ export interface CodeownersOptions extends Indexable {
 
 export interface TeamsOptions extends Indexable {
   query?: string;
+}
+
+export interface FileContributorsOptions extends Indexable {
+  filePath?: string;
+  limit?: number;
 }
 
 export interface GitHubVariableQuery extends GitHubQuery {
