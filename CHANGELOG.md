@@ -2,13 +2,9 @@
 
 ## 2.1.7
 
-### Patch Changes
-
 🐛 Return assignees with issues queries
 
 ## 2.1.6
-
-### Patch Changes
 
 🐛 Documentation links will open in a new tab
 🐛 Removed unused annotations method (replaced with new annotations support in [#196](https://github.com/grafana/github-datasource/pull/196))
@@ -16,8 +12,6 @@
 🐛 Replaced the deprecated `setVariableQueryEditor` with `CustomVariableSupport`
 
 ## 2.1.5
-
-### Patch Changes
 
 🐛 Update golang-jwt/jwt dependency to v4.5.2
 🐛 Get default http transport from plugin-sdk-go
