@@ -46,6 +46,16 @@ func (d *Datasource) HandleCodeownersQuery(ctx context.Context, query *models.Co
 	return GetCodeowners(ctx, d.client, opt)
 }
 
+// HandleTeamsQuery is the query handler for getting teams from a GitHub organization
+func (d *Datasource) HandleTeamsQuery(ctx context.Context, query *models.TeamsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListTeamsOptions{
+		Organization: query.Owner, // Using Owner field as Organization for teams
+		Query:        query.Options.Query,
+	}
+
+	return GetTeams(ctx, d.client, opt)
+}
+
 // HandleIssuesQuery is the query handler for listing GitHub Issues
 func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.IssueOptionsWithRepo(query.Options, query.Owner, query.Repository)

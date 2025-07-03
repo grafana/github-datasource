@@ -43,6 +43,8 @@ const (
 	QueryTypeCodeScanning = "Code_Scanning"
 	// QueryTypeCodeowners is used when querying the CODEOWNERS file for a repository
 	QueryTypeCodeowners = "Codeowners"
+	// QueryTypeTeams is used when querying teams for an organization
+	QueryTypeTeams = "Teams"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -152,4 +154,10 @@ type CodeScanningQuery struct {
 type CodeownersQuery struct {
 	Query
 	Options ListCodeownersOptions `json:"options"`
+}
+
+// TeamsQuery is used when querying teams for an organization
+type TeamsQuery struct {
+	Query
+	Options ListTeamsOptions `json:"options"`
 }
