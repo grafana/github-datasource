@@ -100,17 +100,20 @@ type CodeownersEntry struct {
 }
 
 // Codeowners is a list of CODEOWNERS entries
-type Codeowners []CodeownersEntry
+type Codeowners struct {
+	Entries          []CodeownersEntry
+	IncludeFileCount bool
+}
 
 // Frames converts the list of codeowners entries to a Grafana DataFrame
 func (c Codeowners) Frames() data.Frames {
-	backend.Logger.Info("Creating data frame", "entries_count", len(c))
+	backend.Logger.Info("Creating data frame", "entries_count", len(c.Entries))
 
-	pathPatterns := make([]string, len(c))
-	owners := make([]string, len(c))
-	fileCounts := make([]int64, len(c))
+	pathPatterns := make([]string, len(c.Entries))
+	owners := make([]string, len(c.Entries))
+	fileCounts := make([]int64, len(c.Entries))
 
-	for i, entry := range c {
+	for i, entry := range c.Entries {
 		backend.Logger.Info("Processing entry for frame", "i", i, "pathPattern", entry.PathPattern, "fileCount", entry.FileCount)
 		pathPatterns[i] = entry.PathPattern
 		owners[i] = strings.Join(entry.Owners, ", ")
@@ -119,12 +122,21 @@ func (c Codeowners) Frames() data.Frames {
 
 	backend.Logger.Info("Final frame data", "pathPatterns", pathPatterns, "fileCounts", fileCounts)
 
-	frame := data.NewFrame(
-		"codeowners",
-		data.NewField("path_pattern", nil, pathPatterns),
-		data.NewField("owners", nil, owners),
-		data.NewField("file_count", nil, fileCounts),
-	)
+	var frame *data.Frame
+	if c.IncludeFileCount {
+		frame = data.NewFrame(
+			"codeowners",
+			data.NewField("path_pattern", nil, pathPatterns),
+			data.NewField("owners", nil, owners),
+			data.NewField("file_count", nil, fileCounts),
+		)
+	} else {
+		frame = data.NewFrame(
+			"codeowners",
+			data.NewField("path_pattern", nil, pathPatterns),
+			data.NewField("owners", nil, owners),
+		)
+	}
 
 	return data.Frames{frame}
 }
@@ -166,10 +178,11 @@ func GetCodeowners(ctx context.Context, client models.Client, opts models.ListCo
 
 	// First parse without file counts to determine which entries will be returned
 	codeOwners := parseCodeowners(codeownersContent, opts.FilePath)
+	codeOwners.IncludeFileCount = opts.IncludeFileCount
 
 	// If no file count needed or no entries found, return early
-	if !opts.IncludeFileCount || len(codeOwners) == 0 {
-		backend.Logger.Info("No file count needed or no entries found", "includeFileCount", opts.IncludeFileCount, "numOfCodeowners", len(codeOwners))
+	if !opts.IncludeFileCount || len(codeOwners.Entries) == 0 {
+		backend.Logger.Info("No file count needed or no entries found", "includeFileCount", opts.IncludeFileCount, "numOfCodeowners", len(codeOwners.Entries))
 		return codeOwners, nil
 	}
 
@@ -182,9 +195,9 @@ func GetCodeowners(ctx context.Context, client models.Client, opts models.ListCo
 
 	fileCounts := getFileCountsForCodeowners(ctx, client, repoFiles, codeOwners)
 
-	for i, entry := range codeOwners {
+	for i, entry := range codeOwners.Entries {
 		backend.Logger.Info("entry", "entry", entry.PathPattern, "fileCounts", fileCounts)
-		codeOwners[i].FileCount = int64(fileCounts[entry.PathPattern])
+		codeOwners.Entries[i].FileCount = int64(fileCounts[entry.PathPattern])
 	}
 
 	return codeOwners, nil
@@ -256,7 +269,7 @@ func parseCodeowners(content string, filePath string) Codeowners {
 		for i, entry := range allEntries {
 			backend.Logger.Info("Returning entry", "i", i, "pattern", entry.PathPattern)
 		}
-		return allEntries
+		return Codeowners{Entries: allEntries}
 	}
 
 	// Find the closest match (last matching pattern wins in CODEOWNERS)
@@ -270,12 +283,12 @@ func parseCodeowners(content string, filePath string) Codeowners {
 	// Return only the closest match
 	if closestMatch != nil {
 		backend.Logger.Info("Returning closest match", "pattern", closestMatch.PathPattern, "owners", closestMatch.Owners)
-		return Codeowners{*closestMatch}
+		return Codeowners{Entries: []CodeownersEntry{*closestMatch}}
 	}
 
 	// No matches found
 	backend.Logger.Info("No matches found for filePath", "filePath", filePath)
-	return Codeowners{}
+	return Codeowners{Entries: []CodeownersEntry{}}
 }
 
 // matchesPattern checks if a file path matches a CODEOWNERS pattern
@@ -332,12 +345,12 @@ func getFileCountsForCodeowners(ctx context.Context, client models.Client, repoF
 
 	// make fileCounts from codeOwners
 	fileCounts := make(map[string]int)
-	for _, entry := range codeOwners {
+	for _, entry := range codeOwners.Entries {
 		fileCounts[entry.PathPattern] = 0
 	}
 
 	for _, file := range repoFiles {
-		for _, coEntry := range codeOwners {
+		for _, coEntry := range codeOwners.Entries {
 			if matchesPattern(coEntry.PathPattern, file) {
 				backend.Logger.Info("Match found", "pattern", coEntry.PathPattern, "file", file)
 				fileCounts[coEntry.PathPattern]++

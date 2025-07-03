@@ -26,13 +26,13 @@ const QueryEditorCodeowners = (props: Props) => {
       <InlineField 
         labelWidth={LeftColumnWidth * 2} 
         label="File Path (optional)"
-        tooltip="Optional file path to find owners for (e.g., 'src/main.go', 'docs/README.md'). Leave empty to show all CODEOWNERS entries."
+        tooltip="Optionally specify a file or directory to find owners for (e.g., 'src/main.go', 'src/pkg/services/'). Leave empty to show all CODEOWNERS entries for a repository."
       >
         <Input
           aria-label="File Path"
           width={RightColumnWidth}
           value={filePath}
-          placeholder="e.g., src/main.go or docs/*.md"
+          placeholder="e.g., src/main.go or src/pkg/services/"
           onChange={(el) => setFilePath(el.currentTarget.value)}
           onBlur={(el) => handleFilePathChange(el.currentTarget.value)}
         />
