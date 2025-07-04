@@ -16,24 +16,9 @@ func (s *QueryHandler) handleCopilotMetricsQuery(ctx context.Context, q backend.
 	return dfutil.FrameResponseWithError(s.Datasource.HandleCopilotMetricsQuery(ctx, query, q))
 }
 
-// HandleCopilotMetrics handles the plugin query for GitHub Copilot metrics
+// HandleCopilotMetrics handles the plugin query for GitHub Copilot metrics for an organization or team
 func (s *QueryHandler) HandleCopilotMetrics(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
 	return &backend.QueryDataResponse{
 		Responses: processQueries(ctx, req, s.handleCopilotMetricsQuery),
-	}, nil
-}
-
-func (s *QueryHandler) handleCopilotMetricsTeamQuery(ctx context.Context, q backend.DataQuery) backend.DataResponse {
-	query := &models.CopilotMetricsTeamQuery{}
-	if err := UnmarshalQuery(q.JSON, query); err != nil {
-		return *err
-	}
-	return dfutil.FrameResponseWithError(s.Datasource.HandleCopilotMetricsTeamQuery(ctx, query, q))
-}
-
-// HandleCopilotMetricsTeam handles the plugin query for GitHub Copilot metrics for a team
-func (s *QueryHandler) HandleCopilotMetricsTeam(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
-	return &backend.QueryDataResponse{
-		Responses: processQueries(ctx, req, s.handleCopilotMetricsTeamQuery),
 	}, nil
 }

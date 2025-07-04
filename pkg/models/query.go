@@ -43,10 +43,8 @@ const (
 	QueryTypeWorkflowRuns = "Workflow_Runs"
 	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
 	QueryTypeCodeScanning = "Code_Scanning"
-	// QueryTypeCopilotMetrics is used when querying Copilot metrics for an organization
+	// QueryTypeCopilotMetrics is used when querying Copilot metrics for an organization or team
 	QueryTypeCopilotMetrics = "Copilot_Metrics"
-	// QueryTypeCopilotMetricsTeam is used when querying Copilot metrics for a team
-	QueryTypeCopilotMetricsTeam = "Copilot_Metrics_Team"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -129,16 +127,10 @@ type VulnerabilityQuery struct {
 	Options ListVulnerabilitiesOptions `json:"options"`
 }
 
-// CopilotMetricsQuery is used when querying Copilot metrics for an organization
+// CopilotMetricsQuery is used when querying Copilot metrics for an organization or team
 type CopilotMetricsQuery struct {
 	Query
 	Options ListCopilotMetricsOptions `json:"options"`
-}
-
-// CopilotMetricsTeamQuery is used when querying Copilot metrics for a team
-type CopilotMetricsTeamQuery struct {
-	Query
-	Options ListCopilotMetricsTeamOptions `json:"options"`
 }
 
 // StargazersQuery is used when querying stargazers for a repository

@@ -81,8 +81,3 @@ func (c *TestClient) ListAlertsForOrg(ctx context.Context, owner string, opts *g
 func (c *TestClient) GetCopilotMetrics(ctx context.Context, organization string, opts models.ListCopilotMetricsOptions) ([]models.CopilotMetrics, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
-
-// GetCopilotMetricsTeam is not implemented because it is not being used in tests at the moment.
-func (c *TestClient) GetCopilotMetricsTeam(ctx context.Context, organization, teamSlug string, opts models.ListCopilotMetricsTeamOptions) ([]models.CopilotMetrics, *googlegithub.Response, error) {
-	panic("unimplemented")
-}

@@ -21,8 +21,7 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
     | WorkflowsOptions
     | WorkflowUsageOptions
     | WorkflowRunsOptions
-    | CopilotMetricsOptions
-    | CopilotMetricsTeamOptions;
+    | CopilotMetricsOptions;
 }
 
 export interface Label {
@@ -108,14 +107,6 @@ export interface GitHubVariableQuery extends GitHubQuery {
 }
 
 export interface CopilotMetricsOptions extends Indexable {
-  organization?: string;
-  since?: string;
-  until?: string;
-  page?: number;
-  perPage?: number;
-}
-
-export interface CopilotMetricsTeamOptions extends Indexable {
   organization?: string;
   teamSlug?: string;
   since?: string;

@@ -17,5 +17,4 @@ type Client interface {
 	ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error)
 	ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error)
 	GetCopilotMetrics(ctx context.Context, organization string, opts ListCopilotMetricsOptions) ([]CopilotMetrics, *googlegithub.Response, error)
-	GetCopilotMetricsTeam(ctx context.Context, organization, teamSlug string, opts ListCopilotMetricsTeamOptions) ([]CopilotMetrics, *googlegithub.Response, error)
 }

@@ -14,24 +14,19 @@ import (
 // CopilotMetricsResponse represents the response from GitHub's Copilot metrics API
 type CopilotMetricsResponse []models.CopilotMetrics
 
-// GetCopilotMetrics retrieves Copilot metrics for an organization
+// GetCopilotMetrics retrieves Copilot metrics for an organization or team
 func GetCopilotMetrics(ctx context.Context, client models.Client, opts models.ListCopilotMetricsOptions) (dfutil.Framer, error) {
 	metrics, _, err := client.GetCopilotMetrics(ctx, opts.Organization, opts)
 	if err != nil {
 		return nil, err
 	}
 
-	return copilotMetricsToDataFrame(CopilotMetricsResponse(metrics), "copilot_metrics")
-}
-
-// GetCopilotMetricsTeam retrieves Copilot metrics for a team
-func GetCopilotMetricsTeam(ctx context.Context, client models.Client, opts models.ListCopilotMetricsTeamOptions) (dfutil.Framer, error) {
-	metrics, _, err := client.GetCopilotMetricsTeam(ctx, opts.Organization, opts.TeamSlug, opts)
-	if err != nil {
-		return nil, err
+	frameName := "copilot_metrics"
+	if opts.TeamSlug != "" {
+		frameName = "copilot_metrics_team"
 	}
 
-	return copilotMetricsToDataFrame(CopilotMetricsResponse(metrics), "copilot_metrics_team")
+	return copilotMetricsToDataFrame(CopilotMetricsResponse(metrics), frameName)
 }
 
 // copilotMetricsToDataFrame converts Copilot metrics to a Grafana data frame

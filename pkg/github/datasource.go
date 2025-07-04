@@ -212,16 +212,10 @@ func (d *Datasource) HandleWorkflowRunsQuery(ctx context.Context, query *models.
 	return GetWorkflowRuns(ctx, d.client, opt, req.TimeRange)
 }
 
-// HandleCopilotMetricsQuery is the query handler for listing GitHub Copilot metrics for an organization
+// HandleCopilotMetricsQuery is the query handler for listing GitHub Copilot metrics for an organization or team
 func (d *Datasource) HandleCopilotMetricsQuery(ctx context.Context, query *models.CopilotMetricsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.CopilotMetricsOptionsWithOrg(query.Options, query.Owner)
 	return GetCopilotMetrics(ctx, d.client, opt)
-}
-
-// HandleCopilotMetricsTeamQuery is the query handler for listing GitHub Copilot metrics for a team
-func (d *Datasource) HandleCopilotMetricsTeamQuery(ctx context.Context, query *models.CopilotMetricsTeamQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.CopilotMetricsTeamOptionsWithOrg(query.Options, query.Owner)
-	return GetCopilotMetricsTeam(ctx, d.client, opt)
 }
 
 // CheckHealth is the health check for GitHub

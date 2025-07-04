@@ -56,10 +56,6 @@ func (m *mockClient) GetCopilotMetrics(ctx context.Context, organization string,
 	return nil, nil, nil
 }
 
-func (m *mockClient) GetCopilotMetricsTeam(ctx context.Context, organization, teamSlug string, opts models.ListCopilotMetricsTeamOptions) ([]models.CopilotMetrics, *googlegithub.Response, error) {
-	return nil, nil, nil
-}
-
 func TestGetCodeScanningAlerts(t *testing.T) {
 	var (
 		ctx  = context.Background()
