@@ -1,0 +1,268 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: pull_request_reviews
+//  Dimensions: 18 Fields by 4 Rows
+//  +---------------------------+--------------------------+--------------------------+------------------------------------------------------+--------------------------------+---------------------------------+---------------------------------+-----------------------------------+---------------------------+--------------------------+---------------------------+---------------------------+-----------------------------+----------------------------------------------------------------------------------+--------------------+----------------------------+---------------------------------+---------------------------------+
+//  | Name: pull_request_number | Name: pull_request_title | Name: pull_request_state | Name: pull_request_url                               | Name: pull_request_author_name | Name: pull_request_author_login | Name: pull_request_author_email | Name: pull_request_author_company | Name: repository          | Name: review_author_name | Name: review_author_login | Name: review_author_email | Name: review_author_company | Name: review_url                                                                 | Name: review_state | Name: review_comment_count | Name: review_updated_at         | Name: review_created_at         |
+//  | Labels:                   | Labels:                  | Labels:                  | Labels:                                              | Labels:                        | Labels:                         | Labels:                         | Labels:                           | Labels:                   | Labels:                  | Labels:                   | Labels:                   | Labels:                     | Labels:                                                                          | Labels:            | Labels:                    | Labels:                         | Labels:                         |
+//  | Type: []int64             | Type: []string           | Type: []string           | Type: []string                                       | Type: []string                 | Type: []string                  | Type: []string                  | Type: []string                    | Type: []string            | Type: []string           | Type: []string            | Type: []string            | Type: []string              | Type: []string                                                                   | Type: []string     | Type: []int64              | Type: []time.Time               | Type: []time.Time               |
+//  +---------------------------+--------------------------+--------------------------+------------------------------------------------------+--------------------------------+---------------------------------+---------------------------------+-----------------------------------+---------------------------+--------------------------+---------------------------+---------------------------+-----------------------------+----------------------------------------------------------------------------------+--------------------+----------------------------+---------------------------------+---------------------------------+
+//  | 1                         | PullRequest #1           | OPEN                     | https://github.com/grafana/github-datasource/pulls/1 | Test User                      | testUser                        | user@example.com                | ACME corp                         | grafana/github-datasource | Second User              | testUser2                 | user2@example.com         | ACME corp                   | https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074 | APPROVED           | 10                         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 |
+//  | 1                         | PullRequest #1           | OPEN                     | https://github.com/grafana/github-datasource/pulls/1 | Test User                      | testUser                        | user@example.com                | ACME corp                         | grafana/github-datasource | Third User               | testUser3                 | user3@example.com         | ACME corp                   | https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074 | APPROVED           | 1                          | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 |
+//  | 2                         | PullRequest #2           | OPEN                     | https://github.com/grafana/github-datasource/pulls/2 | Second User                    | testUser2                       | user2@example.com               | ACME corp                         | grafana/github-datasource | Test User                | testUser                  | user@example.com          | ACME corp                   | https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074 | APPROVED           | 19                         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 |
+//  | 3                         | PullRequest #2           | OPEN                     | https://github.com/grafana/github-datasource/pulls/3 | Second User                    | testUser2                       | user2@example.com               | ACME corp                         | grafana/github-datasource | Test User                | testUser                  | user@example.com          | ACME corp                   | https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074 | APPROVED           | 1                          | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:21:56 +0000 +0000 |
+//  +---------------------------+--------------------------+--------------------------+------------------------------------------------------+--------------------------------+---------------------------------+---------------------------------+-----------------------------------+---------------------------+--------------------------+---------------------------+---------------------------+-----------------------------+----------------------------------------------------------------------------------+--------------------+----------------------------+---------------------------------+---------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "pull_request_reviews",
+        "fields": [
+          {
+            "name": "pull_request_number",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "pull_request_title",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "pull_request_state",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "pull_request_url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "pull_request_author_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "pull_request_author_login",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "pull_request_author_email",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "pull_request_author_company",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "repository",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "review_author_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "review_author_login",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "review_author_email",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "review_author_company",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "review_url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "review_state",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "review_comment_count",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "review_updated_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "review_created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            1,
+            1,
+            2,
+            3
+          ],
+          [
+            "PullRequest #1",
+            "PullRequest #1",
+            "PullRequest #2",
+            "PullRequest #2"
+          ],
+          [
+            "OPEN",
+            "OPEN",
+            "OPEN",
+            "OPEN"
+          ],
+          [
+            "https://github.com/grafana/github-datasource/pulls/1",
+            "https://github.com/grafana/github-datasource/pulls/1",
+            "https://github.com/grafana/github-datasource/pulls/2",
+            "https://github.com/grafana/github-datasource/pulls/3"
+          ],
+          [
+            "Test User",
+            "Test User",
+            "Second User",
+            "Second User"
+          ],
+          [
+            "testUser",
+            "testUser",
+            "testUser2",
+            "testUser2"
+          ],
+          [
+            "user@example.com",
+            "user@example.com",
+            "user2@example.com",
+            "user2@example.com"
+          ],
+          [
+            "ACME corp",
+            "ACME corp",
+            "ACME corp",
+            "ACME corp"
+          ],
+          [
+            "grafana/github-datasource",
+            "grafana/github-datasource",
+            "grafana/github-datasource",
+            "grafana/github-datasource"
+          ],
+          [
+            "Second User",
+            "Third User",
+            "Test User",
+            "Test User"
+          ],
+          [
+            "testUser2",
+            "testUser3",
+            "testUser",
+            "testUser"
+          ],
+          [
+            "user2@example.com",
+            "user3@example.com",
+            "user@example.com",
+            "user@example.com"
+          ],
+          [
+            "ACME corp",
+            "ACME corp",
+            "ACME corp",
+            "ACME corp"
+          ],
+          [
+            "https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074",
+            "https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074",
+            "https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074",
+            "https://github.com/grafana/github-datasource/pull/1#pullrequestreview-2461579074"
+          ],
+          [
+            "APPROVED",
+            "APPROVED",
+            "APPROVED",
+            "APPROVED"
+          ],
+          [
+            10,
+            1,
+            19,
+            1
+          ],
+          [
+            1598372516000,
+            1598372516000,
+            1598372516000,
+            1598372516000
+          ],
+          [
+            1598372516000,
+            1598372516000,
+            1598372516000,
+            1598372516000
+          ]
+        ]
+      }
+    }
+  ]
+}
