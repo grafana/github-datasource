@@ -10,7 +10,4 @@ type ListCodeownersOptions struct {
 
 	// FilePath is an optional file path to find owners for (ex: "src/main.go")
 	FilePath string `json:"filePath"`
-
-	// IncludeFileCount when true, adds a count of files that match each pattern
-	IncludeFileCount bool `json:"includeFileCount"`
 }

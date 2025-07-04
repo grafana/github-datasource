@@ -148,8 +148,15 @@ const queryEditors: {
 /* eslint-enable react/display-name */
 
 const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType).map((v) => {
+  let label = v.replace(/_/gi, ' ');
+  
+  // Add (beta) suffix for beta features
+  if (v === 'Teams' || v === 'File_Contributors' || v === 'Codeowners') {
+    label += ' (beta)';
+  }
+  
   return {
-    label: v.replace(/_/gi, ' '),
+    label,
     value: v,
   };
 });
