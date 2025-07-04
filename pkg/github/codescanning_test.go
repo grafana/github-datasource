@@ -52,10 +52,6 @@ func (m *mockClient) ListAlertsForOrg(ctx context.Context, owner string, opts *g
 	return m.mockAlerts, m.mockResponse, nil
 }
 
-func (m *mockClient) GetRepositoryTree(ctx context.Context, owner, repo, sha string, recursive bool) (*googlegithub.Tree, *googlegithub.Response, error) {
-	return nil, nil, nil
-}
-
 func TestGetCodeScanningAlerts(t *testing.T) {
 	var (
 		ctx  = context.Background()
