@@ -358,3 +358,77 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 
 	return workflowRuns, response.NextPage, nil
 }
+
+// GetCopilotMetrics sends a request to the GitHub REST API to get Copilot metrics for an organization
+func (client *Client) GetCopilotMetrics(ctx context.Context, organization string, opts models.ListCopilotMetricsOptions) ([]models.CopilotMetrics, *googlegithub.Response, error) {
+	u := fmt.Sprintf("orgs/%s/copilot/metrics", organization)
+
+	// Build query parameters
+	params := url.Values{}
+	if opts.Since != nil {
+		params.Add("since", opts.Since.Format("2006-01-02"))
+	}
+	if opts.Until != nil {
+		params.Add("until", opts.Until.Format("2006-01-02"))
+	}
+	if opts.Page > 0 {
+		params.Add("page", strconv.Itoa(opts.Page))
+	}
+	if opts.PerPage > 0 {
+		params.Add("per_page", strconv.Itoa(opts.PerPage))
+	}
+
+	if len(params) > 0 {
+		u += "?" + params.Encode()
+	}
+
+	req, err := client.restClient.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var metrics []models.CopilotMetrics
+	resp, err := client.restClient.Do(ctx, req, &metrics)
+	if err != nil {
+		return nil, resp, addErrorSourceToError(err, resp)
+	}
+
+	return metrics, resp, nil
+}
+
+// GetCopilotMetricsTeam sends a request to the GitHub REST API to get Copilot metrics for a team
+func (client *Client) GetCopilotMetricsTeam(ctx context.Context, organization, teamSlug string, opts models.ListCopilotMetricsTeamOptions) ([]models.CopilotMetrics, *googlegithub.Response, error) {
+	u := fmt.Sprintf("orgs/%s/team/%s/copilot/metrics", organization, teamSlug)
+
+	// Build query parameters
+	params := url.Values{}
+	if opts.Since != nil {
+		params.Add("since", opts.Since.Format("2006-01-02"))
+	}
+	if opts.Until != nil {
+		params.Add("until", opts.Until.Format("2006-01-02"))
+	}
+	if opts.Page > 0 {
+		params.Add("page", strconv.Itoa(opts.Page))
+	}
+	if opts.PerPage > 0 {
+		params.Add("per_page", strconv.Itoa(opts.PerPage))
+	}
+
+	if len(params) > 0 {
+		u += "?" + params.Encode()
+	}
+
+	req, err := client.restClient.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var metrics []models.CopilotMetrics
+	resp, err := client.restClient.Do(ctx, req, &metrics)
+	if err != nil {
+		return nil, resp, addErrorSourceToError(err, resp)
+	}
+
+	return metrics, resp, nil
+}

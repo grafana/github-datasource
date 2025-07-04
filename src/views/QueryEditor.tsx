@@ -23,6 +23,8 @@ import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
 import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
 import QueryEditorCodeScanning from './QueryEditorCodeScanning';
+import QueryEditorCopilotMetrics from './QueryEditorCopilotMetrics';
+import QueryEditorCopilotMetricsTeam from './QueryEditorCopilotMetricsTeam';
 import { QueryType, DefaultQueryType } from '../constants';
 import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
@@ -115,6 +117,16 @@ const queryEditors: {
   [QueryType.Workflow_Runs]: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorWorkflowRuns {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  [QueryType.Copilot_Metrics]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCopilotMetrics {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  [QueryType.Copilot_Metrics_Team]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCopilotMetricsTeam {...(props.query.options || {})} onChange={onChange} />
     ),
   },
 };
