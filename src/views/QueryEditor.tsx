@@ -195,7 +195,7 @@ const QueryEditor = (props: Props) => {
   );
 };
 
-const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems];
+const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems, QueryType.Copilot_Metrics];
 
 function hasRepo(qt?: string) {
   return !nonRepoTypes.includes(qt as QueryType);
