@@ -106,6 +106,10 @@ export interface GitHubVariableQuery extends GitHubQuery {
   field?: string;
 }
 
+export interface GitHubAnnotationQuery extends GitHubVariableQuery {
+  timeField?: string;
+}
+
 export interface CopilotMetricsOptions extends Indexable {
   organization?: string;
   teamSlug?: string;
