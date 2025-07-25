@@ -207,6 +207,7 @@ func (d *Datasource) HandleWorkflowRunsQuery(ctx context.Context, query *models.
 		Owner:      query.Owner,
 		Workflow:   query.Options.Workflow,
 		Branch:     query.Options.Branch,
+		Status:     query.Options.Status,
 	}
 
 	return GetWorkflowRuns(ctx, d.client, opt, req.TimeRange)

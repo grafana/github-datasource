@@ -10,6 +10,7 @@ interface Props extends WorkflowRunsOptions {
 const QueryEditorWorkflowRuns = (props: Props) => {
   const [workflow, setWorkflow] = useState<string | undefined>(props.workflow);
   const [branch, setBranch] = useState<string | undefined>(props.branch);
+  const [status, setStatus] = useState<string | undefined>(props.status);
 
   return (
     <>
@@ -43,6 +44,23 @@ const QueryEditorWorkflowRuns = (props: Props) => {
             props.onChange({
               ...props,
               branch: el.currentTarget.value,
+            })
+          }
+        />
+      </InlineField>
+      <InlineField
+        labelWidth={LeftColumnWidth * 2}
+        label="Status"
+        tooltip="The status to filter on (e.g. completed, in_progress) - optional"
+      >
+        <Input
+          value={status}
+          width={RightColumnWidth * 2 + LeftColumnWidth}
+          onChange={(el) => setStatus(el.currentTarget.value)}
+          onBlur={(el) =>
+            props.onChange({
+              ...props,
+              status: el.currentTarget.value,
             })
           }
         />
