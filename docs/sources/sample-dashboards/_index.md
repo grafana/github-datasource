@@ -34,7 +34,7 @@ The pre-configured dashboards are ready-to-use and you only need to import them 
 Import the [GitHub Default dashboard](https://grafana.com/grafana/dashboards/14000).
 
 For instructions on how to import dashboards in Grafana, refer to [Import a dashboard](https://grafana.com/docs/grafana/latest/reference/export_import/#importing-a-dashboard).
-The dashboard ID is `1400`.
+The dashboard ID is `14000`.
 
 ### Import in the Grafana UI
 
