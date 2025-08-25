@@ -43,19 +43,19 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 				return &num
 			}(),
 			func() time.Time {
-				if !alert.GetCreatedAt().Time.IsZero() {
+				if !alert.GetCreatedAt().IsZero() {
 					return alert.GetCreatedAt().Time
 				}
 				return time.Time{}
 			}(),
 			func() time.Time {
-				if !alert.GetUpdatedAt().Time.IsZero() {
+				if !alert.GetUpdatedAt().IsZero() {
 					return alert.GetUpdatedAt().Time
 				}
 				return time.Time{}
 			}(),
 			func() *time.Time {
-				if !alert.GetDismissedAt().Time.IsZero() {
+				if !alert.GetDismissedAt().IsZero() {
 					t := alert.GetDismissedAt().Time
 					return &t
 				}

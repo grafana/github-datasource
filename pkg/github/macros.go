@@ -79,7 +79,7 @@ func InterPolateMacros(query string) (string, error) {
 			if err != nil {
 				return query, err
 			}
-			query = strings.Replace(query, match[0], res, -1)
+			query = strings.ReplaceAll(query, match[0], res)
 		}
 	}
 	return strings.Trim(query, " "), nil

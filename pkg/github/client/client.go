@@ -184,10 +184,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 	var name string
 
 	page := 1
-	for {
-		if page == 0 {
-			break
-		}
+	for page != 0 {
 		var workflowRuns []*googlegithub.WorkflowRun
 		var err error
 		workflowRuns, page, err = client.getWorkflowRuns(ctx, owner, repo, workflow, "", timeRange, page)
@@ -220,7 +217,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 			}
 
 			if conclusion != conclusionSkipped {
-				duration := run.GetUpdatedAt().Time.Sub(run.GetRunStartedAt().Time)
+				duration := run.GetUpdatedAt().Sub(run.GetRunStartedAt().Time)
 
 				digest.Add(float64(duration.Milliseconds()), 1)
 
@@ -230,7 +227,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 
 				usageDuration += duration
 
-				buildsPerDay[run.RunStartedAt.Time.Weekday()]++
+				buildsPerDay[run.RunStartedAt.Weekday()]++
 			}
 
 			conclusions[run.GetConclusion()]++
@@ -300,11 +297,7 @@ func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow
 	workflowRuns := []*googlegithub.WorkflowRun{}
 
 	page := 1
-	for {
-		if page == 0 {
-			break
-		}
-
+	for page != 0 {
 		workflowRunsPage, nextPage, err := client.getWorkflowRuns(ctx, owner, repo, workflow, branch, timeRange, page)
 		if err != nil {
 			return nil, fmt.Errorf("fetching workflow runs: %w", err)
