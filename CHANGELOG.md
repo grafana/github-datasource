@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.2.0
+
+🚀 Adds support for Pull Request Review queries
+
+⚙️ Bump form-data from 4.0.0 to 4.0.4 (#490)
+
+⚙️ Add alternate "rate limit exceeded" error handling (#494)
+
+🐛 Remove <base target="_blank"> from readme (#497)
+
+⚙️ Bump @grafana/create-plugin configuration to 5.25.8 (#496)
+
 ## 2.1.7
 
 🐛 Return assignees with issues queries
