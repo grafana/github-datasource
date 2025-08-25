@@ -190,7 +190,7 @@ func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflo
 		}
 		var workflowRuns []*googlegithub.WorkflowRun
 		var err error
-		workflowRuns, page, err = client.getWorkflowRuns(ctx, owner, repo, workflow, "", timeRange, page)
+		workflowRuns, page, err = client.getWorkflowRuns(ctx, owner, repo, workflow, "", timeRange, page, runStatusCompleted)
 		if err != nil {
 			return models.WorkflowUsage{}, fmt.Errorf("fetching workflow runs: %w", err)
 		}
@@ -296,7 +296,7 @@ func (client *Client) getWorkflowUsage(ctx context.Context, owner, repo string, 
 	return client.restClient.Actions.GetWorkflowUsageByFileName(ctx, owner, repo, workflow)
 }
 
-func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error) {
+func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, status string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error) {
 	workflowRuns := []*googlegithub.WorkflowRun{}
 
 	page := 1
@@ -305,7 +305,7 @@ func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow
 			break
 		}
 
-		workflowRunsPage, nextPage, err := client.getWorkflowRuns(ctx, owner, repo, workflow, branch, timeRange, page)
+		workflowRunsPage, nextPage, err := client.getWorkflowRuns(ctx, owner, repo, workflow, branch, status, timeRange, page)
 		if err != nil {
 			return nil, fmt.Errorf("fetching workflow runs: %w", err)
 		}
@@ -318,7 +318,7 @@ func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow
 	return workflowRuns, nil
 }
 
-func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange, page int) ([]*googlegithub.WorkflowRun, int, error) {
+func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, status string, timeRange backend.TimeRange, page int) ([]*googlegithub.WorkflowRun, int, error) {
 	workflowID, _ := strconv.ParseInt(workflow, 10, 64)
 
 	workflowRuns := []*googlegithub.WorkflowRun{}
@@ -332,18 +332,19 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 		err      error
 	)
 
+	listOptions := &googlegithub.ListWorkflowRunsOptions{
+		Created:     created,
+		ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
+		Branch:      branch,
+	}
+	if status != "" {
+		listOptions.Status = status
+	}
+
 	if workflowID > 0 {
-		runs, response, err = client.restClient.Actions.ListWorkflowRunsByID(ctx, owner, repo, workflowID, &googlegithub.ListWorkflowRunsOptions{
-			Created:     created,
-			ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
-			Branch:      branch,
-		})
+		runs, response, err = client.restClient.Actions.ListWorkflowRunsByID(ctx, owner, repo, workflowID, listOptions)
 	} else {
-		runs, response, err = client.restClient.Actions.ListWorkflowRunsByFileName(ctx, owner, repo, workflow, &googlegithub.ListWorkflowRunsOptions{
-			Created:     created,
-			ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
-			Branch:      branch,
-		})
+		runs, response, err = client.restClient.Actions.ListWorkflowRunsByFileName(ctx, owner, repo, workflow, listOptions)
 	}
 
 	if err != nil {

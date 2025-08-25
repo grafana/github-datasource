@@ -37,6 +37,9 @@ type WorkflowUsageOptions struct {
 
 	// Branch is the branch to filter the runs by.
 	Branch string `json:"branch"`
+
+	// Status is the status to filter the runs by (e.g. completed, in_progress, etc.)
+	Status string `json:"status"`
 }
 
 type WorkflowRunsOptions = WorkflowUsageOptions
