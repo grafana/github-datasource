@@ -106,9 +106,9 @@ We are going to use [`webpack-merge`](https://github.com/survivejs/webpack-merge
 // webpack.config.ts
 import type { Configuration } from 'webpack';
 import { merge } from 'webpack-merge';
-import grafanaConfig from './.config/webpack/webpack.config';
+import grafanaConfig, { type Env } from './.config/webpack/webpack.config';
 
-const config = async (env): Promise<Configuration> => {
+const config = async (env: Env): Promise<Configuration> => {
   const baseConfig = await grafanaConfig(env);
 
   return merge(baseConfig, {
@@ -151,9 +151,10 @@ version: '3.7'
 
 services:
   grafana:
-    container_name: 'myorg-basic-app'
+    extends:
+      file: .config/docker-compose-base.yaml
+      service: grafana
     build:
-      context: ./.config
       args:
         grafana_version: ${GRAFANA_VERSION:-9.1.2}
         grafana_image: ${GRAFANA_IMAGE:-grafana}

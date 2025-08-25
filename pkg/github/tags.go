@@ -146,10 +146,11 @@ func GetAllTags(ctx context.Context, client models.Client, opts models.ListTagsO
 		t := make([]tagDTO, len(q.Repository.Refs.Nodes))
 		for i, v := range q.Repository.Refs.Nodes {
 			t[i].Name = v.Name
-			if v.Target.TypeName == "Commit" {
+			switch v.Target.TypeName {
+			case "Commit":
 				t[i].Author = v.Target.Commit.Author
 				t[i].OID = v.Target.Commit.OID
-			} else if v.Target.TypeName == "Tag" {
+			case "Tag":
 				t[i].Author = v.Target.Tag.Tagger
 				t[i].OID = v.Target.Tag.OID
 			}

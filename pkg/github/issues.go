@@ -59,7 +59,7 @@ func (c Issues) Frames() data.Frames {
 
 	for _, v := range c {
 		var closedAt *time.Time
-		if !v.ClosedAt.Time.IsZero() {
+		if !v.ClosedAt.IsZero() {
 			t := v.ClosedAt.Time
 			closedAt = &t
 		}
@@ -71,19 +71,19 @@ func (c Issues) Frames() data.Frames {
 
 		assignees := make([]string, len(v.Assignees.Nodes))
 		for i, assignee := range v.Assignees.Nodes {
-			assignees[i] = assignee.User.Login
+			assignees[i] = assignee.Login
 		}
 
 		labelsBytes, _ := json.Marshal(labels)
 		rawLabelArray := json.RawMessage(labelsBytes)
-		
+
 		assigneesBytes, _ := json.Marshal(assignees)
 		rawAssigneesArray := json.RawMessage(assigneesBytes)
 
 		frame.AppendRow(
 			v.Title,
-			v.Author.User.Login,
-			v.Author.User.Company,
+			v.Author.Login,
+			v.Author.Company,
 			v.Repository.NameWithOwner,
 			v.Number,
 			v.Closed,

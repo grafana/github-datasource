@@ -106,7 +106,7 @@ func (p PullRequests) Frames() data.Frames {
 			mergedByLogin   *string
 			mergedByEmail   *string
 			mergedByCompany *string
-			secondsOpen     float64 = time.Now().UTC().Sub(v.CreatedAt.UTC()).Round(time.Second).Seconds()
+			secondsOpen     = time.Now().UTC().Sub(v.CreatedAt.UTC()).Round(time.Second).Seconds()
 		)
 
 		if !v.ClosedAt.IsZero() {

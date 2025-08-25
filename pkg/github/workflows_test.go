@@ -65,10 +65,10 @@ func genTimeRange(t *rapid.T, workflows []*googlegithub.Workflow, timeField mode
 	sort.Slice(workflowsCopy, func(i, j int) bool {
 		switch timeField {
 		case models.WorkflowCreatedAt:
-			return workflowsCopy[i].CreatedAt.Time.Before(workflowsCopy[j].CreatedAt.Time)
+			return workflowsCopy[i].CreatedAt.Before(workflowsCopy[j].CreatedAt.Time)
 
 		case models.WorkflowUpdatedAt:
-			return workflowsCopy[i].UpdatedAt.Time.Before(workflowsCopy[j].UpdatedAt.Time)
+			return workflowsCopy[i].UpdatedAt.Before(workflowsCopy[j].UpdatedAt.Time)
 
 		default:
 			panic(fmt.Sprintf("unexpected time field: %d", timeField))
@@ -124,7 +124,7 @@ func TestKeepWorkflowsInTimeRange(t *testing.T) {
 
 		// Ensure we got the expected workflows.
 		sort.Slice(got, func(i, j int) bool {
-			return got[i].CreatedAt.Time.Before(got[j].CreatedAt.Time)
+			return got[i].CreatedAt.Before(got[j].CreatedAt.Time)
 		})
 
 		assert.Equal(t, len(workflowsInTheRange), len(got))
@@ -153,7 +153,7 @@ func TestKeepWorkflowsInTimeRange(t *testing.T) {
 
 		// Ensure we got the expected workflows.
 		sort.Slice(got, func(i, j int) bool {
-			return got[i].UpdatedAt.Time.Before(got[j].UpdatedAt.Time)
+			return got[i].UpdatedAt.Before(got[j].UpdatedAt.Time)
 		})
 
 		assert.Equal(t, len(workflowsInTheRange), len(got))

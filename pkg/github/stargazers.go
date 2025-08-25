@@ -77,7 +77,7 @@ func (a StargazersWrapper) Frames() data.Frames {
 	)
 
 	for _, v := range a {
-		node := v.Stargazer.Node
+		node := v.Node
 
 		frame.InsertRow(
 			0,
