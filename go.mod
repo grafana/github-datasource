@@ -1,6 +1,6 @@
 module github.com/grafana/github-datasource
 
-go 1.24.1
+go 1.25
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.14.0
