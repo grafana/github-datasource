@@ -82,6 +82,12 @@ func TestAddErrorSourceToError(t *testing.T) {
 			expected: backend.DownstreamError(errors.New("API rate limit exceeded for ID 1")),
 		},
 		{
+			name:     "limit exceeded error message",
+			err:      errors.New("API rate limit already exceeded for ID 2"),
+			resp:     nil,
+			expected: backend.DownstreamError(errors.New("API rate limit already exceeded for ID 2")),
+		},
+		{
 			name:     "permission error message",
 			err:      errors.New("Resource not accessible by integration"),
 			resp:     nil,
