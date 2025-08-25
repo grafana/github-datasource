@@ -20,6 +20,7 @@ var (
 		"Resource protected by organization SAML enforcement",
 		"Resource not accessible by personal access token",
 		"API rate limit exceeded",
+		"API rate limit already exceeded",
 		"Resource not accessible by integration", // issue with incorrectly set permissions for token/app
 	}
 )
