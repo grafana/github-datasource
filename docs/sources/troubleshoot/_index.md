@@ -30,13 +30,11 @@ The data source will return an error message if there is a problem. You can use 
 - Paste the PAT directly into the configuration field, avoiding extra spaces or line breaks.
 - If using GitHub Enterprise, verify the API URL and ensure the PAT is valid for that instance.
 
-
 ### Why do I see "Authentication failed" after entering my PAT?
 
 - Confirm the PAT is entered in the correct field in the data source configuration.
 - Ensure the token has access to the repositories you want to query (including private ones, if needed).
 - If the error persists, generate a new PAT and update the configuration.
-
 
 ### What should I do if I see "An unexpected error happened" or "Could not connect to GitHub"?
 
