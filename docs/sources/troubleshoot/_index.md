@@ -19,17 +19,13 @@ weight: 600
 
 This page lists some common issues you may experience when setting up the Grafana GitHub data source plugin. You can check the possible reasons and suggested solutions below.
 
-### Why does my data source setup fail when using a GitHub Personal Access Token (PAT)?
+### Why does my data source setup fail ("Authentication failed") when using a GitHub Personal Access Token (PAT)?
 
 - Make sure your PAT is created with valid [permissions required for the Grafana GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/setup/token/#permissions).
 - Check that the token is not expired or revoked.
+- Ensure the token has access to the repositories you want to query
 - Paste the PAT directly into the configuration field, avoiding extra spaces or line breaks.
 - If using GitHub Enterprise, verify the API URL and ensure the PAT is valid for that instance.
-
-### Why do I see "Authentication failed" after entering my PAT?
-
-- Confirm the PAT is entered in the correct field in the data source configuration.
-- Ensure the token has access to the repositories you want to query
 - If the error persists, generate a new PAT and update the configuration.
 
 ### Why can't I access private repositories or organizations?
@@ -41,5 +37,3 @@ This page lists some common issues you may experience when setting up the Grafan
 
 - Check the Grafana logs for more details about the error.
 - For Grafana Cloud customers, contact support.
-
-
