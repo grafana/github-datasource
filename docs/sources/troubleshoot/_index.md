@@ -35,6 +35,7 @@ This page lists some common issues you may experience when setting up the Grafan
 ### What should I do if I see "An unexpected error happened" or "Could not connect to GitHub"?
 
 - Check the Grafana logs for more details about the error.
+- For Grafana Cloud customers, contact support.
 
 ### Why can't I access private repositories or organizations?
 
