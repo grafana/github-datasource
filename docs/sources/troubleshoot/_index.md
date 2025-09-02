@@ -1,7 +1,7 @@
 ---
 title: Troubleshooting common problems for the Grafana GitHub data source plugin
 menuTitle: Troubleshoot
-description: Learn how to Troubleshoot the common problems for the GitHub data source plugin
+description: Learn how to troubleshoot common problems for the GitHub data source plugin
 keywords:
   - data source
   - github
@@ -17,7 +17,7 @@ weight: 600
 
 # Troubleshooting
 
-This page lists some commonly reported issues you may experience when setting up the Grafana GitHub data source plugin. You can check the possible reasons and suggested solutions below.
+This page lists some common issues you may experience when setting up the Grafana GitHub data source plugin. You can check the possible reasons and suggested solutions below.
 
 ## Common errors
 
@@ -26,7 +26,7 @@ The data source will return an error message if there is a problem. You can use 
 ### Why does my data source setup fail when using a GitHub Personal Access Token (PAT)?
 
 - Make sure your PAT is created with valid [permissions required for the Grafana GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/setup/token/#permissions).
-- Double-check that the token is not expired or revoked.
+- Check that the token is not expired or revoked.
 - Paste the PAT directly into the configuration field, avoiding extra spaces or line breaks.
 - If using GitHub Enterprise, verify the API URL and ensure the PAT is valid for that instance.
 
