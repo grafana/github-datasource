@@ -15,13 +15,9 @@ labels:
 weight: 600
 ---
 
-# Troubleshooting
+# Troubleshooting common problems for the Grafana GitHub data source plugin
 
 This page lists some common issues you may experience when setting up the Grafana GitHub data source plugin. You can check the possible reasons and suggested solutions below.
-
-## Common errors
-
-The data source will return an error message if there is a problem. You can use these messages to identify and correct the errors.
 
 ### Why does my data source setup fail when using a GitHub Personal Access Token (PAT)?
 
