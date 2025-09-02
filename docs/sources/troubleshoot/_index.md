@@ -29,15 +29,17 @@ This page lists some common issues you may experience when setting up the Grafan
 ### Why do I see "Authentication failed" after entering my PAT?
 
 - Confirm the PAT is entered in the correct field in the data source configuration.
-- Ensure the token has access to the repositories you want to query (including private ones, if needed).
+- Ensure the token has access to the repositories you want to query
 - If the error persists, generate a new PAT and update the configuration.
-
-### What should I do if I see "An unexpected error happened" or "Could not connect to GitHub"?
-
-- Check the Grafana logs for more details about the error.
-- For Grafana Cloud customers, contact support.
 
 ### Why can't I access private repositories or organizations?
 
 - Make sure your PAT includes the `repo` and `read:org` scopes.
 - Update the data source configuration with the new token and test again.
+
+### What should I do if I see "An unexpected error happened" or "Could not connect to GitHub" after trying all of the above?
+
+- Check the Grafana logs for more details about the error.
+- For Grafana Cloud customers, contact support.
+
+
