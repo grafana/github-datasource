@@ -6,9 +6,10 @@ import (
 	"time"
 
 	googlegithub "github.com/google/go-github/v72/github"
-	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // WorkflowsWrapper is a list of GitHub workflows
@@ -199,6 +200,7 @@ func (workflowRuns WorkflowRunsWrapper) Frames() data.Frames {
 		data.NewField("head_sha", nil, []*string{}),
 		data.NewField("created_at", nil, []*time.Time{}),
 		data.NewField("updated_at", nil, []*time.Time{}),
+		data.NewField("run_started_at", nil, []*time.Time{}),
 		data.NewField("html_url", nil, []*string{}),
 		data.NewField("url", nil, []*string{}),
 		data.NewField("status", nil, []*string{}),
@@ -217,6 +219,7 @@ func (workflowRuns WorkflowRunsWrapper) Frames() data.Frames {
 			workflowRun.HeadSHA,
 			workflowRun.CreatedAt.GetTime(),
 			workflowRun.UpdatedAt.GetTime(),
+			workflowRun.RunStartedAt.GetTime(),
 			workflowRun.HTMLURL,
 			workflowRun.URL,
 			workflowRun.Status,
