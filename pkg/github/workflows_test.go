@@ -7,11 +7,12 @@ import (
 	"time"
 
 	googlegithub "github.com/google/go-github/v72/github"
-	"github.com/grafana/github-datasource/pkg/models"
-	"github.com/grafana/github-datasource/pkg/testutil"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/stretchr/testify/assert"
 	"pgregory.net/rapid"
+
+	"github.com/grafana/github-datasource/pkg/models"
+	"github.com/grafana/github-datasource/pkg/testutil"
 )
 
 func githubWorkflowGen() *rapid.Generator[*googlegithub.Workflow] {
@@ -254,42 +255,50 @@ func TestWorkflowRunsDataFrame(t *testing.T) {
 	updatedAt1, err := time.Parse("2006-Jan-02", "2013-Feb-02")
 	assert.NoError(t, err)
 
+	runStartedAt1, err := time.Parse("2006-Jan-02", "2013-Feb-02")
+	assert.NoError(t, err)
+
 	createdAt2, err := time.Parse("2006-Jan-02", "2013-Feb-03")
 	assert.NoError(t, err)
 
 	updatedAt2, err := time.Parse("2006-Jan-02", "2013-Feb-04")
 	assert.NoError(t, err)
 
+	runStartedAt2, err := time.Parse("2006-Jan-02", "2013-Feb-04")
+	assert.NoError(t, err)
+
 	workflowRuns := WorkflowRunsWrapper([]*googlegithub.WorkflowRun{
 		{
-			ID:         ptr(int64(1)),
-			Name:       ptr("name_1"),
-			HeadBranch: ptr("head_branch_1"),
-			HeadSHA:    ptr("head_sha_1"),
-			CreatedAt:  &googlegithub.Timestamp{Time: createdAt1},
-			UpdatedAt:  &googlegithub.Timestamp{Time: updatedAt1},
-			HTMLURL:    ptr("html_url_1"),
-			URL:        ptr("url_1"),
-			Status:     ptr("status_1"),
-			Conclusion: ptr("conclusion_1"),
-			Event:      ptr("event_1"),
-			WorkflowID: ptr(int64(1)),
-			RunNumber:  ptr(int(1)),
+			ID:           ptr(int64(1)),
+			Name:         ptr("name_1"),
+			HeadBranch:   ptr("head_branch_1"),
+			HeadSHA:      ptr("head_sha_1"),
+			CreatedAt:    &googlegithub.Timestamp{Time: createdAt1},
+			UpdatedAt:    &googlegithub.Timestamp{Time: updatedAt1},
+			RunStartedAt: &googlegithub.Timestamp{Time: runStartedAt1},
+			HTMLURL:      ptr("html_url_1"),
+			URL:          ptr("url_1"),
+			Status:       ptr("status_1"),
+			Conclusion:   ptr("conclusion_1"),
+			Event:        ptr("event_1"),
+			WorkflowID:   ptr(int64(1)),
+			RunNumber:    ptr(int(1)),
 		},
 		{
-			ID:         ptr(int64(2)),
-			Name:       ptr("name_2"),
-			HeadBranch: ptr("head_branch_2"),
-			HeadSHA:    ptr("head_sha_2"),
-			CreatedAt:  &googlegithub.Timestamp{Time: createdAt2},
-			UpdatedAt:  &googlegithub.Timestamp{Time: updatedAt2},
-			HTMLURL:    ptr("html_url_2"),
-			URL:        ptr("url_2"),
-			Status:     ptr("status_2"),
-			Conclusion: ptr("conclusion_2"),
-			Event:      ptr("event_2"),
-			WorkflowID: ptr(int64(2)),
-			RunNumber:  ptr(int(2)),
+			ID:           ptr(int64(2)),
+			Name:         ptr("name_2"),
+			HeadBranch:   ptr("head_branch_2"),
+			HeadSHA:      ptr("head_sha_2"),
+			CreatedAt:    &googlegithub.Timestamp{Time: createdAt2},
+			UpdatedAt:    &googlegithub.Timestamp{Time: updatedAt2},
+			RunStartedAt: &googlegithub.Timestamp{Time: runStartedAt2},
+			HTMLURL:      ptr("html_url_2"),
+			URL:          ptr("url_2"),
+			Status:       ptr("status_2"),
+			Conclusion:   ptr("conclusion_2"),
+			Event:        ptr("event_2"),
+			WorkflowID:   ptr(int64(2)),
+			RunNumber:    ptr(int(2)),
 		},
 	})
 
