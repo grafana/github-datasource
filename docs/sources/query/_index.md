@@ -238,7 +238,7 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 | Owner      | A GitHub user or organization                                                   | Yes      |
 | Repository | The name of a repository                                                        | No       |
 | Query      | Use GitHub's [query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) to filter results | No       |
-| Time Field | The time field to filter the responses on, can be: `CreatedAt`, `ClosedAt`, `UpdatedAt`, or `none` | Yes      |
+| Time Field | The time field to filter the responses on, can be: `CreatedAt`, `ClosedAt`, `MergedAt`, or `none` | Yes      |
 
 ##### Sample queries
 
