@@ -11,30 +11,22 @@ interface Props extends CopilotMetricsOptions {
 
 const QueryEditorCopilotMetrics = (props: Props) => {
   const [team, setTeam] = useState(props.teamSlug || '');
-  const [organization, setOrganization] = useState<string>(props.organization || '');
+  const [owner, setOwner] = useState<string>(props.owner || '');
 
   return (
     <>
-        <QueryEditorRow>
-          <InlineLabel
-            tooltip="The owner (organization or user) of the GitHub repository (example: 'grafana')"
-            width={LeftColumnWidth * 2}
-          >
-            Owner
-          </InlineLabel>
-          <Input
-            aria-label={components.QueryEditor.Owner.input}
-            width={RightColumnWidth}
-            value={organization}
-            onChange={(el) => setOrganization(el.currentTarget.value)}
-            onBlur={(el) =>
-              props.onChange({
-                ...props,
-                organization: el.currentTarget.value,
-              })
-            }
-          />
-        </QueryEditorRow>
+      <Input
+        aria-label={components.QueryEditor.Owner.input}
+        width={RightColumnWidth}
+        value={owner}
+        onChange={(el) => setOwner(el.currentTarget.value)}
+        onBlur={(el) =>
+          props.onChange({
+            ...props,
+            owner: el.currentTarget.value,
+          })
+        }
+      />
       <InlineField labelWidth={LeftColumnWidth * 2} label="Team Slug" tooltip="GitHub team slug name (optional - leave empty for organization-wide metrics)">
         <Input
           aria-label={components.QueryEditor.Owner.input}
