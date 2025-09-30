@@ -69,12 +69,12 @@ export const githubResponse = {
           },
           data: {
             values: [
-              ['grafana-github-datasource v1.5.7'],
+              ['grafana-github-datasource v2.2.0'],
               ['grafanabot'],
               [false],
               [false],
-              ['v1.5.7'],
-              ['https://github.com/grafana/github-datasource/releases/tag/v1.5.7'],
+              ['v2.2.0'],
+              ['https://github.com/grafana/github-datasource/releases/tag/v2.2.0'],
               [1713519461000],
               [1713519486000],
             ],

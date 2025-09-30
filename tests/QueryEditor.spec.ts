@@ -21,5 +21,5 @@ test('QueryEditor smoke test', async ({ panelEditPage, page }) => {
   await panelEditPage.getByGrafanaSelector(components.QueryEditor.Repository.input).fill('grafana-github-datasource');
 
   await panelEditPage.refreshPanel();
-  await expect(page.getByRole('cell', { name: 'grafana-github-datasource v1.5.7' })).toBeVisible();
+  await expect(page.getByRole('cell', { name: 'grafana-github-datasource v2.2.0' })).toBeVisible();
 });
