@@ -147,7 +147,7 @@ func getAllProjectItemsByOrg(ctx context.Context, client models.Client, opts mod
 	)
 
 	var fields []Field
-	for i := 0; i < PageNumberLimit; i++ {
+	for i := 0; i < opts.MaxPages; i++ {
 		q := &QueryProject{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)
@@ -181,7 +181,7 @@ func getAllProjectItemsByUser(ctx context.Context, client models.Client, opts mo
 	)
 
 	var fields []Field
-	for i := 0; i < PageNumberLimit; i++ {
+	for i := 0; i < opts.MaxPages; i++ {
 		q := &QueryProjectByUser{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)
