@@ -11,19 +11,17 @@ import (
 	"github.com/shurcooL/githubv4"
 )
 
-// PageNumberLimit is the limit on the number of pages that will be traversed
-const PageNumberLimit = 2
-
 // QueryListProjects lists all projects in a repository
-// organization(login: "grafana") {
-// 	projectsV2(first: 100) {
-// 		nodes {
-// 			id
-// 			title
-//      ...
-// 		}
-// 	}
-// }
+//
+//	organization(login: "grafana") {
+//		projectsV2(first: 100) {
+//			nodes {
+//				id
+//				title
+//	     ...
+//			}
+//		}
+//	}
 type QueryListProjects struct {
 	Organization struct {
 		ProjectsV2 struct {
@@ -122,7 +120,7 @@ func getAllProjectsByOrg(ctx context.Context, client models.Client, opts models.
 		projects = Projects{}
 	)
 
-	for i := 0; i < PageNumberLimit; i++ {
+	for i := 0; i < opts.MaxPages; i++ {
 		q := &QueryListProjects{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)
@@ -151,7 +149,7 @@ func getAllProjectsByUser(ctx context.Context, client models.Client, opts models
 		projects = Projects{}
 	)
 
-	for i := 0; i < PageNumberLimit; i++ {
+	for i := 0; i < opts.MaxPages; i++ {
 		q := &QueryListProjectsByUser{}
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, errors.WithStack(err)

@@ -45,6 +45,7 @@ const QueryEditorProjects = (props: Props) => {
   const [org, setOrg] = useState<string>(props.organization || '');
   const [user, setUser] = useState<string>(props.user || '');
   const [number, setNumber] = useState<number | string | undefined>(props.number);
+  const [maxPages, setMaxPages] = useState<number | string | undefined>(props.maxPages);
   const [kind, setKind] = useState<ProjectQueryType>(props.kind || ProjectQueryType.ORG);
   const [filters, setFilters] = useState<Filter[]>(props.filters || []);
   const label = kind === ProjectQueryType.ORG ? 'Organization' : 'User';
@@ -130,6 +131,32 @@ const QueryEditorProjects = (props: Props) => {
             props.onChange({
               ...props,
               number: num(el.currentTarget.value),
+            })
+          }
+        />
+      </QueryEditorRow>
+
+      <QueryEditorRow>
+        <InlineLabel
+          tooltip="The maximum number of pages to retrieve (max 30)."
+          width={LeftColumnWidth * 2}
+        >
+          Max. Pages
+        </InlineLabel>
+        <Input
+          aria-label={components.QueryEditor.Number.input}
+          width={RightColumnWidth}
+          value={maxPages}
+          min={1}
+          max={30}
+          type='number'
+          step={1}
+          defaultValue={2}
+          onChange={(el) => setMaxPages(num(el.currentTarget.value))}
+          onBlur={(el) =>
+            props.onChange({
+              ...props,
+              maxPages: num(el.currentTarget.value),
             })
           }
         />
