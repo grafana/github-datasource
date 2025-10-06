@@ -38,6 +38,7 @@ export enum PullRequestTimeField {
   ClosedAt,
   CreatedAt,
   MergedAt,
+  UpdatedAt,
   None,
 }
 
