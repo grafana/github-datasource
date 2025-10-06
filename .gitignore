@@ -17,3 +17,11 @@ mage_output_file.go
 
 # provisioning
 /provisioning/
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
