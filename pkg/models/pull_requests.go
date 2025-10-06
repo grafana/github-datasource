@@ -10,12 +10,14 @@ const (
 	PullRequestCreatedAt
 	// PullRequestMergedAt is used when filtering when a Pull Request was merged
 	PullRequestMergedAt
+	// PullRequestUpdatedAt is used when filtering when a Pull Request was updated
+	PullRequestUpdatedAt
 	// PullRequestNone is used when the results are not filtered by time. Without any other filters, using this could easily cause an access token to be rate limited
 	PullRequestNone
 )
 
 func (d PullRequestTimeField) String() string {
-	return [...]string{"closed", "created", "merged"}[d]
+	return [...]string{"closed", "created", "merged", "updated"}[d]
 }
 
 // ListPullRequestsOptions are the available options when listing pull requests in a time range
