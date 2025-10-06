@@ -21,5 +21,10 @@ test('QueryEditor smoke test', async ({ panelEditPage, page }) => {
   await panelEditPage.getByGrafanaSelector(components.QueryEditor.Repository.input).fill('grafana-github-datasource');
 
   await panelEditPage.refreshPanel();
-  await expect(page.getByRole('cell', { name: 'grafana-github-datasource v2.2.0' })).toBeVisible();
+  try {
+    // Newer versions of table view uses gridcell instead of cell
+    await expect(page.getByRole('gridcell', { name: 'grafana-github-datasource v1.5.7' })).toBeVisible();
+  } catch (error) {
+    await expect(page.getByRole('cell', { name: 'grafana-github-datasource v1.5.7' })).toBeVisible();
+  }
 });
