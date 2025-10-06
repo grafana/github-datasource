@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.3.0
+
+🚀 Add UpdatedAt time field to pull request queries
+
+🐛 Add runStartedAt field for workflow runs query response
+
 ## 2.2.0
 
 🚀 Adds support for Pull Request Review queries
