@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
-import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, useStyles2 } from '@grafana/ui';
+import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
 import { ConfigSection, DataSourceDescription } from '@grafana/plugin-ui';
 import { Divider } from 'components/Divider';
 import { components as selectors } from '../components/selectors';
@@ -12,6 +12,8 @@ import {
   type SelectableValue,
 } from '@grafana/data';
 import type { GitHubAuthType, GitHubLicenseType, GitHubDataSourceOptions, GitHubSecureJsonData } from 'types/config';
+import { config } from '@grafana/runtime';
+import { gte } from 'semver';
 
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSourceOptions, GitHubSecureJsonData>;
 
@@ -196,7 +198,11 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           </>
         )}
       </ConfigSection>
-
+      {
+        config.secureSocksDSProxyEnabled && gte(config.buildInfo.version, '10.0.0') && (
+          <SecureSocksProxySettings options={options} onOptionsChange={onOptionsChange}/>
+        )
+      }
       <Divider />
 
       <ConfigSection title="Connection" isCollapsible>
