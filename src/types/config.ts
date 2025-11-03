@@ -10,6 +10,7 @@ export type GitHubDataSourceOptions = {
   selectedAuthType?: GitHubAuthType;
   appId?: string;
   installationId?: string;
+  enableSecureSocksProxy?: boolean
 } & DataSourceJsonData;
 
 export type GitHubSecureJsonDataKeys =
