@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	githubclient "github.com/grafana/github-datasource/pkg/github/client"
@@ -244,8 +245,8 @@ func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataReques
 }
 
 // NewDatasource creates a new datasource for handling queries
-func NewDatasource(ctx context.Context, settings models.Settings) (*Datasource, error) {
-	client, err := githubclient.New(ctx, settings)
+func NewDatasource(ctx context.Context, settings models.Settings, opts httpclient.Options) (*Datasource, error) {
+	client, err := githubclient.New(ctx, settings, opts)
 	if err != nil {
 		return nil, err
 	}

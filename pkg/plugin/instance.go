@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 
 	"github.com/grafana/github-datasource/pkg/github"
@@ -12,8 +13,8 @@ import (
 )
 
 // NewGitHubInstance creates a new GitHubInstance using the settings to determine if things like the Caching Wrapper should be enabled
-func NewGitHubInstance(ctx context.Context, settings models.Settings) (instancemgmt.Instance, error) {
-	gh, err := github.NewDatasource(ctx, settings)
+func NewGitHubInstance(ctx context.Context, settings models.Settings, opts httpclient.Options) (instancemgmt.Instance, error) {
+	gh, err := github.NewDatasource(ctx, settings, opts)
 	if err != nil {
 		return nil, err
 	}
@@ -28,15 +29,20 @@ func NewGitHubInstance(ctx context.Context, settings models.Settings) (instancem
 }
 
 // NewDataSourceInstance creates a new instance
-func NewDataSourceInstance(_ context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
-	datasourceSettings, err := models.LoadSettings(settings)
+func NewDataSourceInstance(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+	opts, err := settings.HTTPClientOptions(ctx)
 	if err != nil {
 		return nil, err
 	}
 
+	datasourceSettings, err := models.LoadSettings(settings)
+	if err != nil {
+		return nil, err
+	}
+	
 	datasourceSettings.CachingEnabled = true
 
-	instance, err := NewGitHubInstance(context.Background(), datasourceSettings)
+	instance, err := NewGitHubInstance(context.Background(), datasourceSettings, opts)
 	if err != nil {
 		return instance, fmt.Errorf("instantiating github instance: %w", err)
 	}
