@@ -63,37 +63,77 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
 	}
 
+	backend.Logger.Debug("GetWorkflows", "fetched_workflows", len(data.Workflows), "timeField", opts.TimeField, "timeRange", fmt.Sprintf("%v to %v", timeRange.From, timeRange.To))
+
+	// If time field is None, return all workflows without filtering
+	if opts.TimeField == models.WorkflowTimeFieldNone {
+		backend.Logger.Debug("GetWorkflows", "time_field_none", "returning_all_workflows")
+		return WorkflowsWrapper(data.Workflows), nil
+	}
+
+	// Otherwise, apply time filtering based on the selected time field
 	workflows, err := keepWorkflowsInTimeRange(data.Workflows, opts.TimeField, timeRange)
 	if err != nil {
 		return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v %w", opts.TimeField, timeRange, err)
 	}
 
+	backend.Logger.Debug("GetWorkflows", "filtered_workflows", len(workflows))
 	return WorkflowsWrapper(workflows), nil
 }
 
 func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField models.WorkflowTimeField, timeRange backend.TimeRange) ([]*googlegithub.Workflow, error) {
+	// If time range is empty/unset, return all workflows (similar to Tags, Releases, etc.)
+	if timeRange.From.Unix() <= 0 && timeRange.To.Unix() <= 0 {
+		backend.Logger.Debug("keepWorkflowsInTimeRange", "time_range_empty", "returning_all_workflows", len(workflows))
+		return workflows, nil
+	}
+
 	out := make([]*googlegithub.Workflow, 0)
+	nilCount := 0
+	excludedCount := 0
 
 	for _, workflow := range workflows {
+		var shouldInclude bool
+
 		switch timeField {
 		case models.WorkflowCreatedAt:
-			if workflow.CreatedAt.Before(timeRange.From) || workflow.CreatedAt.After(timeRange.To) {
+			if workflow.CreatedAt == nil {
+				// If filtering by CreatedAt but CreatedAt is nil, exclude the workflow
+				nilCount++
 				continue
+			}
+			// Include if CreatedAt is within the time range (inclusive)
+			createdAtTime := workflow.CreatedAt.Time
+			shouldInclude = !createdAtTime.Before(timeRange.From) && !createdAtTime.After(timeRange.To)
+			if !shouldInclude {
+				excludedCount++
+				backend.Logger.Debug("keepWorkflowsInTimeRange", "workflow_excluded", *workflow.Name, "createdAt", createdAtTime, "timeRange", fmt.Sprintf("%v to %v", timeRange.From, timeRange.To))
 			}
 
 		case models.WorkflowUpdatedAt:
-			if workflow.UpdatedAt != nil {
-				if workflow.UpdatedAt.Before(timeRange.From) || workflow.UpdatedAt.After(timeRange.To) {
-					continue
-				}
+			if workflow.UpdatedAt == nil {
+				// If filtering by UpdatedAt but UpdatedAt is nil, exclude the workflow
+				nilCount++
+				continue
+			}
+			// Include if UpdatedAt is within the time range (inclusive)
+			updatedAtTime := workflow.UpdatedAt.Time
+			shouldInclude = !updatedAtTime.Before(timeRange.From) && !updatedAtTime.After(timeRange.To)
+			if !shouldInclude {
+				excludedCount++
+				backend.Logger.Debug("keepWorkflowsInTimeRange", "workflow_excluded", *workflow.Name, "updatedAt", updatedAtTime, "timeRange", fmt.Sprintf("%v to %v", timeRange.From, timeRange.To))
 			}
 
 		default:
 			return nil, backend.DownstreamError(fmt.Errorf("unexpected time field: %d", timeField))
 		}
 
-		out = append(out, workflow)
+		if shouldInclude {
+			out = append(out, workflow)
+		}
 	}
+
+	backend.Logger.Debug("keepWorkflowsInTimeRange", "total_workflows", len(workflows), "included", len(out), "excluded_nil", nilCount, "excluded_out_of_range", excludedCount)
 
 	return out, nil
 }
