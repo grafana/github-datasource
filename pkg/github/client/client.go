@@ -13,6 +13,7 @@ import (
 	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/proxy"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -74,6 +75,7 @@ func createAppClient(settings models.Settings, opts httpclient.Options) (*Client
 		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
 
+	httpClient.Transport = itr
 	if settings.GitHubURL == "" {
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
@@ -83,7 +85,6 @@ func createAppClient(settings models.Settings, opts httpclient.Options) (*Client
 
 	itr.BaseURL = fmt.Sprintf("%s/api/v3", settings.GitHubURL)
 
-	httpClient.Transport = itr
 	return useGitHubEnterprise(httpClient, settings)
 }
 
@@ -92,13 +93,21 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings, opts
 		&oauth2.Token{AccessToken: settings.AccessToken},
 	)
 
-	transport, err := httpclient.GetTransport(opts)
-	if err != nil {
+	httpClient := oauth2.NewClient(ctx, src)
+
+	cli := proxy.New(opts.ProxyOptions)
+	if cli.SecureSocksProxyEnabled() {
+		// only override the Transport if Secure Proxy is enabled.
+		transport, err := httpclient.GetTransport(opts)
+		if err != nil {
 		return nil, backend.DownstreamErrorf("error getting the transport: %w", err)
 	}
-	httpClient := oauth2.NewClient(ctx, src)
-	httpClient.Transport = transport
 
+		httpClient.Transport = &oauth2.Transport{
+			Base: transport,
+			Source: oauth2.ReuseTokenSource(nil, src),
+		}
+	}
 	if settings.GitHubURL == "" {
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
