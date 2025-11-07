@@ -1,10 +1,21 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
-import { Collapse, Field, Input, Label, RadioButtonGroup, SecretInput, SecretTextArea, SecureSocksProxySettings, useStyles2 } from '@grafana/ui';
+import {
+  Collapse,
+  Field,
+  Input,
+  Label,
+  RadioButtonGroup,
+  SecretInput,
+  SecretTextArea,
+  SecureSocksProxySettings,
+  useStyles2,
+} from '@grafana/ui';
 import { ConfigSection, DataSourceDescription } from '@grafana/plugin-ui';
 import { Divider } from 'components/Divider';
 import { components as selectors } from '../components/selectors';
 import {
+  FeatureToggles,
   onUpdateDatasourceJsonDataOption,
   onUpdateDatasourceSecureJsonDataOption,
   type DataSourcePluginOptionsEditorProps,
@@ -18,6 +29,7 @@ import { gte } from 'semver';
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSourceOptions, GitHubSecureJsonData>;
 
 const ConfigEditor = (props: ConfigEditorProps) => {
+  console.log('here');
   const { options, onOptionsChange } = props;
   const { jsonData, secureJsonData, secureJsonFields } = options;
   const secureSettings = secureJsonData || {};
@@ -198,11 +210,9 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           </>
         )}
       </ConfigSection>
-      {
-        config.secureSocksDSProxyEnabled && gte(config.buildInfo.version, '10.0.0') && (
-          <SecureSocksProxySettings options={options} onOptionsChange={onOptionsChange}/>
-        )
-      }
+      {config.featureToggles['secureSocksDSProxyEnabled' as keyof FeatureToggles] && gte(config.buildInfo.version, '10.0.0') && (
+        <SecureSocksProxySettings options={options} onOptionsChange={onOptionsChange} />
+      )}
       <Divider />
 
       <ConfigSection title="Connection" isCollapsible>
