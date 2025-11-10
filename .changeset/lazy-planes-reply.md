@@ -2,4 +2,4 @@
 'grafana-github-datasource': minor
 ---
 
-Enable PDC for github datasource
+Add support PDC for github datasource
