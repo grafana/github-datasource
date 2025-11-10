@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css } from '@emotion/css';
 import {
+  FeatureToggles,
   onUpdateDatasourceJsonDataOption,
   onUpdateDatasourceSecureJsonDataOption,
   type DataSourcePluginOptionsEditorProps,
@@ -207,7 +208,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           </>
         )}
       </ConfigSection>
-      {config.secureSocksDSProxyEnabled && (
+      {config.featureToggles['secureSocksDSProxyEnabled' as keyof FeatureToggles] && (
         <SecureSocksProxySettings options={options} onOptionsChange={onOptionsChange} />
       )}
       <Divider />
