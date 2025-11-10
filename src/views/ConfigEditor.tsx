@@ -29,7 +29,6 @@ import { gte } from 'semver';
 export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSourceOptions, GitHubSecureJsonData>;
 
 const ConfigEditor = (props: ConfigEditorProps) => {
-  console.log('here');
   const { options, onOptionsChange } = props;
   const { jsonData, secureJsonData, secureJsonFields } = options;
   const secureSettings = secureJsonData || {};
