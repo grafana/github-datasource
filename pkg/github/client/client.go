@@ -54,7 +54,12 @@ var runnerPerMinuteRate = map[string]float64{
 }
 
 // New instantiates a new GitHub API client.
-func New(ctx context.Context, settings models.Settings, opts httpclient.Options) (*Client, error) {
+func New(ctx context.Context, settings models.Settings) (*Client, error) {
+	plugin := backend.PluginConfigFromContext(ctx)
+	opts, err := plugin.DataSourceInstanceSettings.HTTPClientOptions(ctx)
+	if err != nil {
+		return nil, err
+	}
 	if settings.SelectedAuthType == models.AuthTypeGithubApp {
 		return createAppClient(settings, opts)
 	}
