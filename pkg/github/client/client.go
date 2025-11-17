@@ -13,6 +13,7 @@ import (
 	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/proxy"
 	"github.com/influxdata/tdigest"
 	"github.com/shurcooL/githubv4"
 	"golang.org/x/oauth2"
@@ -54,27 +55,33 @@ var runnerPerMinuteRate = map[string]float64{
 
 // New instantiates a new GitHub API client.
 func New(ctx context.Context, settings models.Settings) (*Client, error) {
+	plugin := backend.PluginConfigFromContext(ctx)
+	opts, err := plugin.DataSourceInstanceSettings.HTTPClientOptions(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	if settings.SelectedAuthType == models.AuthTypeGithubApp {
-		return createAppClient(settings)
+		return createAppClient(settings, opts)
 	}
 	if settings.SelectedAuthType == models.AuthTypePAT {
-		return createAccessTokenClient(ctx, settings)
+		return createAccessTokenClient(ctx, settings, opts)
 	}
 	return nil, backend.DownstreamError(errors.New("access token or app token are required"))
 }
 
-func createAppClient(settings models.Settings) (*Client, error) {
-	transport, err := httpclient.GetDefaultTransport()
+func createAppClient(settings models.Settings, opts httpclient.Options) (*Client, error) {
+	httpClient, err := httpclient.New(opts)
 	if err != nil {
-		return nil, backend.DownstreamError(errors.New("error: http.DefaultTransport is not of type *http.Transport"))
+		return nil, backend.DownstreamErrorf("error creating http client: %w", err)
 	}
-	itr, err := ghinstallation.New(transport, settings.AppIdInt64, settings.InstallationIdInt64, []byte(settings.PrivateKey))
+
+	itr, err := ghinstallation.New(httpClient.Transport, settings.AppIdInt64, settings.InstallationIdInt64, []byte(settings.PrivateKey))
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("error creating token source"))
 	}
 
-	httpClient := &http.Client{Transport: itr}
-
+	httpClient.Transport = itr
 	if settings.GitHubURL == "" {
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
@@ -87,13 +94,26 @@ func createAppClient(settings models.Settings) (*Client, error) {
 	return useGitHubEnterprise(httpClient, settings)
 }
 
-func createAccessTokenClient(ctx context.Context, settings models.Settings) (*Client, error) {
+func createAccessTokenClient(ctx context.Context, settings models.Settings, opts httpclient.Options) (*Client, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: settings.AccessToken},
 	)
 
 	httpClient := oauth2.NewClient(ctx, src)
 
+	cli := proxy.New(opts.ProxyOptions)
+	if cli.SecureSocksProxyEnabled() {
+		// only override the Transport if Secure Proxy is enabled.
+		transport, err := httpclient.GetTransport(opts)
+		if err != nil {
+		return nil, backend.DownstreamErrorf("error getting the transport: %w", err)
+	}
+
+		httpClient.Transport = &oauth2.Transport{
+			Base: transport,
+			Source: oauth2.ReuseTokenSource(nil, src),
+		}
+	}
 	if settings.GitHubURL == "" {
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
