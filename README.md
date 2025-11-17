@@ -22,6 +22,10 @@ Watch this video to learn more about setting up the Grafana GitHub data source p
 
 This data source uses the [`githubv4` package](https://github.com/shurcooL/githubv4), which is under active development.
 
+## Private data source connect - Only for Grafana Cloud users.
+
+Establishes a private, secured connection between a Grafana Cloud stack and data sources within a private network. Use the drop-down to locate the PDC URL. For setup instructions, refer to [Private data source connect (PDC)](https://grafana.com/docs/grafana-cloud/connect-externally-hosted/private-data-source-connect/) and [Configure PDC](https://grafana.com/docs/grafana-cloud/connect-externally-hosted/private-data-source-connect/configure-pdc/#configure-grafana-private-data-source-connect-pdc). Click Manage private data source connect to open your PDC connection page and view your configuration details.
+
 ## Frequently Asked Questions
 
 - **Why does it sometimes take up to 5 minutes for my new pull request / new issue / new commit to show up?**
