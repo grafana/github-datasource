@@ -360,7 +360,7 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 }
 
 // GetCopilotMetrics sends a request to the GitHub REST API to get Copilot metrics for an organization or team
-func (client *Client) GetCopilotMetrics(ctx context.Context, organization string, opts models.ListCopilotMetricsOptions) ([]models.CopilotMetrics, *googlegithub.Response, error) {
+func (client *Client) GetCopilotMetrics(ctx context.Context, organization string, opts models.ListCopilotMetricsOptions) ([]*googlegithub.CopilotMetrics, *googlegithub.Response, error) {
 	var u string
 	if opts.TeamSlug != "" {
 		u = fmt.Sprintf("orgs/%s/team/%s/copilot/metrics", organization, opts.TeamSlug)
@@ -392,7 +392,7 @@ func (client *Client) GetCopilotMetrics(ctx context.Context, organization string
 		return nil, nil, err
 	}
 
-	var metrics []models.CopilotMetrics
+	var metrics []*googlegithub.CopilotMetrics
 	resp, err := client.restClient.Do(ctx, req, &metrics)
 	if err != nil {
 		return nil, resp, addErrorSourceToError(err, resp)

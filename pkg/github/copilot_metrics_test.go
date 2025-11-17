@@ -3,7 +3,7 @@ package github
 import (
 	"testing"
 
-	"github.com/grafana/github-datasource/pkg/models"
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -19,30 +19,41 @@ func TestCopilotMetricsResponse_Frames(t *testing.T) {
 
 	// Test response with data
 	t.Run("response with data", func(t *testing.T) {
+		totalActiveUsers := 100
+		totalEngagedUsers := 75
+		ideCompletionUsers := 50
+		ideChatUsers := 30
+		dotcomChatUsers := 25
+		dotcomPRUsers := 15
+		goLangUsers := 25
+		tsLangUsers := 20
+		vscodeUsers := 45
+		neovimUsers := 5
+
 		response := CopilotMetricsResponse{
-			{
+			&googlegithub.CopilotMetrics{
 				Date:              "2025-01-01",
-				TotalActiveUsers:  100,
-				TotalEngagedUsers: 75,
-				CopilotIDECodeCompletions: models.CopilotIDECodeCompletions{
-					TotalEngagedUsers: 50,
-					Languages: []models.CopilotLanguageMetrics{
-						{Name: "go", TotalEngagedUsers: 25},
-						{Name: "typescript", TotalEngagedUsers: 20},
+				TotalActiveUsers:  &totalActiveUsers,
+				TotalEngagedUsers: &totalEngagedUsers,
+				CopilotIDECodeCompletions: &googlegithub.CopilotIDECodeCompletions{
+					TotalEngagedUsers: ideCompletionUsers,
+					Languages: []*googlegithub.CopilotIDECodeCompletionsLanguage{
+						{Name: "go", TotalEngagedUsers: goLangUsers},
+						{Name: "typescript", TotalEngagedUsers: tsLangUsers},
 					},
-					Editors: []models.CopilotEditorMetrics{
-						{Name: "vscode", TotalEngagedUsers: 45},
-						{Name: "neovim", TotalEngagedUsers: 5},
+					Editors: []*googlegithub.CopilotIDECodeCompletionsEditor{
+						{Name: "vscode", TotalEngagedUsers: vscodeUsers},
+						{Name: "neovim", TotalEngagedUsers: neovimUsers},
 					},
 				},
-				CopilotIDEChat: models.CopilotIDEChat{
-					TotalEngagedUsers: 30,
+				CopilotIDEChat: &googlegithub.CopilotIDEChat{
+					TotalEngagedUsers: ideChatUsers,
 				},
-				CopilotDotcomChat: models.CopilotDotcomChat{
-					TotalEngagedUsers: 25,
+				CopilotDotcomChat: &googlegithub.CopilotDotcomChat{
+					TotalEngagedUsers: dotcomChatUsers,
 				},
-				CopilotDotcomPullRequests: models.CopilotDotcomPullRequests{
-					TotalEngagedUsers: 15,
+				CopilotDotcomPullRequests: &googlegithub.CopilotDotcomPullRequests{
+					TotalEngagedUsers: dotcomPRUsers,
 				},
 			},
 		}

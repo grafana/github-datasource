@@ -52,7 +52,7 @@ func (m *mockClient) ListAlertsForOrg(ctx context.Context, owner string, opts *g
 	return m.mockAlerts, m.mockResponse, nil
 }
 
-func (m *mockClient) GetCopilotMetrics(ctx context.Context, organization string, opts models.ListCopilotMetricsOptions) ([]models.CopilotMetrics, *googlegithub.Response, error) {
+func (m *mockClient) GetCopilotMetrics(ctx context.Context, organization string, opts models.ListCopilotMetricsOptions) ([]*googlegithub.CopilotMetrics, *googlegithub.Response, error) {
 	return nil, nil, nil
 }
 

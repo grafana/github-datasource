@@ -6,13 +6,14 @@ import (
 	"fmt"
 	"time"
 
+	googlegithub "github.com/google/go-github/v72/github"
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
 // CopilotMetricsResponse represents the response from GitHub's Copilot metrics API
-type CopilotMetricsResponse []models.CopilotMetrics
+type CopilotMetricsResponse []*googlegithub.CopilotMetrics
 
 // GetCopilotMetrics retrieves Copilot metrics for an organization or team
 func GetCopilotMetrics(ctx context.Context, client models.Client, opts models.ListCopilotMetricsOptions) (dfutil.Framer, error) {
@@ -59,12 +60,26 @@ func (c CopilotMetricsResponse) Frames() data.Frames {
 		}
 
 		dates[i] = date
-		totalActiveUsers[i] = int64(metric.TotalActiveUsers)
-		totalEngagedUsers[i] = int64(metric.TotalEngagedUsers)
-		ideCompletionUsers[i] = int64(metric.CopilotIDECodeCompletions.TotalEngagedUsers)
-		ideChatUsers[i] = int64(metric.CopilotIDEChat.TotalEngagedUsers)
-		dotcomChatUsers[i] = int64(metric.CopilotDotcomChat.TotalEngagedUsers)
-		dotcomPRUsers[i] = int64(metric.CopilotDotcomPullRequests.TotalEngagedUsers)
+
+		// Handle nullable fields from go-github
+		if metric.TotalActiveUsers != nil {
+			totalActiveUsers[i] = int64(*metric.TotalActiveUsers)
+		}
+		if metric.TotalEngagedUsers != nil {
+			totalEngagedUsers[i] = int64(*metric.TotalEngagedUsers)
+		}
+		if metric.CopilotIDECodeCompletions != nil {
+			ideCompletionUsers[i] = int64(metric.CopilotIDECodeCompletions.TotalEngagedUsers)
+		}
+		if metric.CopilotIDEChat != nil {
+			ideChatUsers[i] = int64(metric.CopilotIDEChat.TotalEngagedUsers)
+		}
+		if metric.CopilotDotcomChat != nil {
+			dotcomChatUsers[i] = int64(metric.CopilotDotcomChat.TotalEngagedUsers)
+		}
+		if metric.CopilotDotcomPullRequests != nil {
+			dotcomPRUsers[i] = int64(metric.CopilotDotcomPullRequests.TotalEngagedUsers)
+		}
 	}
 
 	// Add fields to the frame
@@ -77,12 +92,14 @@ func (c CopilotMetricsResponse) Frames() data.Frames {
 	frame.Fields = append(frame.Fields, data.NewField("dotcom_pr_users", nil, dotcomPRUsers))
 
 	// Add language breakdown data if available
-	if len(c) > 0 && len(c[0].CopilotIDECodeCompletions.Languages) > 0 {
+	if len(c) > 0 && c[0].CopilotIDECodeCompletions != nil && len(c[0].CopilotIDECodeCompletions.Languages) > 0 {
 		langData := make(map[string][]int64)
 		for _, metric := range c {
-			for _, lang := range metric.CopilotIDECodeCompletions.Languages {
-				if langData[lang.Name] == nil {
-					langData[lang.Name] = make([]int64, len(c))
+			if metric.CopilotIDECodeCompletions != nil {
+				for _, lang := range metric.CopilotIDECodeCompletions.Languages {
+					if langData[lang.Name] == nil {
+						langData[lang.Name] = make([]int64, len(c))
+					}
 				}
 			}
 		}
@@ -90,11 +107,13 @@ func (c CopilotMetricsResponse) Frames() data.Frames {
 		for i, metric := range c {
 			for langName := range langData {
 				found := false
-				for _, lang := range metric.CopilotIDECodeCompletions.Languages {
-					if lang.Name == langName {
-						langData[langName][i] = int64(lang.TotalEngagedUsers)
-						found = true
-						break
+				if metric.CopilotIDECodeCompletions != nil {
+					for _, lang := range metric.CopilotIDECodeCompletions.Languages {
+						if lang.Name == langName {
+							langData[langName][i] = int64(lang.TotalEngagedUsers)
+							found = true
+							break
+						}
 					}
 				}
 				if !found {
@@ -110,12 +129,14 @@ func (c CopilotMetricsResponse) Frames() data.Frames {
 	}
 
 	// Add editor breakdown data if available
-	if len(c) > 0 && len(c[0].CopilotIDECodeCompletions.Editors) > 0 {
+	if len(c) > 0 && c[0].CopilotIDECodeCompletions != nil && len(c[0].CopilotIDECodeCompletions.Editors) > 0 {
 		editorData := make(map[string][]int64)
 		for _, metric := range c {
-			for _, editor := range metric.CopilotIDECodeCompletions.Editors {
-				if editorData[editor.Name] == nil {
-					editorData[editor.Name] = make([]int64, len(c))
+			if metric.CopilotIDECodeCompletions != nil {
+				for _, editor := range metric.CopilotIDECodeCompletions.Editors {
+					if editorData[editor.Name] == nil {
+						editorData[editor.Name] = make([]int64, len(c))
+					}
 				}
 			}
 		}
@@ -123,11 +144,13 @@ func (c CopilotMetricsResponse) Frames() data.Frames {
 		for i, metric := range c {
 			for editorName := range editorData {
 				found := false
-				for _, editor := range metric.CopilotIDECodeCompletions.Editors {
-					if editor.Name == editorName {
-						editorData[editorName][i] = int64(editor.TotalEngagedUsers)
-						found = true
-						break
+				if metric.CopilotIDECodeCompletions != nil {
+					for _, editor := range metric.CopilotIDECodeCompletions.Editors {
+						if editor.Name == editorName {
+							editorData[editorName][i] = int64(editor.TotalEngagedUsers)
+							found = true
+							break
+						}
 					}
 				}
 				if !found {
