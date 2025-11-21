@@ -24,4 +24,4 @@ jobs:
         uses: actions/add-to-project@main
         with:
           project-url: https://github.com/orgs/grafana/projects/457
-          github-token: ${{ steps.get-github-token.outputs.github_token }}
+          github-token: ${{ steps.generate-token.outputs.github_token }}
