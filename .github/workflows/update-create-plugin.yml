@@ -19,4 +19,4 @@ jobs:
           github_app: grafana-oss-big-tent
       - uses: grafana/plugin-actions/create-plugin-update@create-plugin-update/v2.0.1
         with:
-          token: ${{ steps.generate-token.outputs.github_token }}
+          token: ${{ steps.get-github-token.outputs.token }}
