@@ -107,7 +107,6 @@ func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField mode
 			shouldInclude = !createdAtTime.Before(timeRange.From) && !createdAtTime.After(timeRange.To)
 			if !shouldInclude {
 				excludedCount++
-				backend.Logger.Debug("keepWorkflowsInTimeRange", "workflow_excluded", *workflow.Name, "createdAt", createdAtTime, "timeRange", fmt.Sprintf("%v to %v", timeRange.From, timeRange.To))
 			}
 
 		case models.WorkflowUpdatedAt:
@@ -121,7 +120,6 @@ func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField mode
 			shouldInclude = !updatedAtTime.Before(timeRange.From) && !updatedAtTime.After(timeRange.To)
 			if !shouldInclude {
 				excludedCount++
-				backend.Logger.Debug("keepWorkflowsInTimeRange", "workflow_excluded", *workflow.Name, "updatedAt", updatedAtTime, "timeRange", fmt.Sprintf("%v to %v", timeRange.From, timeRange.To))
 			}
 
 		default:
