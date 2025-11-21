@@ -1,9 +1,6 @@
 name: Add issues to OSS Big Tent team project
 on:
-  issues:
-    types:
-      - opened
-  pull_request
+  push
 
 permissions:
   contents: read
