@@ -13,4 +13,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: grafana/plugin-actions/create-plugin-update@main
+      - id: get-github-token
+        uses: grafana/shared-workflows/actions/create-github-app-token@create-github-app-token/v0.2.2
+        with:
+          github_app: grafana-oss-big-tent
+      - uses: grafana/plugin-actions/create-plugin-update@create-plugin-update/v2.0.1
+        with:
+          token: ${{ steps.generate-token.outputs.github_token }}
