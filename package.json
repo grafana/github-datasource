@@ -27,8 +27,8 @@
     "@grafana/runtime": "^12.2.0",
     "@grafana/schema": "^12.2.0",
     "@grafana/ui": "^12.2.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "tslib": "2.5.3"
   },
   "devDependencies": {
@@ -52,7 +52,7 @@
     "@types/jest": "^29.5.0",
     "@types/lodash": "^4.14.194",
     "@types/node": "^20.8.7",
-    "@types/react": "^18.2.0",
+    "@types/react": "18.3.24",
     "@types/react-router-dom": "^5.2.0",
     "@types/testing-library__jest-dom": "5.14.8",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
