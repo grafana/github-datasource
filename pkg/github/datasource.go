@@ -34,6 +34,39 @@ func (d *Datasource) HandleRepositoriesQuery(ctx context.Context, query *models.
 	return GetAllRepositories(ctx, d.client, opt)
 }
 
+// HandleCodeownersQuery is the query handler for getting the CODEOWNERS file from a GitHub repository
+func (d *Datasource) HandleCodeownersQuery(ctx context.Context, query *models.CodeownersQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListCodeownersOptions{
+		Owner:      query.Owner,
+		Repository: query.Repository,
+		FilePath:   query.Options.FilePath,
+	}
+
+	return GetCodeowners(ctx, d.client, opt)
+}
+
+// HandleTeamsQuery is the query handler for getting teams from a GitHub organization
+func (d *Datasource) HandleTeamsQuery(ctx context.Context, query *models.TeamsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListTeamsOptions{
+		Organization: query.Owner, // Using Owner field as Organization for teams
+		Query:        query.Options.Query,
+	}
+
+	return GetTeams(ctx, d.client, opt)
+}
+
+// HandleFileContributorsQuery is the query handler for listing contributors to a specific file
+func (d *Datasource) HandleFileContributorsQuery(ctx context.Context, query *models.FileContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListFileContributorsOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		FilePath:   query.Options.FilePath,
+		Limit:      query.Options.Limit,
+	}
+
+	return GetFileContributors(ctx, d.client, opt)
+}
+
 // HandleIssuesQuery is the query handler for listing GitHub Issues
 func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.IssueOptionsWithRepo(query.Options, query.Owner, query.Repository)
