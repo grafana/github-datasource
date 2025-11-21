@@ -67,7 +67,6 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 
 	// If time field is None, return all workflows without filtering
 	if opts.TimeField == models.WorkflowTimeFieldNone {
-		backend.Logger.Debug("GetWorkflows", "time_field_none", "returning_all_workflows")
 		return WorkflowsWrapper(data.Workflows), nil
 	}
 
