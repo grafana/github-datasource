@@ -63,8 +63,6 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
 	}
 
-	backend.Logger.Debug("GetWorkflows", "fetched_workflows", len(data.Workflows), "timeField", opts.TimeField, "timeRange", fmt.Sprintf("%v to %v", timeRange.From, timeRange.To))
-
 	// If time field is None, return all workflows without filtering
 	if opts.TimeField == models.WorkflowTimeFieldNone {
 		return WorkflowsWrapper(data.Workflows), nil
@@ -76,14 +74,12 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 		return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v %w", opts.TimeField, timeRange, err)
 	}
 
-	backend.Logger.Debug("GetWorkflows", "filtered_workflows", len(workflows))
 	return WorkflowsWrapper(workflows), nil
 }
 
 func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField models.WorkflowTimeField, timeRange backend.TimeRange) ([]*googlegithub.Workflow, error) {
 	// If time range is empty/unset, return all workflows (similar to Tags, Releases, etc.)
 	if timeRange.From.Unix() <= 0 && timeRange.To.Unix() <= 0 {
-		backend.Logger.Debug("keepWorkflowsInTimeRange", "time_range_empty", "returning_all_workflows", len(workflows))
 		return workflows, nil
 	}
 
@@ -129,8 +125,6 @@ func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField mode
 			out = append(out, workflow)
 		}
 	}
-
-	backend.Logger.Debug("keepWorkflowsInTimeRange", "total_workflows", len(workflows), "included", len(out), "excluded_nil", nilCount, "excluded_out_of_range", excludedCount)
 
 	return out, nil
 }
