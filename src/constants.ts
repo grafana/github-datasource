@@ -49,6 +49,7 @@ export enum IssueTimeField {
 }
 
 export enum WorkflowsTimeField {
+  None,
   CreatedAt,
   UpdatedAt,
 }
