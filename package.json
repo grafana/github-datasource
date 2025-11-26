@@ -93,7 +93,9 @@
     "webpack-virtual-modules": "^0.6.2"
   },
   "resolutions": {
-    "js-yaml": "3.14.2"
+    "js-yaml": "3.14.2",
+    "tmp": "0.2.4",
+    "brace-expansion": "2.0.2"
   },
   "packageManager": "yarn@4.9.3"
 }
