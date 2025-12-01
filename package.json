@@ -94,7 +94,7 @@
   },
   "resolutions": {
     "js-yaml": "4.1.1",
-    "tmp": "0.2.4",
+    "tmp": "0.2.5",
     "brace-expansion": "2.0.2"
   },
   "packageManager": "yarn@4.9.3"
