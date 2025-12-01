@@ -93,7 +93,7 @@
     "webpack-virtual-modules": "^0.6.2"
   },
   "resolutions": {
-    "js-yaml": "3.14.2",
+    "js-yaml": "4.1.1",
     "tmp": "0.2.4",
     "brace-expansion": "2.0.2"
   },
