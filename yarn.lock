@@ -1465,15 +1465,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-meta-extractor@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "@grafana/plugin-meta-extractor@npm:0.0.2"
+"@grafana/plugin-meta-extractor@npm:^0.11.0":
+  version: 0.11.0
+  resolution: "@grafana/plugin-meta-extractor@npm:0.11.0"
   dependencies:
     debug: "npm:^4.3.4"
     typescript: "npm:^5.4.5"
   bin:
     plugin-meta-extractor: dist/bin/run.js
-  checksum: 10c0/8503e1ebad170df937d559a0b7048b58b49940f989b4199c67650d919003e0bc853c55aee0d52cc62251b8f387d3ab2ad588542730c63c20786330fbee3408f0
+  checksum: 10c0/76546d4b403de3f1dd9890804a534cb720516a4c462ae0bd1e76b36b0a4302b3dcaf133c40efc068294bcdfb87bf2313ee7e9b334696227aee36e534db4f8331
   languageName: node
   linkType: hard
 
@@ -7286,7 +7286,7 @@ __metadata:
     "@grafana/eslint-config": "npm:^8.2.0"
     "@grafana/i18n": "npm:^12.2.0"
     "@grafana/plugin-e2e": "npm:^2.1.13"
-    "@grafana/plugin-meta-extractor": "npm:^0.0.2"
+    "@grafana/plugin-meta-extractor": "npm:^0.11.0"
     "@grafana/plugin-ui": "npm:^0.10.9"
     "@grafana/runtime": "npm:^12.2.0"
     "@grafana/schema": "npm:^12.2.0"
