@@ -34,7 +34,7 @@
   "devDependencies": {
     "@babel/core": "7.28.5",
     "@changesets/cli": "^2.27.12",
-    "@grafana/e2e-selectors": "12.1.0",
+    "@grafana/e2e-selectors": "12.3.0",
     "@grafana/eslint-config": "^8.2.0",
     "@grafana/plugin-e2e": "^2.1.13",
     "@grafana/plugin-meta-extractor": "^0.0.2",

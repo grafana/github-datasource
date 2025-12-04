@@ -1384,18 +1384,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/e2e-selectors@npm:12.1.0":
-  version: 12.1.0
-  resolution: "@grafana/e2e-selectors@npm:12.1.0"
-  dependencies:
-    "@grafana/tsconfig": "npm:^2.0.0"
-    semver: "npm:^7.7.0"
-    tslib: "npm:2.8.1"
-    typescript: "npm:5.8.3"
-  checksum: 10c0/596dd5944027926def168516b502c330c0973dd6377cbea4ede7dadc14ebb9eab783c2c7d9777041c89f0944477d0b1287d662be495003a249a2879e9f2d478b
-  languageName: node
-  linkType: hard
-
 "@grafana/e2e-selectors@npm:12.3.0, @grafana/e2e-selectors@npm:^12.2.0-255920":
   version: 12.3.0
   resolution: "@grafana/e2e-selectors@npm:12.3.0"
@@ -7294,7 +7282,7 @@ __metadata:
     "@changesets/cli": "npm:^2.27.12"
     "@emotion/css": "npm:11.10.6"
     "@grafana/data": "npm:^12.2.0"
-    "@grafana/e2e-selectors": "npm:12.1.0"
+    "@grafana/e2e-selectors": "npm:12.3.0"
     "@grafana/eslint-config": "npm:^8.2.0"
     "@grafana/i18n": "npm:^12.2.0"
     "@grafana/plugin-e2e": "npm:^2.1.13"
@@ -12819,16 +12807,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.8.3":
-  version: 5.8.3
-  resolution: "typescript@npm:5.8.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/5f8bb01196e542e64d44db3d16ee0e4063ce4f3e3966df6005f2588e86d91c03e1fb131c2581baf0fb65ee79669eea6e161cd448178986587e9f6844446dbb48
-  languageName: node
-  linkType: hard
-
 "typescript@npm:5.9.2":
   version: 5.9.2
   resolution: "typescript@npm:5.9.2"
@@ -12856,16 +12834,6 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/73409d7b9196a5a1217b3aaad929bf76294d3ce7d6e9766dd880ece296ee91cf7d7db6b16c6c6c630ee5096eccde726c0ef17c7dfa52b01a243e57ae1f09ef07
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>":
-  version: 5.8.3
-  resolution: "typescript@patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/39117e346ff8ebd87ae1510b3a77d5d92dae5a89bde588c747d25da5c146603a99c8ee588c7ef80faaf123d89ed46f6dbd918d534d641083177d5fac38b8a1cb
   languageName: node
   linkType: hard
 
