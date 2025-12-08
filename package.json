@@ -37,7 +37,7 @@
     "@grafana/e2e-selectors": "12.3.0",
     "@grafana/eslint-config": "^8.2.0",
     "@grafana/plugin-e2e": "3.0.3",
-    "@grafana/plugin-meta-extractor": "^0.0.2",
+    "@grafana/plugin-meta-extractor": "^0.11.0",
     "@grafana/tsconfig": "^2.0.0",
     "@playwright/test": "^1.52.0",
     "@stylistic/eslint-plugin-ts": "^2.9.0",
