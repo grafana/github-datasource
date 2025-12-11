@@ -30,4 +30,5 @@ type Datasource interface {
 	HandleWorkflowRunsQuery(context.Context, *models.WorkflowRunsQuery, backend.DataQuery) (dfutil.Framer, error)
 	CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error)
 	QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error)
+	Schema(ctx context.Context, req *backend.SchemaRequest) (*backend.SchemaResponse, error)
 }

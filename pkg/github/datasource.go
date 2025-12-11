@@ -17,6 +17,7 @@ import (
 var (
 	_ backend.QueryDataHandler   = (*Datasource)(nil)
 	_ backend.CheckHealthHandler = (*Datasource)(nil)
+	_ backend.SchemaHandler      = (*Datasource)(nil)
 )
 
 // Datasource handles requests to GitHub
@@ -241,6 +242,96 @@ func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataReques
 	})
 
 	return m.QueryData(ctx, req)
+}
+
+func (d *Datasource) Schema(ctx context.Context, req *backend.SchemaRequest) (*backend.SchemaResponse, error) {
+	orgRepos, err := GetAllOrgRepositories(ctx, d.client)
+	if err != nil {
+		backend.Logger.Warn("failed to get org-repo combinations", "error", err.Error())
+	}
+
+	switch req.Type {
+	case "tables":
+		return &backend.SchemaResponse{
+			Tables: []string{"issues"},
+		}, nil
+	case "columns":
+		schemaResponse := &backend.SchemaResponse{
+			Columns: make(map[string][]backend.Column),
+		}
+		for _, col := range req.Columns {
+			if col.Parameters["owner"] == "" {
+				return nil, fmt.Errorf("owner parameter is required for table %s", col.Table)
+			}
+			if col.Parameters["repository"] == "" {
+				return nil, fmt.Errorf("repository parameter is required for table %s", col.Table)
+			}
+			if col.Table == "" {
+				return nil, fmt.Errorf("table name is required")
+			}
+			switch col.Table {
+			case "issues":
+				schemaResponse.Columns[col.Table] = []backend.Column{
+					{Name: "title", Type: backend.ColumnTypeString},
+					{Name: "author", Type: backend.ColumnTypeString},
+					{Name: "author_company", Type: backend.ColumnTypeString},
+					{Name: "repo", Type: backend.ColumnTypeString},
+					{Name: "number", Type: backend.ColumnTypeNumber},
+					{Name: "closed", Type: backend.ColumnTypeDatetime},
+					{Name: "created_at", Type: backend.ColumnTypeDatetime},
+					{Name: "closed_at", Type: backend.ColumnTypeDatetime},
+					{Name: "updated_at", Type: backend.ColumnTypeDatetime},
+					{Name: "labels", Type: backend.ColumnTypeString},
+					{Name: "assignees", Type: backend.ColumnTypeString},
+				}
+			default:
+				return nil, fmt.Errorf("invalid table name: %s", col.Table)
+			}
+		}
+		return schemaResponse, nil
+	case "values":
+	default:
+		return &backend.SchemaResponse{
+			FullSchema: backend.Schema{
+				Tables: []backend.Table{
+					{
+						Name: "issues",
+						Columns: []backend.Column{
+							{Name: "title", Type: backend.ColumnTypeString},
+							{Name: "author", Type: backend.ColumnTypeString},
+							{Name: "author_company", Type: backend.ColumnTypeString},
+							{Name: "repo", Type: backend.ColumnTypeString},
+							{Name: "number", Type: backend.ColumnTypeNumber},
+							{Name: "closed", Type: backend.ColumnTypeDatetime},
+							{Name: "created_at", Type: backend.ColumnTypeDatetime},
+							{Name: "closed_at", Type: backend.ColumnTypeDatetime},
+							{Name: "updated_at", Type: backend.ColumnTypeDatetime},
+							{Name: "labels", Type: backend.ColumnTypeString},
+							{Name: "assignees", Type: backend.ColumnTypeString},
+						},
+						SubTables: []backend.SubTable{
+							{
+								Name:      "org",
+								DependsOn: []string{},
+							},
+							{
+								Name:      "repositories",
+								DependsOn: []string{"org"},
+							},
+						},
+					},
+				},
+				Functions: []string{},
+				SubTableValues: map[string]map[string][]string{
+					"org": map[string][]string{
+						"root": orgRepos.Orgs,
+					},
+					"repositories": orgRepos.OrgRepoCombinations,
+				},
+			}}, nil
+	}
+
+	return nil, nil
 }
 
 // NewDatasource creates a new datasource for handling queries

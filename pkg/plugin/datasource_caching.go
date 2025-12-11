@@ -272,6 +272,11 @@ func (c *CachedDatasource) QueryData(ctx context.Context, req *backend.QueryData
 	return c.datasource.QueryData(ctx, req)
 }
 
+// Schema forwards the request to the datasource and does not perform any caching
+func (c *CachedDatasource) Schema(ctx context.Context, req *backend.SchemaRequest) (*backend.SchemaResponse, error) {
+	return c.datasource.Schema(ctx, req)
+}
+
 func getCacheKey(req backend.DataQuery) (string, error) {
 	m := map[string]interface{}{
 		"query":    req.JSON,
