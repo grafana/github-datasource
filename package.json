@@ -58,7 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
     "copy-webpack-plugin": "^11.0.0",
-    "cspell": "6.13.3",
+    "cspell": "6.31.3",
     "css-loader": "^6.7.3",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^8.10.0",
