@@ -6,9 +6,8 @@ on:
     - cron: '0 0 1 * *' # run once a month on the 1st day
 
 permissions:
-  contents: write
+  contents: read
   id-token: write # Needed for create-github-app-token
-  pull-requests: write
 
 jobs:
   release:
@@ -18,6 +17,6 @@ jobs:
         uses: grafana/shared-workflows/actions/create-github-app-token@ae92934a14a48b94494dbc06d74a81d47fe08a40 # create-github-app-token/v0.2.2
         with:
           github_app: grafana-oss-big-tent
-      - uses: grafana/plugin-actions/create-plugin-update@244c3bc9c6eb94bc1dd6458ade2462499bbf0f5b #create-plugin-update/v2.0.1
+      - uses: grafana/plugin-actions/create-plugin-update@jackw/debug-cp-update
         with:
           token: ${{ steps.get-github-token.outputs.token }}
