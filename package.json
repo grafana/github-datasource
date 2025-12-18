@@ -60,7 +60,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "cspell": "6.31.3",
     "css-loader": "^6.7.3",
-    "eslint": "^9.0.0",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-jsdoc": "^51.2.3",
     "eslint-plugin-prettier": "^5.0.0",
