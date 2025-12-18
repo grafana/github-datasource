@@ -1602,9 +1602,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/plugin-ui@npm:^0.10.9":
-  version: 0.10.10
-  resolution: "@grafana/plugin-ui@npm:0.10.10"
+"@grafana/plugin-ui@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "@grafana/plugin-ui@npm:0.12.0"
   dependencies:
     "@emotion/css": "npm:^11.11.2"
     "@hello-pangea/dnd": "npm:^17.0.0"
@@ -1626,7 +1626,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     rxjs: ^7.8.1
-  checksum: 10c0/f26176d537441fff6e8cae37e5b68fae75a07450dfe49804aa2bdb67867b7bfa6559e4eb39a43895644f7fb24aacfe7783c49ed7732bee92819d9bc1d90488b0
+  checksum: 10c0/93c0f3cfc9c5204afc8ea6c9c2ada19f1bd841f416d56ed934c77aef057bff39f700353aeae019c141cdb66f8f04856427cb6b40b43dbeedc2c5652a389651a1
   languageName: node
   linkType: hard
 
@@ -7242,7 +7242,7 @@ __metadata:
     "@grafana/i18n": "npm:^12.2.0"
     "@grafana/plugin-e2e": "npm:3.0.3"
     "@grafana/plugin-meta-extractor": "npm:^0.11.0"
-    "@grafana/plugin-ui": "npm:^0.10.9"
+    "@grafana/plugin-ui": "npm:^0.12.0"
     "@grafana/runtime": "npm:^12.2.0"
     "@grafana/schema": "npm:^12.2.0"
     "@grafana/tsconfig": "npm:^2.0.0"
