@@ -20,6 +20,7 @@ export enum QueryType {
   Workflows = 'Workflows',
   Workflow_Usage = 'Workflow_Usage',
   Workflow_Runs = 'Workflow_Runs',
+  Copilot_Metrics = 'Copilot_Metrics',
 }
 
 export const DefaultQueryType = QueryType.Issues;
