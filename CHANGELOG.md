@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.4.0
+
+### Minor Changes
+
+🚀 Add support for PDC
+
+### Patch Changes
+
+🐛 Fix empty results in Workflows query type. Added nil check for CreatedAt/UpdatedAt timestamps and added "None" option to Time Field dropdown (default) to return all workflows without time filtering.
+
+## 2.3.0
+
+🚀 Add UpdatedAt time field to pull request queries
+
+🐛 Add runStartedAt field for workflow runs query response
+
 ## 2.2.0
 
 🚀 Adds support for Pull Request Review queries

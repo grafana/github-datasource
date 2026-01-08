@@ -6,8 +6,10 @@ import "time"
 type WorkflowTimeField uint32
 
 const (
+	// WorkflowTimeFieldNone indicates no time filtering should be applied
+	WorkflowTimeFieldNone WorkflowTimeField = iota
 	// WorkflowCreatedAt is used when filtering when an workflow was created
-	WorkflowCreatedAt WorkflowTimeField = iota
+	WorkflowCreatedAt
 	// WorkflowUpdatedAt is used when filtering when an Workflow was updated
 	WorkflowUpdatedAt
 )

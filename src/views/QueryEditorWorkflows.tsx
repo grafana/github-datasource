@@ -18,7 +18,7 @@ const timeFieldOptions: Array<SelectableValue<WorkflowsTimeField>> = Object.keys
     };
   });
 
-const defaultTimeField = 0 as WorkflowsTimeField;
+const defaultTimeField = WorkflowsTimeField.None;
 
 const QueryEditorWorkflows = (props: Props) => {
   return (
@@ -26,12 +26,12 @@ const QueryEditorWorkflows = (props: Props) => {
       <InlineField
         labelWidth={LeftColumnWidth * 2}
         label="Time Field"
-        tooltip="The time field to filter on the time range"
+        tooltip="Select 'None' to return all workflows, or choose a time field to filter by the dashboard time range"
       >
         <Select
           width={RightColumnWidth}
           options={timeFieldOptions}
-          value={props.timeField || defaultTimeField}
+          value={props.timeField !== undefined ? props.timeField : defaultTimeField}
           onChange={(opt) => {
             props.onChange({
               ...props,

@@ -554,9 +554,15 @@ List GitHub Actions workflows defined in a repository.
 | ---------- | -------------------------------------------------- | -------- |
 | owner      | GitHub user or organization that owns the repository | Yes      |
 | repository | Name of the repository                             | Yes      |
-| Time Field | The time field to filter the responses on, can be: `CreatedAt` or `UpdatedAt` | Yes      |
+| Time Field | The time field to filter the responses on, can be: `None` (returns all workflows), `CreatedAt`, or `UpdatedAt` | Yes      |
 
 ##### Sample queries
+
+Show all workflows in the `grafana/grafana` repository:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Time Field: `None`
 
 Show all workflows created within the `grafana/grafana` repository within the current time range:
 

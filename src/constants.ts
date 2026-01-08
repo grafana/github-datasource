@@ -38,6 +38,7 @@ export enum PullRequestTimeField {
   ClosedAt,
   CreatedAt,
   MergedAt,
+  UpdatedAt,
   None,
 }
 
@@ -48,6 +49,7 @@ export enum IssueTimeField {
 }
 
 export enum WorkflowsTimeField {
+  None,
   CreatedAt,
   UpdatedAt,
 }
