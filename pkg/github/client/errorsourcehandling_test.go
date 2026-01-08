@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"testing"
 
-	googlegithub "github.com/google/go-github/v72/github"
+	googlegithub "github.com/google/go-github/v80/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/stretchr/testify/require"
 )
