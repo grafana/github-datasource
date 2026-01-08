@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input, InlineLabel } from '@grafana/ui';
 import { QueryEditorRow } from '../components/Forms';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
@@ -13,13 +13,19 @@ const QueryEditorRepositories = (props: Props) => {
   const [repository, setRepository] = useState<string>(props.repository || '');
   const [owner, setOwner] = useState<string>(props.owner || '');
 
-  useEffect(() => {
-    setRepository(props.repository || '');
-  }, [props.repository]);
+  // Track previous props to sync state during render (avoids extra render pass from useEffect)
+  const [prevRepository, setPrevRepository] = useState(props.repository);
+  const [prevOwner, setPrevOwner] = useState(props.owner);
 
-  useEffect(() => {
+  if (props.repository !== prevRepository) {
+    setPrevRepository(props.repository);
+    setRepository(props.repository || '');
+  }
+
+  if (props.owner !== prevOwner) {
+    setPrevOwner(props.owner);
     setOwner(props.owner || '');
-  }, [props.owner]);
+  }
 
   return (
     <QueryEditorRow>
