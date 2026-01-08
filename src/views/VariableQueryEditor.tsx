@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InlineField } from '@grafana/ui';
 import QueryEditor from './QueryEditor';
 import { GitHubDataSource } from '../DataSource';
@@ -17,10 +17,23 @@ const VariableQueryEditor = (props: Props) => {
   const definition = `${props.datasource.name} - ${props.query.queryType || DefaultQueryType}`;
   const [choices, setChoices] = useState<string[]>();
 
-  useMemo(async () => {
-    if (isValid(props.query)) {
-      setChoices(await props.datasource.getChoices(props.query));
+  useEffect(() => {
+    // Used to ignore stale responses when the query changes before a fetch completes (race condition)
+    let ignore = false;
+
+    async function fetchData() {
+      if (isValid(props.query)) {
+        const result = await props.datasource.getChoices(props.query);
+        if (!ignore) {
+          setChoices(result);
+        }
+      }
     }
+    fetchData();
+
+    return () => {
+      ignore = true;
+    };
   }, [props.query, props.datasource]);
 
   return (
