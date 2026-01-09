@@ -12,7 +12,7 @@ jobs:
     if: github.repository == 'grafana/github-datasource'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           persist-credentials: false
       - uses: grafana/writers-toolkit/update-make-docs@f65819d6a412b752c0e0263375215f049507b0e6 # update-make-docs/v1 # zizmor: ignore[unpinned-uses]
