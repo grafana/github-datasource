@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	googlegithub "github.com/google/go-github/v72/github"
+	googlegithub "github.com/google/go-github/v81/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 

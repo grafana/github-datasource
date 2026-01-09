@@ -4,7 +4,7 @@ go 1.25
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.17.0
-	github.com/google/go-github/v72 v72.0.0
+	github.com/google/go-github/v81 v81.0.0
 	github.com/grafana/grafana-plugin-sdk-go v0.284.0
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1

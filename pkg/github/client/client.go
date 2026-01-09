@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
-	googlegithub "github.com/google/go-github/v72/github"
+	googlegithub "github.com/google/go-github/v81/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/proxy"
@@ -106,11 +106,11 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings, opts
 		// only override the Transport if Secure Proxy is enabled.
 		transport, err := httpclient.GetTransport(opts)
 		if err != nil {
-		return nil, backend.DownstreamErrorf("error getting the transport: %w", err)
-	}
+			return nil, backend.DownstreamErrorf("error getting the transport: %w", err)
+		}
 
 		httpClient.Transport = &oauth2.Transport{
-			Base: transport,
+			Base:   transport,
 			Source: oauth2.ReuseTokenSource(nil, src),
 		}
 	}
