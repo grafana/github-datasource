@@ -18,3 +18,5 @@ jobs:
     with:
       plugin-version-suffix: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
       run-playwright: true
+      skip-grafana-dev-image: true
+      skip-grafana-react-19-preview-image: true
