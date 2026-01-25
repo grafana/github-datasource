@@ -20,7 +20,8 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
     | ProjectsOptions
     | WorkflowsOptions
     | WorkflowUsageOptions
-    | WorkflowRunsOptions;
+    | WorkflowRunsOptions
+    | DeploymentsOptions;
 }
 
 export interface Label {
@@ -81,6 +82,13 @@ export interface WorkflowUsageOptions extends Indexable {
 export interface WorkflowRunsOptions extends Indexable {
   workflowID?: string;
   branch?: string;
+}
+
+export interface DeploymentsOptions extends Indexable {
+  sha?: string;
+  ref?: string;
+  task?: string;
+  environment?: string;
 }
 
 export interface PackagesOptions extends Indexable {
