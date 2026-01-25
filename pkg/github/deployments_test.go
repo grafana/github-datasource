@@ -233,7 +233,7 @@ func TestDeploymentsWrapperFrames(t *testing.T) {
 	// Create test data
 	createdAt := &googlegithub.Timestamp{Time: time.Now().Add(-48 * time.Hour)}
 	updatedAt := &googlegithub.Timestamp{Time: time.Now().Add(-24 * time.Hour)}
-	creatorLogin := "testuser"
+	creatorLogin := "username"
 
 	deployments := DeploymentsWrapper{
 		&googlegithub.Deployment{

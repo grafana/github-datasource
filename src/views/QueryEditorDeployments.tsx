@@ -8,10 +8,12 @@ interface Props extends DeploymentsOptions {
 }
 
 const QueryEditorDeployments = (props: Props) => {
-  const [sha, setSha] = useState<string | undefined>(props.sha);
-  const [ref, setRef] = useState<string | undefined>(props.ref);
-  const [task, setTask] = useState<string | undefined>(props.task);
-  const [environment, setEnvironment] = useState<string | undefined>(props.environment);
+  const { sha: initialSha, ref: initialRef, task: initialTask, environment: initialEnvironment } = props;
+  const [sha, setSha] = useState<string | undefined>(initialSha);
+  // eslint-disable-next-line react-hooks/refs -- 'ref' is a prop name from DeploymentsOptions, not a React ref
+  const [gitRef, setGitRef] = useState<string | undefined>(initialRef);
+  const [task, setTask] = useState<string | undefined>(initialTask);
+  const [environment, setEnvironment] = useState<string | undefined>(initialEnvironment);
 
   return (
     <>
@@ -38,9 +40,9 @@ const QueryEditorDeployments = (props: Props) => {
         tooltip="Filter by ref name (branch, tag, or SHA) (optional)"
       >
         <Input
-          value={ref}
+          value={gitRef}
           width={RightColumnWidth * 2 + LeftColumnWidth}
-          onChange={(el) => setRef(el.currentTarget.value)}
+          onChange={(el) => setGitRef(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
               ...props,
