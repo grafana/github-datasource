@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.4.1
+
+🐛 Update create-plugin configs
+🐛 Fixed the broken E2E tests with updated plugin-e2e package
+
 ## 2.4.0
 
 ### Minor Changes

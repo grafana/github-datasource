@@ -3,15 +3,15 @@ module github.com/grafana/github-datasource
 go 1.25
 
 require (
-	github.com/bradleyfalzon/ghinstallation/v2 v2.14.0
-	github.com/google/go-github/v72 v72.0.0
+	github.com/bradleyfalzon/ghinstallation/v2 v2.17.0
+	github.com/google/go-github/v81 v81.0.0
 	github.com/grafana/grafana-plugin-sdk-go v0.284.0
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20240727222349-48295856cce7
 	github.com/stretchr/testify v1.11.1
-	golang.org/x/oauth2 v0.33.0
-	pgregory.net/rapid v1.0.0
+	golang.org/x/oauth2 v0.34.0
+	pgregory.net/rapid v1.2.0
 )
 
 require (
@@ -26,7 +26,7 @@ require (
 	github.com/gogo/googleapis v1.4.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
-	github.com/google/go-github/v69 v69.0.0 // indirect
+	github.com/google/go-github/v75 v75.0.0 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grafana/otel-profiling-go v0.5.1 // indirect
