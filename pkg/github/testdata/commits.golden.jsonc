@@ -3,14 +3,14 @@
 //  Frame[0] 
 //  Name: commits
 //  Dimensions: 8 Fields by 2 Rows
-//  +----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+
-//  | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: committed_at              | Name: pushed_at                 | Name: message  |
-//  | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                         | Labels:                         | Labels:        |
-//  | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               | Type: []time.Time               | Type: []string |
-//  +----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+
-//  |                | firstCommitter  | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:23:56 +0000 +0000 | commit #1      |
-//  |                | secondCommitter | secondCommitter    | second@example.com | ACME Corp            | 2020-08-25 17:21:56 +0000 +0000 | 2020-08-25 18:21:56 +0000 +0000 | commit #2      |
-//  +----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+
+//  +----------------+-----------------+--------------------+--------------------+----------------------+-------------------------------+-------------------------------+----------------+
+//  | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: committed_at            | Name: pushed_at               | Name: message  |
+//  | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                       | Labels:                       | Labels:        |
+//  | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time             | Type: []time.Time             | Type: []string |
+//  +----------------+-----------------+--------------------+--------------------+----------------------+-------------------------------+-------------------------------+----------------+
+//  |                | firstCommitter  | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 UTC | 2020-08-25 16:23:56 +0000 UTC | commit #1      |
+//  |                | secondCommitter | secondCommitter    | second@example.com | ACME Corp            | 2020-08-25 17:21:56 +0000 UTC | 2020-08-25 18:21:56 +0000 UTC | commit #2      |
+//  +----------------+-----------------+--------------------+--------------------+----------------------+-------------------------------+-------------------------------+----------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
