@@ -177,6 +177,15 @@ func (client *Client) ListAlertsForOrg(ctx context.Context, owner string, opts *
 	return alerts, resp, err
 }
 
+// ListDeployments sends a request to the GitHub rest API to list the deployments in a specific repository.
+func (client *Client) ListDeployments(ctx context.Context, owner, repo string, opts *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error) {
+	deployments, resp, err := client.restClient.Repositories.ListDeployments(ctx, owner, repo, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return deployments, resp, err
+}
+
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
 func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (models.WorkflowUsage, error) {
 	actors := make(map[string]struct{}, 0)
