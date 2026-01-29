@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -56,6 +57,11 @@ type PullRequest struct {
 	MergedAt   githubv4.DateTime
 	Mergeable  githubv4.MergeableState
 	MergedBy   *PullRequestAuthor
+	Labels     struct {
+		Nodes []struct {
+			Name string
+		}
+	} `graphql:"labels(first: 100)"`
 	Repository Repository
 }
 
@@ -96,6 +102,7 @@ func (p PullRequests) Frames() data.Frames {
 		data.NewField("updated_at", nil, []time.Time{}),
 		data.NewField("created_at", nil, []time.Time{}),
 		openTime,
+		data.NewField("labels", nil, []json.RawMessage{}),
 	)
 
 	for _, v := range p {
@@ -150,6 +157,14 @@ func (p PullRequests) Frames() data.Frames {
 			}
 		}
 
+		labels := make([]string, len(v.Labels.Nodes))
+		for i, label := range v.Labels.Nodes {
+			labels[i] = label.Name
+		}
+
+		labelsBytes, _ := json.Marshal(labels)
+		rawLabelArray := json.RawMessage(labelsBytes)
+
 		frame.AppendRow(
 			v.Number,
 			v.Title,
@@ -176,6 +191,7 @@ func (p PullRequests) Frames() data.Frames {
 			v.UpdatedAt.Time,
 			v.CreatedAt.Time,
 			secondsOpen,
+			rawLabelArray,
 		)
 	}
 
