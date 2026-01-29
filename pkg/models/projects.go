@@ -18,6 +18,8 @@ type ProjectOptions struct {
 	Organization string `json:"organization"`
 	// Number is the project number
 	Number any `json:"number"`
+	// Pages is the maximum number of pages to retrieve (max 30)
+	MaxPages int `json:"maxPages"`
 	// User is the name of the user who owns the project being queried
 	User string `json:"user"`
 	// Kind is the kind of query - Org vs User
