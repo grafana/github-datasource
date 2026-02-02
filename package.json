@@ -36,7 +36,7 @@
     "@changesets/cli": "2.29.8",
     "@grafana/e2e-selectors": "12.3.1",
     "@grafana/eslint-config": "9.0.0",
-    "@grafana/plugin-e2e": "3.2.0",
+    "@grafana/plugin-e2e": "3.2.1",
     "@grafana/plugin-meta-extractor": "0.11.0",
     "@grafana/tsconfig": "2.0.1",
     "@playwright/test": "1.57.0",
