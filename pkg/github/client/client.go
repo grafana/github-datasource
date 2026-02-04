@@ -371,3 +371,45 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 
 	return workflowRuns, response.NextPage, nil
 }
+
+// GetCopilotMetrics sends a request to the GitHub REST API to get Copilot metrics for an organization or team
+func (client *Client) GetCopilotMetrics(ctx context.Context, organization string, opts models.ListCopilotMetricsOptions) ([]*googlegithub.CopilotMetrics, *googlegithub.Response, error) {
+	var u string
+	if opts.TeamSlug != "" {
+		u = fmt.Sprintf("orgs/%s/team/%s/copilot/metrics", organization, opts.TeamSlug)
+	} else {
+		u = fmt.Sprintf("orgs/%s/copilot/metrics", organization)
+	}
+
+	// Build query parameters
+	params := url.Values{}
+	if opts.Since != nil {
+		params.Add("since", opts.Since.Format("2006-01-02"))
+	}
+	if opts.Until != nil {
+		params.Add("until", opts.Until.Format("2006-01-02"))
+	}
+	if opts.Page > 0 {
+		params.Add("page", strconv.Itoa(opts.Page))
+	}
+	if opts.PerPage > 0 {
+		params.Add("per_page", strconv.Itoa(opts.PerPage))
+	}
+
+	if len(params) > 0 {
+		u += "?" + params.Encode()
+	}
+
+	req, err := client.restClient.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	var metrics []*googlegithub.CopilotMetrics
+	resp, err := client.restClient.Do(ctx, req, &metrics)
+	if err != nil {
+		return nil, resp, addErrorSourceToError(err, resp)
+	}
+
+	return metrics, resp, nil
+}
