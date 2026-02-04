@@ -39,7 +39,7 @@
     "@grafana/plugin-e2e": "3.2.0",
     "@grafana/plugin-meta-extractor": "0.11.0",
     "@grafana/tsconfig": "2.0.1",
-    "@playwright/test": "1.57.0",
+    "@playwright/test": "1.58.1",
     "@stylistic/eslint-plugin-ts": "4.4.1",
     "@swc/core": "1.15.10",
     "@swc/helpers": "0.5.18",
