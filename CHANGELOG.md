@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.5.0
+
+🚀 Update dependencies for react-19 upgrade preparations
+🚀 Feature: Add labels to Pull Requests query type
+
 ## 2.4.1
 
 🐛 Update create-plugin configs
