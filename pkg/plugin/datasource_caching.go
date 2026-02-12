@@ -262,6 +262,16 @@ func (c *CachedDatasource) HandleWorkflowRunsQuery(ctx context.Context, q *model
 	return c.saveCache(req, f, err)
 }
 
+// HandleDeploymentsQuery is the cache wrapper for the deployments query handler
+func (c *CachedDatasource) HandleDeploymentsQuery(ctx context.Context, q *models.DeploymentsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleDeploymentsQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // CheckHealth forwards the request to the datasource and does not perform any caching
 func (c *CachedDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return c.datasource.CheckHealth(ctx, req)
