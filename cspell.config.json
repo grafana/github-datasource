@@ -59,6 +59,7 @@
     "vals",
     "vladimirdotk",
     "Wrapf",
-    "confg" //this is unfortunately a typo in a file name that is not easy to fix
+    "confg", //this is unfortunately a typo in a file name that is not easy to fix
+    "neovim"
   ]
 }
