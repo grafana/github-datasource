@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.5.1
+
+🐛 Fixed a panic when GitHub REST API returns error responses (e.g. 404, 401, 403)
+
 ## 2.5.0
 
 🚀 Update dependencies for react-19 upgrade preparations
