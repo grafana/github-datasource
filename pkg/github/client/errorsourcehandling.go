@@ -2,6 +2,7 @@ package githubclient
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -25,11 +26,32 @@ var (
 	}
 )
 
+// sanitizeGitHubError converts a *github.ErrorResponse into a plain error to
+// prevent a nil pointer dereference panic in the SDK's error handling.
+//
+// go-github v81 changed ErrorResponse.Is to call errors.As(target, &v) on the
+// target, which panics when the SDK's guessErrorStatus passes typed nil targets
+// (e.g. (*url.Error)(nil)) to errors.Is. Converting to a plain error preserves
+// the message while removing the problematic Is method from the error chain.
+//
+// See TestGitHubErrorResponseWithTypedNilErrorsIs for a reproduction of the panic.
+func sanitizeGitHubError(err error) error {
+	var ghErr *googlegithub.ErrorResponse
+	if errors.As(err, &ghErr) {
+		return fmt.Errorf("%s", err.Error())
+	}
+	return err
+}
+
 func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 	// If there is no error then return nil
 	if err == nil {
 		return nil
 	}
+
+	// Sanitize *github.ErrorResponse before any further processing or wrapping.
+	// This prevents a panic in the SDK's error handling pipeline.
+	err = sanitizeGitHubError(err)
 
 	if backend.IsDownstreamHTTPError(err) {
 		return backend.DownstreamError(err)
