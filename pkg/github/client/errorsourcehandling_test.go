@@ -3,6 +3,7 @@ package githubclient
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net"
 	"net/http"
 	"net/url"
@@ -104,66 +105,94 @@ func TestAddErrorSourceToError(t *testing.T) {
 	}
 }
 
-// TestGitHubErrorResponseWithTypedNilErrorsIs replicates a panic triggered by the
-// interaction between go-github v81's ErrorResponse.Is and the SDK's guessErrorStatus.
+// TestAddErrorSourceToError_SanitizesGitHubErrorResponse verifies that addErrorSourceToError
+// strips *github.ErrorResponse from the error chain before returning.
 //
-// The SDK's guessErrorStatus (backend/status.go:112) calls:
+// Background: go-github v81 changed ErrorResponse.Is to call errors.As(target, &v) on the
+// target error. The SDK's guessErrorStatus (backend/status.go:112) passes typed nil targets
+// (e.g. (*url.Error)(nil)) to errors.Is. When errors.Is walks the chain and reaches a
+// *github.ErrorResponse, ErrorResponse.Is calls errors.As on that typed nil, which tries
+// to call Unwrap() on the nil receiver and panics with a nil pointer dereference.
 //
-//	var connErr *url.Error   // typed nil
-//	errors.Is(err, connErr)
+// The fix: sanitizeGitHubError converts *github.ErrorResponse to a plain error before it
+// can reach the SDK. This test ensures that guarantee holds for all REST API error scenarios.
 //
-// In go-github v72, ErrorResponse.Is used a simple type assertion:
-//
-//	v, ok := target.(*ErrorResponse)  // safe with typed nil target
-//
-// In go-github v81, ErrorResponse.Is was changed to call errors.As:
-//
-//	errors.As(target, &v)  // panics: calls (*url.Error)(nil).Unwrap()
-//
-// When errors.Is walks the error chain and reaches a *github.ErrorResponse, it
-// calls ErrorResponse.Is((*url.Error)(nil)). The v81 implementation passes that
-// typed nil to errors.As, which tries to call Unwrap() on the nil *url.Error,
-// causing a nil pointer dereference panic.
-func TestGitHubErrorResponseWithTypedNilErrorsIs(t *testing.T) {
-	// Create a *github.ErrorResponse like the GitHub API returns on errors.
+// Real-world trigger: any query type that uses the GitHub REST API (Workflows, Code Scanning,
+// etc.) against a repo that returns a non-2xx response (e.g. 404 for a non-existent repo,
+// 401 for an expired token, 403 for insufficient permissions).
+func TestAddErrorSourceToError_SanitizesGitHubErrorResponse(t *testing.T) {
+	gitHubErrorResponses := []struct {
+		name       string
+		statusCode int
+		message    string
+	}{
+		{name: "404 Not Found (non-existent repo)", statusCode: http.StatusNotFound, message: "Not Found"},
+		{name: "401 Unauthorized (expired token)", statusCode: http.StatusUnauthorized, message: "Bad credentials"},
+		{name: "403 Forbidden (insufficient scopes)", statusCode: http.StatusForbidden, message: "Resource not accessible by integration"},
+		{name: "500 Internal Server Error", statusCode: http.StatusInternalServerError, message: "Internal Server Error"},
+	}
+
+	for _, tc := range gitHubErrorResponses {
+		t.Run(tc.name, func(t *testing.T) {
+			ghErr := &googlegithub.ErrorResponse{
+				Response: &http.Response{StatusCode: tc.statusCode},
+				Message:  tc.message,
+			}
+			resp := &googlegithub.Response{Response: &http.Response{StatusCode: tc.statusCode}}
+
+			result := addErrorSourceToError(ghErr, resp)
+
+			// Guard: *github.ErrorResponse must NOT be present in the returned error chain.
+			// If this fails, a future dependency bump or code change has broken the sanitization
+			// and the SDK will panic when processing this error.
+			var leaked *googlegithub.ErrorResponse
+			require.False(t, errors.As(result, &leaked),
+				"addErrorSourceToError must not leak *github.ErrorResponse into the error chain; "+
+					"the SDK's guessErrorStatus will panic due to go-github v81's ErrorResponse.Is")
+
+			// Verify the error message is preserved so user-facing messages are not lost.
+			require.Contains(t, result.Error(), tc.message,
+				"the sanitized error should preserve the original error message")
+
+			// Verify the SDK's guessErrorStatus code path does not panic.
+			// This replicates the exact calls the SDK makes at backend/status.go:108-112:
+			//   var connErr *url.Error   // typed nil
+			//   var netErr  *net.OpError  // typed nil
+			//   errors.Is(err, connErr) || errors.Is(err, netErr)
+			var connErr *url.Error
+			var netErr *net.OpError
+			require.NotPanics(t, func() {
+				errors.Is(result, connErr)
+				errors.Is(result, netErr)
+			}, "errors.Is with typed nil targets must not panic after sanitization")
+		})
+	}
+}
+
+// TestSanitizeGitHubError_WrappedError verifies that sanitizeGitHubError also handles
+// *github.ErrorResponse that is wrapped inside another error (e.g. via fmt.Errorf("%w", err)),
+// which matches how some client methods pass errors to addErrorSourceToError.
+func TestSanitizeGitHubError_WrappedError(t *testing.T) {
 	ghErr := &googlegithub.ErrorResponse{
 		Response: &http.Response{StatusCode: http.StatusNotFound},
 		Message:  "Not Found",
 	}
+	wrapped := fmt.Errorf("fetching workflow usage: %w", ghErr)
 
-	t.Run("panics with errors.Is and typed nil *url.Error target", func(t *testing.T) {
-		// This is exactly what the SDK's guessErrorStatus does at status.go:108-112:
-		//   var connErr *url.Error  (typed nil)
-		//   errors.Is(err, connErr)
-		var connErr *url.Error
-		require.Panics(t, func() {
-			errors.Is(ghErr, connErr)
-		}, "errors.Is(githubErrorResponse, (*url.Error)(nil)) should panic due to go-github v81 ErrorResponse.Is calling errors.As on typed nil target")
-	})
+	result := sanitizeGitHubError(wrapped)
 
-	t.Run("panics with errors.Is and typed nil *net.OpError target", func(t *testing.T) {
-		// Same issue with the second typed nil in guessErrorStatus:
-		//   var netErr *net.OpError  (typed nil)
-		//   errors.Is(err, netErr)
-		var netErr *net.OpError
-		require.Panics(t, func() {
-			errors.Is(ghErr, netErr)
-		}, "errors.Is(githubErrorResponse, (*net.OpError)(nil)) should panic due to go-github v81 ErrorResponse.Is calling errors.As on typed nil target")
-	})
+	var leaked *googlegithub.ErrorResponse
+	require.False(t, errors.As(result, &leaked),
+		"sanitizeGitHubError must strip *github.ErrorResponse even when wrapped")
+	require.Contains(t, result.Error(), "Not Found")
+}
 
-	t.Run("panics when wrapped github error goes through SDK statusFromError path", func(t *testing.T) {
-		// This simulates the real scenario: the github-datasource wraps the error
-		// with addErrorSourceToError, then the SDK's ErrorSourceMiddleware calls
-		// statusFromError on it. The panic happens regardless of wrapping because
-		// errors.Is walks the full chain and reaches the *github.ErrorResponse.
-		resp := &googlegithub.Response{Response: ghErr.Response}
-		wrappedErr := addErrorSourceToError(ghErr, resp)
-
-		var connErr *url.Error
-		require.Panics(t, func() {
-			errors.Is(wrappedErr, connErr)
-		}, "errors.Is on wrapped github error should still panic because errors.Is walks the full error chain")
-	})
+// TestSanitizeGitHubError_NonGitHubError verifies that sanitizeGitHubError is a no-op
+// for errors that are not *github.ErrorResponse.
+func TestSanitizeGitHubError_NonGitHubError(t *testing.T) {
+	original := errors.New("some other error")
+	result := sanitizeGitHubError(original)
+	require.Equal(t, original, result, "non-github errors should pass through unchanged")
 }
 
 func TestExtractStatusCode(t *testing.T) {
