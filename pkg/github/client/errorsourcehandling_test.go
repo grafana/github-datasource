@@ -108,8 +108,9 @@ func TestAddErrorSourceToError(t *testing.T) {
 // TestAddErrorSourceToError_SanitizesGitHubErrorResponse verifies that addErrorSourceToError
 // strips *github.ErrorResponse from the error chain before returning.
 //
-// Background: go-github v81 changed ErrorResponse.Is to call errors.As(target, &v) on the
-// target error. The SDK's guessErrorStatus (backend/status.go:112) passes typed nil targets
+// Background: go-github v76 changed ErrorResponse.Is to call errors.As(target, &v) on the
+// target error. https://github.com/google/go-github/pull/3739
+// The SDK's guessErrorStatus (backend/status.go:112) passes typed nil targets
 // (e.g. (*url.Error)(nil)) to errors.Is. When errors.Is walks the chain and reaches a
 // *github.ErrorResponse, ErrorResponse.Is calls errors.As on that typed nil, which tries
 // to call Unwrap() on the nil receiver and panics with a nil pointer dereference.

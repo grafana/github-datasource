@@ -29,8 +29,8 @@ var (
 // sanitizeGitHubError converts a *github.ErrorResponse into a plain error to
 // prevent a nil pointer dereference panic in the SDK's error handling.
 //
-// go-github v81 changed ErrorResponse.Is to call errors.As(target, &v) on the
-// target, which panics when the SDK's guessErrorStatus passes typed nil targets
+// go-github v76 (https://github.com/google/go-github/pull/3739) changed ErrorResponse.Is to call errors.As(target, &v)
+// on the target, which panics when the SDK's guessErrorStatus passes typed nil targets
 // (e.g. (*url.Error)(nil)) to errors.Is. Converting to a plain error preserves
 // the message while removing the problematic Is method from the error chain.
 //
