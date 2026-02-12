@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"syscall"
 	"testing"
@@ -101,6 +102,68 @@ func TestAddErrorSourceToError(t *testing.T) {
 			require.Equal(t, tt.expected, result)
 		})
 	}
+}
+
+// TestGitHubErrorResponseWithTypedNilErrorsIs replicates a panic triggered by the
+// interaction between go-github v81's ErrorResponse.Is and the SDK's guessErrorStatus.
+//
+// The SDK's guessErrorStatus (backend/status.go:112) calls:
+//
+//	var connErr *url.Error   // typed nil
+//	errors.Is(err, connErr)
+//
+// In go-github v72, ErrorResponse.Is used a simple type assertion:
+//
+//	v, ok := target.(*ErrorResponse)  // safe with typed nil target
+//
+// In go-github v81, ErrorResponse.Is was changed to call errors.As:
+//
+//	errors.As(target, &v)  // panics: calls (*url.Error)(nil).Unwrap()
+//
+// When errors.Is walks the error chain and reaches a *github.ErrorResponse, it
+// calls ErrorResponse.Is((*url.Error)(nil)). The v81 implementation passes that
+// typed nil to errors.As, which tries to call Unwrap() on the nil *url.Error,
+// causing a nil pointer dereference panic.
+func TestGitHubErrorResponseWithTypedNilErrorsIs(t *testing.T) {
+	// Create a *github.ErrorResponse like the GitHub API returns on errors.
+	ghErr := &googlegithub.ErrorResponse{
+		Response: &http.Response{StatusCode: http.StatusNotFound},
+		Message:  "Not Found",
+	}
+
+	t.Run("panics with errors.Is and typed nil *url.Error target", func(t *testing.T) {
+		// This is exactly what the SDK's guessErrorStatus does at status.go:108-112:
+		//   var connErr *url.Error  (typed nil)
+		//   errors.Is(err, connErr)
+		var connErr *url.Error
+		require.Panics(t, func() {
+			errors.Is(ghErr, connErr)
+		}, "errors.Is(githubErrorResponse, (*url.Error)(nil)) should panic due to go-github v81 ErrorResponse.Is calling errors.As on typed nil target")
+	})
+
+	t.Run("panics with errors.Is and typed nil *net.OpError target", func(t *testing.T) {
+		// Same issue with the second typed nil in guessErrorStatus:
+		//   var netErr *net.OpError  (typed nil)
+		//   errors.Is(err, netErr)
+		var netErr *net.OpError
+		require.Panics(t, func() {
+			errors.Is(ghErr, netErr)
+		}, "errors.Is(githubErrorResponse, (*net.OpError)(nil)) should panic due to go-github v81 ErrorResponse.Is calling errors.As on typed nil target")
+	})
+
+	t.Run("panics when wrapped github error goes through SDK statusFromError path", func(t *testing.T) {
+		// This simulates the real scenario: the github-datasource wraps the error
+		// with addErrorSourceToError, then the SDK's ErrorSourceMiddleware calls
+		// statusFromError on it. The panic happens regardless of wrapping because
+		// errors.Is walks the full chain and reaches the *github.ErrorResponse.
+		resp := &googlegithub.Response{Response: ghErr.Response}
+		wrappedErr := addErrorSourceToError(ghErr, resp)
+
+		var connErr *url.Error
+		require.Panics(t, func() {
+			errors.Is(wrappedErr, connErr)
+		}, "errors.Is on wrapped github error should still panic because errors.Is walks the full error chain")
+	})
 }
 
 func TestExtractStatusCode(t *testing.T) {
