@@ -1,6 +1,16 @@
 {
-  "ignorePaths": ["node_modules/**", "dist/**", "mage_output_file.go", "package.json", "yarn.lock"],
-  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "mage_output_file.go",
+    "package.json",
+    "renovate.json",
+    "yarn.lock"
+  ],
+  "ignoreRegExpList": [
+    "import\\s*\\((.|[\r\n])*?\\)",
+    "import\\s*.*\".*?\""
+  ],
   "words": [
     "araddon",
     "bmike",
@@ -59,6 +69,6 @@
     "vals",
     "vladimirdotk",
     "Wrapf",
-    "confg" //this is unfortunately a typo in a file name that is not easy to fix
+    "confg"
   ]
 }
