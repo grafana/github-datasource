@@ -25,6 +25,7 @@ import (
 type Client struct {
 	restClient    *googlegithub.Client
 	graphqlClient *githubv4.Client
+	authType      models.AuthType
 }
 
 const (
@@ -86,12 +87,13 @@ func createAppClient(settings models.Settings, opts httpclient.Options) (*Client
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
 			graphqlClient: githubv4.NewClient(httpClient),
+			authType:      models.AuthTypeGithubApp,
 		}, nil
 	}
 
 	itr.BaseURL = fmt.Sprintf("%s/api/v3", settings.GitHubURL)
 
-	return useGitHubEnterprise(httpClient, settings)
+	return useGitHubEnterprise(httpClient, settings, models.AuthTypeGithubApp)
 }
 
 func createAccessTokenClient(ctx context.Context, settings models.Settings, opts httpclient.Options) (*Client, error) {
@@ -118,13 +120,14 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings, opts
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
 			graphqlClient: githubv4.NewClient(httpClient),
+			authType:      models.AuthTypePAT,
 		}, nil
 	}
 
-	return useGitHubEnterprise(httpClient, settings)
+	return useGitHubEnterprise(httpClient, settings, models.AuthTypePAT)
 }
 
-func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Client, error) {
+func useGitHubEnterprise(httpClient *http.Client, settings models.Settings, authType models.AuthType) (*Client, error) {
 	_, err := url.Parse(settings.GitHubURL)
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("incorrect enterprise url"))
@@ -138,6 +141,7 @@ func useGitHubEnterprise(httpClient *http.Client, settings models.Settings) (*Cl
 	return &Client{
 		restClient:    restClient,
 		graphqlClient: githubv4.NewEnterpriseClient(fmt.Sprintf("%s/api/graphql", settings.GitHubURL), httpClient),
+		authType:      authType,
 	}, nil
 }
 
@@ -157,6 +161,44 @@ func (client *Client) ListWorkflows(ctx context.Context, owner, repo string, opt
 		return nil, nil, addErrorSourceToError(err, resp)
 	}
 	return wf, resp, err
+}
+
+func (client *Client) ListAllOrgRepositories(ctx context.Context, opts *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
+	var userRepositories []*googlegithub.Repository
+	var err error
+	var resp *googlegithub.Response
+	if client.authType == models.AuthTypeGithubApp {
+		for page := 1; page != 0; {
+			opts.Page = page
+			res, resp, err := client.restClient.Apps.ListRepos(ctx, opts)
+			if res != nil {
+				userRepositories = append(userRepositories, res.Repositories...)
+				page = resp.NextPage
+			}
+			if err != nil {
+				return nil, nil, addErrorSourceToError(err, resp)
+			}
+		}
+	} else {
+		for page := 1; page != 0; {
+			opts.Page = page
+			res, resp, err := client.restClient.Repositories.ListByAuthenticatedUser(ctx, &googlegithub.RepositoryListByAuthenticatedUserOptions{
+				ListOptions: *opts,
+			})
+			if res != nil {
+				userRepositories = append(userRepositories, res...)
+				page = resp.NextPage
+			}
+			if err != nil {
+				return nil, nil, addErrorSourceToError(err, resp)
+			}
+		}
+
+		if err != nil {
+			return nil, nil, addErrorSourceToError(err, resp)
+		}
+	}
+	return userRepositories, resp, err
 }
 
 // ListAlertsForRepo sends a request to the GitHub rest API to list the code scanning alerts in a specific repository.

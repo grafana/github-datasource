@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	googlegithub "github.com/google/go-github/v81/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
@@ -117,4 +118,37 @@ func GetAllRepositories(ctx context.Context, client models.Client, opts models.L
 	}
 
 	return repos, nil
+}
+
+type OrgRepoResponse struct {
+	Orgs                []string
+	OrgRepoCombinations map[string][]string
+}
+
+// GetAllOrgRepositories lists the available organizations and repositories for the user/app
+func GetAllOrgRepositories(ctx context.Context, client models.Client) (OrgRepoResponse, error) {
+	data, _, err := client.ListAllOrgRepositories(ctx, &googlegithub.ListOptions{Page: 1, PerPage: 1000})
+	if err != nil {
+		return OrgRepoResponse{}, fmt.Errorf("listing org memberships: %w", err)
+	}
+
+	orgs := make([]string, 0)
+	orgRepoCombinations := make(map[string][]string)
+
+	for _, repo := range data {
+		split := strings.Split(*repo.FullName, "/")
+		if len(split) != 2 {
+			continue
+		}
+		orgRepoCombinations[split[0]] = append(orgRepoCombinations[split[0]], split[1])
+	}
+
+	for org := range orgRepoCombinations {
+		orgs = append(orgs, org)
+	}
+
+	return OrgRepoResponse{
+		Orgs:                orgs,
+		OrgRepoCombinations: orgRepoCombinations,
+	}, nil
 }
