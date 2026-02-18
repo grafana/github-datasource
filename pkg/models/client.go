@@ -16,4 +16,5 @@ type Client interface {
 	GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error)
 	ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error)
 	ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error)
+	ListDeployments(ctx context.Context, owner, repo string, opts *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error)
 }

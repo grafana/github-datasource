@@ -52,6 +52,10 @@ func (m *mockClient) ListAlertsForOrg(ctx context.Context, owner string, opts *g
 	return m.mockAlerts, m.mockResponse, nil
 }
 
+func (m *mockClient) ListDeployments(ctx context.Context, owner, repo string, opts *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
 func TestGetCodeScanningAlerts(t *testing.T) {
 	var (
 		ctx  = context.Background()
