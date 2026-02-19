@@ -54,14 +54,28 @@ func NewDataSourceInstance(ctx context.Context, settings backend.DataSourceInsta
 
 	ds, ok := instance.(Datasource)
 	if !ok {
-		return instance, fmt.Errorf("instance does not implement Datasource interface")
+		backend.Logger.Error("instance does not implement Datasource interface")
+		return instance, nil
 	}
 
 	var ghDs *github.Datasource
 	if datasourceSettings.CachingEnabled {
-		ghDs = instance.(*CachedDatasource).datasource.(*github.Datasource)
+		cachedDs, ok := instance.(*CachedDatasource)
+		if !ok {
+			backend.Logger.Error("instance is not a cached datasource")
+			return instance, nil
+		}
+		ghDs, ok = cachedDs.datasource.(*github.Datasource)
+		if !ok {
+			backend.Logger.Error("datasource is not a github datasource")
+			return instance, nil
+		}
 	} else {
-		ghDs = instance.(*github.Datasource)
+		ghDs, ok = instance.(*github.Datasource)
+		if !ok {
+			backend.Logger.Error("instance is not a github datasource")
+			return instance, nil
+		}
 	}
 	// Add schema support
 	schemaHandler := github.NewSchemaHandler(ghDs)
@@ -69,7 +83,8 @@ func NewDataSourceInstance(ctx context.Context, settings backend.DataSourceInsta
 	schemaDs := schemas.NewSchemaDatasource(schemaHandler, nil)
 	_, err = schemaDs.NewDatasource(ctx, settings)
 	if err != nil {
-		return nil, fmt.Errorf("creating schema datasource: %w", err)
+		backend.Logger.Error("failed to create schema datasource", "error", err.Error())
+		return instance, nil
 	}
 
 	return &GitHubInstanceWithSchema{
