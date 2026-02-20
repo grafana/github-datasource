@@ -23,6 +23,7 @@ import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
 import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
 import QueryEditorCodeScanning from './QueryEditorCodeScanning';
+import QueryEditorCopilotMetrics from './QueryEditorCopilotMetrics';
 import { QueryType, DefaultQueryType } from '../constants';
 import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
@@ -117,6 +118,11 @@ const queryEditors: {
       <QueryEditorWorkflowRuns {...(props.query.options || {})} onChange={onChange} />
     ),
   },
+  [QueryType.Copilot_Metrics]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCopilotMetrics {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
 };
 
 /* eslint-enable react/display-name */
@@ -189,7 +195,7 @@ const QueryEditor = (props: Props) => {
   );
 };
 
-const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems];
+const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems, QueryType.Copilot_Metrics];
 
 function hasRepo(qt?: string) {
   return !nonRepoTypes.includes(qt as QueryType);
