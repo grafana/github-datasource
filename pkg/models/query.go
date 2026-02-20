@@ -43,6 +43,12 @@ const (
 	QueryTypeWorkflowRuns = "Workflow_Runs"
 	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
 	QueryTypeCodeScanning = "Code_Scanning"
+	// QueryTypeCodeowners is used when querying the CODEOWNERS file for a repository
+	QueryTypeCodeowners = "Codeowners"
+	// QueryTypeTeams is used when querying teams for an organization
+	QueryTypeTeams = "Teams"
+	// QueryTypeFileContributors is used when querying contributors for a specific file
+	QueryTypeFileContributors = "File_Contributors"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -152,4 +158,22 @@ type WorkflowRunsQuery struct {
 type CodeScanningQuery struct {
 	Query
 	Options CodeScanningOptions `json:"options"`
+}
+
+// CodeownersQuery is used when querying the CODEOWNERS file for a repository
+type CodeownersQuery struct {
+	Query
+	Options ListCodeownersOptions `json:"options"`
+}
+
+// TeamsQuery is used when querying teams for an organization
+type TeamsQuery struct {
+	Query
+	Options ListTeamsOptions `json:"options"`
+}
+
+// FileContributorsQuery is used when querying contributors for a specific file
+type FileContributorsQuery struct {
+	Query
+	Options ListFileContributorsOptions `json:"options"`
 }

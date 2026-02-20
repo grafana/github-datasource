@@ -23,6 +23,9 @@ import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
 import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
 import QueryEditorCodeScanning from './QueryEditorCodeScanning';
+import QueryEditorCodeowners from './QueryEditorCodeowners';
+import QueryEditorTeams from './QueryEditorTeams';
+import { QueryEditorFileContributors } from './QueryEditorFileContributors';
 import { QueryType, DefaultQueryType } from '../constants';
 import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
@@ -39,6 +42,11 @@ const queryEditors: {
 } = {
   [QueryType.Repositories]: {
     component: (_: Props, onChange: (val: any) => void) => <></>,
+  },
+  [QueryType.Codeowners]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCodeowners {...(props.query.options || {})} onChange={onChange} />
+    ),
   },
   [QueryType.Labels]: {
     component: (props: Props, onChange: (val: any) => void) => (
@@ -117,13 +125,44 @@ const queryEditors: {
       <QueryEditorWorkflowRuns {...(props.query.options || {})} onChange={onChange} />
     ),
   },
+  [QueryType.Teams]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorTeams 
+        {...(props.query.options || {})} 
+        organization={props.query.owner}
+        onChange={(value) => {
+          // Update both options and owner (organization)
+          props.onChange({
+            ...props.query,
+            owner: value.organization,
+            options: { query: value.query }
+          });
+        }} 
+      />
+    ),
+  },
+  [QueryType.File_Contributors]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorFileContributors 
+        options={props.query.options || {}}
+        onOptionsChange={onChange}
+      />
+    ),
+  },
 };
 
 /* eslint-enable react/display-name */
 
 const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType).map((v) => {
+  let label = v.replace(/_/gi, ' ');
+  
+  // Add (beta) suffix for beta features
+  if (v === 'Teams' || v === 'File_Contributors' || v === 'Codeowners') {
+    label += ' (beta)';
+  }
+  
   return {
-    label: v.replace(/_/gi, ' '),
+    label,
     value: v,
   };
 });
@@ -189,7 +228,7 @@ const QueryEditor = (props: Props) => {
   );
 };
 
-const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems];
+const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems, QueryType.Teams];
 
 function hasRepo(qt?: string) {
   return !nonRepoTypes.includes(qt as QueryType);

@@ -62,6 +62,9 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux.HandleFunc(models.QueryTypeWorkflowUsage, s.HandleWorkflowUsage)
 	mux.HandleFunc(models.QueryTypeWorkflowRuns, s.HandleWorkflowRuns)
 	mux.HandleFunc(models.QueryTypeCodeScanning, s.HandleCodeScanning)
+	mux.HandleFunc(models.QueryTypeCodeowners, s.HandleCodeowners)
+	mux.HandleFunc(models.QueryTypeTeams, s.HandleTeams)
+	mux.HandleFunc(models.QueryTypeFileContributors, s.HandleFileContributors)
 
 	return mux
 }
