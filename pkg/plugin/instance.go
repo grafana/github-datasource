@@ -67,7 +67,7 @@ func NewDataSourceInstance(ctx context.Context, settings backend.DataSourceInsta
 		}
 		ghDs, ok = cachedDs.datasource.(*github.Datasource)
 		if !ok {
-			backend.Logger.Error("datasource is not a github datasource")
+			backend.Logger.Error("cached datasource is not a github datasource")
 			return instance, nil
 		}
 	} else {
