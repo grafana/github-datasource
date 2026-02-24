@@ -8,7 +8,7 @@ interface Props extends CommitFilesOptions {
 }
 
 const QueryEditorCommitFiles = (props: Props) => {
-  const [ref, setRef] = useState<string>(props.ref || '');
+  const [commitSha, setCommitSha] = useState<string>(props.commitSha || '');
   return (
     <>
       <InlineField
@@ -18,10 +18,10 @@ const QueryEditorCommitFiles = (props: Props) => {
       >
         <Input
           width={RightColumnWidth}
-          value={ref}
+          value={commitSha}
           placeholder="e.g. abc123def456"
-          onChange={(el) => setRef(el.currentTarget.value)}
-          onBlur={(el) => props.onChange({ ...props, ref: el.currentTarget.value })}
+          onChange={(el) => setCommitSha(el.currentTarget.value)}
+          onBlur={(el) => props.onChange({ ...props, commitSha: el.currentTarget.value })}
         />
       </InlineField>
     </>

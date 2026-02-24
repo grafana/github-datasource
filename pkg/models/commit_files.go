@@ -5,7 +5,7 @@ type CommitFilesOptions struct {
 	Owner      string `json:"owner"`
 	Repository string `json:"repository"`
 	// Ref is the commit SHA to retrieve changed files for
-	Ref string `json:"ref"`
+	Ref string `json:"commitSha"`
 }
 
 // CommitFilesOptionsWithRepo adds Owner and Repository to CommitFilesOptions
