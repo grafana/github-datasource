@@ -1,5 +1,5 @@
 ---
-'grafana-github-datasource': patch
+'grafana-github-datasource': minor
 ---
 
 Add deployments query type
