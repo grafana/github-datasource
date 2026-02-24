@@ -114,8 +114,7 @@ func GetDeploymentsInRange(ctx context.Context, client models.Client, opts model
 	filtered := []*googlegithub.Deployment{}
 
 	for _, deployment := range deployments {
-		createdAt := deployment.CreatedAt.GetTime()
-		if createdAt != nil && !createdAt.Before(from) && !createdAt.After(to) {
+		if createdAt := deployment.CreatedAt.GetTime(); createdAt != nil && !createdAt.Before(from) && !createdAt.After(to) {
 			filtered = append(filtered, deployment)
 		}
 	}
