@@ -32,7 +32,7 @@ import type { GitHubDataSourceOptions } from '../types/config';
 interface Props extends QueryEditorProps<GitHubDataSource, GitHubQuery, GitHubDataSourceOptions> {
   queryTypes?: string[];
 }
-export const LeftColumnWidth = 10;
+export const LeftColumnWidth = 12;
 export const RightColumnWidth = 36;
 
 /* eslint-disable react/display-name */
