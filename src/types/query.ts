@@ -61,7 +61,7 @@ export interface CommitsOptions extends Indexable {
 }
 
 export interface CommitFilesOptions extends Indexable {
-  ref?: string;
+  commitSha?: string;
 }
 
 export interface PullRequestFilesOptions extends Indexable {
