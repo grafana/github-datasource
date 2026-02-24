@@ -23,6 +23,8 @@ import QueryEditorWorkflows from './QueryEditorWorkflows';
 import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
 import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
 import QueryEditorCodeScanning from './QueryEditorCodeScanning';
+import QueryEditorCommitFiles from './QueryEditorCommitFiles';
+import QueryEditorPullRequestFiles from './QueryEditorPullRequestFiles';
 import { QueryType, DefaultQueryType } from '../constants';
 import type { GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
@@ -55,6 +57,16 @@ const queryEditors: {
   },
   [QueryType.Code_Scanning]: {
     component: (props: Props, onChange: (val: any) => void) => <QueryEditorCodeScanning {...(props.query.options || {})}  onChange={onChange} />,
+  },
+  [QueryType.Commit_Files]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCommitFiles {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  [QueryType.Pull_Request_Files]: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorPullRequestFiles {...(props.query.options || {})} onChange={onChange} />
+    ),
   },
   [QueryType.Releases]: {
     component: (props: Props, _: (val: any) => void) => <QueryEditorReleases {...(props.query.options || {})} />,
