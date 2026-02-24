@@ -60,6 +60,14 @@ func (m *mockClient) ListAllOrgRepositories(ctx context.Context, opts *googlegit
 	return nil, nil, nil
 }
 
+func (m *mockClient) GetCommitFiles(ctx context.Context, owner, repo, sha string, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
+func (m *mockClient) ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
 func TestGetCodeScanningAlerts(t *testing.T) {
 	var (
 		ctx  = context.Background()
