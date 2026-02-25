@@ -9,18 +9,19 @@ export interface RepositoryOptions {
 
 export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
   options?:
-    | PullRequestsOptions
-    | PullRequestReviewsOptions
-    | ReleasesOptions
-    | LabelsOptions
-    | TagsOptions
-    | CommitsOptions
-    | IssuesOptions
-    | ContributorsOptions
-    | ProjectsOptions
-    | WorkflowsOptions
-    | WorkflowUsageOptions
-    | WorkflowRunsOptions;
+  | PullRequestsOptions
+  | PullRequestReviewsOptions
+  | ReleasesOptions
+  | LabelsOptions
+  | TagsOptions
+  | CommitsOptions
+  | IssuesOptions
+  | ContributorsOptions
+  | ProjectsOptions
+  | WorkflowsOptions
+  | WorkflowUsageOptions
+  | WorkflowRunsOptions
+  | DeploymentsOptions;
 }
 
 export interface Label {
@@ -33,9 +34,9 @@ export interface Indexable {
   [index: string]: any;
 }
 
-export interface ReleasesOptions extends Indexable {}
+export interface ReleasesOptions extends Indexable { }
 
-export interface TagsOptions extends Indexable {}
+export interface TagsOptions extends Indexable { }
 
 export interface PullRequestsOptions extends Indexable {
   timeField?: PullRequestTimeField;
@@ -81,6 +82,13 @@ export interface WorkflowUsageOptions extends Indexable {
 export interface WorkflowRunsOptions extends Indexable {
   workflowID?: string;
   branch?: string;
+}
+
+export interface DeploymentsOptions extends Indexable {
+  sha?: string;
+  gitRef?: string;
+  task?: string;
+  environment?: string;
 }
 
 export interface PackagesOptions extends Indexable {

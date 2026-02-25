@@ -40,6 +40,7 @@ The data source supports the following query types, which you can select from th
 - [**Workflows**](#workflows): List GitHub Actions workflows defined in a repository.
 - [**Workflow usage**](#workflow-usage): Retrieve usage statistics for a workflow, such as run counts and durations.
 - [**Workflow runs**](#workflow-runs): List runs for a specific workflow, including status, conclusion, and timing information.
+- [**Deployments**](#deployments): List deployments for a repository, including environment, ref, and task information.
 
 ### Commits
 
@@ -666,3 +667,52 @@ Show all completed runs for the `Levitate` workflow in the `grafana/grafana` rep
 | event        | Event that triggered the workflow run (e.g., `push`, `pull_request`) - see [Events that trigger workflows](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows) |
 | workflow_id  | Unique identifier for the workflow definition                            |
 | run_number   | The run number for this workflow run in the repository                   |
+### Deployments
+
+List deployments for a repository, including environment, ref, and task information. Deployments track deployment requests for specific refs (branches, tags, or SHAs) to different environments.
+
+#### Query options
+
+| Name        | Description                                                                     | Required |
+| ---------- | ------------------------------------------------------------------------------- | -------- |
+| Owner      | GitHub user or organization that owns the repository                          | Yes      |
+| Repository | Name of the repository                                                        | Yes      |
+| SHA        | Filter deployments by the SHA recorded at creation time                        | No       |
+| Ref        | Filter by ref name (branch, tag, or SHA)                                      | No       |
+| Task       | Filter by task name (e.g., "deploy", "deploy:migrations")                      | No       |
+| Environment | Filter by environment name (e.g., "production", "staging", "qa")              | No       |
+
+##### Sample queries
+
+Show all deployments for the `grafana/grafana` repository:
+
+- Owner: `grafana`
+- Repository: `grafana`
+
+Show all deployments to the production environment:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Environment: `production`
+
+Show all deployments for a specific branch:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Ref: `main`
+
+#### Response
+
+| Name         | Description                                                              |
+| ------------ | ------------------------------------------------------------------------ |
+| id           | Unique identifier for the deployment                                     |
+| sha          | SHA of the commit that was deployed                                      |
+| ref          | Ref (branch, tag, or SHA) that was deployed                             |
+| task         | Task name (e.g., "deploy", "deploy:migrations")                          |
+| environment  | Environment name (e.g., "production", "staging")                        |
+| description  | Description of the deployment                                            |
+| creator      | GitHub handle of the user who created the deployment                    |
+| created_at   | When the deployment was created: YYYY-MM-DD HH:MM:SS                    |
+| updated_at   | When the deployment was last updated: YYYY-MM-DD HH:MM:SS                |
+| url          | API URL for the deployment                                               |
+| statuses_url | API URL for the deployment statuses                                      |
