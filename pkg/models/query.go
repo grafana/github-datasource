@@ -43,6 +43,10 @@ const (
 	QueryTypeWorkflowRuns = "Workflow_Runs"
 	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
 	QueryTypeCodeScanning = "Code_Scanning"
+	// QueryTypeCommitFiles is used when querying files changed in a specific commit
+	QueryTypeCommitFiles = "Commit_Files"
+	// QueryTypePullRequestFiles is used when querying files changed in a specific pull request
+	QueryTypePullRequestFiles = "Pull_Request_Files"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -152,4 +156,16 @@ type WorkflowRunsQuery struct {
 type CodeScanningQuery struct {
 	Query
 	Options CodeScanningOptions `json:"options"`
+}
+
+// CommitFilesQuery is used when querying for files changed in a GitHub commit
+type CommitFilesQuery struct {
+	Query
+	Options CommitFilesOptions `json:"options"`
+}
+
+// PullRequestFilesQuery is used when querying for files changed in a GitHub pull request
+type PullRequestFilesQuery struct {
+	Query
+	Options PullRequestFilesOptions `json:"options"`
 }

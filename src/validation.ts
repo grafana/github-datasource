@@ -10,6 +10,8 @@ export const isValid = (query: GitHubQuery): boolean => {
   }
   if (
     query.queryType === QueryType.Commits ||
+    query.queryType === QueryType.Commit_Files ||
+    query.queryType === QueryType.Pull_Request_Files ||
     query.queryType === QueryType.Contributors ||
     query.queryType === QueryType.Tags ||
     query.queryType === QueryType.Releases ||

@@ -43,7 +43,22 @@ func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.Issues
 // HandleCommitsQuery is the query handler for listing GitHub Commits
 func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.CommitsOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	if opt.IncludeFiles {
+		return GetCommitsWithFilesInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+	}
 	return GetCommitsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
+// HandleCommitFilesQuery is the query handler for listing files changed in a GitHub commit
+func (d *Datasource) HandleCommitFilesQuery(ctx context.Context, query *models.CommitFilesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.CommitFilesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetCommitFiles(ctx, d.client, opt)
+}
+
+// HandlePullRequestFilesQuery is the query handler for listing files changed in a GitHub pull request
+func (d *Datasource) HandlePullRequestFilesQuery(ctx context.Context, query *models.PullRequestFilesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.PullRequestFilesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetPullRequestFiles(ctx, d.client, opt)
 }
 
 // HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository

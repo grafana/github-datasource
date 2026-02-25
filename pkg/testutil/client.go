@@ -76,3 +76,13 @@ func (c *TestClient) ListAlertsForRepo(ctx context.Context, owner, repo string, 
 func (c *TestClient) ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
+
+// GetCommitFiles is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) GetCommitFiles(ctx context.Context, owner, repo, sha string, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// ListPullRequestFiles is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
