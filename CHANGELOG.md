@@ -1,5 +1,14 @@
 # Change Log
 
+## 2.5.1
+
+🐛 Fixed a panic when GitHub REST API returns error responses (e.g. 404, 401, 403)
+
+## 2.5.0
+
+🚀 Update dependencies for react-19 upgrade preparations
+🚀 Feature: Add labels to Pull Requests query type
+
 ## 2.4.1
 
 🐛 Update create-plugin configs
