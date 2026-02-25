@@ -60,7 +60,7 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 	// Also, it's unlikely a repository will have more workflows than this.
 	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &googlegithub.ListOptions{Page: 1, PerPage: 100})
 	if err != nil {
-		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
+		return nil, fmt.Errorf("listing workflows: opts=%+v: %v", opts, err)
 	}
 
 	// If time field is None, return all workflows without filtering
@@ -71,7 +71,7 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 	// Otherwise, apply time filtering based on the selected time field
 	workflows, err := keepWorkflowsInTimeRange(data.Workflows, opts.TimeField, timeRange)
 	if err != nil {
-		return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v %w", opts.TimeField, timeRange, err)
+		return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v: %v", opts.TimeField, timeRange, err)
 	}
 
 	return WorkflowsWrapper(workflows), nil

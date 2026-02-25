@@ -101,7 +101,7 @@ func TestGetAllDeploymentsWithFilters(t *testing.T) {
 			Repository:  "grafana",
 			Owner:       "grafana",
 			SHA:         "abc123",
-			Ref:         "main",
+			GitRef:      "main",
 			Task:        "deploy",
 			Environment: "production",
 		}

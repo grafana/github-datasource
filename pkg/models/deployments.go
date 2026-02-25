@@ -11,8 +11,8 @@ type ListDeploymentsOptions struct {
 	// SHA is the SHA recorded at creation time to filter by
 	SHA string `json:"sha,omitempty"`
 
-	// Ref is the name of the ref (branch, tag, or SHA) to filter by
-	Ref string `json:"ref,omitempty"`
+	// GitRef is the name of the ref (branch, tag, or SHA) to filter by
+	GitRef string `json:"gitRef,omitempty"`
 
 	// Task is the name of the task (e.g., "deploy", "deploy:migrations") to filter by
 	Task string `json:"task,omitempty"`

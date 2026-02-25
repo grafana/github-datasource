@@ -218,7 +218,7 @@ func (d *Datasource) HandleDeploymentsQuery(ctx context.Context, query *models.D
 		Repository:  query.Repository,
 		Owner:       query.Owner,
 		SHA:         query.Options.SHA,
-		Ref:         query.Options.Ref,
+		GitRef:      query.Options.GitRef,
 		Task:        query.Options.Task,
 		Environment: query.Options.Environment,
 	}

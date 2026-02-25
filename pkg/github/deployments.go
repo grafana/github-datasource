@@ -75,8 +75,8 @@ func GetAllDeployments(ctx context.Context, client models.Client, opts models.Li
 	if opts.SHA != "" {
 		listOpts.SHA = opts.SHA
 	}
-	if opts.Ref != "" {
-		listOpts.Ref = opts.Ref
+	if opts.GitRef != "" {
+		listOpts.Ref = opts.GitRef
 	}
 	if opts.Task != "" {
 		listOpts.Task = opts.Task
@@ -90,7 +90,7 @@ func GetAllDeployments(ctx context.Context, client models.Client, opts models.Li
 		listOpts.Page = page
 		deploymentsPage, resp, err := client.ListDeployments(ctx, opts.Owner, opts.Repository, listOpts)
 		if err != nil {
-			return nil, fmt.Errorf("listing deployments: opts=%+v %w", opts, err)
+			return nil, fmt.Errorf("listing deployments: opts=%+v: %v", opts, err)
 		}
 
 		deployments = append(deployments, deploymentsPage...)

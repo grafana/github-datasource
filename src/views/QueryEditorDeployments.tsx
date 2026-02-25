@@ -8,9 +8,8 @@ interface Props extends DeploymentsOptions {
 }
 
 const QueryEditorDeployments = (props: Props) => {
-  const { sha: initialSha, ref: initialRef, task: initialTask, environment: initialEnvironment } = props;
+  const { sha: initialSha, gitRef: initialRef, task: initialTask, environment: initialEnvironment } = props;
   const [sha, setSha] = useState<string | undefined>(initialSha);
-  // eslint-disable-next-line react-hooks/refs -- 'ref' is a prop name from DeploymentsOptions, not a React ref
   const [gitRef, setGitRef] = useState<string | undefined>(initialRef);
   const [task, setTask] = useState<string | undefined>(initialTask);
   const [environment, setEnvironment] = useState<string | undefined>(initialEnvironment);
@@ -46,7 +45,7 @@ const QueryEditorDeployments = (props: Props) => {
           onBlur={(el) =>
             props.onChange({
               ...props,
-              ref: el.currentTarget.value || undefined,
+              gitRef: el.currentTarget.value || undefined,
             })
           }
         />
