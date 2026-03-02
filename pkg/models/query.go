@@ -161,3 +161,7 @@ type DeploymentsQuery struct {
 	Query
 	Options ListDeploymentsOptions `json:"options"`
 }
+
+// OrganizationsQuery is used when querying for GitHub organizations
+type OrganizationsQuery struct {
+}

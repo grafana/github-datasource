@@ -229,6 +229,15 @@ func (d *Datasource) HandleDeploymentsQuery(ctx context.Context, query *models.D
 	return GetDeploymentsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleOrganizationsQuery is the query handler for listing GitHub Organizations
+func (d *Datasource) HandleOrganizationsQuery(ctx context.Context, query *models.OrganizationsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	orgs, err := GetAllOrganizations(ctx, d.client)
+	if err != nil {
+		return nil, err
+	}
+	return Organizations(orgs), nil
+}
+
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{

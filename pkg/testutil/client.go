@@ -81,3 +81,8 @@ func (c *TestClient) ListAlertsForOrg(ctx context.Context, owner string, opts *g
 func (c *TestClient) ListDeployments(ctx context.Context, owner, repo string, opts *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
+
+// ListAllOrgRepositories is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListAllOrgRepositories(ctx context.Context, opts *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
