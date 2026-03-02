@@ -50,6 +50,10 @@ func (m *mockDeploymentsClient) ListDeployments(ctx context.Context, owner, repo
 	return m.mockDeployments, m.mockResponse, nil
 }
 
+func (m *mockDeploymentsClient) ListAllOrgRepositories(ctx context.Context, opts *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
 func TestGetAllDeployments(t *testing.T) {
 	var (
 		ctx  = context.Background()
