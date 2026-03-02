@@ -212,6 +212,32 @@ func (d *Datasource) HandleWorkflowRunsQuery(ctx context.Context, query *models.
 	return GetWorkflowRuns(ctx, d.client, opt, req.TimeRange)
 }
 
+// HandleDeploymentsQuery is the query handler for listing GitHub Deployments
+func (d *Datasource) HandleDeploymentsQuery(ctx context.Context, query *models.DeploymentsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListDeploymentsOptions{
+		Repository:  query.Repository,
+		Owner:       query.Owner,
+		SHA:         query.Options.SHA,
+		GitRef:      query.Options.GitRef,
+		Task:        query.Options.Task,
+		Environment: query.Options.Environment,
+	}
+
+	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
+		return GetAllDeployments(ctx, d.client, opt)
+	}
+	return GetDeploymentsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
+// HandleOrganizationsQuery is the query handler for listing GitHub Organizations
+func (d *Datasource) HandleOrganizationsQuery(ctx context.Context, query *models.OrganizationsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	orgs, err := GetAllOrganizations(ctx, d.client)
+	if err != nil {
+		return nil, err
+	}
+	return Organizations(orgs), nil
+}
+
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
