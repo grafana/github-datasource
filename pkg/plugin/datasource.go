@@ -29,6 +29,7 @@ type Datasource interface {
 	HandleWorkflowUsageQuery(context.Context, *models.WorkflowUsageQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleWorkflowRunsQuery(context.Context, *models.WorkflowRunsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleDeploymentsQuery(context.Context, *models.DeploymentsQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleOrganizationsQuery(context.Context, *models.OrganizationsQuery, backend.DataQuery) (dfutil.Framer, error)
 	CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error)
 	QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error)
 }

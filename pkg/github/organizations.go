@@ -10,7 +10,10 @@ import (
 
 // An Organization is a single GitHub organization
 type Organization struct {
-	Name string
+	Login       string
+	Name        string
+	Description string
+	URL         string `graphql:"url"`
 }
 
 // Organizations is a slice of GitHub Organizations
@@ -18,7 +21,24 @@ type Organizations []Organization
 
 // Frames converts the list of Organizations to a Grafana DataFrame
 func (c Organizations) Frames() data.Frames {
-	return data.Frames{}
+	frame := data.NewFrame(
+		"organizations",
+		data.NewField("login", nil, []string{}),
+		data.NewField("name", nil, []string{}),
+		data.NewField("description", nil, []string{}),
+		data.NewField("url", nil, []string{}),
+	)
+
+	for _, org := range c {
+		frame.AppendRow(
+			org.Login,
+			org.Name,
+			org.Description,
+			org.URL,
+		)
+	}
+
+	return data.Frames{frame}
 }
 
 // QueryListOrganizations is the GraphQL query for listing organizations
