@@ -39,6 +39,7 @@
     "@grafana/plugin-e2e": "3.4.0",
     "@grafana/plugin-meta-extractor": "0.12.2",
     "@grafana/tsconfig": "2.0.1",
+    "@openfeature/web-sdk": "1.7.3",
     "@playwright/test": "1.58.2",
     "@stylistic/eslint-plugin-ts": "4.4.1",
     "@swc/core": "1.15.17",
@@ -90,7 +91,8 @@
     "webpack-virtual-modules": "0.6.2"
   },
   "resolutions": {
-    "@remix-run/router": "^1.23.2"
+    "@remix-run/router": "1.23.2",
+    "@openfeature/core": "1.9.2"
   },
   "packageManager": "yarn@4.12.0"
 }
