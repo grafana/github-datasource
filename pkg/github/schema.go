@@ -513,6 +513,23 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
+			Name:      normalizeTableNames(models.QueryTypeDeployments),
+			SubTables: repoScopedSubTables,
+			Columns: []schemas.Column{
+				{Name: "id", Type: schemas.ColumnTypeInt64},
+				{Name: "sha", Type: schemas.ColumnTypeString},
+				{Name: "ref", Type: schemas.ColumnTypeString},
+				{Name: "task", Type: schemas.ColumnTypeString},
+				{Name: "environment", Type: schemas.ColumnTypeString},
+				{Name: "description", Type: schemas.ColumnTypeString},
+				{Name: "creator", Type: schemas.ColumnTypeString},
+				{Name: "created_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "updated_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "url", Type: schemas.ColumnTypeString},
+				{Name: "statuses_url", Type: schemas.ColumnTypeString},
+			},
+		},
+		{
 			Name: normalizeTableNames(models.QueryTypeOrganizations),
 			Columns: []schemas.Column{
 				{Name: "login", Type: schemas.ColumnTypeString},
