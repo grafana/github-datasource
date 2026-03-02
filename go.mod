@@ -1,11 +1,12 @@
 module github.com/grafana/github-datasource
 
-go 1.25.6
+go 1.25.7
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.17.0
 	github.com/google/go-github/v81 v81.0.0
-	github.com/grafana/grafana-plugin-sdk-go v0.287.0
+	github.com/grafana/grafana-plugin-sdk-go v0.288.0
+	github.com/grafana/schemads v0.0.0
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20240727222349-48295856cce7
@@ -103,6 +104,6 @@ require (
 	golang.org/x/sys v0.40.0 // indirect
 	golang.org/x/text v0.33.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
-	google.golang.org/grpc v1.78.0 // indirect
+	google.golang.org/grpc v1.79.1 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 )
