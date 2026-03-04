@@ -2,7 +2,7 @@
   "name": "grafana-github-datasource",
   "version": "2.6.0",
   "private": true,
-  "description": "The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.",
+  "description": "Grafana data source plugin for Github",
   "repository": "github:grafana/github-datasource",
   "license": "Apache-2.0",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
