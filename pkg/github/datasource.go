@@ -157,9 +157,17 @@ func (d *Datasource) HandleProjectsQuery(ctx context.Context, query *models.Proj
 	opt := models.ProjectOptions{
 		Organization: query.Options.Organization,
 		Number:       query.Options.Number,
+		MaxPages:     query.Options.MaxPages,
 		User:         query.Options.User,
 		Kind:         query.Options.Kind,
 		Filters:      query.Options.Filters,
+	}
+
+	// Validate and set defaults for MaxPages - ensure between 1 and 30
+	if opt.MaxPages <= 0 {
+		opt.MaxPages = 1
+	} else if opt.MaxPages > 30 {
+		opt.MaxPages = 30
 	}
 
 	if projects.ProjectNumber(query.Options.Number) > 0 {
