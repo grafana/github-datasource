@@ -1,5 +1,13 @@
 # Change Log
 
+## 2.6.0
+
+🚀 Add deployments query type
+
+⚙️ Updated backend/go version to 1.26.0 from 1.25.6 which resolves CVE-2025-68121
+
+⚙️ Updated frontend & backend dependencies
+
 ## 2.5.1
 
 🐛 Fixed a panic when GitHub REST API returns error responses (e.g. 404, 401, 403)

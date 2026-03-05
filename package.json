@@ -1,8 +1,8 @@
 {
   "name": "grafana-github-datasource",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "private": true,
-  "description": "The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.",
+  "description": "Grafana data source plugin for Github",
   "repository": "github:grafana/github-datasource",
   "license": "Apache-2.0",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
@@ -37,7 +37,7 @@
     "@changesets/cli": "2.29.8",
     "@grafana/e2e-selectors": "12.4.0",
     "@grafana/eslint-config": "9.0.0",
-    "@grafana/plugin-e2e": "3.4.0",
+    "@grafana/plugin-e2e": "3.4.1",
     "@grafana/plugin-meta-extractor": "0.12.2",
     "@grafana/tsconfig": "2.0.1",
     "@openfeature/web-sdk": "1.7.3",
@@ -93,7 +93,9 @@
   },
   "resolutions": {
     "@remix-run/router": "1.23.2",
-    "@openfeature/core": "1.9.2"
+    "@openfeature/core": "1.9.2",
+    "minimatch": "10.2.4",
+    "serialize-javascript": "7.0.3"
   },
   "packageManager": "yarn@4.12.0"
 }
