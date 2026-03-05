@@ -135,8 +135,8 @@ func (p *SchemaProvider) TableParameterValues(ctx context.Context, req *schemas.
 		}
 		result[param] = names
 	case "workflow":
-		org, _ := req.DependencyValues["organization"]
-		repo, _ := req.DependencyValues["repository"]
+		org := req.DependencyValues["organization"]
+		repo := req.DependencyValues["repository"]
 		if org == "" || repo == "" {
 			return &schemas.TableParametersValuesResponse{TableParameterValues: result}, nil
 		}
