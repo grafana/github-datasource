@@ -9,22 +9,6 @@ import (
 	schemas "github.com/grafana/schemads"
 )
 
-// SchemaProvider implements the schemads.TableSchemaProvider interface,
-// providing schema metadata for all GitHub query types.
-type SchemaProvider struct {
-	ds *Datasource
-}
-
-func NewSchemaProvider(ds *Datasource) *SchemaProvider {
-	return &SchemaProvider{ds: ds}
-}
-
-// NewSchemaHandler creates a schemas.SchemaHandler backed by SchemaProvider
-// with automatic request routing via NewSchemaHandlerFromProvider.
-func NewSchemaHandler(ds *Datasource) schemas.SchemaHandler {
-	return schemas.NewSchemaHandlerFromProvider(NewSchemaProvider(ds))
-}
-
 var (
 	timeRangeOperators = []schemas.Operator{
 		schemas.OperatorGreaterThan,
@@ -40,143 +24,155 @@ var (
 		schemas.OperatorLike,
 	}
 
-	repoScopedSubTables = []schemas.SubTable{
+	repoScopedTableParameters = []schemas.TableParameter{
 		{Name: "organization", Root: true, Required: true},
 		{Name: "repository", DependsOn: []string{"organization"}, Required: true},
 	}
 
-	orgOnlySubTables = []schemas.SubTable{
+	orgOnlyTableParameters = []schemas.TableParameter{
 		{Name: "organization", Root: true, Required: true},
 	}
 
-	projectSubTables = []schemas.SubTable{
+	projectTableParameters = []schemas.TableParameter{
 		{Name: "organization", Root: true, Required: false},
 	}
 
-	workflowUsageSubTables = []schemas.SubTable{
+	workflowUsageTableParameters = []schemas.TableParameter{
 		{Name: "organization", Root: true, Required: true},
 		{Name: "repository", DependsOn: []string{"organization"}, Required: true},
 		{Name: "workflow", DependsOn: []string{"repository"}, Required: true},
 	}
 )
 
-func (p *SchemaProvider) FullSchema(ctx context.Context) (*schemas.Schema, error) {
+// SchemaProvider implements schemads SchemaHandler, TablesHandler, ColumnsHandler,
+// TableParameterValuesHandler, and ColumnValuesHandler interfaces, providing schema
+// metadata for all GitHub query types.
+type SchemaProvider struct {
+	ds *Datasource
+}
+
+func NewSchemaProvider(ds *Datasource) *SchemaProvider {
+	return &SchemaProvider{ds: ds}
+}
+
+// Schema implements schemas.SchemaHandler. Returns the full schema for "fullSchema" requests.
+func (p *SchemaProvider) Schema(ctx context.Context, req *schemas.SchemaRequest) (*schemas.SchemaResponse, error) {
 	orgRepos, err := GetAllOrgRepositories(ctx, p.ds.client)
 	if err != nil {
 		backend.Logger.Warn("failed to get org-repo combinations", "error", err.Error())
 	}
 
-	return &schemas.Schema{
+	return &schemas.SchemaResponse{FullSchema: &schemas.Schema{
 		Tables: getAllTables(),
-		SubTableValues: map[string]map[string][]string{
+		TableParameterValues: map[string]map[string][]string{
 			"organization": {
 				"root": orgRepos.Orgs,
 			},
 			"repository": orgRepos.OrgRepoCombinations,
 		},
+	}}, nil
+}
+
+// Tables implements schemas.TablesHandler.
+func (p *SchemaProvider) Tables(ctx context.Context, req *schemas.TablesRequest) (*schemas.TablesResponse, error) {
+	tables := getAllTables()
+	names := make([]string, len(tables))
+	tableParameters := make(map[string][]schemas.TableParameter)
+	for i, t := range tables {
+		names[i] = t.Name
+		if len(t.TableParameters) > 0 {
+			tableParameters[t.Name] = t.TableParameters
+		}
+	}
+
+	return &schemas.TablesResponse{
+		Tables:          names,
+		TableParameters: tableParameters,
 	}, nil
 }
 
-func (p *SchemaProvider) Tables(_ context.Context) ([]string, map[string][]schemas.SubTable, error) {
-	tables := getAllTables()
-	names := make([]string, len(tables))
-	subTables := make(map[string][]schemas.SubTable)
-	for i, t := range tables {
-		names[i] = t.Name
-		if len(t.SubTables) > 0 {
-			subTables[t.Name] = t.SubTables
-		}
-	}
-	return names, subTables, nil
-}
-
-func (p *SchemaProvider) Columns(_ context.Context, tables []string) (map[string][]schemas.Column, error) {
+// Columns implements schemas.ColumnsHandler.
+func (p *SchemaProvider) Columns(ctx context.Context, req *schemas.ColumnsRequest) (*schemas.ColumnsResponse, error) {
 	tableMap := getTableMap()
-	result := make(map[string][]schemas.Column, len(tables))
-	for _, name := range tables {
-		bare := stripSubTableValues(name)
+	cols := make(map[string][]schemas.Column, len(req.Tables))
+	for _, name := range req.Tables {
+		bare := stripTableParameterValues(name)
 		if table, ok := tableMap[bare]; ok {
-			result[name] = table.Columns
+			cols[name] = table.Columns
 		}
 	}
-	return result, nil
+	return &schemas.ColumnsResponse{Columns: cols}, nil
 }
 
-// stripSubTableValues removes any sub-table value suffix from a table name.
+// TableParameterValues implements schemas.TableParameterValuesHandler.
+func (p *SchemaProvider) TableParameterValues(ctx context.Context, req *schemas.TableParameterValuesRequest) (*schemas.TableParametersValuesResponse, error) {
+	result := make(map[string][]string)
+	switch param := req.TableParameter; param {
+	case "organization":
+		orgs, err := GetAllOrganizations(ctx, p.ds.client)
+		if err != nil {
+			backend.Logger.Warn("failed to get organizations for table parameter", "error", err.Error())
+			return &schemas.TableParametersValuesResponse{TableParameterValues: result}, nil
+		}
+		names := make([]string, len(orgs))
+		for i, o := range orgs {
+			names[i] = o.Name
+		}
+		result[param] = names
+	case "repository":
+		org, ok := req.DependencyValues["organization"]
+		if !ok || org == "" {
+			return &schemas.TableParametersValuesResponse{TableParameterValues: result}, nil
+		}
+		repos, err := GetAllRepositories(ctx, p.ds.client, models.ListRepositoriesOptions{Owner: org})
+		if err != nil {
+			backend.Logger.Warn("failed to get repositories for table parameter", "error", err.Error())
+			return &schemas.TableParametersValuesResponse{TableParameterValues: result}, nil
+		}
+		names := make([]string, len(repos))
+		for i, r := range repos {
+			names[i] = r.Name
+		}
+		result[param] = names
+	case "workflow":
+		org, _ := req.DependencyValues["organization"]
+		repo, _ := req.DependencyValues["repository"]
+		if org == "" || repo == "" {
+			return &schemas.TableParametersValuesResponse{TableParameterValues: result}, nil
+		}
+		workflows, err := GetWorkflows(ctx, p.ds.client, models.ListWorkflowsOptions{
+			Owner:      org,
+			Repository: repo,
+		}, backend.TimeRange{})
+		if err != nil {
+			backend.Logger.Warn("failed to get workflows for table parameter", "error", err.Error())
+			return &schemas.TableParametersValuesResponse{TableParameterValues: result}, nil
+		}
+		frames := workflows.Frames()
+		if len(frames) > 0 {
+			nameField, _ := frames[0].FieldByName("name")
+			if nameField != nil {
+				names := make([]string, nameField.Len())
+				for i := 0; i < nameField.Len(); i++ {
+					if v, ok := nameField.ConcreteAt(i); ok {
+						names[i], _ = v.(string)
+					}
+				}
+				result[param] = names
+			}
+		}
+	}
+	return &schemas.TableParametersValuesResponse{TableParameterValues: result}, nil
+}
+
+// stripTableParameterValues removes any table parameter value suffix from a table name.
 // Table names use hyphens only (never underscores), so the first underscore
-// marks the start of the sub-table values (e.g. "issues_grafana_grafana" -> "issues").
-func stripSubTableValues(name string) string {
+// marks the start of the table parameter values (e.g. "issues_grafana_grafana" -> "issues").
+func stripTableParameterValues(name string) string {
 	if i := strings.IndexByte(name, '_'); i >= 0 {
 		return name[:i]
 	}
 	return name
-}
-
-func (p *SchemaProvider) ColumnValues(_ context.Context, _ []schemas.ColumnValuesRequest) (map[string][]string, error) {
-	return make(map[string][]string), nil
-}
-
-func (p *SchemaProvider) SubTableValues(ctx context.Context, subTables []schemas.SubTableValuesRequest) (map[string][]string, error) {
-	result := make(map[string][]string)
-	for _, st := range subTables {
-		key := st.Table + schemas.SubTableSeparator + st.SubTable
-		switch st.SubTable {
-		case "organization":
-			orgs, err := GetAllOrganizations(ctx, p.ds.client)
-			if err != nil {
-				backend.Logger.Warn("failed to get organizations for sub-table", "error", err.Error())
-				continue
-			}
-			names := make([]string, len(orgs))
-			for i, o := range orgs {
-				names[i] = o.Name
-			}
-			result[key] = names
-		case "repository":
-			org, ok := st.DependencyValues["organization"]
-			if !ok || org == "" {
-				continue
-			}
-			repos, err := GetAllRepositories(ctx, p.ds.client, models.ListRepositoriesOptions{Owner: org})
-			if err != nil {
-				backend.Logger.Warn("failed to get repositories for sub-table", "error", err.Error())
-				continue
-			}
-			names := make([]string, len(repos))
-			for i, r := range repos {
-				names[i] = r.Name
-			}
-			result[key] = names
-		case "workflow":
-			org, _ := st.DependencyValues["organization"]
-			repo, _ := st.DependencyValues["repository"]
-			if org == "" || repo == "" {
-				continue
-			}
-			workflows, err := GetWorkflows(ctx, p.ds.client, models.ListWorkflowsOptions{
-				Owner:      org,
-				Repository: repo,
-			}, backend.TimeRange{})
-			if err != nil {
-				backend.Logger.Warn("failed to get workflows for sub-table", "error", err.Error())
-				continue
-			}
-			frames := workflows.Frames()
-			if len(frames) > 0 {
-				nameField, _ := frames[0].FieldByName("name")
-				if nameField != nil {
-					names := make([]string, nameField.Len())
-					for i := 0; i < nameField.Len(); i++ {
-						if v, ok := nameField.ConcreteAt(i); ok {
-							names[i], _ = v.(string)
-						}
-					}
-					result[key] = names
-				}
-			}
-		}
-	}
-	return result, nil
 }
 
 func getTableMap() map[string]schemas.Table {
@@ -191,8 +187,8 @@ func getTableMap() map[string]schemas.Table {
 func getAllTables() []schemas.Table {
 	return []schemas.Table{
 		{
-			Name:      normalizeTableNames(models.QueryTypeCommits),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeCommits),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "id", Type: schemas.ColumnTypeString},
 				{Name: "author", Type: schemas.ColumnTypeString},
@@ -205,8 +201,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeIssues),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeIssues),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "title", Type: schemas.ColumnTypeString},
 				{Name: "author", Type: schemas.ColumnTypeString, Operators: equalityOperators},
@@ -224,8 +220,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypePullRequests),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypePullRequests),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "number", Type: schemas.ColumnTypeInt64},
 				{Name: "title", Type: schemas.ColumnTypeString},
@@ -256,8 +252,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypePullRequestReviews),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypePullRequestReviews),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "pull_request_number", Type: schemas.ColumnTypeInt64},
 				{Name: "pull_request_title", Type: schemas.ColumnTypeString},
@@ -280,8 +276,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeRepositories),
-			SubTables: orgOnlySubTables,
+			Name:            normalizeTableNames(models.QueryTypeRepositories),
+			TableParameters: orgOnlyTableParameters,
 			Columns: []schemas.Column{
 				{Name: "name", Type: schemas.ColumnTypeString, Operators: searchOperators},
 				{Name: "owner", Type: schemas.ColumnTypeString},
@@ -295,8 +291,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeContributors),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeContributors),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "name", Type: schemas.ColumnTypeString, Operators: searchOperators},
 				{Name: "login", Type: schemas.ColumnTypeString},
@@ -306,8 +302,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeTags),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeTags),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "name", Type: schemas.ColumnTypeString},
 				{Name: "id", Type: schemas.ColumnTypeString},
@@ -319,8 +315,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeReleases),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeReleases),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "name", Type: schemas.ColumnTypeString},
 				{Name: "created_by", Type: schemas.ColumnTypeString},
@@ -333,8 +329,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeLabels),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeLabels),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "color", Type: schemas.ColumnTypeString},
 				{Name: "name", Type: schemas.ColumnTypeString, Operators: searchOperators},
@@ -342,8 +338,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeMilestones),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeMilestones),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "title", Type: schemas.ColumnTypeString, Operators: append(searchOperators, equalityOperators...)},
 				{Name: "author", Type: schemas.ColumnTypeString},
@@ -355,8 +351,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypePackages),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypePackages),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "name", Type: schemas.ColumnTypeString, Operators: equalityOperators},
 				{Name: "platform", Type: schemas.ColumnTypeString},
@@ -367,8 +363,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeVulnerabilities),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeVulnerabilities),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "value", Type: schemas.ColumnTypeInt64},
 				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
@@ -387,8 +383,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeProjects),
-			SubTables: projectSubTables,
+			Name:            normalizeTableNames(models.QueryTypeProjects),
+			TableParameters: projectTableParameters,
 			Columns: []schemas.Column{
 				{Name: "number", Type: schemas.ColumnTypeInt64},
 				{Name: "title", Type: schemas.ColumnTypeString},
@@ -402,8 +398,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeProjectItems),
-			SubTables: projectSubTables,
+			Name:            normalizeTableNames(models.QueryTypeProjectItems),
+			TableParameters: projectTableParameters,
 			Columns: []schemas.Column{
 				{Name: "id", Type: schemas.ColumnTypeString},
 				{Name: "archived", Type: schemas.ColumnTypeBoolean},
@@ -414,8 +410,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeStargazers),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeStargazers),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "starred_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
 				{Name: "star_count", Type: schemas.ColumnTypeInt64},
@@ -428,8 +424,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeWorkflows),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeWorkflows),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "id", Type: schemas.ColumnTypeInt64},
 				{Name: "name", Type: schemas.ColumnTypeString},
@@ -443,8 +439,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeWorkflowUsage),
-			SubTables: workflowUsageSubTables,
+			Name:            normalizeTableNames(models.QueryTypeWorkflowUsage),
+			TableParameters: workflowUsageTableParameters,
 			Columns: []schemas.Column{
 				{Name: "name", Type: schemas.ColumnTypeString},
 				{Name: "unique triggering actors", Type: schemas.ColumnTypeUint64},
@@ -468,8 +464,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeWorkflowRuns),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeWorkflowRuns),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "id", Type: schemas.ColumnTypeInt64},
 				{Name: "name", Type: schemas.ColumnTypeString},
@@ -488,8 +484,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeCodeScanning),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeCodeScanning),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "number", Type: schemas.ColumnTypeInt64},
 				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
@@ -513,8 +509,8 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:      normalizeTableNames(models.QueryTypeDeployments),
-			SubTables: repoScopedSubTables,
+			Name:            normalizeTableNames(models.QueryTypeDeployments),
+			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
 				{Name: "id", Type: schemas.ColumnTypeInt64},
 				{Name: "sha", Type: schemas.ColumnTypeString},

@@ -78,8 +78,15 @@ func NewDataSourceInstance(ctx context.Context, settings backend.DataSourceInsta
 		}
 	}
 	// Add schema support
-	schemaHandler := github.NewSchemaHandler(ghDs)
-	schemaDs := schemas.NewSchemaDatasource(schemaHandler, nil)
+	schemaProvider := github.NewSchemaProvider(ghDs)
+	schemaDs := schemas.NewSchemaDatasource(
+		schemaProvider,
+		schemaProvider,
+		schemaProvider,
+		schemaProvider,
+		nil,
+		nil,
+	)
 
 	return &GitHubInstanceWithSchema{
 		Datasource:       ds,
