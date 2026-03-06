@@ -17,7 +17,9 @@
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
     "test": "jest --watch --onlyChanged",
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "server:record": "find wiremock/mappings -name '*.json' ! -name 'proxy-*' -delete 2>/dev/null; rm -f wiremock/__files/* 2>/dev/null; bash -c 'trap \"node tools/sanitize-stubs.js\" EXIT; docker compose -f e2e/docker-compose.record.yaml up --build'",
+    "server:replay": "docker compose -f e2e/docker-compose.replay.yaml up --build"
   },
   "dependencies": {
     "@emotion/css": "11.13.5",

@@ -1,0 +1,34 @@
+# Docker Compose override for REPLAY mode.
+# WireMock serves previously recorded API stubs.
+# No real API credentials are needed.
+#
+# usage:
+#   docker compose -f e2e/docker-compose.replay.yaml up -d --build
+
+services:
+  grafana:
+    extends:
+      file: ../.config/docker-compose-base.yaml
+      service: grafana
+    depends_on:
+      wiremock:
+        condition: service_started
+    environment:
+      # carried over from base compose (extends does not merge environment)
+      NODE_ENV: development
+      GF_LOG_FILTERS: plugin.grafana-github-datasource:debug
+      GF_LOG_LEVEL: debug
+      GF_DATAPROXY_LOGGING: 1
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: grafana-github-datasource
+      # route all GitHub API traffic through WireMock
+      GITHUB_URL: http://wiremock:8080
+      # no real credentials needed in replay mode
+      GITHUB_TOKEN: mock-token
+
+  wiremock:
+    image: wiremock/wiremock:3x
+    volumes:
+      - ../wiremock:/home/wiremock
+    ports:
+      - '8080:8080'
+    command: ['--verbose']

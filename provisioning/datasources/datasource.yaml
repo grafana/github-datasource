@@ -1,0 +1,20 @@
+# Provisioned GitHub datasource for e2e testing.
+#
+# Env vars are set by docker-compose (record or replay mode).
+# When GITHUB_URL is unset the plugin uses the default public
+# GitHub API endpoints.
+
+apiVersion: 1
+
+deleteDatasources:
+  - name: GitHub
+
+datasources:
+  - name: GitHub
+    type: grafana-github-datasource
+    access: proxy
+    jsonData:
+      selectedAuthType: personal-access-token
+      githubUrl: $GITHUB_URL
+    secureJsonData:
+      accessToken: $GITHUB_TOKEN

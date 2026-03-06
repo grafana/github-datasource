@@ -1,0 +1,40 @@
+{
+  "id": "715e723d-a9dc-370c-ae34-78327e185a75",
+  "request": {
+    "url": "/api/graphql",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"query\":\"query($cursor:String!$query:String!){search(query: $query, type: ISSUE, first: 100, after: $cursor){nodes{... on PullRequest{number,title,url,additions,deletions,state,author{... on User{id,login,name,company,email,url}},closed,isDraft,locked,merged,closedAt,createdAt,updatedAt,mergedAt,mergeable,mergedBy{... on User{id,login,name,company,email,url}},labels(first: 100){nodes{name}},repository{name,owner{login},nameWithOwner,url,forkCount,isFork,isMirror,isPrivate,createdAt}}},pageInfo{startCursor,endCursor,hasNextPage}}}\",\"variables\":{\"cursor\":\"Y3Vyc29yOjMwMA==\",\"query\":\"is:pr org:grafana\"}}\n",
+        "ignoreArrayOrder": true,
+        "ignoreExtraElements": true
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "body-api-graphql-VgnOa.json",
+    "headers": {
+      "X-Accepted-OAuth-Scopes": "repo",
+      "Server": "github.com",
+      "X-RateLimit-Resource": "graphql",
+      "Access-Control-Allow-Origin": "*",
+      "X-RateLimit-Used": "107",
+      "X-Content-Type-Options": "nosniff",
+      "X-RateLimit-Reset": "1772805756",
+      "Date": "Fri, 06 Mar 2026 13:25:39 GMT",
+      "Referrer-Policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+      "X-Frame-Options": "deny",
+      "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+      "Access-Control-Expose-Headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+      "X-RateLimit-Remaining": "4893",
+      "X-GitHub-Media-Type": "github.v4; format=json",
+      "Content-Security-Policy": "default-src 'none'",
+      "Vary": "Accept-Encoding, Accept, X-Requested-With",
+      "X-RateLimit-Limit": "5000",
+      "X-XSS-Protection": "0",
+      "Content-Type": "application/json; charset=utf-8"
+    }
+  },
+  "uuid": "715e723d-a9dc-370c-ae34-78327e185a75"
+}

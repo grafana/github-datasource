@@ -5,7 +5,9 @@
     "mage_output_file.go",
     "package.json",
     "renovate.json",
-    "yarn.lock"
+    "yarn.lock",
+    "wiremock/**",
+    "provisioning/dashboards/**"
   ],
   "ignoreRegExpList": [
     "import\\s*\\((.|[\r\n])*?\\)",
@@ -69,6 +71,8 @@
     "vals",
     "vladimirdotk",
     "Wrapf",
-    "confg"
+    "confg",
+    "unskip",
+    "wiremock"
   ]
 }
