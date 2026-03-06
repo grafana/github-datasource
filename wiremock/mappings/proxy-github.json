@@ -1,0 +1,11 @@
+{
+  "priority": 100,
+  "request": {
+    "urlPathPattern": "/api/v3/.*",
+    "method": "ANY"
+  },
+  "response": {
+    "proxyBaseUrl": "https://api.github.com",
+    "proxyUrlPrefixToRemove": "/api/v3"
+  }
+}

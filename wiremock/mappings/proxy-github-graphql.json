@@ -1,0 +1,11 @@
+{
+  "priority": 90,
+  "request": {
+    "urlPathPattern": "/api/graphql",
+    "method": "ANY"
+  },
+  "response": {
+    "proxyBaseUrl": "https://api.github.com",
+    "proxyUrlPrefixToRemove": "/api"
+  }
+}
