@@ -61,6 +61,7 @@
     "Wrapf",
     "confg",
     "octocat",
-    "schemads"
+    "schemads",
+    "featuretoggles"
   ]
 }
