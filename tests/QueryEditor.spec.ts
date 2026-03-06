@@ -1,6 +1,10 @@
 import { test, expect } from '@grafana/plugin-e2e';
 import { components } from '../src/components/selectors';
 
+// use the same absolute time range as the provisioned dashboard
+// so WireMock stubs match in replay mode
+const timeRange = { from: '2026-02-05 11:00:00', to: '2026-02-19 10:59:58' };
+
 test.describe('Query editor data queries', () => {
   test('Pull_Requests query should return timeseries data', async ({
     panelEditPage,
@@ -9,6 +13,7 @@ test.describe('Query editor data queries', () => {
   }) => {
     const ds = await readProvisionedDataSource({ fileName: 'datasource.yaml' });
     await panelEditPage.datasource.set(ds.name);
+    await panelEditPage.timeRange.set(timeRange);
     await panelEditPage.setVisualization('Time series');
     await panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel).click();
     await page.getByLabel('Select options menu').locator(page.getByText('Pull Requests')).click();
@@ -26,6 +31,7 @@ test.describe('Query editor data queries', () => {
   }) => {
     const ds = await readProvisionedDataSource({ fileName: 'datasource.yaml' });
     await panelEditPage.datasource.set(ds.name);
+    await panelEditPage.timeRange.set(timeRange);
     await panelEditPage.setVisualization('Table');
     await panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel).click();
     await page.getByLabel('Select options menu').locator(page.getByText('Pull Requests')).click();
@@ -35,14 +41,14 @@ test.describe('Query editor data queries', () => {
     await expect(panelEditPage.panel.fieldNames).toContainText(['number', 'title', 'url']);
   });
 
-  // TODO: unskip when @grafana/plugin-e2e supports Grafana 12.2.0 viz picker
-  test.skip('Pull_Requests table query with search filter should return results', async ({
+  test('Pull_Requests table query with search filter should return results', async ({
     panelEditPage,
     readProvisionedDataSource,
     page,
   }) => {
     const ds = await readProvisionedDataSource({ fileName: 'datasource.yaml' });
     await panelEditPage.datasource.set(ds.name);
+    await panelEditPage.timeRange.set(timeRange);
     await panelEditPage.setVisualization('Table');
     await panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel).click();
     await page.getByLabel('Select options menu').locator(page.getByText('Pull Requests')).click();
