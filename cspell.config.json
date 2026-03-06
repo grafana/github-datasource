@@ -6,7 +6,8 @@
     "package.json",
     "renovate.json",
     "yarn.lock",
-    "wiremock/**"
+    "wiremock/**",
+    "provisioning/dashboards/**"
   ],
   "ignoreRegExpList": [
     "import\\s*\\((.|[\r\n])*?\\)",
