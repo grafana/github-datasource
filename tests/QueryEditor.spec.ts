@@ -35,7 +35,8 @@ test.describe('Query editor data queries', () => {
     await expect(panelEditPage.panel.fieldNames).toContainText(['number', 'title', 'url']);
   });
 
-  test('Pull_Requests table query with search filter should return results', async ({
+  // TODO: unskip when @grafana/plugin-e2e supports Grafana 12.2.0 viz picker
+  test.skip('Pull_Requests table query with search filter should return results', async ({
     panelEditPage,
     readProvisionedDataSource,
     page,

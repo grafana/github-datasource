@@ -23,14 +23,10 @@ services:
       GF_LOG_LEVEL: debug
       GF_DATAPROXY_LOGGING: 1
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: grafana-github-datasource
-      # set endpoint override env vars here so the plugin routes
-      # API traffic through WireMock during recording.
-      # example:
-      #   MY_API_ENDPOINT: http://wiremock:8080
-      #
+      # route all GitHub API traffic through WireMock
+      GITHUB_URL: http://wiremock:8080
       # real credentials - passed from host env
-      # example:
-      #   MY_API_TOKEN: ${MY_API_TOKEN}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
 
   wiremock:
     image: wiremock/wiremock:3x
