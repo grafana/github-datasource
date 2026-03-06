@@ -53,6 +53,7 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt,
 			},
 			Closed: false,
+			State:  "OPEN",
 			Labels: struct { Nodes []struct{ Name string } }{
 				Nodes: []struct{ Name string }{
 					{ Name: "bug" },
@@ -75,6 +76,7 @@ func TestIssuesDataframe(t *testing.T) {
 					{ User: models.User{ Login: "secondUser" } },
 				},
 			},
+			Milestone: struct{ Title string }{Title: "v1.0"},
 			Repository: Repository{
 				Name: "grafana",
 				Owner: struct{ Login string }{
@@ -104,6 +106,7 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt.Add(time.Hour * 6),
 			},
 			Closed: true,
+			State:  "CLOSED",
 			Labels: struct { Nodes []struct{ Name string } }{
 				Nodes: []struct{ Name string }{
 					{ Name: "enhancement" },
@@ -124,6 +127,7 @@ func TestIssuesDataframe(t *testing.T) {
 					{ User: models.User{ Login: "firstUser" } },
 				},
 			},
+			Milestone: struct{ Title string }{Title: "v1.0"},
 			Repository: Repository{
 				Name: "grafana",
 				Owner: struct{ Login string }{
@@ -153,6 +157,7 @@ func TestIssuesDataframe(t *testing.T) {
 				Time: createdAt,
 			},
 			Closed: false,
+			State:  "OPEN",
 			Labels: struct { Nodes []struct{ Name string } }{
 				Nodes: []struct{ Name string }{},
 			},

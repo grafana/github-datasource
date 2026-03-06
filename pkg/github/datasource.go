@@ -262,6 +262,7 @@ func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRe
 
 // QueryData runs the query
 func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+	req = normalizeGrafanaSQLRequest(req)
 	m := GetQueryHandlers(&QueryHandler{
 		Datasource: *d,
 	})
