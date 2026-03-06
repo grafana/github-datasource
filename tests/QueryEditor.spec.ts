@@ -3,7 +3,7 @@ import { components } from '../src/components/selectors';
 
 // use the same absolute time range as the provisioned dashboard
 // so WireMock stubs match in replay mode
-const timeRange = { from: '2026-02-05 11:00:00', to: '2026-02-19 10:59:58' };
+const timeRange = { from: '2026-02-05 11:00:00', to: '2026-02-19 10:59:58', zone: 'Coordinated Universal Time' };
 
 test.describe('Query editor data queries', () => {
   test('Pull_Requests query should return timeseries data', async ({

@@ -300,7 +300,7 @@
     "to": "2026-02-19T10:59:58.500Z"
   },
   "timepicker": {},
-  "timezone": "browser",
+  "timezone": "utc",
   "title": "Test dashboard",
   "uid": "adhppsb",
   "version": 8
