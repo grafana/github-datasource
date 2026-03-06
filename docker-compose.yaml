@@ -3,3 +3,6 @@ services:
     extends:
       file: .config/docker-compose-base.yaml
       service: grafana
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      GITHUB_URL: ${GITHUB_URL:-}

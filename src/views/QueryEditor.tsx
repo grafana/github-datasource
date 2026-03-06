@@ -3,7 +3,6 @@ import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { Select, InlineField } from '@grafana/ui';
 
 import { GitHubDataSource } from '../DataSource';
-import { isValid } from '../validation';
 import { components } from '../components/selectors';
 
 import QueryEditorRepository from './QueryEditorRepository';
@@ -138,10 +137,6 @@ const QueryEditor = (props: Props) => {
   const onChange = useCallback(
     (value: GitHubQuery) => {
       props.onChange(value);
-
-      if (isValid(value)) {
-        props.onRunQuery();
-      }
     },
     [props]
   );

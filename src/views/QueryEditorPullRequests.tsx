@@ -3,6 +3,7 @@ import { Input, Select, InlineField } from '@grafana/ui';
 import { SelectableValue } from '@grafana/data';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { PullRequestTimeField } from '../constants';
+import { components } from '../components/selectors';
 import type { PullRequestsOptions } from '../types/query';
 
 interface Props extends PullRequestsOptions {
@@ -42,6 +43,7 @@ const QueryEditorPullRequests = (props: Props) => {
         interactive={true}
       >
         <Input
+          aria-label={components.QueryEditor.Query.input}
           value={query}
           width={RightColumnWidth}
           onChange={(el) => setQuery(el.currentTarget.value)}
