@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'E2E dashboards'
+    folder: 'E2E dashboards'
+    folderUid: ''
+    type: file
+    allowUiUpdates: true
+    updateIntervalSeconds: 60
+    options:
+      path: /etc/grafana/provisioning/dashboards
