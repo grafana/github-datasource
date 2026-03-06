@@ -25,3 +25,6 @@ mage_output_file.go
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# one-time setup agent - safe to delete after running
+.claude/agents/setup-e2e-mocks.md

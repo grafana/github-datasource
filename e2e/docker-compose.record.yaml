@@ -1,0 +1,44 @@
+# Docker Compose override for RECORDING mode.
+# WireMock acts as a recording reverse proxy. The plugin talks to WireMock
+# (via endpoint overrides in jsonData), WireMock forwards to the real
+# API via proxy stubs and saves request/response pairs as stubs.
+#
+# Requires real API credentials. Set them via env vars before starting.
+#
+# usage:
+#   docker compose -f e2e/docker-compose.record.yaml up --build
+
+services:
+  grafana:
+    extends:
+      file: ../.config/docker-compose-base.yaml
+      service: grafana
+    depends_on:
+      wiremock:
+        condition: service_started
+    environment:
+      # carried over from base compose (extends does not merge environment)
+      NODE_ENV: development
+      GF_LOG_FILTERS: plugin.grafana-github-datasource:debug
+      GF_LOG_LEVEL: debug
+      GF_DATAPROXY_LOGGING: 1
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: grafana-github-datasource
+      # set endpoint override env vars here so the plugin routes
+      # API traffic through WireMock during recording.
+      # example:
+      #   MY_API_ENDPOINT: http://wiremock:8080
+      #
+      # real credentials - passed from host env
+      # example:
+      #   MY_API_TOKEN: ${MY_API_TOKEN}
+
+  wiremock:
+    image: wiremock/wiremock:3x
+    command:
+      - --record-mappings
+      - --verbose
+      - --supported-proxy-encodings=identity
+    volumes:
+      - ../wiremock:/home/wiremock
+    ports:
+      - '8080:8080'

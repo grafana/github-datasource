@@ -1,0 +1,10 @@
+{
+  "priority": 100,
+  "request": {
+    "urlPathPattern": "/.*",
+    "method": "ANY"
+  },
+  "response": {
+    "proxyBaseUrl": "REPLACE_WITH_REAL_API_HOST"
+  }
+}
