@@ -6,7 +6,16 @@ import (
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/featuretoggles"
 )
+
+func pluginCtxWithFeatureToggle() backend.PluginContext {
+	return backend.PluginContext{
+		GrafanaConfig: backend.NewGrafanaCfg(map[string]string{
+			featuretoggles.EnabledFeatures: "dsAbstractionApp",
+		}),
+	}
+}
 
 func TestTableToQueryTypeCoversAllTypes(t *testing.T) {
 	allQueryTypes := []string{
@@ -57,7 +66,7 @@ func TestNormalizeAllTableTypes(t *testing.T) {
 		{name: "workflows", table: "workflows_grafana_grafana", wantType: models.QueryTypeWorkflows, wantOwner: "grafana", wantRepo: "grafana"},
 		{name: "repositories owner only", table: "repositories_grafana", wantType: models.QueryTypeRepositories, wantOwner: "grafana", wantRepo: ""},
 		{name: "projects owner only", table: "projects_grafana", wantType: models.QueryTypeProjects, wantOwner: "grafana", wantRepo: ""},
-		{name: "organizations no sub-tables", table: "organizations", wantType: models.QueryTypeOrganizations, wantOwner: "", wantRepo: ""},
+		{name: "organizations no table parameters", table: "organizations", wantType: models.QueryTypeOrganizations, wantOwner: "", wantRepo: ""},
 		{name: "repo with underscores", table: "pull-requests_foo_my_repo", wantType: models.QueryTypePullRequests, wantOwner: "foo", wantRepo: "my_repo"},
 		{name: "unknown table unchanged", table: "unknown_grafana_grafana", unchanged: true},
 	}
@@ -66,7 +75,8 @@ func TestNormalizeAllTableTypes(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			queryJSON, _ := json.Marshal(map[string]interface{}{"refId": "A", "grafanaSql": true, "table": tt.table})
 			req := &backend.QueryDataRequest{
-				Queries: []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+				PluginContext: pluginCtxWithFeatureToggle(),
+				Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
 			}
 			out := normalizeGrafanaSQLRequest(req)
 			if out == nil || len(out.Queries) != 1 {
@@ -100,6 +110,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("rewrites grafanaSql pull-requests query with table owner_repo", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","datasource":{"type":"grafana-github-datasource","uid":"PE7186B25D2FDE54B"},"filters":null,"grafanaSql":true,"table":"pull-requests_grafana_grafana"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -127,6 +138,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("rewrites grafanaSql issues query", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -151,6 +163,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("rewrites grafanaSql commits query", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"commits_grafana_grafana"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -167,6 +180,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("rewrites grafanaSql code-scanning query", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -180,9 +194,10 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 		}
 	})
 
-	t.Run("rewrites grafanaSql organizations query (no sub-tables)", func(t *testing.T) {
+	t.Run("rewrites grafanaSql organizations query (no table parameters)", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"organizations"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -210,6 +225,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("rewrites grafanaSql workflow-runs query", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-runs_grafana_grafana"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -226,6 +242,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("leaves non-grafanaSql query unchanged", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","queryType":"Pull_Requests","owner":"grafana","repository":"grafana"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -242,6 +259,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("leaves grafanaSql query with unknown table unchanged", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"unknown_grafana_grafana"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -258,6 +276,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 	t.Run("parses repo name with underscores", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"B","grafanaSql":true,"table":"pull-requests_foo_my_repo"}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "B", JSON: queryJSON},
 			},
@@ -284,7 +303,8 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 
 	t.Run("handles empty queries", func(t *testing.T) {
 		req := &backend.QueryDataRequest{
-			Queries: []backend.DataQuery{},
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{},
 		}
 		out := normalizeGrafanaSQLRequest(req)
 		if len(out.Queries) != 0 {
@@ -297,6 +317,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down state filter for issues", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"state","op":"==","value":"open"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -322,6 +343,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down author filter for issues", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"author","op":"==","value":"octocat"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -341,6 +363,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down multiple filters for issues", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"state","op":"==","value":"open"},{"column":"labels","op":"==","value":"bug"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -360,6 +383,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down state filter for code-scanning", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana","filters":[{"column":"state","op":"==","value":"open"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -379,6 +403,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down branch filter for workflow-runs", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-runs_grafana_grafana","filters":[{"column":"head_branch","op":"==","value":"main"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -398,6 +423,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down status filter for workflow-runs", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-runs_grafana_grafana","filters":[{"column":"status","op":"==","value":"completed"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -417,6 +443,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down draft filter for pull-requests", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"pull-requests_grafana_grafana","filters":[{"column":"is_draft","op":"==","value":"true"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -436,6 +463,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down name filter for labels (like)", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"labels_grafana_grafana","filters":[{"column":"name","op":"like","value":"bug"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -455,6 +483,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down package type filter", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"packages_grafana_grafana","filters":[{"column":"type","op":"==","value":"DOCKER"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -474,6 +503,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down name filter for repositories", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"repositories_grafana","filters":[{"column":"name","op":"like","value":"grafana"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -491,6 +521,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down tool_name filter for code-scanning", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana","filters":[{"column":"tool_name","op":"==","value":"CodeQL"}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -510,6 +541,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("ignores filters with empty values", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"state","op":"==","value":""}]}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -528,6 +560,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("handles null filters", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":null}`)
 		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
 			},
@@ -538,6 +571,83 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 		}
 		if out.Queries[0].QueryType != models.QueryTypeIssues {
 			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, models.QueryTypeIssues)
+		}
+	})
+}
+
+func TestNormalizeGrafanaSQLRequestWithoutFeatureToggle(t *testing.T) {
+	t.Run("drops grafanaSql query when GrafanaConfig is nil", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana"}`)
+		req := &backend.QueryDataRequest{
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil {
+			t.Fatal("expected non-nil response")
+		}
+		if len(out.Queries) != 0 {
+			t.Errorf("expected grafanaSql query to be dropped when GrafanaConfig is nil, got %d queries", len(out.Queries))
+		}
+	})
+
+	t.Run("drops grafanaSql query when feature toggle is not set", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: backend.PluginContext{
+				GrafanaConfig: backend.NewGrafanaCfg(map[string]string{}),
+			},
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil {
+			t.Fatal("expected non-nil response")
+		}
+		if len(out.Queries) != 0 {
+			t.Errorf("expected grafanaSql query to be dropped when feature toggle is not set, got %d queries", len(out.Queries))
+		}
+	})
+
+	t.Run("preserves non-grafanaSql queries when toggle is off", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","queryType":"Pull_Requests","owner":"grafana","repository":"grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: backend.PluginContext{
+				GrafanaConfig: backend.NewGrafanaCfg(map[string]string{}),
+			},
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil || len(out.Queries) != 1 {
+			t.Fatalf("expected one query, got %v", out)
+		}
+		if string(out.Queries[0].JSON) != string(queryJSON) {
+			t.Error("non-grafanaSql query should be preserved unchanged")
+		}
+	})
+
+	t.Run("drops only grafanaSql queries from mixed request", func(t *testing.T) {
+		sqlQueryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana"}`)
+		normalQueryJSON := []byte(`{"refId":"B","queryType":"Pull_Requests","owner":"grafana","repository":"grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: backend.PluginContext{
+				GrafanaConfig: backend.NewGrafanaCfg(map[string]string{}),
+			},
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: sqlQueryJSON},
+				{RefID: "B", JSON: normalQueryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil || len(out.Queries) != 1 {
+			t.Fatalf("expected one query (non-SQL preserved), got %d", len(out.Queries))
+		}
+		if out.Queries[0].RefID != "B" {
+			t.Errorf("expected preserved query to be refId B, got %s", out.Queries[0].RefID)
 		}
 	})
 }
