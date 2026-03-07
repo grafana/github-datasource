@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { Input, InlineField } from '@grafana/ui';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { Input } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
 import type { DeploymentsOptions } from 'types/query';
 
 interface Props extends DeploymentsOptions {
   onChange: (value: DeploymentsOptions) => void;
 }
 
-const QueryEditorDeployments = (props: Props) => {
+export const QueryEditorDeployments = (props: Props) => {
   const { sha: initialSha, gitRef: initialRef, task: initialTask, environment: initialEnvironment } = props;
   const [sha, setSha] = useState<string | undefined>(initialSha);
   const [gitRef, setGitRef] = useState<string | undefined>(initialRef);
@@ -15,15 +16,11 @@ const QueryEditorDeployments = (props: Props) => {
   const [environment, setEnvironment] = useState<string | undefined>(initialEnvironment);
 
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="SHA"
-        tooltip="Filter deployments by the SHA recorded at creation time (optional)"
-      >
+    <EditorRow>
+      <EditorField label="SHA" tooltip="Filter deployments by the SHA recorded at creation time (optional)">
         <Input
           value={sha}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth}
           onChange={(el) => setSha(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -32,15 +29,11 @@ const QueryEditorDeployments = (props: Props) => {
             })
           }
         />
-      </InlineField>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Ref"
-        tooltip="Filter by ref name (branch, tag, or SHA) (optional)"
-      >
+      </EditorField>
+      <EditorField label="Ref" tooltip="Filter by ref name (branch, tag, or SHA) (optional)">
         <Input
           value={gitRef}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth}
           onChange={(el) => setGitRef(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -49,15 +42,11 @@ const QueryEditorDeployments = (props: Props) => {
             })
           }
         />
-      </InlineField>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Task"
-        tooltip="Filter by task name (e.g., 'deploy', 'deploy:migrations') (optional)"
-      >
+      </EditorField>
+      <EditorField label="Task" tooltip="Filter by task name (e.g., 'deploy', 'deploy:migrations') (optional)">
         <Input
           value={task}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth}
           onChange={(el) => setTask(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -66,15 +55,14 @@ const QueryEditorDeployments = (props: Props) => {
             })
           }
         />
-      </InlineField>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
+      </EditorField>
+      <EditorField
         label="Environment"
         tooltip="Filter by environment name (e.g., 'production', 'staging', 'qa') (optional)"
       >
         <Input
           value={environment}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth}
           onChange={(el) => setEnvironment(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -83,9 +71,7 @@ const QueryEditorDeployments = (props: Props) => {
             })
           }
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorDeployments;

@@ -1,118 +1,185 @@
-import { PullRequestTimeField, IssueTimeField, WorkflowsTimeField, PackageType, ProjectQueryType } from '../constants';
-import type { DataQuery } from '@grafana/schema';
+import { type DataQuery } from '@grafana/schema';
+import { PullRequestTimeField, IssueTimeField, WorkflowsTimeField, PackageType, ProjectQueryType, QueryTypes } from '../constants';
 import type { Filter } from 'components/Filters';
 
-export interface RepositoryOptions {
-  repository?: string;
-  owner?: string;
-}
+export type QueryType = typeof QueryTypes[number]
 
-export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
-  options?:
-  | PullRequestsOptions
-  | PullRequestReviewsOptions
-  | ReleasesOptions
-  | LabelsOptions
-  | TagsOptions
-  | CommitsOptions
-  | IssuesOptions
-  | ContributorsOptions
-  | ProjectsOptions
-  | WorkflowsOptions
-  | WorkflowUsageOptions
-  | WorkflowRunsOptions
-  | DeploymentsOptions;
-}
+export type Options = { [index: string]: any; }
 
-export interface Label {
-  color: string;
-  description: string;
-  name: string;
-}
+export type RepositoryOptions = { repository?: string; owner?: string; }
 
-export interface Indexable {
-  [index: string]: any;
-}
+type BaseQuery<T extends QueryType, O extends Options> = { queryType: T; options?: O; } & RepositoryOptions & DataQuery;
 
-export interface ReleasesOptions extends Indexable { }
-
-export interface TagsOptions extends Indexable { }
-
-export interface PullRequestsOptions extends Indexable {
-  timeField?: PullRequestTimeField;
-  query?: string;
-}
-
-export interface PullRequestReviewsOptions extends Indexable {
-  timeField?: PullRequestTimeField;
-  query?: string;
-}
-
-export interface CodeScanningOptions extends Indexable {
+//#region Code_Scanning Query
+export type CodeScanningOptions = Options & {
   gitRef?: string;
   state?: string
 }
+type Code_ScanningQuery = BaseQuery<'Code_Scanning', CodeScanningOptions>
+//#endregion
 
-export interface CommitsOptions extends Indexable {
+//#region Commits Query
+export type CommitsOptions = Options & {
   gitRef?: string;
 }
+type CommitsQuery = BaseQuery<'Commits', CommitsOptions>
+//#endregion
 
-export interface ContributorsOptions extends Indexable {
-  query?: string;
-}
-
-export interface LabelsOptions extends Indexable {
-  query?: string;
-}
-
-export interface IssuesOptions extends Indexable {
+//#region Issues Query
+export type IssuesOptions = Options & {
   timeField?: IssueTimeField;
   query?: string;
 }
+type IssuesQuery = BaseQuery<'Issues', IssuesOptions>
+//#endregion
 
-export interface WorkflowsOptions extends Indexable {
-  timeField?: WorkflowsTimeField;
+//#region Contributors Query
+export type ContributorsOptions = Options & {
   query?: string;
 }
+type ContributorsQuery = BaseQuery<'Contributors', ContributorsOptions>
+//#endregion
 
-export interface WorkflowUsageOptions extends Indexable {
-  workflowID?: number;
+//#region Tags Query
+export type TagsOptions = Options & {}
+type TagsQuery = BaseQuery<'Tags', TagsOptions>
+//#endregion
+
+//#region Releases Query
+export type ReleasesOptions = Options & {}
+type ReleasesQuery = BaseQuery<'Releases', ReleasesOptions>
+//#endregion
+
+//#region Pull_Requests Query
+export type PullRequestsOptions = Options & {
+  timeField?: PullRequestTimeField;
+  query?: string;
 }
+type Pull_RequestsQuery = BaseQuery<'Pull_Requests', PullRequestsOptions>
+//#endregion
 
-export interface WorkflowRunsOptions extends Indexable {
-  workflowID?: string;
-  branch?: string;
+//#region Pull_Request_Reviews Query
+export type PullRequestReviewsOptions = Options & {
+  timeField?: PullRequestTimeField;
+  query?: string;
 }
+type Pull_Request_ReviewsQuery = BaseQuery<'Pull_Request_Reviews', PullRequestReviewsOptions>
+//#endregion
 
-export interface DeploymentsOptions extends Indexable {
-  sha?: string;
-  gitRef?: string;
-  task?: string;
-  environment?: string;
+//#region Labels Query
+export type LabelsOptions = Options & {
+  query?: string;
 }
+type LabelsQuery = BaseQuery<'Labels', LabelsOptions>
+//#endregion
 
-export interface PackagesOptions extends Indexable {
+//#region Repositories Query
+type RepositoriesQuery = BaseQuery<'Repositories', {}>
+//#endregion
+
+//#region Organizations Query
+type OrganizationsQuery = BaseQuery<'Organizations', {}>
+//#endregion
+
+//#region GraphQL Query
+type GraphQLQuery = BaseQuery<'GraphQL', {}>
+//#endregion
+
+//#region Milestones Query
+export type MilestonesOptions = Options & {
+  query?: string;
+}
+type MilestonesQuery = BaseQuery<'Milestones', MilestonesOptions>
+//#endregion
+
+//#region Packages Query
+export type PackagesOptions = Options & {
   names?: string;
   packageType?: PackageType;
 }
+type PackagesQuery = BaseQuery<'Packages', PackagesOptions>
+//#endregion
 
-export interface MilestonesOptions extends Indexable {
-  query?: string;
-}
+//#region Vulnerabilities Query
+type VulnerabilitiesQuery = BaseQuery<'Vulnerabilities', {}>
+//#endregion
 
-export interface ProjectsOptions extends Indexable {
+//#region Projects Query
+export type ProjectsOptions = Options & {
   organization?: string;
   number?: number | string;
   user?: string;
   kind?: ProjectQueryType;
   filters?: Filter[];
 }
+type ProjectsQuery = BaseQuery<'Projects', ProjectsOptions>
+//#endregion
 
-export interface GitHubVariableQuery extends GitHubQuery {
-  key?: string;
-  field?: string;
-}
+//#region ProjectItems Query
+type ProjectItemsQuery = BaseQuery<'ProjectItems', {}>
+//#endregion
 
-export interface GitHubAnnotationQuery extends GitHubVariableQuery {
-  timeField?: string;
+//#region Stargazers Query
+type StargazersQuery = BaseQuery<'Stargazers', {}>
+//#endregion
+
+//#region Workflow_Runs Query
+export type WorkflowRunsOptions = Options & {
+  workflowID?: string;
+  branch?: string;
 }
+type Workflow_RunsQuery = BaseQuery<'Workflow_Runs', WorkflowRunsOptions>
+//#endregion
+
+//#region Workflow_Usage Query
+export type WorkflowUsageOptions = Options & {
+  workflowID?: number;
+}
+type Workflow_UsageQuery = BaseQuery<'Workflow_Usage', WorkflowUsageOptions>
+//#endregion
+
+//#region Workflows Query
+export type WorkflowsOptions = Options & {
+  timeField?: WorkflowsTimeField;
+  query?: string;
+}
+type WorkflowsQuery = BaseQuery<'Workflows', WorkflowsOptions>
+//#endregion
+
+//#region Deployments Query
+export type DeploymentsOptions = Options & {
+  sha?: string;
+  gitRef?: string;
+  task?: string;
+  environment?: string;
+}
+type DeploymentsQuery = BaseQuery<'Deployments', DeploymentsOptions>
+//#endregion
+
+export type GitHubQuery =
+  Code_ScanningQuery |
+  CommitsQuery |
+  IssuesQuery |
+  ContributorsQuery |
+  TagsQuery |
+  ReleasesQuery |
+  Pull_RequestsQuery |
+  Pull_Request_ReviewsQuery |
+  LabelsQuery |
+  RepositoriesQuery |
+  OrganizationsQuery |
+  GraphQLQuery |
+  MilestonesQuery |
+  PackagesQuery |
+  VulnerabilitiesQuery |
+  ProjectsQuery |
+  ProjectItemsQuery |
+  StargazersQuery |
+  Workflow_RunsQuery |
+  Workflow_UsageQuery |
+  WorkflowsQuery |
+  DeploymentsQuery
+
+export type GitHubVariableQuery = { key?: string; field?: string; } & GitHubQuery
+
+export type GitHubAnnotationQuery = { timeField?: string; } & GitHubVariableQuery

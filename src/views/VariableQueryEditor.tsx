@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InlineField } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
 import QueryEditor from './QueryEditor';
 import { GitHubDataSource } from '../DataSource';
 import FieldSelect from '../components/FieldSelect';
@@ -52,40 +52,42 @@ const VariableQueryEditor = (props: Props) => {
         }
         onRunQuery={() => {}}
       />
-      <InlineField labelWidth={20} label="Field Value" tooltip="This field determines the value used for the variable">
-        <FieldSelect
-          onChange={(value) =>
-            props.onChange(
-              {
-                ...props.query,
-                key: value,
-              },
-              definition
-            )
-          }
-          options={choices || []}
-          width={64}
-          value={props.query.key}
-          loading={!choices}
-        />
-      </InlineField>
-      <InlineField labelWidth={20} label="Field Display" tooltip="This field determines the text used for the variable">
-        <FieldSelect
-          onChange={(value) =>
-            props.onChange(
-              {
-                ...props.query,
-                field: value,
-              },
-              definition
-            )
-          }
-          options={choices || []}
-          width={64}
-          value={props.query.field}
-          loading={!choices}
-        />
-      </InlineField>
+      <EditorRow>
+        <EditorField label="Field Value" tooltip="This field determines the value used for the variable">
+          <FieldSelect
+            onChange={(value) =>
+              props.onChange(
+                {
+                  ...props.query,
+                  key: value,
+                },
+                definition
+              )
+            }
+            options={choices || []}
+            width={64}
+            value={props.query.key}
+            loading={!choices}
+          />
+        </EditorField>
+        <EditorField label="Field Display" tooltip="This field determines the text used for the variable">
+          <FieldSelect
+            onChange={(value) =>
+              props.onChange(
+                {
+                  ...props.query,
+                  field: value,
+                },
+                definition
+              )
+            }
+            options={choices || []}
+            width={64}
+            value={props.query.field}
+            loading={!choices}
+          />
+        </EditorField>
+      </EditorRow>
     </>
   );
 };

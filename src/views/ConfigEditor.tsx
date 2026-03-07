@@ -14,13 +14,13 @@ import {
   Field,
   Input,
   Label,
+  Divider,
   RadioButtonGroup,
   SecretInput,
   SecretTextArea,
   SecureSocksProxySettings,
   useStyles2,
 } from '@grafana/ui';
-import { Divider } from 'components/Divider';
 import type { GitHubAuthType, GitHubLicenseType, GitHubDataSourceOptions, GitHubSecureJsonData } from 'types/config';
 import { components as selectors } from '../components/selectors';
 
@@ -114,7 +114,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
       <Divider />
 
-      <Collapse collapsible label="Access Token & Permissions" isOpen={isOpen} onToggle={() => setIsOpen((x) => !x)}>
+      <Collapse label="Access Token & Permissions" isOpen={isOpen} onToggle={() => setIsOpen((x) => !x)}>
         <h4>How to create a access token</h4>
         <p>
           To create a new fine grained access token, navigate to{' '}
