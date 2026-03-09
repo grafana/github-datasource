@@ -194,9 +194,6 @@ func (client *Client) ListAllOrgRepositories(ctx context.Context, opts *googlegi
 			}
 		}
 
-		if err != nil {
-			return nil, nil, addErrorSourceToError(err, resp)
-		}
 	}
 	return userRepositories, resp, err
 }

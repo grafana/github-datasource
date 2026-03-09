@@ -2,4 +2,4 @@
 'grafana-github-datasource': minor
 ---
 
-Add deployments query type
+Adding support for experimental schemas.
