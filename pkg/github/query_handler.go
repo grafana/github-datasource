@@ -43,7 +43,6 @@ func UnmarshalQuery(b []byte, v interface{}) *backend.DataResponse {
 func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux := datasource.NewQueryTypeMux()
 
-	// This could be a map[models.QueryType]datasource.QueryHandlerFunc and then a loop to handle all of them.
 	mux.HandleFunc(models.QueryTypeCommits, s.HandleCommits)
 	mux.HandleFunc(models.QueryTypeIssues, s.HandleIssues)
 	mux.HandleFunc(models.QueryTypeContributors, s.HandleContributors)
