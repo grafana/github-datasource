@@ -25,11 +25,11 @@ review_date: "2026-03-11"
 
 # GitHub query editor
 
-The GitHub data source plugin lets you query and visualize data directly from your GitHub repositories and organizations. With this plugin, you can monitor repository activity, track issues and pull requests, analyze workflow runs, and more from within Grafana.
+This document describes the query types and response fields available in the GitHub data source query editor. All query types share common **Owner** and **Repository** fields, and some support additional filtering through the **Query** field using [GitHub search syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
 
 ## Query types
 
-The data source supports the following query types, which you select from the **Query Type** drop-down in the query editor:
+Select a query type from the **Query Type** drop-down in the query editor:
 
 - [**Code scanning**](#code-scanning): Query code scanning alerts for a repository or organization.
 - [**Commits**](#commits): Retrieve a list of commits for a branch or ref within a repository, including commit message, author, and timestamp.
@@ -139,6 +139,7 @@ Show all commits against a tag:
 | id | Commit ID |
 | author | Name of the commit author |
 | author_login | GitHub handle of the commit author |
+| author_email | Email address of the commit author |
 | author_company | Company name of the commit author |
 | committed_at | When the change was committed: YYYY-MM-DD HH:MM:SS |
 | pushed_at | When the commit was pushed: YYYY-MM-DD HH:MM:SS |
@@ -275,12 +276,14 @@ Show all issues with "sql expressions" in the title:
 | author_company | Company name of the commit author |
 | repo | Issue repository |
 | number | Issue number |
+| state | Issue state: `OPEN` or `CLOSED` |
 | closed | `true` or `false` |
 | created_at | When the issue was created: YYYY-MM-DD HH:MM:SS |
 | closed_at | When the issue was closed: YYYY-MM-DD HH:MM:SS |
 | updated_at | When the issue was last updated: YYYY-MM-DD HH:MM:SS |
 | labels | Array of labels, for example: `["type/bug", "needs more info"]` |
 | assignees | Array of assignees, for example: `["user1", "user2"]` |
+| milestone | Milestone title associated with the issue, if applicable |
 
 ### Labels
 
@@ -499,7 +502,11 @@ Show all open pull requests authored by Renovate in the `grafana/plugin-tools` r
 | merged_at | When the pull request was merged: YYYY-MM-DD HH:MM:SS |
 | merged_by_name | Name of the GitHub user who merged the pull request |
 | merged_by_login | GitHub handle of the GitHub user who merged the pull request |
+| merged_by_email | Email address of the GitHub user who merged the pull request |
+| merged_by_company | Company name of the GitHub user who merged the pull request |
+| updated_at | When the pull request was last updated: YYYY-MM-DD HH:MM:SS |
 | created_at | When the pull request was created: YYYY-MM-DD HH:MM:SS |
+| open_time | Duration in seconds the pull request has been open |
 | labels | Array of labels assigned to the pull request, for example: `["bug", "priority/high"]` |
 
 ### Pull request reviews
@@ -608,6 +615,7 @@ Show all repositories for the `grafana` organization:
 | name_with_owner | Returns the owner and repository name in the format `<OWNER>/<REPOSITORY>`, for example: `grafana/loki` |
 | url | URL for the repository |
 | forks | The number of forks for a repository |
+| is_fork | Whether the repository is a fork of another repository: `true` or `false` |
 | is_mirror | Whether the repository is a mirror of another repository: `true` or `false` |
 | is_private | Whether the repository is private: `true` or `false` |
 | created_at | When the repository was created: YYYY-MM-DD HH:MM:SS |
@@ -635,7 +643,7 @@ Show all stargazers for the `grafana/grafana` repository within the current time
 | Name | Description |
 |------|-------------|
 | starred_at | When the user starred the repository: YYYY-MM-DD HH:MM:SS |
-| start_count | Current total of stars for the repository at the time of the event |
+| star_count | Current total of stars for the repository at the time of the event |
 | id | `node_id` -- a unique identifier for the GitHub user which can be used in GitHub's GraphQL API |
 | login | GitHub handle of the user who starred the repository |
 | git_name | Name of the GitHub user who starred the repository |
