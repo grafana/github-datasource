@@ -26,6 +26,13 @@ review_date: "2026-03-11"
 
 The GitHub data source plugin lets you query the GitHub API so you can visualize and monitor your GitHub repositories, organizations, and projects in Grafana dashboards.
 
+## Requirements
+
+To use the GitHub data source plugin, you need:
+
+- A [GitHub](https://github.com/) account or a [GitHub Enterprise](https://github.com/enterprise) account.
+- Grafana version 10.4.8 or later (OSS, Enterprise, or Cloud).
+
 ## Key capabilities
 
 The GitHub data source supports:
@@ -38,29 +45,13 @@ The GitHub data source supports:
 
 ## Get started
 
-The following pages help you get started with the GitHub data source:
+The following pages help you set up and use the GitHub data source:
 
 - [Configure the GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/latest/configure/)
 - [GitHub query editor](https://grafana.com/docs/plugins/grafana-github-datasource/latest/query-editor/)
 - [Template variables](https://grafana.com/docs/plugins/grafana-github-datasource/latest/template-variables/)
 - [Annotations](https://grafana.com/docs/plugins/grafana-github-datasource/latest/annotations/)
 - [Troubleshooting](https://grafana.com/docs/plugins/grafana-github-datasource/latest/troubleshooting/)
-
-After you configure the data source, you can:
-
-- Use [Explore](https://grafana.com/docs/grafana/latest/explore/) to query data without building a dashboard.
-- Add [Transformations](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/) to manipulate query results.
-- Set up [Alerting](https://grafana.com/docs/grafana/latest/alerting/) rules.
-
-## Caching
-
-Caching is always enabled for this plugin.
-
-{{< admonition type="note" >}}
-To work around [GitHub's rate limiting](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api), the plugin caches requests aggressively.
-
-This can mean that it takes up to five minutes for a new pull request, commit, or issue to appear in a query.
-{{< /admonition >}}
 
 ## Pre-built dashboards
 
@@ -86,9 +77,17 @@ To import the dashboard in the Grafana UI:
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github" >}}
 
+## Caching
+
+Caching is always enabled for this plugin.
+
+{{< admonition type="note" >}}
+To stay within [GitHub's rate limits](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api), the plugin caches all API responses. Cached data may be up to five minutes old, so recent changes to pull requests, commits, or issues may not appear immediately.
+{{< /admonition >}}
+
 ## Plugin updates
 
-Always ensure that your plugin version is up-to-date so you have access to all current features and improvements. Navigate to **Plugins and data** > **Plugins** to check for updates. Grafana recommends upgrading to the latest Grafana version, and this applies to plugins as well.
+Always ensure that your plugin version is up-to-date so you have access to all current features and improvements. Navigate to **Plugins and data** > **Plugins** to check for updates.
 
 {{< admonition type="note" >}}
 Plugins are automatically updated in Grafana Cloud.
