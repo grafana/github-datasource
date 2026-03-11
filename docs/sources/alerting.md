@@ -58,6 +58,8 @@ For detailed step-by-step guidance, refer to [Create a Grafana-managed alert rul
 
 ## Example alert rules
 
+The following examples show common alert configurations using the GitHub data source.
+
 ### Alert on failed workflow runs
 
 Monitor a repository for failed CI/CD workflows:

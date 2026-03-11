@@ -43,6 +43,20 @@ The GitHub data source supports:
 - **Alerting:** Create alert rules based on GitHub query results.
 - **Built-in caching:** Automatic request caching to handle GitHub API rate limits.
 
+## Common use cases
+
+The GitHub data source is used to build dashboards and alerts for a variety of engineering workflows:
+
+- **Engineering velocity:** Track commit frequency, PR cycle time (open to merge), and issue throughput to understand team productivity trends.
+- **Code review health:** Monitor open pull request counts, review turnaround time, and stale PRs to identify bottlenecks in the review process.
+- **Release and deployment tracking:** Visualize release cadence, tag history, and deployment frequency across repositories using time series panels.
+- **Security posture:** Build dashboards for code scanning alerts and vulnerability counts to track remediation progress and spot regressions.
+- **CI/CD pipeline monitoring:** Track workflow run success and failure rates, identify flaky workflows, and monitor GitHub Actions usage with the workflow usage query type.
+- **Open source community health:** Monitor stargazer growth, contributor activity, and issue response times to gauge community engagement.
+- **Sprint and milestone tracking:** Combine milestone and issue queries to visualize progress toward project milestones and identify at-risk deliverables.
+
+Use [template variables](https://grafana.com/docs/plugins/grafana-github-datasource/latest/template-variables/) to make these dashboards dynamic across repositories and organizations.
+
 ## Get started
 
 The following pages help you set up and use the GitHub data source:

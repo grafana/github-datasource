@@ -267,6 +267,19 @@ Show all issues with "sql expressions" in the title:
 - Repository: `grafana`
 - Query: `sql expressions in:title`
 
+Show open issues with no assignees (useful for identifying unowned work):
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Query: `is:open no:assignee`
+
+Show issues created in the last 7 days using the `$__toDay` macro:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Query: `is:open created:>=$__toDay(-7)`
+- Time field: `CreatedAt`
+
 #### Response
 
 | Name | Description |
@@ -478,6 +491,27 @@ Show all open pull requests authored by Renovate in the `grafana/plugin-tools` r
 - Query: `is:open author:app/renovate`
 - Time field: `None`
 
+Show pull requests merged in the selected time range:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Query: `is:merged`
+- Time field: `MergedAt`
+
+Show open draft pull requests (useful for tracking work in progress):
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Query: `is:open draft:true`
+- Time field: `None`
+
+Show open pull requests with a specific label:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Query: `is:open label:priority/high`
+- Time field: `None`
+
 #### Response
 
 | Name | Description |
@@ -530,6 +564,13 @@ Show all reviews for merged pull requests in the `grafana/grafana` repository:
 - Repository: `grafana`
 - Query: `is:merged`
 - Time field: `MergedAt`
+
+Show reviews for open pull requests (useful for tracking pending review workload):
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Query: `is:open`
+- Time field: `None`
 
 #### Response
 
@@ -777,6 +818,13 @@ Show all completed runs for the `Levitate` workflow in the `grafana/grafana` rep
 - Owner: `grafana`
 - Repository: `grafana`
 - Workflow: `detect-breaking-changes-levitate.yml`
+
+Show workflow runs for a specific branch (useful for monitoring release branch CI):
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Workflow: `ci.yml`
+- Branch: `release/v12.0.x`
 
 #### Response
 

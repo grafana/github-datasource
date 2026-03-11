@@ -86,3 +86,27 @@ Filter issues created in the last 7 days:
 Combine macros for a dynamic query:
 
 - Query: `is:open $__multiVar(label,$labels) created:>=$__toDay(-30)`
+
+## Use case: Multi-variable dashboard
+
+You can chain variables together to build a dashboard that lets users drill down from an organization to a specific repository and filter by labels.
+
+### Set up the variables
+
+Create the following variables in order. Later variables reference earlier ones, so the order matters.
+
+1. **`owner`** — Type: **Custom**. Add a comma-separated list of your GitHub organizations or user accounts (for example, `grafana,prometheus`). This provides the top-level organization selector.
+
+1. **`repo`** — Type: **Query**. Use the **Repositories** query type with **Owner** set to `$owner`. Set **Field Value** and **Field Display** to `name`. This populates the repository drop-down based on the selected organization.
+
+1. **`labels`** — Type: **Query**, **Multi-value** enabled. Use the **Labels** query type with **Owner** set to `$owner` and **Repository** set to `$repo`. Set **Field Value** and **Field Display** to `name`. Set **Custom all value** to `*`. This lets users filter by one or more labels.
+
+### Use the variables in panels
+
+With these variables in place, build panels that respond to all three selectors:
+
+- **Open issues panel:** Set **Owner** to `$owner`, **Repository** to `$repo`, and **Query** to `is:open $__multiVar(label,$labels)`.
+- **Pull request panel:** Set **Owner** to `$owner`, **Repository** to `$repo`, and **Query** to `is:open $__multiVar(label,$labels)`.
+- **Commits panel:** Set **Owner** to `$owner` and **Repository** to `$repo` to show commit activity for the selected repository.
+
+When a user changes the organization drop-down, the repository list refreshes automatically. Selecting a different repository updates the label list and all panels on the dashboard.
