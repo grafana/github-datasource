@@ -1,92 +1,101 @@
 ---
+aliases:
+  - ./sample-dashboards/
 title: GitHub data source plugin for Grafana
 menuTitle: GitHub data source
-description: The GitHub data source lets you visualize GitHub data in Grafana dashboards.
+description: The GitHub data source plugin lets you visualize GitHub data in Grafana dashboards.
 keywords:
   - data source
   - github
   - github repository
   - API
+  - pull requests
+  - issues
+  - workflows
+  - commits
 labels:
   products:
     - oss
     - enterprise
     - cloud
 weight: 10
+review_date: "2026-03-11"
 ---
 
 # GitHub data source plugin for Grafana
 
-The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.
+The GitHub data source plugin lets you query the GitHub API so you can visualize and monitor your GitHub repositories, organizations, and projects in Grafana dashboards.
 
-Watch this video to learn more about setting up the Grafana GitHub data source plugin: {{< youtube id="DW693S3cO48">}}
+## Key capabilities
 
-{{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/d/cdgx261sa1ypsa/3-single-repo-with-override-examples" >}}
+The GitHub data source supports:
 
-## Query types
-
-The plugin supports the following query types:
-
-- Code Scan
-- Commits
-- Issues
-- Contributors
-- Tags
-- Releases
-- Pull requests
-- Labels
-- Repositories
-- Milestones
-- Packages
-- Vulnerabilities
-- Projects
-- Stargazers
-- Workflows
-- Workflow usage
-- Workflow runs
-
-## Supported features
-
-With the plugin you can:
-
-- Visualize queries
-- Use template variables
-- Configure Annotations
-- Cache queries
-
-## Caching
-
-Caching on this plugin is always enabled.
-
-{{< admonition type="note" >}}
-To work around [GitHub's rate limiting](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28), the plugin caches requests aggressively.
-
-This can mean that it takes up to five minutes for a new pull request, commit, or issue to show up in a query.
-{{< /admonition >}}
-
-## Requirements
-
-To use the GitHub data source plugin, you will need:
-
-- A free [GitHub](https://github.com/) or a [GitHub Enterprise](https://github.com/enterprise) account.
-- Any of the following Grafana editions:
-  - Grafana OSS server.
-  - A [Grafana Cloud](https://grafana.com/pricing/) stack.
-  - An on-premise Grafana Enterprise server with an [activated license](https://grafana.com/docs/grafana/latest/enterprise/license/activate-license/).
+- **Query 19 resource types:** Commits, issues, pull requests, pull request reviews, workflows, workflow runs, deployments, code scanning alerts, and more.
+- **Template variables and macros:** Create dynamic, reusable dashboards with variable-driven queries and built-in macros.
+- **Annotations:** Overlay GitHub events (commits, issues, pull requests, releases, tags) on dashboard panels.
+- **Alerting:** Create alert rules based on GitHub query results.
+- **Built-in caching:** Automatic request caching to handle GitHub API rate limits.
 
 ## Get started
 
-- To start using the plugin, you need to generate an access token, then install and configure the plugin. To do this, refer to [Setup](./setup).
-- To use variable and macros, for creating a dynamic dashboard, refer to [Variables and Macros](./variables-and-macros).
-- To annotate the data by displaying the GitHub resources on the dashboard, refer to [Annotations](./annotations/).
-- To quickly visualize GitHub data in Grafana, refer to [Sample dashboards](./sample-dashboards/).
+The following pages help you get started with the GitHub data source:
 
-## Get the most out of the plugin
+- [Configure the GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/latest/configure/)
+- [GitHub query editor](https://grafana.com/docs/plugins/grafana-github-datasource/latest/query-editor/)
+- [Template variables](https://grafana.com/docs/plugins/grafana-github-datasource/latest/template-variables/)
+- [Annotations](https://grafana.com/docs/plugins/grafana-github-datasource/latest/annotations/)
+- [Troubleshooting](https://grafana.com/docs/plugins/grafana-github-datasource/latest/troubleshooting/)
 
-- Add [Annotations](https://grafana.com/docs/grafana/latest/dashboards/annotations/)
-- Configure and use [Templates and variables](https://grafana.com/docs/grafana/latest/variables/)
-- Add [Transformations](https://grafana.com/docs/grafana/latest/panels/transformations/)
+After you configure the data source, you can:
 
-## Report issues
+- Use [Explore](https://grafana.com/docs/grafana/latest/explore/) to query data without building a dashboard.
+- Add [Transformations](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/) to manipulate query results.
+- Set up [Alerting](https://grafana.com/docs/grafana/latest/alerting/) rules.
 
-Use the [official GitHub repository](https://github.com/grafana/github-datasource/issues) to report issues, bugs, and feature requests.
+## Caching
+
+Caching is always enabled for this plugin.
+
+{{< admonition type="note" >}}
+To work around [GitHub's rate limiting](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api), the plugin caches requests aggressively.
+
+This can mean that it takes up to five minutes for a new pull request, commit, or issue to appear in a query.
+{{< /admonition >}}
+
+## Pre-built dashboards
+
+The plugin includes a pre-built dashboard that you can import to get started quickly.
+
+### Import from grafana.com
+
+Import the [GitHub Default dashboard](https://grafana.com/grafana/dashboards/14000) (dashboard ID `14000`).
+
+For instructions on importing dashboards, refer to [Import a dashboard](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/).
+
+### Import in the Grafana UI
+
+To import the dashboard in the Grafana UI:
+
+1. Click **Connections** in the left-side menu.
+1. Click **Data sources**.
+1. Select your GitHub data source.
+1. Click the **Dashboards** tab.
+1. Click **Import** next to the dashboard you want to use.
+
+### Play demo
+
+{{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github" >}}
+
+## Plugin updates
+
+Always ensure that your plugin version is up-to-date so you have access to all current features and improvements. Navigate to **Plugins and data** > **Plugins** to check for updates. Grafana recommends upgrading to the latest Grafana version, and this applies to plugins as well.
+
+{{< admonition type="note" >}}
+Plugins are automatically updated in Grafana Cloud.
+{{< /admonition >}}
+
+## Related resources
+
+- [GitHub REST API documentation](https://docs.github.com/en/rest)
+- [Grafana community forum](https://community.grafana.com/)
+- [Report issues on GitHub](https://github.com/grafana/github-datasource/issues)
