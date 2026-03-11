@@ -31,12 +31,13 @@ This page explains how to configure the GitHub data source plugin for Grafana.
 
 ## Before you begin
 
-Before you configure the data source, you need:
+To configure the data source, you need:
 
-- **Grafana:** Version 10.4.8 or later. Any edition (OSS, Enterprise, or Cloud).
-- **GitHub account:** A [GitHub](https://github.com/) or [GitHub Enterprise](https://github.com/enterprise) account.
 - **Grafana permissions:** Organization administrator role.
-- **GitHub credentials:** A personal access token or a registered GitHub App. Refer to the [Authentication](#authentication) section for details.
+- **GitHub credentials** (one of the following):
+  - A personal access token (classic or fine-grained) with the [required scopes](#personal-access-token-permissions).
+  - A registered GitHub App with the **App ID**, **Installation ID**, and **private key**. Refer to [Register and configure a GitHub App](#register-and-configure-a-github-app) for setup steps.
+- **GitHub Enterprise Server URL** (if applicable): The URL of your GitHub Enterprise Server instance.
 
 ## Add the data source
 
@@ -50,13 +51,11 @@ To add the GitHub data source:
 
 ## Configure settings
 
-The following table describes the available configuration settings.
+The following table describes the GitHub-specific configuration settings.
 
 | Setting | Description |
 |---------|-------------|
-| **Name** | The display name for this data source in panels and queries. |
-| **Default** | Toggle to make this the default data source for new panels. |
-| **GitHub license** | Select your GitHub plan: **Free, Pro & Team**, **Enterprise Cloud**, or **Enterprise Server**. |
+| **GitHub License Type** | Select your GitHub plan: **Free, Pro & Team**, **Enterprise Cloud**, or **Enterprise Server**. |
 | **GitHub Enterprise Server URL** | The URL of your GitHub Enterprise Server instance. Only visible when **Enterprise Server** is selected as the GitHub license. |
 
 ### Private data source connect
@@ -84,7 +83,7 @@ You can authenticate with either a classic personal access token or a fine-grain
 1. Select **personal access token (classic)**.
 1. Assign the [required permissions](#personal-access-token-permissions).
 1. Click **Generate Token**.
-1. Copy the token and paste it into the **Access Token** field in the data source settings.
+1. Copy the token and paste it into the **Personal Access Token** field in the data source settings.
 
 For more information, refer to the [GitHub personal access token documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
 
@@ -95,7 +94,7 @@ For more information, refer to the [GitHub personal access token documentation](
 1. Provide a name for the token.
 1. Assign the required repository access and `read-only` permissions.
 1. Click **Generate token**.
-1. Copy the token and paste it into the **Access Token** field in the data source settings.
+1. Copy the token and paste it into the **Personal Access Token** field in the data source settings.
 
 For more information, refer to the [GitHub fine-grained personal access token documentation](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token).
 
@@ -146,14 +145,16 @@ The following repository permissions are required:
 | **Repository security advisories** | Read-only |
 | **Projects** | Read-only |
 
-#### Code scanning permissions
+### Code scanning permissions
 
-To use the code scanning query type, you need the following additional permissions:
+To use the code scanning query type, the following additional permissions are required for both personal access tokens and GitHub Apps:
 
 | Permission | Access level |
 |------------|-------------|
 | **Code scanning alerts** | Read-only |
 | **Security events** | Read-only |
+
+For classic personal access tokens, add the `security_events` scope.
 
 ## Verify the connection
 
@@ -215,4 +216,44 @@ datasources:
       githubUrl: https://github.example.com
     secureJsonData:
       accessToken: <ACCESS_TOKEN>
+```
+
+## Provision with Terraform
+
+You can provision the GitHub data source using the [Grafana Terraform provider](https://registry.terraform.io/providers/grafana/grafana/latest/docs). For more information, refer to [Provision Grafana with Terraform](https://grafana.com/docs/grafana/latest/administration/infrastructure-as-code/terraform/).
+
+### Personal access token example
+
+```hcl
+resource "grafana_data_source" "github" {
+  type = "grafana-github-datasource"
+  name = "GitHub"
+
+  json_data_encoded = jsonencode({
+    selectedAuthType = "personal-access-token"
+  })
+
+  secure_json_data_encoded = jsonencode({
+    accessToken = var.github_access_token
+  })
+}
+```
+
+### GitHub App example
+
+```hcl
+resource "grafana_data_source" "github" {
+  type = "grafana-github-datasource"
+  name = "GitHub"
+
+  json_data_encoded = jsonencode({
+    selectedAuthType = "github-app"
+    appId            = var.github_app_id
+    installationId   = var.github_installation_id
+  })
+
+  secure_json_data_encoded = jsonencode({
+    privateKey = var.github_private_key
+  })
+}
 ```
