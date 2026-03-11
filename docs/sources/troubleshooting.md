@@ -22,7 +22,7 @@ review_date: "2026-03-11"
 
 # Troubleshoot GitHub data source issues
 
-This page provides solutions to common issues you may encounter when configuring or using the GitHub data source. For configuration instructions, refer to [Configure the GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/latest/configure/).
+This document provides solutions to common issues you may encounter when configuring or using the GitHub data source. For configuration instructions, refer to [Configure the GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/latest/configure/).
 
 ## Authentication errors
 
@@ -186,7 +186,7 @@ To capture detailed error information for troubleshooting:
 
 ## Get additional help
 
-If you've tried the solutions on this page and still have issues:
+If you've tried the solutions in this document and still have issues:
 
 1. Check the [Grafana community forums](https://community.grafana.com/) for similar issues.
 1. Review the [GitHub data source plugin issues](https://github.com/grafana/github-datasource/issues) for known bugs.

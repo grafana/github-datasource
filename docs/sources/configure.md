@@ -7,7 +7,7 @@ aliases:
   - ./setup/provisioning/
 title: Configure the GitHub data source
 menuTitle: Configure
-description: Configure the GitHub data source plugin to connect Grafana to GitHub
+description: Configure the GitHub data source to connect Grafana to GitHub
 keywords:
   - data source
   - github
@@ -27,7 +27,7 @@ review_date: "2026-03-11"
 
 # Configure the GitHub data source
 
-This page explains how to configure the GitHub data source plugin for Grafana.
+This document explains how to configure the GitHub data source for Grafana.
 
 ## Before you begin
 
@@ -38,6 +38,17 @@ To configure the data source, you need:
   - A personal access token (classic or fine-grained) with the [required scopes](#personal-access-token-permissions).
   - A registered GitHub App with the **App ID**, **Installation ID**, and **private key**. Refer to [Register and configure a GitHub App](#register-and-configure-a-github-app) for setup steps.
 - **GitHub Enterprise Server URL** (if applicable): The URL of your GitHub Enterprise Server instance.
+
+### Security best practices
+
+When creating credentials for the GitHub data source, follow the principle of least privilege:
+
+- **Prefer GitHub Apps or fine-grained tokens over classic PATs.** GitHub Apps and fine-grained tokens let you restrict access to specific repositories and grant only the permissions the plugin needs. Classic personal access tokens grant access to all repositories the user can access.
+- **Grant only read-only permissions.** The data source only reads data from GitHub. Never grant write access unless you have a specific requirement.
+- **Scope tokens to the repositories you need.** Avoid granting organization-wide access when you only query a few repositories.
+- **Rotate credentials regularly.** Set an expiration on personal access tokens and rotate them on a regular schedule. GitHub Apps use short-lived tokens that rotate automatically.
+
+Grafana stores all credentials (access tokens, private keys) as encrypted secure JSON data. Credentials are never exposed in API responses or log output.
 
 ## Add the data source
 
@@ -65,6 +76,8 @@ Private data source connect is available for Grafana Cloud users only.
 {{< /admonition >}}
 
 Private data source connect (PDC) establishes a private, secured connection between a Grafana Cloud stack and data sources within a private network. Use the drop-down to select a PDC connection.
+
+Click **Manage private data source connect** to go to your PDC connection page, where you can find your PDC configuration details.
 
 For setup instructions, refer to [Private data source connect](https://grafana.com/docs/grafana-cloud/connect-externally-hosted/private-data-source-connect/).
 
@@ -158,7 +171,7 @@ For classic personal access tokens, add the `security_events` scope.
 
 ## Verify the connection
 
-Click **Save & test** to verify the connection. When the connection is successful, you see the message **Data source is working**.
+After you have added your GitHub connection settings, click **Save & test** to test and save the data source connection. When the connection is successful, you see the message **Data source is working**.
 
 If the connection fails, check the following error messages:
 

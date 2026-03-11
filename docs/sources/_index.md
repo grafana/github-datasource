@@ -1,9 +1,9 @@
 ---
 aliases:
   - ./sample-dashboards/
-title: GitHub data source plugin for Grafana
+title:  GitHub data source
 menuTitle: GitHub data source
-description: The GitHub data source plugin lets you visualize GitHub data in Grafana dashboards.
+description: The GitHub data source lets you visualize GitHub data in Grafana dashboards.
 keywords:
   - data source
   - github
@@ -22,9 +22,13 @@ weight: 10
 review_date: "2026-03-11"
 ---
 
-# GitHub data source plugin for Grafana
+# GitHub data source
 
 The GitHub data source plugin lets you query the GitHub API so you can visualize and monitor your GitHub repositories, organizations, and projects in Grafana dashboards.
+
+Watch the following video to learn more about setting up the GitHub data source plugin:
+
+{{< youtube id="DW693S3cO48" >}}
 
 ## Requirements
 
@@ -70,25 +74,24 @@ The following pages help you set up and use the GitHub data source:
 
 ## Pre-built dashboards
 
-The plugin includes a pre-built dashboard that you can import to get started quickly.
+The plugin includes the **GitHub Default** dashboard, which provides an overview of a single repository. The dashboard is organized into the following sections:
 
-### Import from grafana.com
+- **Stats:** Commit count, release count, and tag count for the selected time range.
+- **Pull Requests:** Pull requests created over time, active (open) pull requests, average PR open time, and individual PR open durations.
+- **Issues:** Issues created over time, active (open) issues, average issue open time for closed issues, and issues grouped by milestone.
+- **Data:** Table views of commits, issues, pull requests, contributors, milestones, releases, tags, and packages.
 
-Import the [GitHub Default dashboard](https://grafana.com/grafana/dashboards/14000) (dashboard ID `14000`).
+### Access the pre-built dashboard
 
-For instructions on importing dashboards, refer to [Import a dashboard](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/).
-
-### Import in the Grafana UI
-
-To import the dashboard in the Grafana UI:
+To import the dashboard from within Grafana:
 
 1. Click **Connections** in the left-side menu.
 1. Click **Data sources**.
 1. Select your GitHub data source.
 1. Click the **Dashboards** tab.
-1. Click **Import** next to the dashboard you want to use.
+1. Click **Import** next to **GitHub Default**.
 
-### Play demo
+You can also import the [GitHub Default dashboard from grafana.com](https://grafana.com/grafana/dashboards/14000) (dashboard ID `14000`). For instructions, refer to [Import a dashboard](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/).
 
 {{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github" >}}
 
