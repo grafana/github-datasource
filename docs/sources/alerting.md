@@ -13,7 +13,7 @@ labels:
     - oss
     - enterprise
     - cloud
-weight: 350
+weight: 400
 review_date: "2026-03-11"
 ---
 

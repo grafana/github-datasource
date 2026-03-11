@@ -68,8 +68,8 @@ The following pages help you set up and use the GitHub data source:
 - [Configure the GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/latest/configure/)
 - [GitHub query editor](https://grafana.com/docs/plugins/grafana-github-datasource/latest/query-editor/)
 - [Template variables](https://grafana.com/docs/plugins/grafana-github-datasource/latest/template-variables/)
-- [Alerting](https://grafana.com/docs/plugins/grafana-github-datasource/latest/alerting/)
 - [Annotations](https://grafana.com/docs/plugins/grafana-github-datasource/latest/annotations/)
+- [Alerting](https://grafana.com/docs/plugins/grafana-github-datasource/latest/alerting/)
 - [Troubleshooting](https://grafana.com/docs/plugins/grafana-github-datasource/latest/troubleshooting/)
 
 ## Pre-built dashboards
