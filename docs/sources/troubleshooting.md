@@ -123,18 +123,18 @@ These errors occur when executing queries against the data source.
 | Time range doesn't contain data | Expand the dashboard time range. For queries without a time field (for example, time field set to `None`), the time range filter isn't applied. |
 | Wrong owner or repository | Verify the **Owner** and **Repository** fields are correct. |
 | Permissions issue | Verify the token or GitHub App has read access to the target repository. |
-| Query syntax error | For Issues and Pull Requests, verify the [GitHub query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests). |
+| Query syntax error | For Issues, Pull Requests, and Pull Request Reviews, verify the [GitHub search syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests). |
 
 ### Result limits
 
 Some query types have maximum result limits:
 
-| Query type | Maximum results |
-|-----------|----------------|
-| Issues | 1000 |
-| Repositories | 1000 |
-| Contributors | 200 |
-| Projects | 200 |
+| Query type | Maximum results | Source |
+|-----------|----------------|--------|
+| Issues | 1,000 | GitHub search API limit |
+| Repositories | 1,000 | GitHub search API limit |
+| Contributors | 200 | Plugin page limit |
+| Projects | 200 | Plugin page limit |
 
 If you're hitting these limits, use more specific query filters or narrow the time range to reduce the result set.
 
@@ -147,12 +147,12 @@ If you're hitting these limits, use more specific query filters or narrow the ti
 
 **Solutions:**
 
-The plugin caches requests aggressively to mitigate GitHub's rate limits, but cached data may be up to five minutes old.
+The plugin caches all API responses for up to five minutes to reduce the number of requests to GitHub. If you're still hitting rate limits:
 
 1. Reduce the frequency of dashboard auto-refresh.
 1. Use more specific queries to reduce the number of API calls.
-1. If using a personal access token, consider switching to a GitHub App which has higher rate limits.
-1. For Grafana Enterprise or Grafana Cloud, enable [query caching](https://grafana.com/docs/grafana/latest/administration/data-source-management/#query-and-resource-caching) for additional caching control.
+1. If using a personal access token, consider switching to a GitHub App, which has higher rate limits.
+1. For Grafana Enterprise or Grafana Cloud, enable [query caching](https://grafana.com/docs/grafana/latest/administration/data-source-management/#query-and-resource-caching) for additional caching control beyond the built-in cache.
 
 ## Code scanning errors
 
