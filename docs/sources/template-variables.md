@@ -24,13 +24,20 @@ review_date: "2026-03-11"
 
 # GitHub template variables
 
-Use template variables to create dynamic, reusable dashboards with the GitHub data source.
+Use template variables to create dynamic, reusable dashboards with the GitHub data source. For general information about variables in Grafana, refer to [Variables](https://grafana.com/docs/grafana/latest/dashboards/variables/).
 
-A [variable](https://grafana.com/docs/grafana/latest/dashboards/variables/) is a placeholder for a value that you can use in dashboard queries. Variables are displayed as drop-down lists at the top of the dashboard, making it easy to change the data being displayed without editing queries directly.
+## Before you begin
+
+- [Configure the GitHub data source](https://grafana.com/docs/plugins/grafana-github-datasource/latest/configure/).
+- Familiarize yourself with the available [query types](https://grafana.com/docs/plugins/grafana-github-datasource/latest/query-editor/).
+
+## Supported variable types
+
+The GitHub data source supports **Query** variables. You can use any query type (for example, Repositories, Labels, Issues) to populate variable options.
 
 ## Create a query variable
 
-To create a query variable using the GitHub data source:
+To create a query variable:
 
 1. Navigate to **Dashboard settings** > **Variables**.
 1. Click **Add variable**.
@@ -38,10 +45,8 @@ To create a query variable using the GitHub data source:
 1. Select the GitHub data source from the **Data source** drop-down.
 1. Select the **Query Type** (for example, Repositories, Labels, or any other supported query type).
 1. Configure the query options for the selected query type.
-1. Use **Field Value** to select which response field provides the variable values.
-1. Use **Field Display** to select which response field provides the display labels.
-
-All query types supported by the GitHub data source can be used as variable queries.
+1. Set **Field Value** to the response field that provides the variable values (the actual value stored when a user selects an option).
+1. Set **Field Display** to the response field that provides the display labels (the text shown in the drop-down).
 
 ## Use variables in queries
 
@@ -57,16 +62,16 @@ For example, to create a dashboard that lets users select a repository:
 
 ## Macros
 
-The GitHub data source provides macros that add dynamic parts to your queries. Use macros in the **Query** field.
+The GitHub data source provides macros that add dynamic parts to your queries. Macros are used in the **Query** field, which is available on query types that support [GitHub search syntax](https://docs.github.com/en/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax), such as Issues, Pull Requests, and Pull Request Reviews.
 
 | Macro | Syntax | Description | Example |
 |-------|--------|-------------|---------|
-| **multiVar** | `$__multiVar(prefix,$var)` | Expands a multi-value variable into GitHub query qualifiers. Each selected value is prefixed with the specified prefix. | `$__multiVar(label,$labels)` expands to `label:first-label label:second-label` |
-| **toDay** | `$__toDay(diff)` | Returns the current date in UTC. An optional `diff` parameter offsets the date by the specified number of days. | `created:$__toDay(-7)` on 2022-01-17 expands to `created:2022-01-10` |
+| **multiVar** | `$__multiVar(qualifier,$var)` | Expands a multi-value variable into GitHub search qualifiers. Each selected value is combined with the qualifier name in `qualifier:value` format. | `$__multiVar(label,$labels)` expands to `label:first-label label:second-label` |
+| **toDay** | `$__toDay(diff)` | Returns the current date in UTC, formatted as `YYYY-MM-DD`. An optional `diff` parameter offsets the date by the specified number of days. | `created:$__toDay(-7)` on 2022-01-17 expands to `created:2022-01-10` |
 
 ### Use multiVar with "All" selection
 
-When using the `$__multiVar` macro with a multi-value variable, set the **Custom all value** to `*` in the variable settings. When "All" is selected, the macro expands to an empty string, which effectively removes the filter from the query.
+When using the `$__multiVar` macro with a multi-value variable, set the **Custom all value** to `*` in the variable settings. When "All" is selected, the macro returns an empty string, which removes that qualifier from the query.
 
 ### Macro examples
 
