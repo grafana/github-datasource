@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.7.0
+
+🚀 Adding support for experimental schemas.
+
 ## 2.6.0
 
 🚀 Add deployments query type
