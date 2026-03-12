@@ -2,11 +2,7 @@
 
 ## 2.7.0
 
-### Minor Changes
-
 🚀 Adding support for experimental schemas.
-
-### Patch Changes
 
 ## 2.6.0
 
