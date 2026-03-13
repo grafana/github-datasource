@@ -25,7 +25,7 @@ func TestTableToQueryTypeCoversAllTypes(t *testing.T) {
 		models.QueryTypeTags, models.QueryTypeReleases,
 		models.QueryTypeLabels, models.QueryTypeMilestones,
 		models.QueryTypePackages, models.QueryTypeVulnerabilities,
-		models.QueryTypeProjects, models.QueryTypeProjectItems,
+		models.QueryTypeProjects,
 		models.QueryTypeStargazers, models.QueryTypeWorkflows,
 		models.QueryTypeWorkflowUsage, models.QueryTypeWorkflowRuns,
 		models.QueryTypeCodeScanning, models.QueryTypeOrganizations,

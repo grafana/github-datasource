@@ -26,7 +26,6 @@ var tableToQueryType = func() map[string]string {
 		models.QueryTypePackages,
 		models.QueryTypeVulnerabilities,
 		models.QueryTypeProjects,
-		models.QueryTypeProjectItems,
 		models.QueryTypeStargazers,
 		models.QueryTypeWorkflows,
 		models.QueryTypeWorkflowUsage,

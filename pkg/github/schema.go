@@ -409,18 +409,6 @@ func getAllTables() []schemas.Table {
 			},
 		},
 		{
-			Name:            normalizeTableNames(models.QueryTypeProjectItems),
-			TableParameters: projectTableParameters,
-			Columns: []schemas.Column{
-				{Name: "id", Type: schemas.ColumnTypeString},
-				{Name: "archived", Type: schemas.ColumnTypeBoolean},
-				{Name: "type", Type: schemas.ColumnTypeString},
-				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
-				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
-				{Name: "closed_at", Type: schemas.ColumnTypeDatetime},
-			},
-		},
-		{
 			Name:            normalizeTableNames(models.QueryTypeStargazers),
 			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
