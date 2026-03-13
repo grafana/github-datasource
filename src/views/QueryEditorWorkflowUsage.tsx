@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
-import { Input, InlineField } from '@grafana/ui';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { Input } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
 import type { WorkflowUsageOptions } from 'types/query';
 
 interface Props extends WorkflowUsageOptions {
   onChange: (value: WorkflowUsageOptions) => void;
 }
 
-const QueryEditorWorkflowUsage = (props: Props) => {
+export const QueryEditorWorkflowUsage = (props: Props) => {
   const [workflow, setWorkflow] = useState<string | undefined>(props.workflow);
 
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Workflow"
-        tooltip="The workflow id number or file name (e.g my-workflow.yml)"
-      >
+    <EditorRow>
+      <EditorField label="Workflow" tooltip="The workflow id number or file name (e.g my-workflow.yml)">
         <Input
           value={workflow}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth}
           onChange={(el) => setWorkflow(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -28,9 +25,7 @@ const QueryEditorWorkflowUsage = (props: Props) => {
             })
           }
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorWorkflowUsage;

@@ -1,133 +1,121 @@
 import React, { ReactNode, useCallback } from 'react';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import { Select, InlineField } from '@grafana/ui';
+import { Combobox, ComboboxOption } from '@grafana/ui';
+import { EditorField, EditorRow, EditorRows } from '@grafana/plugin-ui';
 
 import { GitHubDataSource } from '../DataSource';
 import { isValid } from '../validation';
 import { components } from '../components/selectors';
 
-import QueryEditorRepository from './QueryEditorRepository';
-import QueryEditorReleases from './QueryEditorReleases';
-import QueryEditorCommits from './QueryEditorCommits';
-import QueryEditorIssues from './QueryEditorIssues';
-import QueryEditorMilestones from './QueryEditorMilestones';
-import QueryEditorPullRequests from './QueryEditorPullRequests';
-import QueryEditorPullRequestReviews from './QueryEditorPullRequestReviews';
-import QueryEditorTags from './QueryEditorTags';
-import QueryEditorContributors from './QueryEditorContributors';
-import QueryEditorLabels from './QueryEditorLabels';
-import QueryEditorPackages from './QueryEditorPackages';
-import QueryEditorVulnerabilities from './QueryEditorVulnerabilities';
-import QueryEditorProjects from './QueryEditorProjects';
-import QueryEditorWorkflows from './QueryEditorWorkflows';
-import QueryEditorWorkflowUsage from './QueryEditorWorkflowUsage';
-import QueryEditorWorkflowRuns from './QueryEditorWorkflowRuns';
-import QueryEditorCodeScanning from './QueryEditorCodeScanning';
-import QueryEditorDeployments from './QueryEditorDeployments';
-import { QueryType, DefaultQueryType } from '../constants';
-import type { GitHubQuery } from '../types/query';
+import { QueryEditorOwner, QueryEditorRepository } from './QueryEditorRepository';
+import { QueryEditorCommits } from './QueryEditorCommits';
+import { QueryEditorIssues } from './QueryEditorIssues';
+import { QueryEditorMilestones } from './QueryEditorMilestones';
+import { QueryEditorPullRequests } from './QueryEditorPullRequests';
+import { QueryEditorPullRequestReviews } from './QueryEditorPullRequestReviews';
+import { QueryEditorContributors } from './QueryEditorContributors';
+import { QueryEditorLabels } from './QueryEditorLabels';
+import { QueryEditorPackages } from './QueryEditorPackages';
+import { QueryEditorProjects } from './QueryEditorProjects';
+import { QueryEditorWorkflows } from './QueryEditorWorkflows';
+import { QueryEditorWorkflowUsage } from './QueryEditorWorkflowUsage';
+import { QueryEditorWorkflowRuns } from './QueryEditorWorkflowRuns';
+import { QueryEditorCodeScanning } from './QueryEditorCodeScanning';
+import { QueryEditorDeployments } from './QueryEditorDeployments';
+
+import { DefaultQueryType, QueryTypes } from '../constants';
+
+import type { QueryType, GitHubQuery } from '../types/query';
 import type { GitHubDataSourceOptions } from '../types/config';
 
 interface Props extends QueryEditorProps<GitHubDataSource, GitHubQuery, GitHubDataSourceOptions> {
-  queryTypes?: string[];
+  queryTypes?: QueryType[];
 }
 export const LeftColumnWidth = 10;
 export const RightColumnWidth = 36;
 
-/* eslint-disable react/display-name */
-const queryEditors: {
-  [key: string]: { component: (props: Props, onChange: (val: any) => void) => ReactNode };
-} = {
-  [QueryType.Repositories]: {
-    component: (_: Props, onChange: (val: any) => void) => <></>,
-  },
-  [QueryType.Labels]: {
+const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val: any) => void) => ReactNode }> = {
+  ['Repositories']: { component: () => <></> },
+  ['GraphQL']: { component: () => <></> },
+  ['Organizations']: { component: () => <></> },
+  ['ProjectItems']: { component: () => <></> },
+  ['Tags']: { component: () => <></> },
+  ['Releases']: { component: () => <></> },
+  ['Vulnerabilities']: { component: () => <></> },
+  ['Stargazers']: { component: () => <></> },
+  ['Labels']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorLabels {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Contributors]: {
+  ['Contributors']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorContributors {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Tags]: {
-    component: (props: Props, _: (val: any) => void) => <QueryEditorTags {...(props.query.options || {})} />,
+  ['Code_Scanning']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCodeScanning {...(props.query.options || {})} onChange={onChange} />
+    ),
   },
-  [QueryType.Code_Scanning]: {
-    component: (props: Props, onChange: (val: any) => void) => <QueryEditorCodeScanning {...(props.query.options || {})}  onChange={onChange} />,
-  },
-  [QueryType.Releases]: {
-    component: (props: Props, _: (val: any) => void) => <QueryEditorReleases {...(props.query.options || {})} />,
-  },
-  [QueryType.Commits]: {
+  ['Commits']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorCommits {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Milestones]: {
+  ['Milestones']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorMilestones {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Issues]: {
+  ['Issues']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorIssues {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Packages]: {
+  ['Packages']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorPackages {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Pull_Requests]: {
+  ['Pull_Requests']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorPullRequests {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Pull_Request_Reviews]: {
+  ['Pull_Request_Reviews']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorPullRequestReviews {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Vulnerabilities]: {
-    component: (props: Props, onChange: (val: any) => void) => (
-      <QueryEditorVulnerabilities {...(props.query.options || {})} />
-    ),
-  },
-  [QueryType.Projects]: {
+  ['Projects']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorProjects {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Stargazers]: {
-    component: (_: Props, onChange: (val: any) => void) => <></>,
-  },
-  [QueryType.Workflows]: {
+  ['Workflows']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorWorkflows {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Workflow_Usage]: {
+  ['Workflow_Usage']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorWorkflowUsage {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Workflow_Runs]: {
+  ['Workflow_Runs']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorWorkflowRuns {...(props.query.options || {})} onChange={onChange} />
     ),
   },
-  [QueryType.Deployments]: {
+  ['Deployments']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorDeployments {...(props.query.options || {})} onChange={onChange} />
     ),
   },
 };
 
-/* eslint-enable react/display-name */
-
-const queryTypeOptions: Array<SelectableValue<string>> = Object.keys(QueryType).map((v) => {
+const queryTypeOptions: Array<SelectableValue<QueryType>> = QueryTypes.map((v) => {
   return {
     label: v.replace(/_/gi, ' '),
     value: v,
@@ -161,41 +149,60 @@ const QueryEditor = (props: Props) => {
 
   return (
     <>
-      <InlineField label="Query Type" tooltip="What resource are you querying for?" labelWidth={LeftColumnWidth * 2}>
-        <div aria-label={components.QueryEditor.QueryType.container.ariaLabel}>
-          <Select
-            menuShouldPortal={true}
-            width={RightColumnWidth}
-            options={queryTypeOptions.filter((v) => queryTypes.includes(v.value!))}
-            value={props.query.queryType}
-            onChange={(val) => onKeyChange('queryType', val.value || DefaultQueryType)}
-          />
-        </div>
-      </InlineField>
-
-      {hasRepo(props.query.queryType) && (
-        <QueryEditorRepository
-          repository={props.query.repository}
-          owner={props.query.owner}
-          onChange={(repo) => {
-            onChange({
-              ...props.query,
-              ...repo,
-            });
-          }}
-        ></QueryEditorRepository>
-      )}
-
-      {queryEditor ? (
-        queryEditor.component(props, (value: any) => onKeyChange('options', !!value ? value : undefined))
-      ) : (
-        <span>Unsupported Query Type</span>
-      )}
+      <EditorRows>
+        <EditorRow>
+          <EditorField label="Query Type" tooltip={'What resource are you querying for?'}>
+            <div aria-label={components.QueryEditor.QueryType.container.ariaLabel}>
+              <Combobox<QueryType>
+                width={RightColumnWidth}
+                options={
+                  queryTypeOptions.filter(
+                    (v) =>
+                      queryTypes.includes(v.value!) &&
+                      v.value !== 'Organizations' &&
+                      v.value !== 'GraphQL' &&
+                      v.value !== 'ProjectItems'
+                  ) as Array<ComboboxOption<QueryType>>
+                }
+                value={props.query.queryType}
+                onChange={(val) => onKeyChange('queryType', val.value || DefaultQueryType)}
+              />
+            </div>
+          </EditorField>
+          {hasRepo(props.query.queryType) && (
+            <QueryEditorOwner
+              owner={props.query.owner}
+              onChange={(repo) => {
+                onChange({
+                  ...props.query,
+                  ...repo,
+                });
+              }}
+            />
+          )}
+          {hasRepo(props.query.queryType) && (
+            <QueryEditorRepository
+              repository={props.query.repository}
+              onChange={(repo) => {
+                onChange({
+                  ...props.query,
+                  ...repo,
+                });
+              }}
+            />
+          )}
+        </EditorRow>
+        {queryEditor ? (
+          queryEditor.component(props, (value: any) => onKeyChange('options', !!value ? value : undefined))
+        ) : (
+          <span>Unsupported Query Type</span>
+        )}
+      </EditorRows>
     </>
   );
 };
 
-const nonRepoTypes = [QueryType.Projects, QueryType.ProjectItems];
+const nonRepoTypes = ['Projects', 'ProjectItems'];
 
 function hasRepo(qt?: string) {
   return !nonRepoTypes.includes(qt as QueryType);

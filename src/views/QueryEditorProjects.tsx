@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Input, InlineLabel, RadioButtonGroup, InlineField } from '@grafana/ui';
-import { QueryEditorRow } from '../components/Forms';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { Input, RadioButtonGroup } from '@grafana/ui';
+import { EditorRows, EditorRow, EditorField } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
 import { components } from '../components/selectors';
 import { SelectableValue } from '@grafana/data';
 import { Filter, Filters } from 'components/Filters';
@@ -41,7 +41,7 @@ const ops: Array<SelectableValue<string>> = [
 
 const fetchFilters = async (key?: string) => (key ? [] : filters);
 
-const QueryEditorProjects = (props: Props) => {
+export const QueryEditorProjects = (props: Props) => {
   const [org, setOrg] = useState<string>(props.organization || '');
   const [user, setUser] = useState<string>(props.user || '');
   const [number, setNumber] = useState<number | string | undefined>(props.number);
@@ -54,15 +54,9 @@ const QueryEditorProjects = (props: Props) => {
       : 'The user who owns the GitHub project';
 
   return (
-    <>
-      <QueryEditorRow>
-        <InlineLabel
-          tooltip="The owner of the GitHub project."
-          width={LeftColumnWidth * 2}
-        >
-          Project Owner
-        </InlineLabel>
-        <InlineField>
+    <EditorRows>
+      <EditorRow>
+        <EditorField label="Project Owner" tooltip="The owner of the GitHub project.">
           <RadioButtonGroup<ProjectQueryType>
             options={queryTypes}
             value={kind}
@@ -75,85 +69,76 @@ const QueryEditorProjects = (props: Props) => {
             }}
             size={'md'}
           />
-        </InlineField>
-      </QueryEditorRow>
-
-      <QueryEditorRow>
-        <InlineLabel tooltip={tooltip} width={LeftColumnWidth * 2}>
-          {label}
-        </InlineLabel>
-        {kind === ProjectQueryType.ORG && (
+        </EditorField>
+        <EditorField label={label} tooltip={tooltip}>
+          <>
+            {kind === ProjectQueryType.ORG && (
+              <Input
+                aria-label={components.QueryEditor.Owner.input}
+                width={RightColumnWidth}
+                value={org}
+                onChange={(el) => setOrg(el.currentTarget.value)}
+                onBlur={(el) =>
+                  props.onChange({
+                    ...props,
+                    organization: el.currentTarget.value,
+                    kind,
+                  })
+                }
+              />
+            )}
+            {kind === ProjectQueryType.USER && (
+              <Input
+                aria-label={components.QueryEditor.Owner.input}
+                width={RightColumnWidth}
+                value={user}
+                onChange={(el) => setUser(el.currentTarget.value)}
+                onBlur={(el) =>
+                  props.onChange({
+                    ...props,
+                    user: el.currentTarget.value,
+                    kind,
+                  })
+                }
+              />
+            )}
+          </>
+        </EditorField>
+        <EditorField label="Project Number" tooltip="The project number for the GitHub project (example: 123).">
           <Input
-            aria-label={components.QueryEditor.Owner.input}
+            aria-label={components.QueryEditor.Number.input}
             width={RightColumnWidth}
-            value={org}
-            onChange={(el) => setOrg(el.currentTarget.value)}
+            value={number}
+            onChange={(el) => setNumber(num(el.currentTarget.value))}
             onBlur={(el) =>
               props.onChange({
                 ...props,
-                organization: el.currentTarget.value,
-                kind,
+                number: num(el.currentTarget.value),
               })
             }
           />
-        )}
-        {kind === ProjectQueryType.USER && (
-          <Input
-            aria-label={components.QueryEditor.Owner.input}
-            width={RightColumnWidth}
-            value={user}
-            onChange={(el) => setUser(el.currentTarget.value)}
-            onBlur={(el) =>
-              props.onChange({
-                ...props,
-                user: el.currentTarget.value,
-                kind,
-              })
-            }
-          />
-        )}
-      </QueryEditorRow>
-
-      <QueryEditorRow>
-        <InlineLabel
-          tooltip="The project number for the GitHub project (example: 123)."
-          width={LeftColumnWidth * 2}
-        >
-          Project Number
-        </InlineLabel>
-        <Input
-          aria-label={components.QueryEditor.Number.input}
-          width={RightColumnWidth}
-          value={number}
-          onChange={(el) => setNumber(num(el.currentTarget.value))}
-          onBlur={(el) =>
-            props.onChange({
-              ...props,
-              number: num(el.currentTarget.value),
-            })
-          }
-        />
-      </QueryEditorRow>
-
+        </EditorField>
+      </EditorRow>
       {/* Filters currently only apply to Project Items */}
       {number && (
-        <QueryEditorRow>
-          <InlineLabel width={LeftColumnWidth * 2}>Filters</InlineLabel>
-          <Filters
-            onChange={(filters: Filter[]) => {
-              setFilters(filters);
-              props.onChange({
-                ...props,
-                filters,
-              });
-            }}
-            loadOptions={fetchFilters}
-            value={filters}
-            ops={ops}
-          ></Filters>
-        </QueryEditorRow>
+        <EditorRow>
+          <EditorField label="Filters">
+            <Filters
+              onChange={(filters: Filter[]) => {
+                setFilters(filters);
+                props.onChange({
+                  ...props,
+                  filters,
+                });
+              }}
+              loadOptions={fetchFilters}
+              value={filters}
+              ops={ops}
+            ></Filters>
+          </EditorField>
+        </EditorRow>
       )}
-    </>
+    </EditorRows>
   );
 };
 
@@ -164,5 +149,3 @@ function num(v: string) {
   const val = parseInt(v, 10);
   return isNaN(val) ? undefined : val;
 }
-
-export default QueryEditorProjects;

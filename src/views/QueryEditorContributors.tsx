@@ -1,26 +1,25 @@
 import React, { useState } from 'react';
-import { Input, InlineField } from '@grafana/ui';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { Input } from '@grafana/ui';
+import { RightColumnWidth } from './QueryEditor';
 import type { ContributorsOptions } from '../types/query';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
 
 interface Props extends ContributorsOptions {
   onChange: (value: ContributorsOptions) => void;
 }
 
-const QueryEditorContributors = (props: Props) => {
+export const QueryEditorContributors = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
-    <>
-      <InlineField labelWidth={LeftColumnWidth * 2} label="Query (optional)">
+    <EditorRow>
+      <EditorField label="Query (optional)">
         <Input
           width={RightColumnWidth}
           value={query}
           onChange={(el) => setQuery(el.currentTarget.value)}
           onBlur={(el) => props.onChange({ ...props, query: el.currentTarget.value })}
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorContributors;
