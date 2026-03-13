@@ -1,56 +1,85 @@
+import { z } from 'zod';
 import type { DataSourceJsonData } from '@grafana/schema';
 
-export type GitHubLicenseType = 'github-basic' | 'github-enterprise-cloud' | 'github-enterprise-server';
+//#region jsonData
 
-export type GitHubAuthType = 'personal-access-token' | 'github-app';
+//#region --- License / Plan schemas ---
 
-type GithubCommonOptionsBase<T extends GitHubLicenseType> = {
-  githubPlan?: T;
-} & DataSourceJsonData
+const GitHubLicenseTypeSchema = z.enum(['github-basic', 'github-enterprise-cloud', 'github-enterprise-server']);
+export type GitHubLicenseType = z.infer<typeof GitHubLicenseTypeSchema>;
 
-type GitHubDataSourceBasicOptions = GithubCommonOptionsBase<'github-basic'> & {
-  githubPlan?: 'github-basic';
-  githubUrl: never;
-};
+const GitHubAuthTypeSchema = z.enum(['personal-access-token', 'github-app']);
+export type GitHubAuthType = z.infer<typeof GitHubAuthTypeSchema>;
 
-type GitHubDataSourceEnterpriseCloudOptions = GithubCommonOptionsBase<'github-enterprise-cloud'> & {
-  githubPlan: 'github-enterprise-cloud';
-  githubUrl: never;
-};
+//#endregion
 
-type GitHubDataSourceEnterpriseServerOptions = GithubCommonOptionsBase<'github-enterprise-server'> & {
-  githubPlan: 'github-enterprise-server';
-  githubUrl: string;
-};
+//#region --- Plan option schemas ---
 
-type GithubDataSourceCommonOptions = (GitHubDataSourceBasicOptions | GitHubDataSourceEnterpriseCloudOptions | GitHubDataSourceEnterpriseServerOptions)
+const GitHubDataSourceBasicOptionsSchema = z.object({
+  githubPlan: z.literal('github-basic').optional(),
+  githubUrl: z.never(),
+});
 
-type GithubDataSourceAuthOptionsBase<T extends GitHubAuthType> = {
-  selectedAuthType?: T
-}
+const GitHubDataSourceEnterpriseCloudOptionsSchema = z.object({
+  githubPlan: z.literal('github-enterprise-cloud'),
+  githubUrl: z.never(),
+});
 
-type GitHubDataSourcePATAuthOptions = GithubDataSourceAuthOptionsBase<'personal-access-token'> & {
-  appId: never;
-  installationId: string;
-};
+const GitHubDataSourceEnterpriseServerOptionsSchema = z.object({
+  githubPlan: z.literal('github-enterprise-server'),
+  githubUrl: z.string(),
+});
 
-type GitHubDataSourceGHAppOptions = GithubDataSourceAuthOptionsBase<'github-app'> & {
-  appId: string;
-  installationId: string;
-};
+const GithubDataSourceCommonOptionsSchema = GitHubDataSourceBasicOptionsSchema
+  .or(GitHubDataSourceEnterpriseCloudOptionsSchema)
+  .or(GitHubDataSourceEnterpriseServerOptionsSchema);
 
-type GithubDataSourceAuthOptions = (GitHubDataSourcePATAuthOptions | GitHubDataSourceGHAppOptions)
+//#endregion
 
-export type GitHubDataSourceOptions = GithubDataSourceCommonOptions & GithubDataSourceAuthOptions;
+//#region --- Auth option schemas ---
 
-type GitHubSecureJsonDataAuthPAT = {
-  accessToken: string;
-  privateKey?: string;
-};
+const GitHubDataSourcePATAuthOptionsSchema = z.object({
+  selectedAuthType: z.literal('personal-access-token').optional(),
+  appId: z.never(),
+  installationId: z.never(),
+});
 
-type GitHubSecureJsonDataAuthGHApp = {
-  privateKey: string;
-  accessToken?: string;
-};
+const GitHubDataSourceGHAppOptionsSchema = z.object({
+  selectedAuthType: z.literal('github-app'),
+  appId: z.string(),
+  installationId: z.string(),
+});
 
-export type GitHubSecureJsonData = GitHubSecureJsonDataAuthPAT | GitHubSecureJsonDataAuthGHApp;
+const GithubDataSourceAuthOptionsSchema = GitHubDataSourcePATAuthOptionsSchema
+  .or(GitHubDataSourceGHAppOptionsSchema)
+
+//#endregion
+
+const GitHubDataSourceOptionsSchema = z.intersection(GithubDataSourceCommonOptionsSchema, GithubDataSourceAuthOptionsSchema);
+
+export type GitHubDataSourceOptions = z.infer<typeof GitHubDataSourceOptionsSchema> & DataSourceJsonData;
+
+//#endregion
+
+//#region secureJsonData
+
+//#region --- Secure JSON data schemas ---
+
+const GitHubSecureJsonDataAuthPATSchema = z.object({
+  accessToken: z.string(),
+  privateKey: z.never(),
+});
+
+const GitHubSecureJsonDataAuthGHAppSchema = z.object({
+  accessToken: z.never(),
+  privateKey: z.string(),
+});
+
+//#endregion
+
+const GitHubSecureJsonDataSchema = GitHubSecureJsonDataAuthPATSchema
+  .or(GitHubSecureJsonDataAuthGHAppSchema)
+
+export type GitHubSecureJsonData = z.infer<typeof GitHubSecureJsonDataSchema>;
+
+//#endregion

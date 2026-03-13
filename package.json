@@ -89,7 +89,8 @@
     "webpack-cli": "6.0.1",
     "webpack-livereload-plugin": "3.0.2",
     "webpack-subresource-integrity": "5.1.0",
-    "webpack-virtual-modules": "0.6.2"
+    "webpack-virtual-modules": "0.6.2",
+    "zod": "4.3.6"
   },
   "resolutions": {
     "@remix-run/router": "1.23.2",
