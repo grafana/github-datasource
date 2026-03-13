@@ -62,14 +62,25 @@ func (p *SchemaProvider) Schema(ctx context.Context, req *schemas.SchemaRequest)
 		backend.Logger.Warn("failed to get org-repo combinations", "error", err.Error())
 	}
 
+	tables := getAllTables()
+
+	var tableParamValues map[string]map[string][]string
+	if len(orgRepos.Orgs) > 0 {
+		tableParamValues = make(map[string]map[string][]string)
+		for _, t := range tables {
+			for _, tp := range t.TableParameters {
+				if tp.Root && tp.Name == "organization" {
+					tableParamValues[t.Name] = map[string][]string{
+						"organization": orgRepos.Orgs,
+					}
+				}
+			}
+		}
+	}
+
 	return &schemas.SchemaResponse{FullSchema: &schemas.Schema{
-		Tables: getAllTables(),
-		TableParameterValues: map[string]map[string][]string{
-			"organization": {
-				"root": orgRepos.Orgs,
-			},
-			"repository": orgRepos.OrgRepoCombinations,
-		},
+		Tables:               tables,
+		TableParameterValues: tableParamValues,
 	}}, nil
 }
 
