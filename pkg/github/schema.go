@@ -33,10 +33,6 @@ var (
 		{Name: "organization", Root: true, Required: true},
 	}
 
-	projectTableParameters = []schemas.TableParameter{
-		{Name: "organization", Root: true, Required: false},
-	}
-
 	workflowUsageTableParameters = []schemas.TableParameter{
 		{Name: "organization", Root: true, Required: true},
 		{Name: "repository", DependsOn: []string{"organization"}, Required: true},
@@ -395,7 +391,7 @@ func getAllTables() []schemas.Table {
 		},
 		{
 			Name:            normalizeTableNames(models.QueryTypeProjects),
-			TableParameters: projectTableParameters,
+			TableParameters: orgOnlyTableParameters,
 			Columns: []schemas.Column{
 				{Name: "number", Type: schemas.ColumnTypeInt64},
 				{Name: "title", Type: schemas.ColumnTypeString},
