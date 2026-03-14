@@ -239,6 +239,120 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 		}
 	})
 
+	t.Run("maps projects owner to options.organization", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"projects_grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil || len(out.Queries) != 1 {
+			t.Fatalf("expected one query")
+		}
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts, _ := raw["options"].(map[string]interface{})
+		org, _ := opts["organization"].(string)
+		if org != "grafana" {
+			t.Errorf("expected options.organization 'grafana', got %q", org)
+		}
+	})
+
+	t.Run("uses tableParameterValues for owner and repository", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues","tableParameterValues":{"organization":"grafana","repository":"grafana"}}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil || len(out.Queries) != 1 {
+			t.Fatalf("expected one query")
+		}
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		if raw["owner"] != "grafana" || raw["repository"] != "grafana" {
+			t.Errorf("owner/repository: got %v / %v", raw["owner"], raw["repository"])
+		}
+	})
+
+	t.Run("tableParameterValues override owner and repository from table suffix", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_oldorg_oldrepo","tableParameterValues":{"organization":"grafana","repository":"grafana"}}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil || len(out.Queries) != 1 {
+			t.Fatalf("expected one query")
+		}
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		if raw["owner"] != "grafana" || raw["repository"] != "grafana" {
+			t.Errorf("owner/repository: got %v / %v", raw["owner"], raw["repository"])
+		}
+	})
+
+	t.Run("maps workflow table parameter to options.workflow", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-usage","tableParameterValues":{"organization":"grafana","repository":"grafana","workflow":"build.yml"}}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil || len(out.Queries) != 1 {
+			t.Fatalf("expected one query")
+		}
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		if raw["owner"] != "grafana" || raw["repository"] != "grafana" {
+			t.Errorf("owner/repository: got %v / %v", raw["owner"], raw["repository"])
+		}
+		opts, _ := raw["options"].(map[string]interface{})
+		workflow, _ := opts["workflow"].(string)
+		if workflow != "build.yml" {
+			t.Errorf("expected options.workflow 'build.yml', got %q", workflow)
+		}
+	})
+
+	t.Run("maps projects organization from tableParameterValues", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"projects","tableParameterValues":{"organization":"grafana"}}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		if out == nil || len(out.Queries) != 1 {
+			t.Fatalf("expected one query")
+		}
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts, _ := raw["options"].(map[string]interface{})
+		org, _ := opts["organization"].(string)
+		if org != "grafana" {
+			t.Errorf("expected options.organization 'grafana', got %q", org)
+		}
+	})
+
 	t.Run("leaves non-grafanaSql query unchanged", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","queryType":"Pull_Requests","owner":"grafana","repository":"grafana"}`)
 		req := &backend.QueryDataRequest{
@@ -315,7 +429,7 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 
 func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	t.Run("pushes down state filter for issues", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"state","op":"==","value":"open"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"name":"state","conditions":[{"operator":"==","value":"open"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -341,7 +455,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down author filter for issues", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"author","op":"==","value":"octocat"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"name":"author","conditions":[{"operator":"==","value":"octocat"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -361,7 +475,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down multiple filters for issues", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"state","op":"==","value":"open"},{"column":"labels","op":"==","value":"bug"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"name":"state","conditions":[{"operator":"==","value":"open"}]},{"name":"labels","conditions":[{"operator":"==","value":"bug"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -380,8 +494,48 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 		}
 	})
 
+	t.Run("pushes down JSON array value for issues labels", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"name":"labels","conditions":[{"operator":"in","values":["bug","triage"]}]}]}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		query := opts["query"].(string)
+		if query != "label:bug label:triage" {
+			t.Errorf("expected query 'label:bug label:triage', got %q", query)
+		}
+	})
+
+	t.Run("pushes down IN values for assignees", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"name":"assignees","conditions":[{"operator":"in","values":["alice","bob"]}]}]}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		query := opts["query"].(string)
+		if query != "assignee:alice assignee:bob" {
+			t.Errorf("expected query 'assignee:alice assignee:bob', got %q", query)
+		}
+	})
+
 	t.Run("pushes down state filter for code-scanning", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana","filters":[{"column":"state","op":"==","value":"open"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana","filters":[{"name":"state","conditions":[{"operator":"==","value":"open"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -401,7 +555,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down branch filter for workflow-runs", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-runs_grafana_grafana","filters":[{"column":"head_branch","op":"==","value":"main"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-runs_grafana_grafana","filters":[{"name":"head_branch","conditions":[{"operator":"==","value":"main"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -421,7 +575,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down status filter for workflow-runs", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-runs_grafana_grafana","filters":[{"column":"status","op":"==","value":"completed"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflow-runs_grafana_grafana","filters":[{"name":"status","conditions":[{"operator":"==","value":"completed"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -441,7 +595,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down draft filter for pull-requests", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"pull-requests_grafana_grafana","filters":[{"column":"is_draft","op":"==","value":"true"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"pull-requests_grafana_grafana","filters":[{"name":"is_draft","conditions":[{"operator":"==","value":"true"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -461,7 +615,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down name filter for labels (like)", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"labels_grafana_grafana","filters":[{"column":"name","op":"like","value":"bug"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"labels_grafana_grafana","filters":[{"name":"name","conditions":[{"operator":"like","value":"bug"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -481,7 +635,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down package type filter", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"packages_grafana_grafana","filters":[{"column":"type","op":"==","value":"DOCKER"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"packages_grafana_grafana","filters":[{"name":"type","conditions":[{"operator":"==","value":"DOCKER"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -501,7 +655,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down name filter for repositories", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"repositories_grafana","filters":[{"column":"name","op":"like","value":"grafana"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"repositories_grafana","filters":[{"name":"name","conditions":[{"operator":"like","value":"grafana"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -519,7 +673,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("pushes down tool_name filter for code-scanning", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana","filters":[{"column":"tool_name","op":"==","value":"CodeQL"}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana","filters":[{"name":"tool_name","conditions":[{"operator":"==","value":"CodeQL"}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
@@ -539,7 +693,7 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 	})
 
 	t.Run("ignores filters with empty values", func(t *testing.T) {
-		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"column":"state","op":"==","value":""}]}`)
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana","filters":[{"name":"state","conditions":[{"operator":"==","value":""}]}]}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: pluginCtxWithFeatureToggle(),
 			Queries: []backend.DataQuery{
