@@ -6,7 +6,7 @@ require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.17.0
 	github.com/google/go-github/v81 v81.0.0
 	github.com/grafana/grafana-plugin-sdk-go v0.290.0
-	github.com/grafana/schemads v0.0.1
+	github.com/grafana/schemads v0.0.2
 	github.com/influxdata/tdigest v0.0.1
 	github.com/pkg/errors v0.9.1
 	github.com/shurcooL/githubv4 v0.0.0-20260209031235-2402fdf4a9ed
