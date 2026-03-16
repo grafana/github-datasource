@@ -38,7 +38,7 @@ jobs:
 
       - name: Check for uncommitted schema changes
         run: |
-          if ! git diff --exit-code pkg/configschema/config.json; then
+          if ! git diff --exit-code pkg/schema/config.json; then
             echo "::error::Config schema is out of date. Run 'yarn generate:config-schema' and commit the changes."
             exit 1
           fi

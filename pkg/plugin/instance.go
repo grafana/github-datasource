@@ -9,7 +9,7 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	schemas "github.com/grafana/schemads"
 
-	"github.com/grafana/github-datasource/pkg/configschema"
+	"github.com/grafana/github-datasource/pkg/schema"
 	"github.com/grafana/github-datasource/pkg/github"
 	"github.com/grafana/github-datasource/pkg/models"
 )
@@ -25,7 +25,7 @@ func (g *GitHubInstanceWithSchema) CallResource(ctx context.Context, req *backen
 		return sender.Send(&backend.CallResourceResponse{
 			Status:  http.StatusOK,
 			Headers: map[string][]string{"Content-Type": {"application/json"}},
-			Body:    configschema.ConfigSchemaJSON,
+			Body:    schema.ConfigSchemaJSON,
 		})
 	}
 	return g.SchemaDatasource.CallResource(ctx, req, sender)

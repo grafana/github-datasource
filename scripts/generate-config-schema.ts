@@ -17,7 +17,7 @@ const configSchema = {
 
 const schemaJSON = JSON.stringify(configSchema, null, 2) + '\n';
 
-const outPath = path.resolve(__dirname, '..', 'pkg', 'configschema', 'config.json');
+const outPath = path.resolve(__dirname, '..', 'pkg', 'schema', 'config.json');
 fs.mkdirSync(path.dirname(outPath), { recursive: true });
 fs.writeFileSync(outPath, schemaJSON);
 console.log(`Config JSON schema written to ${outPath}`);

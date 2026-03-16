@@ -1,4 +1,4 @@
-package configschema
+package schema
 
 import (
 	_ "embed"
