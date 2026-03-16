@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Git pre-commit hook that regenerates the config JSON schema
+# when src/types/config.ts is modified.
+#
+# To install, run from the repository root:
+#   cp scripts/pre-commit .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+
+STAGED=$(git diff --cached --name-only)
+
+if echo "$STAGED" | grep -q "src/types/config.ts"; then
+  echo "Config types changed — regenerating config JSON schema..."
+  yarn generate:config-schema
+
+  git add src/schemas/config-schema.json pkg/configschema/config_schema.json
+  echo "Config JSON schema updated and staged."
+fi
