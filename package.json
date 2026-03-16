@@ -17,7 +17,8 @@
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
     "test": "jest --watch --onlyChanged",
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:config-schema": "ts-node scripts/generate-config-schema.ts"
   },
   "dependencies": {
     "@emotion/css": "11.13.5",

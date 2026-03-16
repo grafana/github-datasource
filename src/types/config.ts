@@ -55,7 +55,7 @@ const GithubDataSourceAuthOptionsSchema = GitHubDataSourcePATAuthOptionsSchema
 
 //#endregion
 
-const GitHubDataSourceOptionsSchema = z.intersection(GithubDataSourceCommonOptionsSchema, GithubDataSourceAuthOptionsSchema);
+export const GitHubDataSourceOptionsSchema = z.intersection(GithubDataSourceCommonOptionsSchema, GithubDataSourceAuthOptionsSchema);
 
 export type GitHubDataSourceOptions = z.infer<typeof GitHubDataSourceOptionsSchema> & DataSourceJsonData;
 
@@ -77,7 +77,7 @@ const GitHubSecureJsonDataAuthGHAppSchema = z.object({
 
 //#endregion
 
-const GitHubSecureJsonDataSchema = GitHubSecureJsonDataAuthPATSchema
+export const GitHubSecureJsonDataSchema = GitHubSecureJsonDataAuthPATSchema
   .or(GitHubSecureJsonDataAuthGHAppSchema)
 
 export type GitHubSecureJsonData = z.infer<typeof GitHubSecureJsonDataSchema>;
