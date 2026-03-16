@@ -4,5 +4,5 @@ import (
 	_ "embed"
 )
 
-//go:embed config_schema.json
+//go:embed config.json
 var ConfigSchemaJSON []byte

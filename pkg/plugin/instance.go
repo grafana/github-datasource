@@ -21,7 +21,7 @@ type GitHubInstanceWithSchema struct {
 }
 
 func (g *GitHubInstanceWithSchema) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
-	if req.Path == "config-schema" {
+	if req.Path == "schema/config" {
 		return sender.Send(&backend.CallResourceResponse{
 			Status:  http.StatusOK,
 			Headers: map[string][]string{"Content-Type": {"application/json"}},
