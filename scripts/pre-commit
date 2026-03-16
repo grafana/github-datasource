@@ -13,6 +13,6 @@ if echo "$STAGED" | grep -q "src/types/config.ts"; then
   echo "Config types changed — regenerating config JSON schema..."
   yarn generate:config-schema
 
-  git add src/schema/config.json pkg/configschema/config.json
+  git add pkg/configschema/config.json
   echo "Config JSON schema updated and staged."
 fi

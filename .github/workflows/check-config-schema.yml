@@ -30,19 +30,15 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Guard against local imports in config types
-        run: |
-          if grep -Pn '^\s*import\s.*from\s+['"'"'"]\.\.' src/types/config.ts; then
-            echo "::error::src/types/config.ts must not import from local files. All config types must be self-contained."
-            exit 1
-          fi
+      - name: Lint config types (import guard)
+        run: yarn lint --no-cache -- src/types/config.ts
 
       - name: Generate config schema
         run: yarn generate:config-schema
 
       - name: Check for uncommitted schema changes
         run: |
-          if ! git diff --exit-code src/schema/config.json pkg/configschema/config.json; then
+          if ! git diff --exit-code pkg/configschema/config.json; then
             echo "::error::Config schema is out of date. Run 'yarn generate:config-schema' and commit the changes."
             exit 1
           fi

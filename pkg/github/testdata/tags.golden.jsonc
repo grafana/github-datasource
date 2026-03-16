@@ -3,14 +3,14 @@
 //  Frame[0] 
 //  Name: tags
 //  Dimensions: 7 Fields by 2 Rows
-//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
-//  | Name: name     | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: date                      |
-//  | Labels:        | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                         |
-//  | Type: []string | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               |
-//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
-//  | v1.0.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 |
-//  | v1.1.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 |
-//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+-------------------------------+
+//  | Name: name     | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: date                    |
+//  | Labels:        | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                       |
+//  | Type: []string | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time             |
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+-------------------------------+
+//  | v1.0.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 UTC |
+//  | v1.1.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 UTC |
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+-------------------------------+
 //  
 //  
 //  🌟 This was machine generated.  Do not edit. 🌟
