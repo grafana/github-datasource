@@ -2,8 +2,6 @@ package github
 
 import (
 	"context"
-	"fmt"
-	"strings"
 	"time"
 
 	googlegithub "github.com/google/go-github/v81/github"
@@ -23,12 +21,14 @@ import (
 //   }
 // }
 type QueryListRepositories struct {
-	Search struct {
-		Nodes []struct {
-			Repository Repository `graphql:"... on Repository"`
-		}
+	Organization struct {
+		Repositories struct {
+			Nodes []struct {
+				Repository `graphql:"... on Repository"`
+			}
 		PageInfo models.PageInfo
-	} `graphql:"search(query: $query, type: REPOSITORY, first: 100, after: $cursor)"`
+		} `graphql:"repositories(first: 100, after: $cursor)"`
+	} `graphql:"organization(login: $owner)"`
 }
 
 // Repository is a code repository
@@ -38,12 +38,12 @@ type Repository struct {
 		Login string
 	}
 	NameWithOwner string
-	URL           string
-	ForkCount     int64
-	IsFork        bool
-	IsMirror      bool
-	IsPrivate     bool
-	CreatedAt     githubv4.DateTime
+	URL		   string
+	ForkCount	 int64
+	IsFork		bool
+	IsMirror	  bool
+	IsPrivate	 bool
+	CreatedAt	 githubv4.DateTime
 }
 
 // Repositories is a list of GitHub repositories
@@ -84,17 +84,12 @@ func (r Repositories) Frames() data.Frames {
 
 // GetAllRepositories retrieves all available repositories for an organization
 func GetAllRepositories(ctx context.Context, client models.Client, opts models.ListRepositoriesOptions) (Repositories, error) {
-	query := strings.Join([]string{
-		fmt.Sprintf("org:%s", opts.Owner),
-		opts.Repository,
-	}, " ")
 
 	var (
 		variables = map[string]interface{}{
 			"cursor": (*githubv4.String)(nil),
-			"query":  githubv4.String(query),
+			"owner":  githubv4.String(opts.Owner),
 		}
-
 		repos = []Repository{}
 	)
 
@@ -103,18 +98,15 @@ func GetAllRepositories(ctx context.Context, client models.Client, opts models.L
 		if err := client.Query(ctx, q, variables); err != nil {
 			return nil, err
 		}
-		r := make([]Repository, len(q.Search.Nodes))
 
-		for i, v := range q.Search.Nodes {
-			r[i] = v.Repository
+		for _, v := range q.Organization.Repositories.Nodes {
+			repos = append(repos, v.Repository)
 		}
 
-		repos = append(repos, r...)
-
-		if !q.Search.PageInfo.HasNextPage {
+		if !q.Organization.Repositories.PageInfo.HasNextPage {
 			break
 		}
-		variables["cursor"] = q.Search.PageInfo.EndCursor
+		variables["cursor"] = q.Organization.Repositories.PageInfo.EndCursor
 	}
 
 	return repos, nil
