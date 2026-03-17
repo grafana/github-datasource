@@ -1,0 +1,45 @@
+name: Check Config Schema
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    paths:
+      - 'src/types/config.ts'
+      - 'scripts/generate-config-schema.ts'
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/types/config.ts'
+      - 'scripts/generate-config-schema.ts'
+
+jobs:
+  check-config-schema:
+    name: Verify config schema is up-to-date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint config types (import guard)
+        run: yarn lint --no-cache -- src/types/config.ts
+
+      - name: Generate config schema
+        run: yarn generate:config-schema
+
+      - name: Check for uncommitted schema changes
+        run: |
+          if ! git diff --exit-code pkg/schema/config.json; then
+            echo "::error::Config schema is out of date. Run 'yarn generate:config-schema' and commit the changes."
+            exit 1
+          fi
+          echo "Config schema is up-to-date."

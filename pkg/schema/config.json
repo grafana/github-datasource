@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GitHubDataSourceConfig",
+  "description": "Configuration schema for the Grafana GitHub data source plugin",
+  "type": "object",
+  "properties": {
+    "jsonData": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "allOf": [
+        {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "githubPlan": {
+                      "description": "GitHub plan type (basic)",
+                      "type": "string",
+                      "const": "github-basic"
+                    },
+                    "githubUrl": {
+                      "not": {},
+                      "description": "Not applicable for GitHub basic plan"
+                    }
+                  },
+                  "required": [
+                    "githubUrl"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Configuration for GitHub basic plan"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "githubPlan": {
+                      "type": "string",
+                      "const": "github-enterprise-cloud",
+                      "description": "GitHub plan type (Enterprise Cloud)"
+                    },
+                    "githubUrl": {
+                      "not": {},
+                      "description": "Not applicable for GitHub Enterprise Cloud"
+                    }
+                  },
+                  "required": [
+                    "githubPlan",
+                    "githubUrl"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Configuration for GitHub Enterprise Cloud plan"
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "githubPlan": {
+                  "type": "string",
+                  "const": "github-enterprise-server",
+                  "description": "GitHub plan type (Enterprise Server)"
+                },
+                "githubUrl": {
+                  "type": "string",
+                  "description": "The URL of the GitHub Enterprise Server instance"
+                }
+              },
+              "required": [
+                "githubPlan",
+                "githubUrl"
+              ],
+              "additionalProperties": false,
+              "description": "Configuration for GitHub Enterprise Server plan"
+            }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "selectedAuthType": {
+                  "description": "Authentication type (Personal Access Token)",
+                  "type": "string",
+                  "const": "personal-access-token"
+                },
+                "appId": {
+                  "not": {},
+                  "description": "Not applicable for PAT authentication"
+                },
+                "installationId": {
+                  "not": {},
+                  "description": "Not applicable for PAT authentication"
+                }
+              },
+              "required": [
+                "appId",
+                "installationId"
+              ],
+              "additionalProperties": false,
+              "description": "Authentication options for Personal Access Token"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "selectedAuthType": {
+                  "type": "string",
+                  "const": "github-app",
+                  "description": "Authentication type (GitHub App)"
+                },
+                "appId": {
+                  "type": "string",
+                  "description": "The GitHub App ID"
+                },
+                "installationId": {
+                  "type": "string",
+                  "description": "The GitHub App installation ID"
+                }
+              },
+              "required": [
+                "selectedAuthType",
+                "appId",
+                "installationId"
+              ],
+              "additionalProperties": false,
+              "description": "Authentication options for GitHub App"
+            }
+          ]
+        }
+      ],
+      "description": "GitHub data source configuration options (jsonData)"
+    },
+    "secureJsonData": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "type": "string",
+              "description": "Personal access token for GitHub API authentication"
+            },
+            "privateKey": {
+              "not": {},
+              "description": "Not applicable for PAT authentication"
+            }
+          },
+          "required": [
+            "accessToken",
+            "privateKey"
+          ],
+          "additionalProperties": false,
+          "description": "Secure data for Personal Access Token authentication"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "accessToken": {
+              "not": {},
+              "description": "Not applicable for GitHub App authentication"
+            },
+            "privateKey": {
+              "type": "string",
+              "description": "Private key for GitHub App authentication (PEM format)"
+            }
+          },
+          "required": [
+            "accessToken",
+            "privateKey"
+          ],
+          "additionalProperties": false,
+          "description": "Secure data for GitHub App authentication"
+        }
+      ],
+      "description": "Secure JSON data for GitHub data source authentication (secureJsonData)"
+    }
+  }
+}
