@@ -79,8 +79,8 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 		options["options"] = opts
 	}
 
-	appendEqualitySearchQualifier := func(name, operator string, values []string, isJSON bool) {
-		if operator == "==" || operator == "=" || operator == "in" {
+	appendEqualitySearchQualifier := func(name string, operator schemas.Operator, values []string, isJSON bool) {
+		if operator == schemas.OperatorEquals || operator == schemas.OperatorIn {
 			for _, value := range values {
 				if isJSON {
 					for _, v := range parseJSONStringValues(value) {
@@ -92,8 +92,8 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 			}
 		}
 	}
-	setOption := func(name, op, value string) {
-		if op == "==" || op == "=" || op == "in" {
+	setOption := func(name string, operator schemas.Operator, value string) {
+		if operator == schemas.OperatorEquals || operator == schemas.OperatorIn {
 			opts[name] = value
 		}
 	}
@@ -104,7 +104,6 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 		}
 
 		for _, condition := range f.Conditions {
-			op := strings.ToLower(strings.TrimSpace(condition.Operator))
 			values := extractFilterValues(condition)
 			if len(values) == 0 {
 				continue
@@ -114,26 +113,26 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 			case models.QueryTypeIssues:
 				switch f.Name {
 				case "state":
-					appendEqualitySearchQualifier(f.Name, op, values, false)
+					appendEqualitySearchQualifier(f.Name, condition.Operator, values, false)
 				case "author":
-					appendEqualitySearchQualifier(f.Name, op, values, false)
+					appendEqualitySearchQualifier(f.Name, condition.Operator, values, false)
 				case "labels":
-					appendEqualitySearchQualifier("label", op, values, true)
+					appendEqualitySearchQualifier("label", condition.Operator, values, true)
 				case "assignees":
-					appendEqualitySearchQualifier("assignee", op, values, true)
+					appendEqualitySearchQualifier("assignee", condition.Operator, values, true)
 				case "milestone":
-					appendEqualitySearchQualifier("milestone", op, values, false)
+					appendEqualitySearchQualifier("milestone", condition.Operator, values, false)
 				}
 			case models.QueryTypePullRequests, models.QueryTypePullRequestReviews:
 				switch f.Name {
 				case "state":
-					appendEqualitySearchQualifier("state", op, values, false)
+					appendEqualitySearchQualifier("state", condition.Operator, values, false)
 				case "author_login":
-					appendEqualitySearchQualifier("author", op, values, false)
+					appendEqualitySearchQualifier("author", condition.Operator, values, false)
 				case "labels":
-					appendEqualitySearchQualifier("label", op, values, true)
+					appendEqualitySearchQualifier("label", condition.Operator, values, true)
 				case "is_draft":
-					if op == "==" || op == "=" || op == "in" {
+					if condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn {
 						for _, value := range values {
 							if value == "true" {
 								searchQualifiers = append(searchQualifiers, "draft:true")
@@ -146,37 +145,37 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 			case models.QueryTypeCodeScanning:
 				switch f.Name {
 				case "state":
-					setOption("state", op, values[0])
+					setOption("state", condition.Operator, values[0])
 				case "rule_severity":
-					setOption("severity", op, values[0])
+					setOption("severity", condition.Operator, values[0])
 				case "tool_name":
-					setOption("toolName", op, values[0])
+					setOption("toolName", condition.Operator, values[0])
 				}
 			case models.QueryTypeWorkflowRuns:
 				switch f.Name {
 				case "head_branch":
-					setOption("branch", op, values[0])
+					setOption("branch", condition.Operator, values[0])
 				case "status":
-					setOption("status", op, values[0])
+					setOption("status", condition.Operator, values[0])
 				case "event":
-					setOption("event", op, values[0])
+					setOption("event", condition.Operator, values[0])
 				}
 			case models.QueryTypeContributors:
-				if f.Name == "name" && (op == "like" || op == "==" || op == "=" || op == "in") {
+				if f.Name == "name" && (condition.Operator == schemas.OperatorLike || condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn) {
 					opts["query"] = values[0]
 				}
 			case models.QueryTypeLabels:
-				if f.Name == "name" && (op == "like" || op == "==" || op == "=" || op == "in") {
+				if f.Name == "name" && (condition.Operator == schemas.OperatorLike || condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn) {
 					opts["query"] = values[0]
 				}
 			case models.QueryTypeMilestones:
-				if f.Name == "title" && (op == "like" || op == "==" || op == "=" || op == "in") {
+				if f.Name == "title" && (condition.Operator == schemas.OperatorLike || condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn) {
 					opts["query"] = values[0]
 				}
 			case models.QueryTypePackages:
 				switch f.Name {
 				case "name":
-					if op == "==" || op == "=" || op == "in" {
+					if condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn {
 						for _, value := range values {
 							existing, _ := opts["names"].(string)
 							if existing != "" {
@@ -187,12 +186,12 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 						}
 					}
 				case "type":
-					if op == "==" || op == "=" || op == "in" {
+					if condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn {
 						opts["packageType"] = values[0]
 					}
 				}
 			case models.QueryTypeRepositories:
-				if f.Name == "name" && (op == "like" || op == "==" || op == "=" || op == "in") {
+				if f.Name == "name" && (condition.Operator == schemas.OperatorLike || condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn) {
 					options["repository"] = values[0]
 				}
 			}
