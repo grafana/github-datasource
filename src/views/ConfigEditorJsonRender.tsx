@@ -34,14 +34,14 @@ const ConfigEditorJsonRender = (props: ConfigEditorProps) => {
 
   const onJsonDataChange = useCallback((field: string, value: string) => {
     const opts = optionsRef.current;
-    const newJsonData = { ...opts.jsonData, [field]: value } as GitHubDataSourceOptions;
+    const updatedFields: Record<string, unknown> = { ...opts.jsonData, [field]: value };
 
     // When switching license, clear githubUrl for non-enterprise-server plans
     if (field === 'githubPlan' && value !== 'github-enterprise-server') {
-      (newJsonData as unknown as Record<string, unknown>)['githubUrl'] = '';
+      updatedFields['githubUrl'] = '';
     }
 
-    onOptionsChangeRef.current({ ...opts, jsonData: newJsonData });
+    onOptionsChangeRef.current({ ...opts, jsonData: updatedFields as unknown as GitHubDataSourceOptions });
   }, []);
 
   const onSecureJsonDataChange = useCallback((field: string, value: string) => {

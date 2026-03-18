@@ -237,6 +237,7 @@ export function buildConfigEditorSpec(state: {
         type: 'SecretInput',
         props: {
           label: accessTokenDesc,
+          fieldName: 'accessToken',
           placeholder: 'Personal Access Token',
           isConfigured: { $state: '/accessTokenConfigured' } as unknown as boolean,
         },
@@ -271,6 +272,7 @@ export function buildConfigEditorSpec(state: {
         type: 'SecretTextArea',
         props: {
           label: privateKeyDesc,
+          fieldName: 'privateKey',
           placeholder: '-----BEGIN CERTIFICATE-----',
           isConfigured: { $state: '/privateKeyConfigured' } as unknown as boolean,
         },

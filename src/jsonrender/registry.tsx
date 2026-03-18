@@ -90,15 +90,10 @@ export function createConfigEditorRegistry(
               isConfigured={isConfigured}
               width={props.width ?? 40}
               onChange={(e) => {
-                onSecureJsonDataChange(
-                  props.label.replace(/\s+/g, '').replace(/^(.)/, (c) => c.toLowerCase()),
-                  e.currentTarget.value
-                );
+                onSecureJsonDataChange(props.fieldName, e.currentTarget.value);
               }}
               onReset={() => {
-                onResetSecureField(
-                  props.label.replace(/\s+/g, '').replace(/^(.)/, (c) => c.toLowerCase())
-                );
+                onResetSecureField(props.fieldName);
               }}
             />
           </Field>
@@ -115,15 +110,10 @@ export function createConfigEditorRegistry(
               cols={props.cols ?? 55}
               rows={props.rows ?? 7}
               onChange={(e) => {
-                onSecureJsonDataChange(
-                  props.label.replace(/\s+/g, '').replace(/^(.)/, (c) => c.toLowerCase()),
-                  e.currentTarget.value
-                );
+                onSecureJsonDataChange(props.fieldName, e.currentTarget.value);
               }}
               onReset={() => {
-                onResetSecureField(
-                  props.label.replace(/\s+/g, '').replace(/^(.)/, (c) => c.toLowerCase())
-                );
+                onResetSecureField(props.fieldName);
               }}
             />
           </Field>

@@ -47,6 +47,7 @@ export const configEditorCatalog = defineCatalog(schema, {
     SecretInput: {
       props: z.object({
         label: z.string(),
+        fieldName: z.string().describe('The key in secureJsonData for this field'),
         value: z.string().optional(),
         placeholder: z.string().optional(),
         isConfigured: z.boolean().optional(),
@@ -58,6 +59,7 @@ export const configEditorCatalog = defineCatalog(schema, {
     SecretTextArea: {
       props: z.object({
         label: z.string(),
+        fieldName: z.string().describe('The key in secureJsonData for this field'),
         placeholder: z.string().optional(),
         isConfigured: z.boolean().optional(),
         cols: z.number().optional(),
