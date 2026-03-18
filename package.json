@@ -28,6 +28,8 @@
     "@grafana/runtime": "12.4.0",
     "@grafana/schema": "12.4.0",
     "@grafana/ui": "12.4.0",
+    "@json-render/core": "^0.14.1",
+    "@json-render/react": "^0.14.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "tslib": "2.8.1"
