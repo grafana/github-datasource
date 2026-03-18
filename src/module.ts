@@ -1,6 +1,6 @@
 import { DataSourcePlugin } from '@grafana/data';
 import { GitHubDataSource } from './DataSource';
-import ConfigEditor from './views/ConfigEditor';
+import ConfigEditorJsonRender from './views/ConfigEditorJsonRender';
 import QueryEditor from './views/QueryEditor';
 import type { GitHubQuery } from './types/query';
 import type { GitHubDataSourceOptions, GitHubSecureJsonData } from './types/config';
@@ -11,5 +11,5 @@ export const plugin = new DataSourcePlugin<
   GitHubDataSourceOptions,
   GitHubSecureJsonData
 >(GitHubDataSource)
-  .setConfigEditor(ConfigEditor)
+  .setConfigEditor(ConfigEditorJsonRender)
   .setQueryEditor(QueryEditor);
