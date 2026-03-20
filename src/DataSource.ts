@@ -49,7 +49,7 @@ export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubD
         to: {},
         from: {},
       },
-    } as DataQueryRequest;
+    } as DataQueryRequest<GitHubQuery>;
 
     try {
       const res = await lastValueFrom(this.query(request));

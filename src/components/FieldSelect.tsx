@@ -1,5 +1,5 @@
 import React from 'react';
-import { InlineFieldRow, Select, Spinner } from '@grafana/ui';
+import { Combobox, InlineFieldRow, Spinner } from '@grafana/ui';
 import { css } from '@emotion/css';
 
 interface Props {
@@ -19,8 +19,8 @@ const FieldSelect = (props: Props) => {
   const { onChange, options, value, width, loading } = props;
   return (
     <InlineFieldRow>
-      <Select
-        allowCustomValue
+      <Combobox
+        createCustomValue={true}
         value={value}
         onChange={(opt) => onChange(opt.value!)}
         width={width}

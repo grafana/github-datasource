@@ -1,5 +1,5 @@
 import React from 'react';
-import QueryEditorRepository from './QueryEditorRepository';
+import { QueryEditorOwner, QueryEditorRepository } from './QueryEditorRepository';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { components } from 'components/selectors';
@@ -11,7 +11,12 @@ describe('QueryEditorRepository', () => {
       repository: 'grafana',
       onChange: jest.fn(),
     };
-    render(<QueryEditorRepository {...props} />);
+    render(
+      <>
+        <QueryEditorOwner {...props} />
+        <QueryEditorRepository {...props} />
+      </>
+    );
 
     expect(screen.getByLabelText(components.QueryEditor.Owner.input)).toHaveValue('grafana');
     expect(screen.getByLabelText(components.QueryEditor.Repository.input)).toHaveValue('grafana');
@@ -24,7 +29,12 @@ describe('QueryEditorRepository', () => {
       repository: '',
       onChange,
     };
-    render(<QueryEditorRepository {...props} />);
+    render(
+      <>
+        <QueryEditorOwner {...props} />
+        <QueryEditorRepository {...props} />
+      </>
+    );
 
     const ownerInput = screen.getByLabelText(components.QueryEditor.Owner.input);
     await userEvent.type(ownerInput, 'grafana');
@@ -42,7 +52,12 @@ describe('QueryEditorRepository', () => {
       repository: '',
       onChange,
     };
-    render(<QueryEditorRepository {...props} />);
+    render(
+      <>
+        <QueryEditorOwner {...props} />
+        <QueryEditorRepository {...props} />
+      </>
+    );
 
     const ownerInput = screen.getByLabelText(components.QueryEditor.Owner.input);
     await userEvent.type(ownerInput, 'grafana');
@@ -62,12 +77,22 @@ describe('QueryEditorRepository', () => {
       repository: 'initial-repo',
       onChange,
     };
-    const { rerender } = render(<QueryEditorRepository {...props} />);
+    const { rerender } = render(
+      <>
+        <QueryEditorOwner {...props} />
+        <QueryEditorRepository {...props} />
+      </>
+    );
 
     expect(screen.getByLabelText(components.QueryEditor.Owner.input)).toHaveValue('initial-owner');
 
     // Simulate parent updating the props externally
-    rerender(<QueryEditorRepository {...props} owner="new-owner" repository="new-repo" />);
+    rerender(
+      <>
+        <QueryEditorOwner {...props} owner="new-owner" repository="new-repo" />
+        <QueryEditorRepository {...props} owner="new-owner" repository="new-repo" />
+      </>
+    );
 
     expect(screen.getByLabelText(components.QueryEditor.Owner.input)).toHaveValue('new-owner');
     expect(screen.getByLabelText(components.QueryEditor.Repository.input)).toHaveValue('new-repo');
@@ -80,13 +105,23 @@ describe('QueryEditorRepository', () => {
       repository: '',
       onChange,
     };
-    const { rerender } = render(<QueryEditorRepository {...props} />);
+    const { rerender } = render(
+      <>
+        <QueryEditorOwner {...props} />
+        <QueryEditorRepository {...props} />
+      </>
+    );
 
     const ownerInput = screen.getByLabelText(components.QueryEditor.Owner.input);
     await userEvent.type(ownerInput, 'grafana');
 
     // Rerender with same props (simulating parent re-render without prop change)
-    rerender(<QueryEditorRepository {...props} />);
+    rerender(
+      <>
+        <QueryEditorOwner {...props} />
+        <QueryEditorRepository {...props} />
+      </>
+    );
 
     // User's typed value should be preserved, not reset to empty string
     expect(ownerInput).toHaveValue('grafana');

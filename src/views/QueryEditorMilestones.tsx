@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { Input, InlineField } from '@grafana/ui';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { Input } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
 import type { MilestonesOptions } from '../types/query';
 
 interface Props extends MilestonesOptions {
   onChange: (value: MilestonesOptions) => void;
 }
 
-const QueryEditorMilestones = (props: Props) => {
+export const QueryEditorMilestones = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
-    <>
-      <InlineField labelWidth={LeftColumnWidth * 2} label="Query" tooltip="Query milestones by title">
+    <EditorRow>
+      <EditorField label="Query" tooltip="Query milestones by title">
         <Input
           value={query}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth * 2 + 2}
           onChange={(el) => setQuery(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -23,9 +24,7 @@ const QueryEditorMilestones = (props: Props) => {
             })
           }
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorMilestones;

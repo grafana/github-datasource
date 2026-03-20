@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
-import { LeftColumnWidth, RightColumnWidth } from './QueryEditor';
-import { InlineField, Input } from '@grafana/ui';
+import { Input } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
 import { components } from '../components/selectors';
-import { CodeScanningOptions } from '../types/query';
+import type { CodeScanningOptions } from '../types/query';
 
 interface Props extends CodeScanningOptions {
   onChange: (value: CodeScanningOptions) => void;
 }
 
-const QueryEditorCodeScanning = (props: Props) => {
+export const QueryEditorCodeScanning = (props: Props) => {
   const [state, setState] = useState<string>(props.state || 'open');
   const [gitRef, setGitRef] = useState<string>(props.gitRef || '');
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="State"
-        tooltip="Can be one of: open, closed, dismissed, fixed. Default: open"
-      >
+    <EditorRow>
+      <EditorField label="State" tooltip="Can be one of: open, closed, dismissed, fixed. Default: open">
         <Input
           aria-label={components.QueryEditor.CodeScanState.input}
           width={RightColumnWidth}
@@ -25,8 +22,8 @@ const QueryEditorCodeScanning = (props: Props) => {
           onChange={(el) => setState(el.currentTarget.value)}
           onBlur={(el) => props.onChange({ ...props, gitRef, state: el.currentTarget.value })}
         />
-      </InlineField>
-      <InlineField labelWidth={LeftColumnWidth * 2} label="Ref (Branch / Tag)">
+      </EditorField>
+      <EditorField label="Ref (Branch / Tag)">
         <Input
           aria-label={components.QueryEditor.Ref.input}
           width={RightColumnWidth}
@@ -34,8 +31,7 @@ const QueryEditorCodeScanning = (props: Props) => {
           onChange={(el) => setGitRef(el.currentTarget.value)}
           onBlur={(el) => props.onChange({ ...props, state, gitRef: el.currentTarget.value })}
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-export default QueryEditorCodeScanning;

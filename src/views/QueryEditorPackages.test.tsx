@@ -1,5 +1,5 @@
 import React from 'react';
-import QueryEditorIssues, { DefaultPackageType } from './QueryEditorPackages';
+import { QueryEditorPackages, DefaultPackageType } from './QueryEditorPackages';
 import { render } from '@testing-library/react';
 import { PackageType } from './../constants';
 
@@ -9,7 +9,7 @@ describe('QueryEditorPackages', () => {
       onChange: jest.fn(),
       packageType: undefined,
     };
-    render(<QueryEditorIssues {...props} />);
+    render(<QueryEditorPackages {...props} />);
     expect(props.onChange).toHaveBeenCalledTimes(1);
     expect(props.onChange).toHaveBeenCalledWith({ packageType: DefaultPackageType, onChange: props.onChange });
   });
@@ -18,7 +18,7 @@ describe('QueryEditorPackages', () => {
       onChange: jest.fn(),
       packageType: PackageType.DOCKER,
     };
-    render(<QueryEditorIssues {...props} />);
+    render(<QueryEditorPackages {...props} />);
     expect(props.onChange).not.toHaveBeenCalled();
   });
 });

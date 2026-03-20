@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
-import { Input, InlineField } from '@grafana/ui';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { Input } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
 import type { WorkflowRunsOptions } from 'types/query';
 
 interface Props extends WorkflowRunsOptions {
   onChange: (value: WorkflowRunsOptions) => void;
 }
 
-const QueryEditorWorkflowRuns = (props: Props) => {
+export const QueryEditorWorkflowRuns = (props: Props) => {
   const [workflow, setWorkflow] = useState<string | undefined>(props.workflow);
   const [branch, setBranch] = useState<string | undefined>(props.branch);
 
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Workflow"
-        tooltip="The workflow id number or file name (e.g my-workflow.yml)"
-      >
+    <EditorRow>
+      <EditorField label="Workflow" tooltip="The workflow id number or file name (e.g my-workflow.yml)">
         <Input
           value={workflow}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth}
           onChange={(el) => setWorkflow(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -29,15 +26,11 @@ const QueryEditorWorkflowRuns = (props: Props) => {
             })
           }
         />
-      </InlineField>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Branch"
-        tooltip="The branch to filter on (can be left empty)"
-      >
+      </EditorField>
+      <EditorField label="Branch" tooltip="The branch to filter on (can be left empty)">
         <Input
           value={branch}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth}
           onChange={(el) => setBranch(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -46,9 +39,7 @@ const QueryEditorWorkflowRuns = (props: Props) => {
             })
           }
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorWorkflowRuns;
