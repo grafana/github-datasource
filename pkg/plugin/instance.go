@@ -3,11 +3,13 @@ package plugin
 import (
 	"context"
 	"fmt"
+	"net/http"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
 	schemas "github.com/grafana/schemads"
 
+	"github.com/grafana/github-datasource/pkg/schema"
 	"github.com/grafana/github-datasource/pkg/github"
 	"github.com/grafana/github-datasource/pkg/models"
 )
@@ -19,6 +21,13 @@ type GitHubInstanceWithSchema struct {
 }
 
 func (g *GitHubInstanceWithSchema) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
+	if req.Path == "schema/config" {
+		return sender.Send(&backend.CallResourceResponse{
+			Status:  http.StatusOK,
+			Headers: map[string][]string{"Content-Type": {"application/json"}},
+			Body:    schema.ConfigSchemaJSON,
+		})
+	}
 	return g.SchemaDatasource.CallResource(ctx, req, sender)
 }
 

@@ -28,4 +28,21 @@ export default defineConfig([
     ],
   },
   ...baseConfig,
+  {
+    files: ['src/types/config.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['./*', '../*'],
+              message:
+                'src/types/config.ts must be self-contained with no local imports to ensure reliable schema generation.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ]);

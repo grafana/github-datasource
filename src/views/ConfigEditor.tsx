@@ -4,6 +4,7 @@ import {
   onUpdateDatasourceJsonDataOption,
   onUpdateDatasourceSecureJsonDataOption,
   type DataSourcePluginOptionsEditorProps,
+  type DataSourceSettings,
   type GrafanaTheme2,
   type SelectableValue,
 } from '@grafana/data';
@@ -29,7 +30,7 @@ export type ConfigEditorProps = DataSourcePluginOptionsEditorProps<GitHubDataSou
 const ConfigEditor = (props: ConfigEditorProps) => {
   const { options, onOptionsChange } = props;
   const { jsonData, secureJsonData, secureJsonFields } = options;
-  const secureSettings = secureJsonData || {};
+  const secureSettings = (secureJsonData || {}) as Partial<GitHubSecureJsonData>;
   const styles = useStyles2(getStyles);
   const WIDTH_LONG = 40;
 
@@ -65,7 +66,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
         secureJsonData: {
           ...options.secureJsonData,
           [prop]: event.target.value,
-        },
+        } as GitHubSecureJsonData,
         secureJsonFields: {
           ...options.secureJsonFields,
           [prop]: set,
@@ -80,7 +81,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
   const onAuthChange = useCallback(
     (value: GitHubAuthType) => {
-      onOptionsChange({ ...options, jsonData: { ...jsonData, selectedAuthType: value } });
+      onOptionsChange({ ...options, jsonData: { ...jsonData, selectedAuthType: value } as GitHubDataSourceOptions });
     },
     [jsonData, onOptionsChange, options]
   );
@@ -92,7 +93,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
         ...jsonData,
         githubPlan,
         githubUrl: githubPlan === 'github-enterprise-server' ? jsonData.githubUrl : '',
-      },
+      } as GitHubDataSourceOptions,
     });
     setSelectedLicense(githubPlan);
   };
@@ -114,7 +115,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
 
       <Divider />
 
-      <Collapse collapsible label="Access Token & Permissions" isOpen={isOpen} onToggle={() => setIsOpen((x) => !x)}>
+      <Collapse label="Access Token & Permissions" isOpen={isOpen} onToggle={() => setIsOpen((x) => !x)}>
         <h4>How to create a access token</h4>
         <p>
           To create a new fine grained access token, navigate to{' '}
@@ -208,7 +209,10 @@ const ConfigEditor = (props: ConfigEditorProps) => {
         )}
       </ConfigSection>
       {config.secureSocksDSProxyEnabled && (
-        <SecureSocksProxySettings options={options} onOptionsChange={onOptionsChange} />
+        <SecureSocksProxySettings
+          options={options}
+          onOptionsChange={onOptionsChange as (options: DataSourceSettings<GitHubDataSourceOptions>) => void}
+        />
       )}
       <Divider />
 
