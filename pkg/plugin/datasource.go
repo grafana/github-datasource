@@ -15,6 +15,8 @@ type Datasource interface {
 	HandleIssuesQuery(context.Context, *models.IssuesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleCommitsQuery(context.Context, *models.CommitsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleCodeScanningQuery(context.Context, *models.CodeScanningQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleCommitFilesQuery(context.Context, *models.CommitFilesQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandlePullRequestFilesQuery(context.Context, *models.PullRequestFilesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleTagsQuery(context.Context, *models.TagsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleReleasesQuery(context.Context, *models.ReleasesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleContributorsQuery(context.Context, *models.ContributorsQuery, backend.DataQuery) (dfutil.Framer, error)
