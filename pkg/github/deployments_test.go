@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	googlegithub "github.com/google/go-github/v81/github"
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
