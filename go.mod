@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.17.0
-	github.com/google/go-github/v81 v81.0.0
+	github.com/google/go-github/v84 v84.0.0
 	github.com/grafana/grafana-plugin-sdk-go v0.290.0
 	github.com/grafana/schemads v0.0.1
 	github.com/influxdata/tdigest v0.0.1
@@ -37,7 +37,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.2 // indirect
 	github.com/google/gnostic-models v0.7.0 // indirect
 	github.com/google/go-github/v75 v75.0.0 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/grafana/otel-profiling-go v0.5.1 // indirect
 	github.com/grafana/pyroscope-go/godeltaprof v0.1.9 // indirect

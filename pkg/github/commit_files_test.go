@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	googlegithub "github.com/google/go-github/v81/github"
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 
 	"github.com/grafana/github-datasource/pkg/models"
