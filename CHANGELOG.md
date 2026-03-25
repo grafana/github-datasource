@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.7.2
+
+⚙️ Updating experimental schemas.
+
+⚙️ Updated frontend & backend dependencies
+
+## 2.7.1
+
+⚙️ Updating experimental schemas.
+
 ## 2.7.0
 
 🚀 Adding support for experimental schemas.
