@@ -26,7 +26,7 @@ const QueryEditorPullRequestFiles = (props: Props) => {
           onChange={(el) => setPrNumber(el.currentTarget.value)}
           onBlur={(el) => {
             const parsed = parseInt(el.currentTarget.value, 10);
-            props.onChange({ ...props, prNumber: isNaN(parsed) ? undefined : parsed });
+            props.onChange({ prNumber: isNaN(parsed) ? undefined : parsed });
           }}
         />
       </InlineField>

@@ -11,11 +11,17 @@ import (
 	"github.com/grafana/github-datasource/pkg/testutil"
 )
 
+// prFilePage holds one page of pull request files for the mock client
+type prFilePage struct {
+	files    []*googlegithub.CommitFile
+	nextPage int
+}
+
 // commitFilesMockClient satisfies models.Client for commit file tests
 type commitFilesMockClient struct {
 	commitFiles   []*googlegithub.CommitFile
-	prFiles       []*googlegithub.CommitFile
-	nextPage      int
+	prFilePages   []prFilePage
+	prPageIdx     int
 	expectedOwner string
 	expectedRepo  string
 	t             *testing.T
@@ -57,10 +63,15 @@ func (m *commitFilesMockClient) ListPullRequestFiles(_ context.Context, owner, r
 	if owner != m.expectedOwner || repo != m.expectedRepo {
 		m.t.Errorf("ListPullRequestFiles: expected owner/repo=%s/%s got=%s/%s", m.expectedOwner, m.expectedRepo, owner, repo)
 	}
+	if m.prPageIdx >= len(m.prFilePages) {
+		m.t.Fatalf("ListPullRequestFiles: unexpected call %d (only %d pages configured)", m.prPageIdx, len(m.prFilePages))
+		return nil, nil, nil
+	}
+	p := m.prFilePages[m.prPageIdx]
+	m.prPageIdx++
 	resp := &googlegithub.Response{}
-	resp.NextPage = m.nextPage
-	m.nextPage = 0 // only one page after the first call
-	return m.prFiles, resp, nil
+	resp.NextPage = p.nextPage
+	return p.files, resp, nil
 }
 
 func TestGetCommitFiles(t *testing.T) {
@@ -130,16 +141,20 @@ func TestGetPullRequestFiles(t *testing.T) {
 	status := "modified"
 
 	client := &commitFilesMockClient{
-		prFiles: []*googlegithub.CommitFile{
+		prFilePages: []prFilePage{
 			{
-				Filename:  &filename,
-				Additions: &additions,
-				Deletions: &deletions,
-				Changes:   &changes,
-				Status:    &status,
+				files: []*googlegithub.CommitFile{
+					{
+						Filename:  &filename,
+						Additions: &additions,
+						Deletions: &deletions,
+						Changes:   &changes,
+						Status:    &status,
+					},
+				},
+				nextPage: 0,
 			},
 		},
-		nextPage:      0,
 		expectedOwner: "grafana",
 		expectedRepo:  "grafana",
 		t:             t,
@@ -169,6 +184,45 @@ func TestGetPullRequestFilesZeroPR(t *testing.T) {
 	}
 	if result != nil {
 		t.Errorf("expected nil result for zero PR number, got %v", result)
+	}
+}
+
+func TestGetPullRequestFilesPagination(t *testing.T) {
+	ctx := context.Background()
+	opts := models.PullRequestFilesOptions{
+		Owner:      "grafana",
+		Repository: "grafana",
+		PRNumber:   42,
+	}
+
+	file1, a1, d1, c1, s1 := "pkg/server/server.go", 10, 2, 12, "modified"
+	file2, a2, d2, c2, s2 := "pkg/client/client.go", 5, 1, 6, "added"
+
+	client := &commitFilesMockClient{
+		prFilePages: []prFilePage{
+			{
+				files:    []*googlegithub.CommitFile{{Filename: &file1, Additions: &a1, Deletions: &d1, Changes: &c1, Status: &s1}},
+				nextPage: 2,
+			},
+			{
+				files:    []*googlegithub.CommitFile{{Filename: &file2, Additions: &a2, Deletions: &d2, Changes: &c2, Status: &s2}},
+				nextPage: 0,
+			},
+		},
+		expectedOwner: "grafana",
+		expectedRepo:  "grafana",
+		t:             t,
+	}
+
+	result, err := GetPullRequestFiles(ctx, client, opts)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(result) != 2 {
+		t.Errorf("expected 2 files across 2 pages, got %d", len(result))
+	}
+	if client.prPageIdx != 2 {
+		t.Errorf("expected 2 API calls, got %d", client.prPageIdx)
 	}
 }
 

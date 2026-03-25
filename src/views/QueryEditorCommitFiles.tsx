@@ -21,7 +21,7 @@ const QueryEditorCommitFiles = (props: Props) => {
           value={commitSha}
           placeholder="e.g. abc123def456"
           onChange={(el) => setCommitSha(el.currentTarget.value)}
-          onBlur={(el) => props.onChange({ ...props, commitSha: el.currentTarget.value })}
+          onBlur={(el) => props.onChange({ commitSha: el.currentTarget.value })}
         />
       </InlineField>
     </>

@@ -28,7 +28,7 @@ const QueryEditorCommits = (props: Props) => {
       >
         <InlineSwitch
           value={props.includeFiles || false}
-          onChange={(el) => props.onChange({ ...props, includeFiles: el.currentTarget.checked })}
+          onChange={(el) => props.onChange({ gitRef: props.gitRef, includeFiles: el.currentTarget.checked })}
         />
       </InlineField>
     </>
