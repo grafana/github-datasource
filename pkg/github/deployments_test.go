@@ -53,6 +53,12 @@ func (m *mockDeploymentsClient) ListDeployments(ctx context.Context, owner, repo
 func (m *mockDeploymentsClient) ListAllOrgRepositories(ctx context.Context, opts *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
 	return nil, nil, nil
 }
+func (m *mockDeploymentsClient) GetCommitFiles(_ context.Context, _, _, _ string, _ *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+func (m *mockDeploymentsClient) ListPullRequestFiles(_ context.Context, _, _ string, _ int, _ *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
 
 func TestGetAllDeployments(t *testing.T) {
 	var (

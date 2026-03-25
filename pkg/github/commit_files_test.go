@@ -39,6 +39,12 @@ func (m *commitFilesMockClient) ListAlertsForRepo(_ context.Context, _, _ string
 func (m *commitFilesMockClient) ListAlertsForOrg(_ context.Context, _ string, _ *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
 	return nil, nil, nil
 }
+func (m *commitFilesMockClient) ListAllOrgRepositories(_ context.Context, _ *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+func (m *commitFilesMockClient) ListDeployments(_ context.Context, _, _ string, _ *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
 
 func (m *commitFilesMockClient) GetCommitFiles(_ context.Context, owner, repo, _ string, _ *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
 	if owner != m.expectedOwner || repo != m.expectedRepo {
