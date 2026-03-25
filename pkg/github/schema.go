@@ -33,10 +33,6 @@ var (
 		{Name: "organization", Root: true, Required: true},
 	}
 
-	projectTableParameters = []schemas.TableParameter{
-		{Name: "organization", Root: true, Required: false},
-	}
-
 	workflowUsageTableParameters = []schemas.TableParameter{
 		{Name: "organization", Root: true, Required: true},
 		{Name: "repository", DependsOn: []string{"organization"}, Required: true},
@@ -395,7 +391,7 @@ func getAllTables() []schemas.Table {
 		},
 		{
 			Name:            normalizeTableNames(models.QueryTypeProjects),
-			TableParameters: projectTableParameters,
+			TableParameters: orgOnlyTableParameters,
 			Columns: []schemas.Column{
 				{Name: "number", Type: schemas.ColumnTypeInt64},
 				{Name: "title", Type: schemas.ColumnTypeString},
@@ -406,18 +402,6 @@ func getAllTables() []schemas.Table {
 				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "short_description", Type: schemas.ColumnTypeString},
-			},
-		},
-		{
-			Name:            normalizeTableNames(models.QueryTypeProjectItems),
-			TableParameters: projectTableParameters,
-			Columns: []schemas.Column{
-				{Name: "id", Type: schemas.ColumnTypeString},
-				{Name: "archived", Type: schemas.ColumnTypeBoolean},
-				{Name: "type", Type: schemas.ColumnTypeString},
-				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
-				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
-				{Name: "closed_at", Type: schemas.ColumnTypeDatetime},
 			},
 		},
 		{

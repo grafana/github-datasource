@@ -13,15 +13,16 @@ import (
 )
 
 // QueryListRepositories is the GraphQL query for retrieving a list of repositories for an organization
-// {
-//   search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
-//     nodes {
-//       ... on PullRequest {
-//         id
-//         title
-//       }
-//   }
-// }
+//
+//	{
+//	  search(query: "is:pr repo:grafana/grafana merged:2020-08-19..*", type: ISSUE, first: 100) {
+//	    nodes {
+//	      ... on PullRequest {
+//	        id
+//	        title
+//	      }
+//	  }
+//	}
 type QueryListRepositories struct {
 	Search struct {
 		Nodes []struct {
