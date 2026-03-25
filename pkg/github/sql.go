@@ -2,6 +2,7 @@ package github
 
 import (
 	"encoding/json"
+	"fmt"
 	"strings"
 
 	"github.com/grafana/github-datasource/pkg/models"
@@ -32,6 +33,7 @@ var tableToQueryType = func() map[string]string {
 		models.QueryTypeWorkflowUsage,
 		models.QueryTypeWorkflowRuns,
 		models.QueryTypeCodeScanning,
+		models.QueryTypeDeployments,
 		models.QueryTypeOrganizations,
 		models.QueryTypeGraphQL,
 	}
@@ -54,15 +56,27 @@ func parseJSONStringValues(s string) []string {
 	return []string{s}
 }
 
+func anyToString(v any) string {
+	if v == nil {
+		return ""
+	}
+	if s, ok := v.(string); ok {
+		return s
+	}
+	return fmt.Sprintf("%v", v)
+}
+
 func extractFilterValues(condition schemas.FilterCondition) []string {
 	out := make([]string, 0, len(condition.Values)+1)
 	for _, v := range condition.Values {
-		if v != "" {
-			out = append(out, v)
+		if s := anyToString(v); s != "" {
+			out = append(out, s)
 		}
 	}
-	if len(out) == 0 && condition.Value != "" {
-		out = append(out, condition.Value)
+	if len(out) == 0 {
+		if s := anyToString(condition.Value); s != "" {
+			out = append(out, s)
+		}
 	}
 	return out
 }
@@ -219,7 +233,7 @@ func normalizeGrafanaSQLRequest(req *backend.QueryDataRequest) *backend.QueryDat
 	grafanaConfig := req.PluginContext.GrafanaConfig
 	queries := make([]backend.DataQuery, 0, len(req.Queries))
 	for _, q := range req.Queries {
-		var query schemas.GenericQuery
+		var query schemas.Query
 		if err := json.Unmarshal(q.JSON, &query); err != nil {
 			queries = append(queries, q)
 			continue
@@ -258,10 +272,10 @@ func normalizeGrafanaSQLRequest(req *backend.QueryDataRequest) *backend.QueryDat
 				repo = ownerRepo[1]
 			}
 		}
-		if v := strings.TrimSpace(query.TableParameterValues["organization"]); v != "" {
+		if v := strings.TrimSpace(anyToString(query.TableParameterValues["organization"])); v != "" {
 			owner = v
 		}
-		if v := strings.TrimSpace(query.TableParameterValues["repository"]); v != "" {
+		if v := strings.TrimSpace(anyToString(query.TableParameterValues["repository"])); v != "" {
 			repo = v
 		}
 
@@ -277,7 +291,7 @@ func normalizeGrafanaSQLRequest(req *backend.QueryDataRequest) *backend.QueryDat
 			opts, _ := normalized["options"].(map[string]interface{})
 			opts["organization"] = owner
 		}
-		if v := strings.TrimSpace(query.TableParameterValues["workflow"]); v != "" {
+		if v := strings.TrimSpace(anyToString(query.TableParameterValues["workflow"])); v != "" {
 			opts, _ := normalized["options"].(map[string]interface{})
 			opts["workflow"] = v
 		}
