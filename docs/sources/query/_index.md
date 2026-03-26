@@ -41,6 +41,8 @@ The data source supports the following query types, which you can select from th
 - [**Workflow usage**](#workflow-usage): Retrieve usage statistics for a workflow, such as run counts and durations.
 - [**Workflow runs**](#workflow-runs): List runs for a specific workflow, including status, conclusion, and timing information.
 - [**Deployments**](#deployments): List deployments for a repository, including environment, ref, and task information.
+- [**Commit files**](#commit-files): List files changed in a specific commit.
+- [**Pull request files**](#pull-request-files): List files changed in a specific pull request.
 
 ### Commits
 
@@ -53,6 +55,7 @@ Retrieve a list of commits for a branch or ref within a repository, including co
 | Owner            | The GitHub user or organization that owns the repository  | Yes      |
 | Repository       | The name of the repository                                | Yes      |
 | Ref (Branch/Tag) | The branch or tag to list commits against                 | Yes      |
+| Include files    | Enrich commits with their changed files (see note below). | No       |
 
 ##### Sample queries
 
@@ -79,6 +82,31 @@ Show all commits against a tag:
 | committed_at   | When the change was committed: YYYY-MM-DD HH:MM:SS |
 | pushed_at      | When the commit was pushed: YYYY-MM-DD HH:MM:SS    |
 | message        | The commit message                                 |
+
+#### Response with Include files enabled
+
+{{< admonition type="warning" >}}
+This option makes one additional API call per commit. Avoid enabling it over large time ranges to prevent rate limiting.
+{{< /admonition >}}
+
+When **Include files** is enabled, the response changes to a flattened table with one row per commit per changed file:
+
+| Name              | Description                                        |
+| ----------------- | -------------------------------------------------- |
+| id                | Commit ID                                          |
+| author            | Name of the commit author                          |
+| author_login      | GitHub handle of the commit author                 |
+| author_email      | Email address of the commit author                 |
+| author_company    | Company name of the commit author                  |
+| committed_at      | When the change was committed: YYYY-MM-DD HH:MM:SS |
+| pushed_at         | When the commit was pushed: YYYY-MM-DD HH:MM:SS    |
+| message           | The commit message                                 |
+| file_path         | Path of the changed file                           |
+| file_additions    | Number of lines added in this file                 |
+| file_deletions    | Number of lines deleted in this file               |
+| file_changes      | Total number of line changes in this file          |
+| file_status       | Change type: `added`, `modified`, `renamed`, etc.  |
+| previous_filename | Original path for renamed files                    |
 
 ### Issues
 
@@ -716,3 +744,49 @@ Show all deployments for a specific branch:
 | updated_at   | When the deployment was last updated: YYYY-MM-DD HH:MM:SS                |
 | url          | API URL for the deployment                                               |
 | statuses_url | API URL for the deployment statuses                                      |
+
+### Commit files
+
+List files changed in a specific commit.
+
+{{< admonition type="note" >}}
+The GitHub API returns at most 300 files for a single commit.
+{{< /admonition >}}
+
+| Name       | Description                                              | Required |
+| ---------- | -------------------------------------------------------- | -------- |
+| Owner      | The GitHub user or organization that owns the repository | Yes      |
+| Repository | The name of the repository                               | Yes      |
+| Commit SHA | The SHA of the commit to retrieve changed files for      | Yes      |
+
+The response includes one row per changed file:
+
+| Name              | Description                                        |
+| ----------------- | -------------------------------------------------- |
+| path              | Path of the changed file                           |
+| additions         | Number of lines added                              |
+| deletions         | Number of lines deleted                            |
+| changes           | Total number of line changes                       |
+| status            | Change type: `added`, `modified`, `renamed`, etc.  |
+| previous_filename | Original path for renamed files                    |
+
+### Pull request files
+
+List all files changed in a specific pull request.
+
+| Name                | Description                                              | Required |
+| ------------------- | -------------------------------------------------------- | -------- |
+| Owner               | The GitHub user or organization that owns the repository | Yes      |
+| Repository          | The name of the repository                               | Yes      |
+| Pull Request Number | The number of the pull request                           | Yes      |
+
+The response includes one row per changed file:
+
+| Name              | Description                                        |
+| ----------------- | -------------------------------------------------- |
+| path              | Path of the changed file                           |
+| additions         | Number of lines added                              |
+| deletions         | Number of lines deleted                            |
+| changes           | Total number of line changes                       |
+| status            | Change type: `added`, `modified`, `renamed`, etc.  |
+| previous_filename | Original path for renamed files                    |
