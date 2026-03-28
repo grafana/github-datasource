@@ -17,7 +17,8 @@
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
     "test": "jest --watch --onlyChanged",
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:config-schema": "ts-node scripts/generate-config-schema.ts"
   },
   "dependencies": {
     "@emotion/css": "11.13.5",
@@ -89,7 +90,8 @@
     "webpack-cli": "7.0.2",
     "webpack-livereload-plugin": "3.0.2",
     "webpack-subresource-integrity": "5.1.0",
-    "webpack-virtual-modules": "0.6.2"
+    "webpack-virtual-modules": "0.6.2",
+    "zod": "4.3.6"
   },
   "resolutions": {
     "@remix-run/router": "1.23.2",
