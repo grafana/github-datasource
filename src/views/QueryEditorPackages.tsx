@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Input, Select, InlineField } from '@grafana/ui';
-import { SelectableValue } from '@grafana/data';
+import { Input, Combobox, ComboboxOption } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
 import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
 import { PackageType } from '../constants';
 import type { PackagesOptions } from '../types/query';
@@ -11,7 +11,7 @@ interface Props extends PackagesOptions {
 
 export const DefaultPackageType = PackageType.DOCKER;
 
-const QueryEditorPackages = (props: Props) => {
+export const QueryEditorPackages = (props: Props) => {
   const [names, setNames] = useState<string>(props.names || '');
 
   // Set default package type if not set
@@ -30,7 +30,7 @@ const QueryEditorPackages = (props: Props) => {
     // and not show them in the dropdown, if they have not been selected before.
     // Not sure if they ever been supported.
     const notSupportedTroughGraphQL: string[] = [PackageType.NPM, PackageType.RUBYGEMS, PackageType.NUGET];
-    const packageTypeOptions: SelectableValue[] = Object.values(PackageType)
+    const packageTypeOptions: ComboboxOption[] = Object.values(PackageType)
       .filter((packageType) => {
         // Filter out package types that are not supported through GraphQL
         return !notSupportedTroughGraphQL.includes(packageType);
@@ -44,7 +44,7 @@ const QueryEditorPackages = (props: Props) => {
 
     // If user has selected a package type that is not in the list of options, add it to the list
     if (props.packageType) {
-      const selectedPackageType = packageTypeOptions.find((opt: SelectableValue) => opt.value === props.packageType);
+      const selectedPackageType = packageTypeOptions.find((opt: ComboboxOption) => opt.value === props.packageType);
       if (!selectedPackageType) {
         packageTypeOptions.push({
           label: props.packageType.replace('/_/gi', ' '),
@@ -58,9 +58,9 @@ const QueryEditorPackages = (props: Props) => {
   }, []);
 
   return (
-    <>
-      <InlineField labelWidth={LeftColumnWidth * 2} label="Package type">
-        <Select
+    <EditorRow>
+      <EditorField label="Package type">
+        <Combobox
           options={packageTypeOptions}
           value={props.packageType || DefaultPackageType}
           width={RightColumnWidth}
@@ -71,12 +71,8 @@ const QueryEditorPackages = (props: Props) => {
             })
           }
         />
-      </InlineField>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Names"
-        tooltip="Search for packages using a comma delimited list of names"
-      >
+      </EditorField>
+      <EditorField label="Names" tooltip="Search for packages using a comma delimited list of names">
         <Input
           value={names}
           width={RightColumnWidth * 2 + LeftColumnWidth}
@@ -88,9 +84,7 @@ const QueryEditorPackages = (props: Props) => {
             })
           }
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorPackages;

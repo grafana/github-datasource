@@ -1,30 +1,30 @@
 import { isEmpty } from 'lodash';
-import { ProjectQueryType, QueryType } from './constants';
+import { ProjectQueryType } from './constants';
 import type { GitHubQuery } from './types/query';
 
 export const isValid = (query: GitHubQuery): boolean => {
-  if (query.queryType === QueryType.Repositories || query.queryType === QueryType.Code_Scanning) {
+  if (query.queryType === "Repositories" || query.queryType === "Code_Scanning") {
     if (isEmpty(query.owner)) {
       return false;
     }
   }
   if (
-    query.queryType === QueryType.Commits ||
-    query.queryType === QueryType.Commit_Files ||
-    query.queryType === QueryType.Pull_Request_Files ||
-    query.queryType === QueryType.Contributors ||
-    query.queryType === QueryType.Tags ||
-    query.queryType === QueryType.Releases ||
-    query.queryType === QueryType.Labels ||
-    query.queryType === QueryType.Milestones ||
-    query.queryType === QueryType.Vulnerabilities ||
-    query.queryType === QueryType.Stargazers
+    query.queryType === "Commits" ||
+    query.queryType === 'Commit_Files' ||
+    query.queryType === "Contributors" ||
+    query.queryType === "Tags" ||
+    query.queryType === "Releases" ||
+    query.queryType === "Labels" ||
+    query.queryType === "Milestones" ||
+    query.queryType === "Vulnerabilities" ||
+    query.queryType === "Pull_Request_Files" ||
+    query.queryType === "Stargazers"
   ) {
     if (isEmpty(query.owner) || isEmpty(query.repository)) {
       return false;
     }
   }
-  if (query.queryType === QueryType.Projects) {
+  if (query.queryType === "Projects") {
     if (isEmpty(query.options?.user) && query.options?.kind === ProjectQueryType.USER) {
       return false;
     }

@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
-import { Input, InlineField } from '@grafana/ui';
-import { LeftColumnWidth, RightColumnWidth } from './QueryEditor';
-import type { PullRequestFilesOptions } from '../types/query';
+import { Input } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
+import type { Pull_Request_FilesOption } from '../types/query';
 
-interface Props extends PullRequestFilesOptions {
-  onChange: (value: PullRequestFilesOptions) => void;
+interface Props extends Pull_Request_FilesOption {
+  onChange: (value: Pull_Request_FilesOption) => void;
 }
 
-const QueryEditorPullRequestFiles = (props: Props) => {
-  const [prNumber, setPrNumber] = useState<string>(
-    props.prNumber !== undefined ? String(props.prNumber) : ''
-  );
+export const QueryEditorPullRequestFiles = (props: Props) => {
+  const [prNumber, setPrNumber] = useState<string>(props.prNumber !== undefined ? String(props.prNumber) : '');
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Pull Request Number"
-        tooltip="The pull request number to retrieve changed files for"
-      >
+    <EditorRow>
+      <EditorField label="Pull Request Number" tooltip="The pull request number to retrieve changed files for">
         <Input
           width={RightColumnWidth}
           type="number"
@@ -29,8 +24,8 @@ const QueryEditorPullRequestFiles = (props: Props) => {
             props.onChange({ prNumber: isNaN(parsed) ? undefined : parsed });
           }}
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
 

@@ -14,9 +14,9 @@ test('QueryEditor smoke test', async ({ panelEditPage, page }) => {
   await panelEditPage.mockQueryDataResponse(githubResponse);
   await panelEditPage.setVisualization('Table');
   await panelEditPage.datasource.set(datasourceName);
-  await panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel).click();
-  const select = page.getByLabel('Select options menu');
-  await select.locator(page.getByText('Releases')).click();
+  const queryTypeContainer = panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel);
+  await queryTypeContainer.getByRole('combobox').click();
+  await page.getByRole('listbox').getByRole('option', { name: 'Releases' }).click();
   await panelEditPage.getByGrafanaSelector(components.QueryEditor.Owner.input).fill('grafana');
   await panelEditPage.getByGrafanaSelector(components.QueryEditor.Repository.input).fill('grafana-github-datasource');
 

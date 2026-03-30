@@ -94,9 +94,8 @@
   "resolutions": {
     "@remix-run/router": "1.23.2",
     "@openfeature/core": "1.9.2",
-    "minimatch": "10.2.4",
     "serialize-javascript": "7.0.5",
-    "immutable": "5.1.5",
+    "i18next": "26.0.2",
     "dompurify": "3.3.3"
   },
   "packageManager": "yarn@4.13.0"

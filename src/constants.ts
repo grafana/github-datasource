@@ -1,31 +1,34 @@
-export enum QueryType {
-  Code_Scanning = 'Code_Scanning',
-  Commits = 'Commits',
-  Issues = 'Issues',
-  Contributors = 'Contributors',
-  Tags = 'Tags',
-  Releases = 'Releases',
-  Pull_Requests = 'Pull_Requests',
-  Pull_Request_Reviews = 'Pull_Request_Reviews',
-  Labels = 'Labels',
-  Repositories = 'Repositories',
-  Organizations = 'Organizations',
-  GraphQL = 'GraphQL',
-  Milestones = 'Milestones',
-  Packages = 'Packages',
-  Vulnerabilities = 'Vulnerabilities',
-  Projects = 'Projects',
-  ProjectItems = 'ProjectItems',
-  Stargazers = 'Stargazers',
-  Workflows = 'Workflows',
-  Workflow_Usage = 'Workflow_Usage',
-  Workflow_Runs = 'Workflow_Runs',
-  Deployments = 'Deployments',
-  Commit_Files = 'Commit_Files',
-  Pull_Request_Files = 'Pull_Request_Files',
-}
+import { QueryType } from './types/query'
 
-export const DefaultQueryType = QueryType.Issues;
+export const QueryTypes = [
+  'Code_Scanning',
+  'Commits',
+  'Commit_Files',
+  'Issues',
+  'Contributors',
+  'Tags',
+  'Releases',
+  'Pull_Requests',
+  'Pull_Request_Reviews',
+  'Pull_Request_Files',
+  'Labels',
+  'Repositories',
+  'Organizations',
+  'GraphQL',
+  'Milestones',
+  'Packages',
+  'Vulnerabilities',
+  'Projects',
+  'ProjectItems',
+  'Stargazers',
+  'Workflows',
+  'Workflow_Usage',
+  'Workflow_Runs',
+  'Deployments',
+] as const;
+
+
+export const DefaultQueryType: QueryType = "Issues";
 
 export enum PackageType {
   NPM = 'NPM',

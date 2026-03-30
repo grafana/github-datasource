@@ -1,10 +1,22 @@
 {
-  "ignorePaths": ["node_modules/**", "dist/**", "mage_output_file.go", "package.json", "renovate.json", "yarn.lock"],
-  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "provisioning/**",
+    "mage_output_file.go",
+    "package.json",
+    "renovate.json",
+    "yarn.lock"
+  ],
+  "ignoreRegExpList": [
+    "import\\s*\\((.|[\r\n])*?\\)",
+    "import\\s*.*\".*?\""
+  ],
   "words": [
     "araddon",
     "bmike",
     "CTAV",
+    "combobox",
     "Dataframe",
     "DATAPROXY",
     "datasource",
