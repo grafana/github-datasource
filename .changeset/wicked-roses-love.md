@@ -2,4 +2,4 @@
 'grafana-github-datasource': patch
 ---
 
-chore: strcit query type options
+chore: strict query type options
