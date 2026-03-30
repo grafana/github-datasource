@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Input, Combobox, ComboboxOption } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
 import { RightColumnWidth } from './QueryEditor';
 import { PullRequestTimeField } from '../constants';
-import type { PullRequestsOptions } from '../types/query';
-import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import type { Pull_RequestsOptions } from '../types/query';
 
-interface Props extends PullRequestsOptions {
-  onChange: (value: PullRequestsOptions) => void;
+interface Props extends Pull_RequestsOptions {
+  onChange: (value: Pull_RequestsOptions) => void;
 }
 
 const timeFieldOptions: Array<ComboboxOption<PullRequestTimeField>> = Object.keys(PullRequestTimeField)
