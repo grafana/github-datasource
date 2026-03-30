@@ -25,6 +25,13 @@ export type CommitsOptions = Options & {
 type CommitsQuery = BaseQuery<'Commits', CommitsOptions>
 //#endregion
 
+//#region Commit_Files Query
+export type CommitFilesOptions = Options & {
+  commitSha?: string;
+}
+type Commit_FilesQuery = BaseQuery<'Commit_Files', CommitFilesOptions>
+//#endregion
+
 //#region Issues Query
 export type IssuesOptions = Options & {
   timeField?: IssueTimeField;
@@ -51,11 +58,18 @@ type ReleasesQuery = BaseQuery<'Releases', ReleasesOptions>
 //#endregion
 
 //#region Pull_Requests Query
-export type PullRequestsOptions = Options & {
+export type Pull_RequestsOptions = Options & {
   timeField?: PullRequestTimeField;
   query?: string;
 }
-type Pull_RequestsQuery = BaseQuery<'Pull_Requests', PullRequestsOptions>
+type Pull_RequestsQuery = BaseQuery<'Pull_Requests', Pull_RequestsOptions>
+//#endregion
+
+//#region Pull_Request_Files Query
+export type Pull_Request_FilesOption = Options & {
+  prNumber?: number;
+}
+type Pull_Request_FilesQuery = BaseQuery<'Pull_Request_Files', Pull_Request_FilesOption>
 //#endregion
 
 //#region Pull_Request_Reviews Query
@@ -159,12 +173,14 @@ type DeploymentsQuery = BaseQuery<'Deployments', DeploymentsOptions>
 export type GitHubQuery =
   Code_ScanningQuery |
   CommitsQuery |
+  Commit_FilesQuery |
   IssuesQuery |
   ContributorsQuery |
   TagsQuery |
   ReleasesQuery |
   Pull_RequestsQuery |
   Pull_Request_ReviewsQuery |
+  Pull_Request_FilesQuery |
   LabelsQuery |
   RepositoriesQuery |
   OrganizationsQuery |

@@ -282,6 +282,26 @@ func (c *CachedDatasource) HandleOrganizationsQuery(ctx context.Context, q *mode
 	return c.saveCache(req, f, err)
 }
 
+// HandleCommitFilesQuery is the cache wrapper for the commit files query handler
+func (c *CachedDatasource) HandleCommitFilesQuery(ctx context.Context, q *models.CommitFilesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleCommitFilesQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
+// HandlePullRequestFilesQuery is the cache wrapper for the pull request files query handler
+func (c *CachedDatasource) HandlePullRequestFilesQuery(ctx context.Context, q *models.PullRequestFilesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandlePullRequestFilesQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // CheckHealth forwards the request to the datasource and does not perform any caching
 func (c *CachedDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return c.datasource.CheckHealth(ctx, req)

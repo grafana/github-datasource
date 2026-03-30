@@ -9,10 +9,12 @@ import { components } from '../components/selectors';
 
 import { QueryEditorOwner, QueryEditorRepository } from './QueryEditorRepository';
 import { QueryEditorCommits } from './QueryEditorCommits';
+import { QueryEditorCommitFiles } from './QueryEditorCommitFiles';
 import { QueryEditorIssues } from './QueryEditorIssues';
 import { QueryEditorMilestones } from './QueryEditorMilestones';
 import { QueryEditorPullRequests } from './QueryEditorPullRequests';
 import { QueryEditorPullRequestReviews } from './QueryEditorPullRequestReviews';
+import { QueryEditorPullRequestFiles } from './QueryEditorPullRequestFiles';
 import { QueryEditorContributors } from './QueryEditorContributors';
 import { QueryEditorLabels } from './QueryEditorLabels';
 import { QueryEditorPackages } from './QueryEditorPackages';
@@ -31,7 +33,7 @@ import type { GitHubDataSourceOptions } from '../types/config';
 interface Props extends QueryEditorProps<GitHubDataSource, GitHubQuery, GitHubDataSourceOptions> {
   queryTypes?: QueryType[];
 }
-export const LeftColumnWidth = 10;
+export const LeftColumnWidth = 12;
 export const RightColumnWidth = 36;
 
 const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val: any) => void) => ReactNode }> = {
@@ -63,6 +65,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
       <QueryEditorCommits {...(props.query.options || {})} onChange={onChange} />
     ),
   },
+  ['Commit_Files']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCommitFiles {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
   ['Milestones']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorMilestones {...(props.query.options || {})} onChange={onChange} />
@@ -86,6 +93,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
   ['Pull_Request_Reviews']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorPullRequestReviews {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  ['Pull_Request_Files']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorPullRequestFiles {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   ['Projects']: {

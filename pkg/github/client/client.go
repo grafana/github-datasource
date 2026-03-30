@@ -225,6 +225,25 @@ func (client *Client) ListDeployments(ctx context.Context, owner, repo string, o
 	return deployments, resp, err
 }
 
+// GetCommitFiles returns the list of files changed in a specific commit.
+// Note: the GitHub API returns at most 300 files for a single commit.
+func (client *Client) GetCommitFiles(ctx context.Context, owner, repo, sha string, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	commit, resp, err := client.restClient.Repositories.GetCommit(ctx, owner, repo, sha, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return commit.Files, resp, nil
+}
+
+// ListPullRequestFiles returns the list of files changed in a specific pull request.
+func (client *Client) ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	files, resp, err := client.restClient.PullRequests.ListFiles(ctx, owner, repo, prNumber, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return files, resp, nil
+}
+
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
 func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (models.WorkflowUsage, error) {
 	actors := make(map[string]struct{}, 0)

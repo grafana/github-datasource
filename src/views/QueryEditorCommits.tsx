@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Input } from '@grafana/ui';
+import { Input, InlineSwitch } from '@grafana/ui';
 import { EditorField, EditorRow } from '@grafana/plugin-ui';
-import { RightColumnWidth } from './QueryEditor';
 import { components } from 'components/selectors';
 import type { CommitsOptions } from '../types/query';
 
@@ -16,10 +15,18 @@ export const QueryEditorCommits = (props: Props) => {
       <EditorField label="Ref (Branch / Tag)">
         <Input
           aria-label={components.QueryEditor.Ref.input}
-          width={RightColumnWidth}
           value={ref}
           onChange={(el) => setRef(el.currentTarget.value)}
           onBlur={(el) => props.onChange({ ...props, gitRef: el.currentTarget.value })}
+        />
+      </EditorField>
+      <EditorField
+        label="Include File Changes"
+        tooltip="Returns one row per changed file per commit. Makes one additional API call per commit — avoid large time ranges."
+      >
+        <InlineSwitch
+          value={props.includeFiles || false}
+          onChange={(el) => props.onChange({ gitRef: props.gitRef, includeFiles: el.currentTarget.checked })}
         />
       </EditorField>
     </EditorRow>

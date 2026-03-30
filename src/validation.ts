@@ -10,12 +10,14 @@ export const isValid = (query: GitHubQuery): boolean => {
   }
   if (
     query.queryType === "Commits" ||
+    query.queryType === 'Commit_Files' ||
     query.queryType === "Contributors" ||
     query.queryType === "Tags" ||
     query.queryType === "Releases" ||
     query.queryType === "Labels" ||
     query.queryType === "Milestones" ||
     query.queryType === "Vulnerabilities" ||
+    query.queryType === "Pull_Request_Files" ||
     query.queryType === "Stargazers"
   ) {
     if (isEmpty(query.owner) || isEmpty(query.repository)) {

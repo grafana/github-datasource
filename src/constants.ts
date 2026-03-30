@@ -3,12 +3,14 @@ import { QueryType } from './types/query'
 export const QueryTypes = [
   'Code_Scanning',
   'Commits',
+  'Commit_Files',
   'Issues',
   'Contributors',
   'Tags',
   'Releases',
   'Pull_Requests',
   'Pull_Request_Reviews',
+  'Pull_Request_Files',
   'Labels',
   'Repositories',
   'Organizations',
@@ -22,7 +24,7 @@ export const QueryTypes = [
   'Workflows',
   'Workflow_Usage',
   'Workflow_Runs',
-  'Deployments'
+  'Deployments',
 ] as const;
 
 
