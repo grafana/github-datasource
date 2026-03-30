@@ -21,6 +21,7 @@ type Issue struct {
 	CreatedAt githubv4.DateTime
 	UpdatedAt githubv4.DateTime
 	Closed    bool
+	State     string
 	Labels    struct {
 		Nodes []struct {
 			Name string
@@ -33,6 +34,9 @@ type Issue struct {
 	} `graphql:"assignees(first: 10)"`
 	Author struct {
 		models.User `graphql:"... on User"`
+	}
+	Milestone struct {
+		Title string
 	}
 	Repository Repository
 }
@@ -49,12 +53,14 @@ func (c Issues) Frames() data.Frames {
 		data.NewField("author_company", nil, []string{}),
 		data.NewField("repo", nil, []string{}),
 		data.NewField("number", nil, []int64{}),
+		data.NewField("state", nil, []string{}),
 		data.NewField("closed", nil, []bool{}),
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
 		data.NewField("updated_at", nil, []time.Time{}),
 		data.NewField("labels", nil, []json.RawMessage{}),
 		data.NewField("assignees", nil, []json.RawMessage{}),
+		data.NewField("milestone", nil, []*string{}),
 	)
 
 	for _, v := range c {
@@ -80,18 +86,28 @@ func (c Issues) Frames() data.Frames {
 		assigneesBytes, _ := json.Marshal(assignees)
 		rawAssigneesArray := json.RawMessage(assigneesBytes)
 
+		state := strings.ToLower(v.State)
+
+		var milestone *string
+		if v.Milestone.Title != "" {
+			m := v.Milestone.Title
+			milestone = &m
+		}
+
 		frame.AppendRow(
 			v.Title,
 			v.Author.Login,
 			v.Author.Company,
 			v.Repository.NameWithOwner,
 			v.Number,
+			state,
 			v.Closed,
 			v.CreatedAt.Time,
 			closedAt,
 			v.UpdatedAt.Time,
 			rawLabelArray,
 			rawAssigneesArray,
+			milestone,
 		)
 	}
 
