@@ -95,8 +95,6 @@ github.com/grafana/otel-profiling-go v0.5.1 h1:stVPKAFZSa7eGiqbYuG25VcqYksR6iWvF
 github.com/grafana/otel-profiling-go v0.5.1/go.mod h1:ftN/t5A/4gQI19/8MoWurBEtC6gFw8Dns1sJZ9W4Tls=
 github.com/grafana/pyroscope-go/godeltaprof v0.1.9 h1:c1Us8i6eSmkW+Ez05d3co8kasnuOY813tbMN8i/a3Og=
 github.com/grafana/pyroscope-go/godeltaprof v0.1.9/go.mod h1:2+l7K7twW49Ct4wFluZD3tZ6e0SjanjcUUBPVD/UuGU=
-github.com/grafana/schemads v0.0.5 h1:nVDpWTb+NPHmUCOaqm38pwg+JDJxb28rd6j4+7kwYD4=
-github.com/grafana/schemads v0.0.5/go.mod h1:i/iRKic1c9i/ZjApKe7+BDQjPhlQO7gWycVRu7x6c1U=
 github.com/grafana/schemads v0.0.6 h1:Pz0fClDO0wfzb0THzgM8pyxVycbEa7b0ARS7YxfZ4RU=
 github.com/grafana/schemads v0.0.6/go.mod h1:4BnVcbwJT6xqyge9nB0GFbfzc6Aw3RzXD5TaZIOnPqY=
 github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus v1.1.0 h1:QGLs/O40yoNK9vmy4rhUGBVyMf1lISBGtXRpsu/Qu/o=
@@ -112,6 +110,8 @@ github.com/hashicorp/go-plugin v1.7.0/go.mod h1:BExt6KEaIYx804z8k4gRzRLEvxKVb+kn
 github.com/hashicorp/yamux v0.1.2 h1:XtB8kyFOyHXYVFnwT5C3+Bdo8gArse7j2AQ0DA0Uey8=
 github.com/hashicorp/yamux v0.1.2/go.mod h1:C+zze2n6e/7wshOZep2A70/aQU6QBRWJO/G6FT1wIns=
 github.com/huandu/go-assert v1.1.5/go.mod h1:yOLvuqZwmcHIC5rIzrBhT7D3Q9c3GFnd0JrPVhn/06U=
+github.com/huandu/go-assert v1.1.6 h1:oaAfYxq9KNDi9qswn/6aE0EydfxSa+tWZC1KabNitYs=
+github.com/huandu/go-assert v1.1.6/go.mod h1:JuIfbmYG9ykwvuxoJ3V8TB5QP+3+ajIA54Y44TmkMxs=
 github.com/huandu/go-clone v1.7.3 h1:rtQODA+ABThEn6J5LBTppJfKmZy/FwfpMUWa8d01TTQ=
 github.com/huandu/go-clone v1.7.3/go.mod h1:ReGivhG6op3GYr+UY3lS6mxjKp7MIGTknuU5TbTVaXE=
 github.com/huandu/go-sqlbuilder v1.39.1 h1:uUaj41yLNTQBe7ojNF6Im1RPbHCN4zCjMRySTEC2ooI=

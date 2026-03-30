@@ -18,4 +18,6 @@ type Client interface {
 	ListAlertsForOrg(ctx context.Context, owner string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error)
 	ListAllOrgRepositories(ctx context.Context, opts *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error)
 	ListDeployments(ctx context.Context, owner, repo string, opts *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error)
+	GetCommitFiles(ctx context.Context, owner, repo, sha string, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error)
+	ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error)
 }

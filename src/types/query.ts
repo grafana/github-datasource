@@ -21,7 +21,9 @@ export interface GitHubQuery extends Indexable, DataQuery, RepositoryOptions {
   | WorkflowsOptions
   | WorkflowUsageOptions
   | WorkflowRunsOptions
-  | DeploymentsOptions;
+  | DeploymentsOptions
+  | CommitFilesOptions
+  | PullRequestFilesOptions;
 }
 
 export interface Label {
@@ -55,6 +57,15 @@ export interface CodeScanningOptions extends Indexable {
 
 export interface CommitsOptions extends Indexable {
   gitRef?: string;
+  includeFiles?: boolean;
+}
+
+export interface CommitFilesOptions extends Indexable {
+  commitSha?: string;
+}
+
+export interface PullRequestFilesOptions extends Indexable {
+  prNumber?: number;
 }
 
 export interface ContributorsOptions extends Indexable {
