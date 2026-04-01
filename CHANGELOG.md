@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.8.0
+
+### Minor Changes
+
+🚀 adds additional commit types that enables users to query for file changes alongside pull request or commit queries
+🚀 minimum required grafana version is now set to 11.6.7
+
+### Patch Changes
+
+🐛 updated query editor to use EditorField component for consistency with other plugins
+🐛 migrated select component to combobox
+🐛 chore: strict query type options
+
 ## 2.7.2
 
 ⚙️ Updating experimental schemas.
