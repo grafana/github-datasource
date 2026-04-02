@@ -4,14 +4,14 @@
 
 ### Minor Changes
 
-🚀 adds additional commit types that enables users to query for file changes alongside pull request or commit queries
-🚀 minimum required grafana version is now set to 11.6.7
+🚀 Add additional commit types that enable users to query for file changes alongside pull request or commit queries
+🚀 minimum required Grafana version is now set to 11.6.7
 
 ### Patch Changes
 
-🐛 updated query editor to use EditorField component for consistency with other plugins
-🐛 migrated select component to combobox
-🐛 chore: strict query type options
+🐛 Updated query editor to use EditorField component for consistency with other plugins
+🐛 Migrated select component to combobox
+🐛 Chore: strict query type options
 
 ## 2.7.2
 
