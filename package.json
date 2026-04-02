@@ -1,6 +1,6 @@
 {
   "name": "grafana-github-datasource",
-  "version": "2.7.2",
+  "version": "2.8.0",
   "private": true,
   "description": "Grafana data source plugin for Github",
   "repository": "github:grafana/github-datasource",
