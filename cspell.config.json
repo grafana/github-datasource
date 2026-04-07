@@ -6,6 +6,9 @@
     "mage_output_file.go",
     "package.json",
     "renovate.json",
+    "query.panel.schema.json",
+    "query.request.schema.json",
+    "query.types.json",
     "yarn.lock"
   ],
   "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
