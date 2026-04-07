@@ -17,6 +17,8 @@ const (
 	QueryTypeReleases QueryType = "Releases"
 	// QueryTypePullRequests is used when querying pull requests in a GitHub repository
 	QueryTypePullRequests QueryType = "Pull_Requests"
+	// QueryTypePullRequestReviews is used when querying pull request reviews in a GitHub repository
+	QueryTypePullRequestReviews = "Pull_Request_Reviews"
 	// QueryTypeLabels is used when querying labels in a GitHub repository
 	QueryTypeLabels QueryType = "Labels"
 	// QueryTypeRepositories is used when querying for a GitHub repository
@@ -41,6 +43,16 @@ const (
 	QueryTypeWorkflows QueryType = "Workflows"
 	// QueryTypeWorkflowUsage is used when querying a specific workflow usage
 	QueryTypeWorkflowUsage QueryType = "Workflow_Usage"
+	// QueryTypeWorkflowRuns is used when querying workflow runs for a repository
+	QueryTypeWorkflowRuns QueryType = "Workflow_Runs"
+	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
+	QueryTypeCodeScanning QueryType = "Code_Scanning"
+	// QueryTypeDeployments is used when querying deployments for a repository
+	QueryTypeDeployments QueryType = "Deployments"
+	// QueryTypeCommitFiles is used when querying files changed in a specific commit
+	QueryTypeCommitFiles QueryType = "Commit_Files"
+	// QueryTypePullRequestFiles is used when querying files changed in a specific pull request
+	QueryTypePullRequestFiles QueryType = "Pull_Request_Files"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -54,6 +66,12 @@ type Query struct {
 
 // PullRequestsQuery is used when querying for GitHub Pull Requests
 type PullRequestsQuery struct {
+	Query
+	Options ListPullRequestsOptions `json:"options"`
+}
+
+// PullRequestReviewsQuery is used when querying for GitHub Pull Request Reviews
+type PullRequestReviewsQuery struct {
 	Query
 	Options ListPullRequestsOptions `json:"options"`
 }
@@ -132,4 +150,38 @@ type WorkflowsQuery struct {
 type WorkflowUsageQuery struct {
 	Query
 	Options WorkflowUsageOptions `json:"options"`
+}
+
+// WorkflowRunsQuery is used when querying workflow runs for a repository
+type WorkflowRunsQuery struct {
+	Query
+	Options WorkflowRunsOptions `json:"options"`
+}
+
+// CodeScanningQuery is used when querying code scanning alerts for a repository
+type CodeScanningQuery struct {
+	Query
+	Options CodeScanningOptions `json:"options"`
+}
+
+// DeploymentsQuery is used when querying deployments for a repository
+type DeploymentsQuery struct {
+	Query
+	Options ListDeploymentsOptions `json:"options"`
+}
+
+// OrganizationsQuery is used when querying for GitHub organizations
+type OrganizationsQuery struct {
+}
+
+// CommitFilesQuery is used when querying for files changed in a GitHub commit
+type CommitFilesQuery struct {
+	Query
+	Options CommitFilesOptions `json:"options"`
+}
+
+// PullRequestFilesQuery is used when querying for files changed in a GitHub pull request
+type PullRequestFilesQuery struct {
+	Query
+	Options PullRequestFilesOptions `json:"options"`
 }

@@ -99,13 +99,13 @@ export const Filters: React.FC<Props> = (props: Props) => {
               />
               {loading === i && <div className={styles.loading}>Loading...</div>}
             </span>
-            <Button variant="secondary" onClick={remove(i)} icon="trash-alt" />
+            <Button variant="secondary" aria-label="Remove filter" onClick={remove(i)} icon="trash-alt" />
             {list.length > 1 && i !== list.length - 1 && (
               <Segment onChange={onConjunctionChange(i)} options={opList} value={filter.conjunction || 'and'}></Segment>
             )}
           </>
         ))}
-        <Button variant="secondary" onClick={add} icon="plus" />
+        <Button variant="secondary" aria-label="Add filter" onClick={add} icon="plus" />
       </>
     </InlineFieldRow>
   );

@@ -6,12 +6,13 @@ import (
 	"testing"
 	"time"
 
-	googlegithub "github.com/google/go-github/v53/github"
-	"github.com/grafana/github-datasource/pkg/models"
-	"github.com/grafana/github-datasource/pkg/testutil"
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/stretchr/testify/assert"
 	"pgregory.net/rapid"
+
+	"github.com/grafana/github-datasource/pkg/models"
+	"github.com/grafana/github-datasource/pkg/testutil"
 )
 
 func githubWorkflowGen() *rapid.Generator[*googlegithub.Workflow] {
@@ -65,10 +66,10 @@ func genTimeRange(t *rapid.T, workflows []*googlegithub.Workflow, timeField mode
 	sort.Slice(workflowsCopy, func(i, j int) bool {
 		switch timeField {
 		case models.WorkflowCreatedAt:
-			return workflowsCopy[i].CreatedAt.Time.Before(workflowsCopy[j].CreatedAt.Time)
+			return workflowsCopy[i].CreatedAt.Before(workflowsCopy[j].CreatedAt.Time)
 
 		case models.WorkflowUpdatedAt:
-			return workflowsCopy[i].UpdatedAt.Time.Before(workflowsCopy[j].UpdatedAt.Time)
+			return workflowsCopy[i].UpdatedAt.Before(workflowsCopy[j].UpdatedAt.Time)
 
 		default:
 			panic(fmt.Sprintf("unexpected time field: %d", timeField))
@@ -124,7 +125,7 @@ func TestKeepWorkflowsInTimeRange(t *testing.T) {
 
 		// Ensure we got the expected workflows.
 		sort.Slice(got, func(i, j int) bool {
-			return got[i].CreatedAt.Time.Before(got[j].CreatedAt.Time)
+			return got[i].CreatedAt.Before(got[j].CreatedAt.Time)
 		})
 
 		assert.Equal(t, len(workflowsInTheRange), len(got))
@@ -153,7 +154,7 @@ func TestKeepWorkflowsInTimeRange(t *testing.T) {
 
 		// Ensure we got the expected workflows.
 		sort.Slice(got, func(i, j int) bool {
-			return got[i].UpdatedAt.Time.Before(got[j].UpdatedAt.Time)
+			return got[i].UpdatedAt.Before(got[j].UpdatedAt.Time)
 		})
 
 		assert.Equal(t, len(workflowsInTheRange), len(got))
@@ -217,6 +218,7 @@ func TestWorkflowUsageDataframe(t *testing.T) {
 	t.Parallel()
 
 	usage := WorkflowUsageWrapper(models.WorkflowUsage{
+		Name:               "workflow",
 		CostUSD:            10.0,
 		UniqueActors:       100,
 		Runs:               200,
@@ -242,4 +244,63 @@ func TestWorkflowUsageDataframe(t *testing.T) {
 	})
 
 	testutil.CheckGoldenFramer(t, "workflowUsage", usage)
+}
+
+func TestWorkflowRunsDataFrame(t *testing.T) {
+	t.Parallel()
+
+	createdAt1, err := time.Parse("2006-Jan-02", "2013-Feb-01")
+	assert.NoError(t, err)
+
+	updatedAt1, err := time.Parse("2006-Jan-02", "2013-Feb-02")
+	assert.NoError(t, err)
+
+	runStartedAt1, err := time.Parse("2006-Jan-02", "2013-Feb-02")
+	assert.NoError(t, err)
+
+	createdAt2, err := time.Parse("2006-Jan-02", "2013-Feb-03")
+	assert.NoError(t, err)
+
+	updatedAt2, err := time.Parse("2006-Jan-02", "2013-Feb-04")
+	assert.NoError(t, err)
+
+	runStartedAt2, err := time.Parse("2006-Jan-02", "2013-Feb-04")
+	assert.NoError(t, err)
+
+	workflowRuns := WorkflowRunsWrapper([]*googlegithub.WorkflowRun{
+		{
+			ID:           ptr(int64(1)),
+			Name:         ptr("name_1"),
+			HeadBranch:   ptr("head_branch_1"),
+			HeadSHA:      ptr("head_sha_1"),
+			CreatedAt:    &googlegithub.Timestamp{Time: createdAt1},
+			UpdatedAt:    &googlegithub.Timestamp{Time: updatedAt1},
+			RunStartedAt: &googlegithub.Timestamp{Time: runStartedAt1},
+			HTMLURL:      ptr("html_url_1"),
+			URL:          ptr("url_1"),
+			Status:       ptr("status_1"),
+			Conclusion:   ptr("conclusion_1"),
+			Event:        ptr("event_1"),
+			WorkflowID:   ptr(int64(1)),
+			RunNumber:    ptr(int(1)),
+		},
+		{
+			ID:           ptr(int64(2)),
+			Name:         ptr("name_2"),
+			HeadBranch:   ptr("head_branch_2"),
+			HeadSHA:      ptr("head_sha_2"),
+			CreatedAt:    &googlegithub.Timestamp{Time: createdAt2},
+			UpdatedAt:    &googlegithub.Timestamp{Time: updatedAt2},
+			RunStartedAt: &googlegithub.Timestamp{Time: runStartedAt2},
+			HTMLURL:      ptr("html_url_2"),
+			URL:          ptr("url_2"),
+			Status:       ptr("status_2"),
+			Conclusion:   ptr("conclusion_2"),
+			Event:        ptr("event_2"),
+			WorkflowID:   ptr(int64(2)),
+			RunNumber:    ptr(int(2)),
+		},
+	})
+
+	testutil.CheckGoldenFramer(t, "workflowRuns", workflowRuns)
 }

@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -42,6 +43,8 @@ type PullRequest struct {
 	Number     int64
 	Title      string
 	URL        string
+	Additions  int64
+	Deletions  int64
 	State      githubv4.PullRequestState
 	Author     PullRequestAuthor
 	Closed     bool
@@ -54,6 +57,11 @@ type PullRequest struct {
 	MergedAt   githubv4.DateTime
 	Mergeable  githubv4.MergeableState
 	MergedBy   *PullRequestAuthor
+	Labels     struct {
+		Nodes []struct {
+			Name string
+		}
+	} `graphql:"labels(first: 100)"`
 	Repository Repository
 }
 
@@ -72,8 +80,11 @@ func (p PullRequests) Frames() data.Frames {
 		data.NewField("number", nil, []int64{}),
 		data.NewField("title", nil, []string{}),
 		data.NewField("url", nil, []string{}),
+		data.NewField("additions", nil, []int64{}),
+		data.NewField("deletions", nil, []int64{}),
 		data.NewField("repository", nil, []string{}),
 		data.NewField("state", nil, []string{}),
+		data.NewField("author_name", nil, []string{}),
 		data.NewField("author_login", nil, []string{}),
 		data.NewField("author_email", nil, []string{}),
 		data.NewField("author_company", nil, []string{}),
@@ -84,16 +95,25 @@ func (p PullRequests) Frames() data.Frames {
 		data.NewField("mergeable", nil, []string{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
 		data.NewField("merged_at", nil, []*time.Time{}),
+		data.NewField("merged_by_name", nil, []*string{}),
+		data.NewField("merged_by_login", nil, []*string{}),
+		data.NewField("merged_by_email", nil, []*string{}),
+		data.NewField("merged_by_company", nil, []*string{}),
 		data.NewField("updated_at", nil, []time.Time{}),
 		data.NewField("created_at", nil, []time.Time{}),
 		openTime,
+		data.NewField("labels", nil, []json.RawMessage{}),
 	)
 
 	for _, v := range p {
 		var (
-			closedAt    *time.Time
-			mergedAt    *time.Time
-			secondsOpen float64 = time.Now().UTC().Sub(v.CreatedAt.UTC()).Round(time.Second).Seconds()
+			closedAt        *time.Time
+			mergedAt        *time.Time
+			mergedByName    *string
+			mergedByLogin   *string
+			mergedByEmail   *string
+			mergedByCompany *string
+			secondsOpen     = time.Now().UTC().Sub(v.CreatedAt.UTC()).Round(time.Second).Seconds()
 		)
 
 		if !v.ClosedAt.IsZero() {
@@ -114,12 +134,46 @@ func (p PullRequests) Frames() data.Frames {
 			secondsOpen = v.MergedAt.UTC().Sub(v.CreatedAt.UTC()).Seconds()
 		}
 
+		mergedBy := v.MergedBy
+		if mergedBy != nil {
+			mergedByNameT := v.MergedBy.User.Name
+			if len(mergedByNameT) != 0 {
+				mergedByName = &mergedByNameT
+			}
+
+			mergedByLoginT := v.MergedBy.User.Login
+			if len(mergedByLoginT) != 0 {
+				mergedByLogin = &mergedByLoginT
+			}
+
+			mergedByEmailT := v.MergedBy.User.Email
+			if len(mergedByEmailT) != 0 {
+				mergedByEmail = &mergedByEmailT
+			}
+
+			mergedByCompanyT := v.MergedBy.User.Company
+			if len(mergedByCompanyT) != 0 {
+				mergedByCompany = &mergedByCompanyT
+			}
+		}
+
+		labels := make([]string, len(v.Labels.Nodes))
+		for i, label := range v.Labels.Nodes {
+			labels[i] = label.Name
+		}
+
+		labelsBytes, _ := json.Marshal(labels)
+		rawLabelArray := json.RawMessage(labelsBytes)
+
 		frame.AppendRow(
 			v.Number,
 			v.Title,
 			v.URL,
+			v.Additions,
+			v.Deletions,
 			v.Repository.NameWithOwner,
 			string(v.State),
+			v.Author.User.Name,
 			v.Author.User.Login,
 			v.Author.User.Email,
 			v.Author.User.Company,
@@ -130,9 +184,14 @@ func (p PullRequests) Frames() data.Frames {
 			string(v.Mergeable),
 			closedAt,
 			mergedAt,
+			mergedByName,
+			mergedByLogin,
+			mergedByEmail,
+			mergedByCompany,
 			v.UpdatedAt.Time,
 			v.CreatedAt.Time,
 			secondsOpen,
+			rawLabelArray,
 		)
 	}
 

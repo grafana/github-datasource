@@ -2,6 +2,7 @@ package github
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 	"time"
@@ -18,9 +19,24 @@ type Issue struct {
 	Title     string
 	ClosedAt  githubv4.DateTime
 	CreatedAt githubv4.DateTime
+	UpdatedAt githubv4.DateTime
 	Closed    bool
-	Author    struct {
+	State     string
+	Labels    struct {
+		Nodes []struct {
+			Name string
+		}
+	} `graphql:"labels(first: 100)"`
+	Assignees struct {
+		Nodes []struct {
+			models.User
+		}
+	} `graphql:"assignees(first: 10)"`
+	Author struct {
 		models.User `graphql:"... on User"`
+	}
+	Milestone struct {
+		Title string
 	}
 	Repository Repository
 }
@@ -37,27 +53,61 @@ func (c Issues) Frames() data.Frames {
 		data.NewField("author_company", nil, []string{}),
 		data.NewField("repo", nil, []string{}),
 		data.NewField("number", nil, []int64{}),
+		data.NewField("state", nil, []string{}),
 		data.NewField("closed", nil, []bool{}),
 		data.NewField("created_at", nil, []time.Time{}),
 		data.NewField("closed_at", nil, []*time.Time{}),
+		data.NewField("updated_at", nil, []time.Time{}),
+		data.NewField("labels", nil, []json.RawMessage{}),
+		data.NewField("assignees", nil, []json.RawMessage{}),
+		data.NewField("milestone", nil, []*string{}),
 	)
 
 	for _, v := range c {
 		var closedAt *time.Time
-		if !v.ClosedAt.Time.IsZero() {
+		if !v.ClosedAt.IsZero() {
 			t := v.ClosedAt.Time
 			closedAt = &t
 		}
 
+		labels := make([]string, len(v.Labels.Nodes))
+		for i, label := range v.Labels.Nodes {
+			labels[i] = label.Name
+		}
+
+		assignees := make([]string, len(v.Assignees.Nodes))
+		for i, assignee := range v.Assignees.Nodes {
+			assignees[i] = assignee.Login
+		}
+
+		labelsBytes, _ := json.Marshal(labels)
+		rawLabelArray := json.RawMessage(labelsBytes)
+
+		assigneesBytes, _ := json.Marshal(assignees)
+		rawAssigneesArray := json.RawMessage(assigneesBytes)
+
+		state := strings.ToLower(v.State)
+
+		var milestone *string
+		if v.Milestone.Title != "" {
+			m := v.Milestone.Title
+			milestone = &m
+		}
+
 		frame.AppendRow(
 			v.Title,
-			v.Author.User.Login,
-			v.Author.User.Company,
+			v.Author.Login,
+			v.Author.Company,
 			v.Repository.NameWithOwner,
 			v.Number,
+			state,
 			v.Closed,
 			v.CreatedAt.Time,
 			closedAt,
+			v.UpdatedAt.Time,
+			rawLabelArray,
+			rawAssigneesArray,
+			milestone,
 		)
 	}
 

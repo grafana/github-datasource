@@ -2,8 +2,10 @@ package github
 
 import (
 	"context"
+	"fmt"
 	"time"
 
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
@@ -33,6 +35,7 @@ func (c Commits) Frames() data.Frames {
 		data.NewField("author_company", nil, []string{}),
 		data.NewField("committed_at", nil, []time.Time{}),
 		data.NewField("pushed_at", nil, []time.Time{}),
+		data.NewField("message", nil, []string{}),
 	)
 
 	for _, v := range c {
@@ -44,6 +47,7 @@ func (c Commits) Frames() data.Frames {
 			v.Author.User.Company,
 			v.CommittedDate.Time,
 			v.PushedDate.Time,
+			string(v.Message),
 		)
 	}
 
@@ -152,4 +156,27 @@ func GetCommitsInRange(ctx context.Context, client models.Client, opts models.Li
 	}
 
 	return commits, nil
+}
+
+// GetCommitsWithFilesInRange fetches commits in a time range and enriches each
+// with its changed files via one REST call per commit. This can be slow and
+// rate-limit-heavy for large time ranges.
+func GetCommitsWithFilesInRange(ctx context.Context, client models.Client, opts models.ListCommitsOptions, from time.Time, to time.Time) (CommitsWithFiles, error) {
+	commits, err := GetCommitsInRange(ctx, client, opts, from, to)
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(CommitsWithFiles, 0, len(commits))
+	for _, c := range commits {
+		files, _, err := client.GetCommitFiles(ctx, opts.Owner, opts.Repository, c.OID, &googlegithub.ListOptions{PerPage: 300})
+		if err != nil {
+			return nil, fmt.Errorf("getting files for commit %s: %w", c.OID, err)
+		}
+		if len(files) > 0 {
+			result = append(result, CommitWithFiles{Commit: c, Files: files})
+		}
+	}
+
+	return result, nil
 }

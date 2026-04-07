@@ -1,83 +1,42 @@
-import {
-  AnnotationEvent,
-  DataFrame,
-  DataFrameView,
-  DataQueryRequest,
-  DataQueryResponse,
-  DataSourceInstanceSettings,
-  MetricFindValue,
-  ScopedVars,
-} from '@grafana/data';
+import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, ScopedVars } from '@grafana/data';
 import { DataSourceWithBackend, getTemplateSrv } from '@grafana/runtime';
-import { GithubDataSourceOptions, GitHubQuery, GitHubVariableQuery, Label } from './types';
-import { replaceVariables } from './variables';
+import { replaceVariables, GithubVariableSupport } from './variables';
 import { isValid } from './validation';
-import { getAnnotationsFromFrame } from 'common/annotationsFromDataFrame';
 import { prepareAnnotation } from 'migrations';
-import { Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { trackRequest } from 'tracking';
+import type { GitHubQuery } from './types/query';
+import type { GitHubDataSourceOptions } from './types/config';
 
-export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubDataSourceOptions> {
+export class GitHubDataSource extends DataSourceWithBackend<GitHubQuery, GitHubDataSourceOptions> {
   templateSrv = getTemplateSrv();
 
-  constructor(instanceSettings: DataSourceInstanceSettings<GithubDataSourceOptions>) {
+  constructor(instanceSettings: DataSourceInstanceSettings<GitHubDataSourceOptions>) {
     super(instanceSettings);
     this.annotations = {
       prepareAnnotation,
     };
+    this.variables = new GithubVariableSupport(this);
   }
 
+  // Required by DataSourceApi. It executes queries based on the provided DataQueryRequest.
   query(request: DataQueryRequest<GitHubQuery>): Observable<DataQueryResponse> {
     trackRequest(request);
     return super.query(request);
   }
 
+  // Implemented as a part of DataSourceApi
   // Only execute queries that have a query type
   filterQuery = (query: GitHubQuery) => {
     return isValid(query) && !query.hide;
   };
 
-  applyTemplateVariables(query: GitHubQuery, scoped: ScopedVars): Record<string, any> {
+  // Implemented as a part of DataSourceApi. Interpolates variables and adds ad hoc filters to a list of GitHub queries.
+  applyTemplateVariables(query: GitHubQuery, scoped: ScopedVars): GitHubQuery {
     return replaceVariables(this.templateSrv, query, scoped);
   }
 
-  async getLabels(repository: string, owner: string, query?: string): Promise<Label[]> {
-    return this.getResource('labels', {
-      repository,
-      owner,
-      query,
-    });
-  }
-
-  async annotationQuery(request: any): Promise<AnnotationEvent[]> {
-    const { annotation } = request.annotation;
-
-    const query = {
-      targets: [
-        {
-          ...annotation,
-          datasourceId: this.id,
-          refId: this.name,
-        },
-      ],
-      range: request.range,
-      interval: request.interval,
-    } as DataQueryRequest<GitHubQuery>;
-
-    const res = await this.query(query).toPromise();
-
-    if (!res?.data?.length) {
-      return [];
-    }
-    return getAnnotationsFromFrame(res.data[0], {
-      field: {
-        // title: `${request.annotation.name} - ${annotation.queryType}`,
-        time: annotation.timeField, // or first time field
-        text: annotation.field || 'name',
-      },
-    });
-  }
-
+  // Used in VariableQueryEditor to get the choices for variables
   async getChoices(query: GitHubQuery): Promise<string[]> {
     const request = {
       targets: [
@@ -90,43 +49,14 @@ export class GithubDataSource extends DataSourceWithBackend<GitHubQuery, GithubD
         to: {},
         from: {},
       },
-    } as DataQueryRequest;
+    } as DataQueryRequest<GitHubQuery>;
 
     try {
-      const res = await this.query(request).toPromise();
+      const res = await lastValueFrom(this.query(request));
       const columns = (res?.data[0]?.fields || []).map((f: any) => f.name) || [];
       return columns;
     } catch (err) {
       return Promise.reject(err);
-    }
-  }
-
-  async metricFindQuery(query: GitHubVariableQuery, options: any): Promise<MetricFindValue[]> {
-    const request = {
-      targets: [
-        {
-          ...query,
-          refId: 'metricFindQuery',
-        },
-      ],
-      range: options.range,
-      rangeRaw: options.rangeRaw,
-    } as DataQueryRequest;
-    try {
-      let res = await this.query(request).toPromise();
-      if (!res || !res.data || res.data.length < 0) {
-        return [];
-      }
-      const view = new DataFrameView(res.data[0] as DataFrame);
-      return view.map((item) => {
-        const value = item[query.key || ''] || item[query.field || 'name'];
-        return {
-          value,
-          text: item[query.field || 'name'],
-        };
-      });
-    } catch (ex) {
-      return Promise.reject(ex);
     }
   }
 }

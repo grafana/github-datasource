@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { Input, Select, InlineField } from '@grafana/ui';
-import { SelectableValue } from '@grafana/data';
-import { IssuesOptions, IssueTimeField } from '../types';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
+import { Combobox, ComboboxOption, Input } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
+import { components } from 'components/selectors';
+import { IssueTimeField } from '../constants';
+import type { IssuesOptions } from '../types/query';
 
 interface Props extends IssuesOptions {
   onChange: (value: IssuesOptions) => void;
 }
 
-const timeFieldOptions: Array<SelectableValue<IssueTimeField>> = Object.keys(IssueTimeField)
+const timeFieldOptions: Array<ComboboxOption<IssueTimeField>> = Object.keys(IssueTimeField)
   .filter((_, i) => IssueTimeField[i] !== undefined)
   .map((_, i) => {
     return {
@@ -19,12 +21,11 @@ const timeFieldOptions: Array<SelectableValue<IssueTimeField>> = Object.keys(Iss
 
 const defaultTimeField = 0 as IssueTimeField;
 
-const QueryEditorIssues = (props: Props) => {
+export const QueryEditorIssues = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
+    <EditorRow>
+      <EditorField
         label="Query"
         tooltip={() => (
           <>
@@ -38,11 +39,10 @@ const QueryEditorIssues = (props: Props) => {
             </a>
           </>
         )}
-        interactive={true}
       >
         <Input
           value={query}
-          width={RightColumnWidth * 2 + LeftColumnWidth}
+          width={RightColumnWidth * 2 + 2}
           onChange={(el) => setQuery(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -51,13 +51,10 @@ const QueryEditorIssues = (props: Props) => {
             })
           }
         />
-      </InlineField>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
-        label="Time Field"
-        tooltip="The time field to filter on the time range"
-      >
-        <Select
+      </EditorField>
+      <EditorField label="Time Field" tooltip="The time field to filter on the time range">
+        <Combobox
+          data-testid={components.QueryEditor.Issues.timeFieldInput}
           width={RightColumnWidth}
           options={timeFieldOptions}
           value={props.timeField || defaultTimeField}
@@ -68,9 +65,7 @@ const QueryEditorIssues = (props: Props) => {
             })
           }
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorIssues;

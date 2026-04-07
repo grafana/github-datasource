@@ -1,29 +1,34 @@
 import React, { useState } from 'react';
-import { Input, InlineField } from '@grafana/ui';
-
-import { CommitsOptions } from '../types';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-import { selectors } from 'components/selectors';
+import { Input, InlineSwitch } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { components } from 'components/selectors';
+import type { CommitsOptions } from '../types/query';
 
 interface Props extends CommitsOptions {
   onChange: (value: CommitsOptions) => void;
 }
 
-const QueryEditorCommits = (props: Props) => {
+export const QueryEditorCommits = (props: Props) => {
   const [ref, setRef] = useState<string>(props.gitRef || '');
   return (
-    <>
-      <InlineField labelWidth={LeftColumnWidth * 2} label="Ref (Branch / Tag)">
+    <EditorRow>
+      <EditorField label="Ref (Branch / Tag)">
         <Input
-          aria-label={selectors.components.QueryEditor.Ref.input}
-          width={RightColumnWidth}
+          aria-label={components.QueryEditor.Ref.input}
           value={ref}
           onChange={(el) => setRef(el.currentTarget.value)}
           onBlur={(el) => props.onChange({ ...props, gitRef: el.currentTarget.value })}
         />
-      </InlineField>
-    </>
+      </EditorField>
+      <EditorField
+        label="Include File Changes"
+        tooltip="Returns one row per changed file per commit. Makes one additional API call per commit — avoid large time ranges."
+      >
+        <InlineSwitch
+          value={props.includeFiles || false}
+          onChange={(el) => props.onChange({ gitRef: props.gitRef, includeFiles: el.currentTarget.checked })}
+        />
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorCommits;

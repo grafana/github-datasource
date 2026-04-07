@@ -66,10 +66,12 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			Repository: Repository{
 				NameWithOwner: "grafana/github-datasource",
 			},
-			Closed:  true,
-			IsDraft: false,
-			Locked:  false,
-			Merged:  true,
+			Closed:    true,
+			IsDraft:   false,
+			Locked:    false,
+			Merged:    true,
+			Additions: 5,
+			Deletions: 1,
 			CreatedAt: githubv4.DateTime{
 				Time: openedAt,
 			},
@@ -84,6 +86,14 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			},
 			Mergeable: githubv4.MergeableStateMergeable,
 			MergedBy:  nil,
+			Labels: struct {
+				Nodes []struct{ Name string }
+			}{
+				Nodes: []struct{ Name string }{
+					{Name: "bug"},
+					{Name: "enhancement"},
+				},
+			},
 		},
 		{
 			Number: 2,
@@ -116,6 +126,13 @@ func TestPullRequestsDataFrame(t *testing.T) {
 			MergedBy: &PullRequestAuthor{
 				User: firstUser,
 			},
+			Labels: struct {
+				Nodes []struct{ Name string }
+			}{
+				Nodes: []struct{ Name string }{
+					{Name: "documentation"},
+				},
+			},
 		},
 		{
 			Number: 3,
@@ -143,6 +160,11 @@ func TestPullRequestsDataFrame(t *testing.T) {
 				Time: openedAt.Add(time.Hour * 2),
 			},
 			Mergeable: githubv4.MergeableStateMergeable,
+			Labels: struct {
+				Nodes []struct{ Name string }
+			}{
+				Nodes: []struct{ Name string }{},
+			},
 		},
 	}
 

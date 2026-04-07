@@ -4,10 +4,12 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/grafana/github-datasource/pkg/models"
+	"github.com/pkg/errors"
+
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
-	"github.com/pkg/errors"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // QueryHandler is the main handler for datasource queries.
@@ -31,7 +33,8 @@ func processQueries(ctx context.Context, req *backend.QueryDataRequest, handler 
 func UnmarshalQuery(b []byte, v interface{}) *backend.DataResponse {
 	if err := json.Unmarshal(b, v); err != nil {
 		return &backend.DataResponse{
-			Error: errors.Wrap(err, "failed to unmarshal JSON request into query"),
+			Error:       errors.Wrap(err, "failed to unmarshal JSON request into query"),
+			ErrorSource: backend.ErrorSourceDownstream,
 		}
 	}
 	return nil
@@ -41,12 +44,12 @@ func UnmarshalQuery(b []byte, v interface{}) *backend.DataResponse {
 func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux := datasource.NewQueryTypeMux()
 
-	// This could be a map[models.QueryType]datasource.QueryHandlerFunc and then a loop to handle all of them.
 	mux.HandleFunc(string(models.QueryTypeCommits), s.HandleCommits)
 	mux.HandleFunc(string(models.QueryTypeIssues), s.HandleIssues)
 	mux.HandleFunc(string(models.QueryTypeContributors), s.HandleContributors)
 	mux.HandleFunc(string(models.QueryTypeLabels), s.HandleLabels)
 	mux.HandleFunc(string(models.QueryTypePullRequests), s.HandlePullRequests)
+	mux.HandleFunc(string(models.QueryTypePullRequestReviews), s.HandlePullRequestReviews)
 	mux.HandleFunc(string(models.QueryTypeReleases), s.HandleReleases)
 	mux.HandleFunc(string(models.QueryTypeTags), s.HandleTags)
 	mux.HandleFunc(string(models.QueryTypePackages), s.HandlePackages)
@@ -57,6 +60,12 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux.HandleFunc(string(models.QueryTypeStargazers), s.HandleStargazers)
 	mux.HandleFunc(string(models.QueryTypeWorkflows), s.HandleWorkflows)
 	mux.HandleFunc(string(models.QueryTypeWorkflowUsage), s.HandleWorkflowUsage)
+	mux.HandleFunc(string(models.QueryTypeWorkflowRuns), s.HandleWorkflowRuns)
+	mux.HandleFunc(string(models.QueryTypeCodeScanning), s.HandleCodeScanning)
+	mux.HandleFunc(string(models.QueryTypeDeployments), s.HandleDeployments)
+	mux.HandleFunc(string(models.QueryTypeOrganizations), s.HandleOrganizations)
+	mux.HandleFunc(string(models.QueryTypeCommitFiles), s.HandleCommitFiles)
+	mux.HandleFunc(string(models.QueryTypePullRequestFiles), s.HandlePullRequestFiles)
 
 	return mux
 }
