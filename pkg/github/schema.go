@@ -536,6 +536,6 @@ func getAllTables() []schemas.Table {
 	}
 }
 
-func normalizeTableNames(table string) string {
-	return strings.ToLower(strings.ReplaceAll(table, "_", "-"))
+func normalizeTableNames(table models.QueryType) string {
+	return strings.ToLower(strings.ReplaceAll(string(table), "_", "-"))
 }

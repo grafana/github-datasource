@@ -13,8 +13,8 @@ import (
 // tableToQueryType maps normalized table names to their QueryType constants.
 // Built from the query type constants via normalizeTableNames so the schema
 // table definitions and this map stay in sync automatically.
-var tableToQueryType = func() map[string]string {
-	qts := []string{
+var tableToQueryType = func() map[string]models.QueryType {
+	qts := []models.QueryType{
 		models.QueryTypeCommits,
 		models.QueryTypeIssues,
 		models.QueryTypePullRequests,
@@ -37,7 +37,7 @@ var tableToQueryType = func() map[string]string {
 		models.QueryTypeOrganizations,
 		models.QueryTypeGraphQL,
 	}
-	m := make(map[string]string, len(qts))
+	m := make(map[string]models.QueryType, len(qts))
 	for _, qt := range qts {
 		m[normalizeTableNames(qt)] = qt
 	}
@@ -84,7 +84,7 @@ func extractFilterValues(condition schemas.FilterCondition) []string {
 // applyFilters maps SQL filter predicates to GitHub API query options.
 // It modifies the options map in-place and returns a list of GitHub search
 // qualifiers for query types that use the search API.
-func applyFilters(queryType string, options map[string]interface{}, filters []schemas.ColumnFilter) []string {
+func applyFilters(queryType models.QueryType, options map[string]interface{}, filters []schemas.ColumnFilter) []string {
 	var searchQualifiers []string
 
 	opts, _ := options["options"].(map[string]interface{})
@@ -307,7 +307,7 @@ func normalizeGrafanaSQLRequest(req *backend.QueryDataRequest) *backend.QueryDat
 		}
 		queries = append(queries, backend.DataQuery{
 			RefID:         q.RefID,
-			QueryType:     queryType,
+			QueryType:     string(queryType),
 			MaxDataPoints: q.MaxDataPoints,
 			Interval:      q.Interval,
 			TimeRange:     q.TimeRange,
