@@ -8,15 +8,15 @@
     "renovate.json",
     "yarn.lock"
   ],
-  "ignoreRegExpList": [
-    "import\\s*\\((.|[\r\n])*?\\)",
-    "import\\s*.*\".*?\""
-  ],
+  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
   "words": [
+    "apiserver",
+    "dataplane",
     "araddon",
     "bmike",
-    "CTAV",
     "combobox",
+    "confg",
+    "CTAV",
     "Dataframe",
     "DATAPROXY",
     "datasource",
@@ -26,6 +26,7 @@
     "dompurify",
     "dserrors",
     "errorsource",
+    "featuretoggles",
     "ghinstallation",
     "githubclient",
     "githubv",
@@ -34,8 +35,8 @@
     "grafanabot",
     "groupby",
     "healthcheck",
-    "httpclient",
     "HTMLURL",
+    "httpclient",
     "instancemgmt",
     "jackspeak",
     "kminehart",
@@ -43,6 +44,9 @@
     "Mergeable",
     "mjseaman",
     "nazzzzz",
+    "octocat",
+    "oldorg",
+    "oldrepo",
     "prismjs",
     "promop",
     "PTRACE",
@@ -52,6 +56,8 @@
     "querytype",
     "rgba",
     "RUBYGEMS",
+    "schemabuilder",
+    "schemads",
     "seccomp",
     "shurcoo",
     "stretchr",
@@ -71,11 +77,6 @@
     "vals",
     "vladimirdotk",
     "Wrapf",
-    "confg",
-    "octocat",
-    "schemads",
-    "featuretoggles",
-    "oldorg",
-    "oldrepo"
+    "yesoreyeram"
   ]
 }
