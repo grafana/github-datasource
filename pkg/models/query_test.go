@@ -202,6 +202,110 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeCodeScanning),
+		GoType:         reflect.TypeFor[*CodeScanningQuery](),
+		Examples: []data.QueryExample{
+			{
+				Name: "CodeScanningQuery",
+				SaveModel: data.AsUnstructured(CodeScanningQuery{
+					Query:   common,
+					Options: CodeScanningOptions{},
+				}),
+			},
+		},
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeCommitFiles),
+		GoType:         reflect.TypeFor[*CommitFilesQuery](),
+		Examples: []data.QueryExample{
+			{
+				Name: "CommitFilesQuery",
+				SaveModel: data.AsUnstructured(CommitFilesQuery{
+					Query:   common,
+					Options: CommitFilesOptions{},
+				}),
+			},
+		},
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: data.NewDiscriminators("queryType", QueryTypePullRequestReviews),
+		GoType:         reflect.TypeFor[*PullRequestReviewsQuery](),
+		Examples: []data.QueryExample{
+			{
+				Name: "PullRequestReviewsQuery",
+				SaveModel: data.AsUnstructured(PullRequestReviewsQuery{
+					Query:   common,
+					Options: ListPullRequestsOptions{},
+				}),
+			},
+		},
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: data.NewDiscriminators("queryType", QueryTypePullRequestFiles),
+		GoType:         reflect.TypeFor[*PullRequestFilesQuery](),
+		Examples: []data.QueryExample{
+			{
+				Name: "PullRequestFilesQuery",
+				SaveModel: data.AsUnstructured(PullRequestFilesQuery{
+					Query:   common,
+					Options: PullRequestFilesOptions{},
+				}),
+			},
+		},
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeWorkflowRuns),
+		GoType:         reflect.TypeFor[*WorkflowRunsQuery](),
+		Examples: []data.QueryExample{
+			{
+				Name: "WorkflowRunsQuery",
+				SaveModel: data.AsUnstructured(WorkflowRunsQuery{
+					Query:   common,
+					Options: WorkflowRunsOptions{},
+				}),
+			},
+		},
+	}, schemabuilder.QueryTypeInfo{
+		Discriminators: data.NewDiscriminators("queryType", QueryTypeDeployments),
+		GoType:         reflect.TypeFor[*DeploymentsQuery](),
+		Examples: []data.QueryExample{
+			{
+				Name: "DeploymentsQuery",
+				SaveModel: data.AsUnstructured(DeploymentsQuery{
+					Query:   common,
+					Options: ListDeploymentsOptions{},
+				}),
+			},
+		},
+		// }, schemabuilder.QueryTypeInfo{
+		// 	Discriminators: data.NewDiscriminators("queryType", QueryTypeOrganizations),
+		// 	GoType:         reflect.TypeFor[*OrganizationsQuery](),
+		// 	Examples: []data.QueryExample{
+		// 		{
+		// 			Name:      "OrganizationsQuery",
+		// 			SaveModel: data.AsUnstructured(OrganizationsQuery{}),
+		// 		},
+		// 	},
+		// }, schemabuilder.QueryTypeInfo{
+		// 	Discriminators: data.NewDiscriminators("queryType", QueryTypeProjects),
+		// 	GoType:         reflect.TypeFor[*ProjectsQuery](),
+		// 	Examples: []data.QueryExample{
+		// 		{
+		// 			Name: "ProjectsQuery",
+		// 			SaveModel: data.AsUnstructured(ProjectsQuery{
+		// 				Options: ProjectOptions{},
+		// 			}),
+		// 		},
+		// 	},
+		// }, schemabuilder.QueryTypeInfo{
+		// 	Discriminators: data.NewDiscriminators("queryType", QueryTypeGraphQL),
+		// 	GoType:         reflect.TypeFor[*GraphQLQuery](),
+		// 	Examples: []data.QueryExample{
+		// 		{
+		// 			Name: "GraphQLQuery",
+		// 			SaveModel: data.AsUnstructured(GraphQLQuery{
+		// 				Query:   common,
+		// 				Options: ListDeploymentsOptions{},
+		// 			}),
+		// 		},
+		// 	},
 	},
 	)
 

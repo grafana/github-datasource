@@ -123,11 +123,11 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 		if q.QueryType != string(models.QueryTypePullRequests) {
 			t.Errorf("queryType: got %q, want %q", q.QueryType, models.QueryTypePullRequests)
 		}
-		var raw map[string]interface{}
+		var raw map[string]any
 		if err := json.Unmarshal(q.JSON, &raw); err != nil {
 			t.Fatal(err)
 		}
-		if raw["queryType"] != models.QueryTypePullRequests {
+		if raw["queryType"] != string(models.QueryTypePullRequests) {
 			t.Errorf("JSON queryType: got %v", raw["queryType"])
 		}
 		if raw["owner"] != "grafana" || raw["repository"] != "grafana" {

@@ -2,7 +2,7 @@
   "kind": "QueryTypeDefinitionList",
   "apiVersion": "datasource.grafana.app/v0alpha1",
   "metadata": {
-    "resourceVersion": "1709529769877"
+    "resourceVersion": "1775589227943"
   },
   "items": [
     {
@@ -974,6 +974,453 @@
                 "owner": "",
                 "repository": "",
                 "workflow": ""
+              },
+              "owner": "grafana",
+              "repository": "github-datasource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Code_Scanning",
+        "resourceVersion": "1775589227943",
+        "creationTimestamp": "2026-04-07T19:13:47Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Code_Scanning"
+          }
+        ],
+        "schema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "CodeScanningQuery is used when querying code scanning alerts for a repository",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "gitRef": {
+                  "description": "Ref is the Git reference for the results we want to list.\nThe ref for a branch can be formatted either as refs/heads/\u003cbranch name\u003e or simply \u003cbranch name\u003e.\nTo reference a pull request use refs/pull/\u003cnumber\u003e/merge.",
+                  "type": "string"
+                },
+                "owner": {
+                  "description": "Owner is the owner of the repository (ex: grafana)",
+                  "type": "string"
+                },
+                "repository": {
+                  "description": "Repository is the name of the repository being queried (ex: grafana)",
+                  "type": "string"
+                },
+                "state": {
+                  "description": "State is the state of the code scanning alerts. Can be one of: open, closed, dismissed, fixed.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "repository",
+                "state",
+                "gitRef"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "CodeScanningQuery",
+            "saveModel": {
+              "options": {
+                "gitRef": "",
+                "owner": "",
+                "repository": "",
+                "state": ""
+              },
+              "owner": "grafana",
+              "repository": "github-datasource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Commit_Files",
+        "resourceVersion": "1775589227943",
+        "creationTimestamp": "2026-04-07T19:13:47Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Commit_Files"
+          }
+        ],
+        "schema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "CommitFilesQuery is used when querying for files changed in a GitHub commit",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "commitSha": {
+                  "description": "Ref is the commit SHA to retrieve changed files for",
+                  "type": "string"
+                },
+                "owner": {
+                  "type": "string"
+                },
+                "repository": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "repository",
+                "commitSha"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "CommitFilesQuery",
+            "saveModel": {
+              "options": {
+                "commitSha": "",
+                "owner": "",
+                "repository": ""
+              },
+              "owner": "grafana",
+              "repository": "github-datasource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Pull_Request_Reviews",
+        "resourceVersion": "1775589227943",
+        "creationTimestamp": "2026-04-07T19:13:47Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Pull_Request_Reviews"
+          }
+        ],
+        "schema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "PullRequestReviewsQuery is used when querying for GitHub Pull Request Reviews",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "owner": {
+                  "description": "Owner is the owner of the repository (ex: grafana)",
+                  "type": "string"
+                },
+                "query": {
+                  "type": "string"
+                },
+                "repository": {
+                  "description": "Repository is the name of the repository being queried (ex: grafana)",
+                  "type": "string"
+                },
+                "timeField": {
+                  "description": "TimeField defines what time field to filter by",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "repository",
+                "owner",
+                "timeField"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "PullRequestReviewsQuery",
+            "saveModel": {
+              "options": {
+                "owner": "",
+                "repository": "",
+                "timeField": 0
+              },
+              "owner": "grafana",
+              "repository": "github-datasource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Pull_Request_Files",
+        "resourceVersion": "1775589227943",
+        "creationTimestamp": "2026-04-07T19:13:47Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Pull_Request_Files"
+          }
+        ],
+        "schema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "PullRequestFilesQuery is used when querying for files changed in a GitHub pull request",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "owner": {
+                  "type": "string"
+                },
+                "prNumber": {
+                  "description": "PRNumber is the pull request number",
+                  "type": "integer"
+                },
+                "repository": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "repository",
+                "prNumber"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "PullRequestFilesQuery",
+            "saveModel": {
+              "options": {
+                "owner": "",
+                "prNumber": 0,
+                "repository": ""
+              },
+              "owner": "grafana",
+              "repository": "github-datasource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Workflow_Runs",
+        "resourceVersion": "1775589227943",
+        "creationTimestamp": "2026-04-07T19:13:47Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Workflow_Runs"
+          }
+        ],
+        "schema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "WorkflowRunsQuery is used when querying workflow runs for a repository",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "branch": {
+                  "description": "Branch is the branch to filter the runs by.",
+                  "type": "string"
+                },
+                "owner": {
+                  "description": "Owner is the owner of the repository (ex: grafana)",
+                  "type": "string"
+                },
+                "repository": {
+                  "description": "Repository is the name of the repository being queried (ex: grafana)",
+                  "type": "string"
+                },
+                "workflow": {
+                  "description": "Workflow is the id or the workflow file name.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "owner",
+                "repository",
+                "workflow",
+                "branch"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "WorkflowRunsQuery",
+            "saveModel": {
+              "options": {
+                "branch": "",
+                "owner": "",
+                "repository": "",
+                "workflow": ""
+              },
+              "owner": "grafana",
+              "repository": "github-datasource"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "metadata": {
+        "name": "Deployments",
+        "resourceVersion": "1775589227943",
+        "creationTimestamp": "2026-04-07T19:13:47Z"
+      },
+      "spec": {
+        "discriminators": [
+          {
+            "field": "queryType",
+            "value": "Deployments"
+          }
+        ],
+        "schema": {
+          "$schema": "https://json-schema.org/draft-04/schema",
+          "additionalProperties": false,
+          "description": "DeploymentsQuery is used when querying deployments for a repository",
+          "properties": {
+            "options": {
+              "additionalProperties": false,
+              "properties": {
+                "environment": {
+                  "description": "Environment is the name of the environment (e.g., \"production\", \"staging\") to filter by",
+                  "type": "string"
+                },
+                "gitRef": {
+                  "description": "GitRef is the name of the ref (branch, tag, or SHA) to filter by",
+                  "type": "string"
+                },
+                "owner": {
+                  "description": "Owner is the owner of the repository (ex: grafana)",
+                  "type": "string"
+                },
+                "repository": {
+                  "description": "Repository is the name of the repository being queried (ex: grafana)",
+                  "type": "string"
+                },
+                "sha": {
+                  "description": "SHA is the SHA recorded at creation time to filter by",
+                  "type": "string"
+                },
+                "task": {
+                  "description": "Task is the name of the task (e.g., \"deploy\", \"deploy:migrations\") to filter by",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "repository",
+                "owner"
+              ],
+              "type": "object"
+            },
+            "owner": {
+              "type": "string"
+            },
+            "repository": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "repository",
+            "owner",
+            "options"
+          ],
+          "type": "object"
+        },
+        "examples": [
+          {
+            "name": "DeploymentsQuery",
+            "saveModel": {
+              "options": {
+                "owner": "",
+                "repository": ""
               },
               "owner": "grafana",
               "repository": "github-datasource"

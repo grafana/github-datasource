@@ -108,7 +108,9 @@
       "queryType": "Issues",
       "options": {
         "filters": {
-          "states": ["OPEN"]
+          "states": [
+            "OPEN"
+          ]
         },
         "owner": "",
         "repository": "",
@@ -199,6 +201,97 @@
         "owner": "",
         "repository": "",
         "workflow": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "O",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Code_Scanning",
+      "options": {
+        "gitRef": "",
+        "owner": "",
+        "repository": "",
+        "state": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "P",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Commit_Files",
+      "options": {
+        "commitSha": "",
+        "owner": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "Q",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Pull_Request_Reviews",
+      "options": {
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "R",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Pull_Request_Files",
+      "options": {
+        "owner": "",
+        "prNumber": 0,
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "S",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Workflow_Runs",
+      "options": {
+        "branch": "",
+        "owner": "",
+        "repository": "",
+        "workflow": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "T",
+      "datasource": {
+        "type": "grafana-github-datasource",
+        "uid": "TheUID"
+      },
+      "queryType": "Deployments",
+      "options": {
+        "owner": "",
+        "repository": ""
       },
       "owner": "grafana",
       "repository": "github-datasource"

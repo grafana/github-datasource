@@ -177,6 +177,85 @@
       },
       "owner": "grafana",
       "repository": "github-datasource"
+    },
+    {
+      "refId": "O",
+      "queryType": "Code_Scanning",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "gitRef": "",
+        "owner": "",
+        "repository": "",
+        "state": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "P",
+      "queryType": "Commit_Files",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "commitSha": "",
+        "owner": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "Q",
+      "queryType": "Pull_Request_Reviews",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "owner": "",
+        "repository": "",
+        "timeField": 0
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "R",
+      "queryType": "Pull_Request_Files",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "owner": "",
+        "prNumber": 0,
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "S",
+      "queryType": "Workflow_Runs",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "branch": "",
+        "owner": "",
+        "repository": "",
+        "workflow": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
+    },
+    {
+      "refId": "T",
+      "queryType": "Deployments",
+      "maxDataPoints": 1000,
+      "intervalMs": 5,
+      "options": {
+        "owner": "",
+        "repository": ""
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
     }
   ]
 }
