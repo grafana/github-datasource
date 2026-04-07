@@ -108,9 +108,7 @@
       "queryType": "Issues",
       "options": {
         "filters": {
-          "states": [
-            "OPEN"
-          ]
+          "states": ["OPEN"]
         },
         "owner": "",
         "repository": "",

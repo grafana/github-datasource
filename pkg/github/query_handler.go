@@ -6,10 +6,9 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
-
-	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // QueryHandler is the main handler for datasource queries.
