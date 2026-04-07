@@ -7,26 +7,27 @@
       "queryType": "Pull_Requests",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
       "options": {
         "owner": "",
         "repository": "",
         "timeField": 0
       },
-      "owner": "grafana"
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
       "refId": "B",
       "queryType": "Commits",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
       "options": {
         "gitRef": "",
+        "includeFiles": false,
         "owner": "",
         "repository": ""
       },
-      "owner": "grafana"
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
       "refId": "C",
@@ -82,16 +83,14 @@
       "queryType": "Repositories",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "",
-      "owner": "yesoreyeram"
+      "owner": "yesoreyeram",
+      "repository": ""
     },
     {
       "refId": "H",
       "queryType": "Issues",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "owner": "grafana",
-      "repository": "github-datasource",
       "options": {
         "filters": {
           "states": [
@@ -101,7 +100,9 @@
         "owner": "",
         "repository": "",
         "timeField": 0
-      }
+      },
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
       "refId": "I",
@@ -135,21 +136,20 @@
       "queryType": "Vulnerabilities",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
       "options": {
         "owner": "",
-        "query": "",
         "repository": ""
       },
-      "owner": "grafana"
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
       "refId": "L",
       "queryType": "Stargazers",
       "maxDataPoints": 1000,
       "intervalMs": 5,
-      "repository": "github-datasource",
-      "owner": "grafana"
+      "owner": "grafana",
+      "repository": "github-datasource"
     },
     {
       "refId": "M",
@@ -170,12 +170,13 @@
       "maxDataPoints": 1000,
       "intervalMs": 5,
       "options": {
+        "branch": "",
         "owner": "",
         "repository": "",
         "workflow": ""
       },
-      "repository": "github-datasource",
-      "owner": "grafana"
+      "owner": "grafana",
+      "repository": "github-datasource"
     }
   ]
 }

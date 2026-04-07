@@ -4,10 +4,11 @@ import (
 	"reflect"
 	"testing"
 
-	data "github.com/grafana/grafana-plugin-sdk-go/experimental/apis/data/v0alpha1"
-	"github.com/grafana/grafana-plugin-sdk-go/experimental/schemabuilder"
 	"github.com/shurcooL/githubv4"
 	"github.com/stretchr/testify/require"
+
+	data "github.com/grafana/grafana-plugin-sdk-go/experimental/apis/datasource/v0alpha1"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/schemabuilder"
 )
 
 func TestSchemaDefinitions(t *testing.T) {

@@ -28,13 +28,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -136,18 +140,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -174,13 +172,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -195,11 +197,15 @@
                 "required": [
                   "repository",
                   "owner",
-                  "gitRef"
+                  "gitRef",
+                  "includeFiles"
                 ],
                 "properties": {
                   "gitRef": {
                     "type": "string"
+                  },
+                  "includeFiles": {
+                    "type": "boolean"
                   },
                   "owner": {
                     "type": "string"
@@ -276,18 +282,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -314,13 +314,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -414,18 +418,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -452,13 +450,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -557,18 +559,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -595,13 +591,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -695,18 +695,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -733,13 +727,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -836,18 +834,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -873,13 +865,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -955,18 +951,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -993,13 +983,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -1051,6 +1045,9 @@
                         "items": {
                           "type": "string"
                         }
+                      },
+                      "type": {
+                        "type": "string"
                       },
                       "viewerSubscribed": {
                         "type": "boolean"
@@ -1139,18 +1136,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -1177,13 +1168,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -1283,18 +1278,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -1321,13 +1310,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -1426,18 +1419,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -1464,13 +1451,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -1484,16 +1475,11 @@
                 "type": "object",
                 "required": [
                   "repository",
-                  "owner",
-                  "query"
+                  "owner"
                 ],
                 "properties": {
                   "owner": {
                     "description": "Owner is the owner of the repository (ex: grafana)",
-                    "type": "string"
-                  },
-                  "query": {
-                    "description": "Query searches x by name and description",
                     "type": "string"
                   },
                   "repository": {
@@ -1569,18 +1555,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -1606,13 +1586,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -1688,18 +1672,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -1726,13 +1704,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -1831,18 +1813,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false
@@ -1869,13 +1845,17 @@
                   "type"
                 ],
                 "properties": {
+                  "apiVersion": {
+                    "description": "The apiserver version",
+                    "type": "string"
+                  },
                   "type": {
                     "description": "The datasource plugin type",
                     "type": "string",
                     "pattern": "^grafana-github-datasource$"
                   },
                   "uid": {
-                    "description": "Datasource UID",
+                    "description": "Datasource UID (NOTE: name in k8s)",
                     "type": "string"
                   }
                 },
@@ -1890,9 +1870,14 @@
                 "required": [
                   "owner",
                   "repository",
-                  "workflow"
+                  "workflow",
+                  "branch"
                 ],
                 "properties": {
+                  "branch": {
+                    "description": "Branch is the branch to filter the runs by.",
+                    "type": "string"
+                  },
                   "owner": {
                     "description": "Owner is the owner of the repository (ex: grafana)",
                     "type": "string"
@@ -1974,18 +1959,12 @@
                   "from": {
                     "description": "From is the start time of the query.",
                     "type": "string",
-                    "default": "now-6h",
-                    "examples": [
-                      "now-1h"
-                    ]
+                    "default": "now-6h"
                   },
                   "to": {
                     "description": "To is the end time of the query.",
                     "type": "string",
-                    "default": "now",
-                    "examples": [
-                      "now"
-                    ]
+                    "default": "now"
                   }
                 },
                 "additionalProperties": false

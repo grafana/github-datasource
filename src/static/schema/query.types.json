@@ -1,6 +1,6 @@
 {
   "kind": "QueryTypeDefinitionList",
-  "apiVersion": "query.grafana.app/v0alpha1",
+  "apiVersion": "datasource.grafana.app/v0alpha1",
   "metadata": {
     "resourceVersion": "1709529769877"
   },
@@ -82,7 +82,7 @@
     {
       "metadata": {
         "name": "Commits",
-        "resourceVersion": "1709529769877",
+        "resourceVersion": "1775575194984",
         "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
@@ -103,6 +103,9 @@
                 "gitRef": {
                   "type": "string"
                 },
+                "includeFiles": {
+                  "type": "boolean"
+                },
                 "owner": {
                   "type": "string"
                 },
@@ -113,7 +116,8 @@
               "required": [
                 "repository",
                 "owner",
-                "gitRef"
+                "gitRef",
+                "includeFiles"
               ],
               "type": "object"
             },
@@ -137,6 +141,7 @@
             "saveModel": {
               "options": {
                 "gitRef": "",
+                "includeFiles": false,
                 "owner": "",
                 "repository": ""
               },
@@ -461,7 +466,7 @@
     {
       "metadata": {
         "name": "Issues",
-        "resourceVersion": "1709529769877",
+        "resourceVersion": "1775575194984",
         "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
@@ -512,6 +517,9 @@
                         "type": "string"
                       },
                       "type": "array"
+                    },
+                    "type": {
+                      "type": "string"
                     },
                     "viewerSubscribed": {
                       "type": "boolean"
@@ -722,7 +730,7 @@
     {
       "metadata": {
         "name": "Vulnerabilities",
-        "resourceVersion": "1709529769877",
+        "resourceVersion": "1775575194984",
         "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
@@ -744,10 +752,6 @@
                   "description": "Owner is the owner of the repository (ex: grafana)",
                   "type": "string"
                 },
-                "query": {
-                  "description": "Query searches x by name and description",
-                  "type": "string"
-                },
                 "repository": {
                   "description": "Repository is the name of the repository being queried (ex: grafana)",
                   "type": "string"
@@ -755,8 +759,7 @@
               },
               "required": [
                 "repository",
-                "owner",
-                "query"
+                "owner"
               ],
               "type": "object"
             },
@@ -780,7 +783,6 @@
             "saveModel": {
               "options": {
                 "owner": "",
-                "query": "",
                 "repository": ""
               },
               "owner": "grafana",
@@ -906,7 +908,7 @@
     {
       "metadata": {
         "name": "Workflow_Usage",
-        "resourceVersion": "1709529769877",
+        "resourceVersion": "1775575194984",
         "creationTimestamp": "2024-03-04T05:22:49Z"
       },
       "spec": {
@@ -924,6 +926,10 @@
             "options": {
               "additionalProperties": false,
               "properties": {
+                "branch": {
+                  "description": "Branch is the branch to filter the runs by.",
+                  "type": "string"
+                },
                 "owner": {
                   "description": "Owner is the owner of the repository (ex: grafana)",
                   "type": "string"
@@ -940,7 +946,8 @@
               "required": [
                 "owner",
                 "repository",
-                "workflow"
+                "workflow",
+                "branch"
               ],
               "type": "object"
             },
@@ -963,6 +970,7 @@
             "name": "WorkflowUsageQuery",
             "saveModel": {
               "options": {
+                "branch": "",
                 "owner": "",
                 "repository": "",
                 "workflow": ""
