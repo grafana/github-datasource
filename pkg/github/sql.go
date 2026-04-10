@@ -139,8 +139,6 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 				}
 			case models.QueryTypePullRequests, models.QueryTypePullRequestReviews:
 				switch f.Name {
-				case "state":
-					appendEqualitySearchQualifier("state", condition.Operator, values, false)
 				case "author_login":
 					appendEqualitySearchQualifier("author", condition.Operator, values, false)
 				case "labels":
@@ -205,8 +203,27 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 					}
 				}
 			case models.QueryTypeRepositories:
-				if f.Name == "name" && (condition.Operator == schemas.OperatorLike || condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn) {
-					options["repository"] = values[0]
+				appendRepoSearchQualifier := func(qualifier string) {
+					existing, _ := options["repository"].(string)
+					options["repository"] = strings.TrimSpace(existing + " " + qualifier)
+				}
+				switch f.Name {
+				case "name":
+					if condition.Operator == schemas.OperatorLike || condition.Operator == schemas.OperatorEquals || condition.Operator == schemas.OperatorIn {
+						appendRepoSearchQualifier(values[0])
+					}
+				case "is_fork":
+					if condition.Operator == schemas.OperatorEquals && values[0] == "true" {
+						appendRepoSearchQualifier("fork:only")
+					}
+				case "is_private":
+					if condition.Operator == schemas.OperatorEquals {
+						if values[0] == "true" {
+							appendRepoSearchQualifier("is:private")
+						} else {
+							appendRepoSearchQualifier("is:public")
+						}
+					}
 				}
 			}
 		}
@@ -223,6 +240,48 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 	}
 
 	return searchQualifiers
+}
+
+func resolveTimeField(queryType, value string) (any, bool) {
+	switch queryType {
+	case models.QueryTypeIssues:
+		switch value {
+		case "created":
+			return models.IssueCreatedAt, true
+		case "closed":
+			return models.IssueClosedAt, true
+		case "updated":
+			return models.IssueUpdatedAt, true
+		}
+	case models.QueryTypePullRequests, models.QueryTypePullRequestReviews:
+		switch value {
+		case "closed":
+			return models.PullRequestClosedAt, true
+		case "created":
+			return models.PullRequestCreatedAt, true
+		case "merged":
+			return models.PullRequestMergedAt, true
+		case "updated":
+			return models.PullRequestUpdatedAt, true
+		}
+	case models.QueryTypeWorkflows:
+		switch value {
+		case "created":
+			return models.WorkflowCreatedAt, true
+		case "updated":
+			return models.WorkflowUpdatedAt, true
+		}
+	}
+	return 0, false
+}
+
+func defaultTimeField(queryType string) int {
+	switch queryType {
+	case models.QueryTypePullRequests, models.QueryTypePullRequestReviews:
+		return int(models.PullRequestCreatedAt)
+	default:
+		return 0
+	}
 }
 
 func normalizeGrafanaSQLRequest(req *backend.QueryDataRequest) *backend.QueryDataRequest {
@@ -294,6 +353,20 @@ func normalizeGrafanaSQLRequest(req *backend.QueryDataRequest) *backend.QueryDat
 		if v := strings.TrimSpace(anyToString(query.TableParameterValues["workflow"])); v != "" {
 			opts, _ := normalized["options"].(map[string]interface{})
 			opts["workflow"] = v
+		}
+
+		switch queryType {
+		case models.QueryTypeIssues, models.QueryTypePullRequests, models.QueryTypePullRequestReviews, models.QueryTypeWorkflows:
+			opts, _ := normalized["options"].(map[string]interface{})
+			if tfStr := strings.TrimSpace(anyToString(query.TableParameterValues["timeField"])); tfStr != "" {
+				if tf, ok := resolveTimeField(queryType, tfStr); ok {
+					opts["timeField"] = tf
+				} else {
+					opts["timeField"] = defaultTimeField(queryType)
+				}
+			} else {
+				opts["timeField"] = defaultTimeField(queryType)
+			}
 		}
 
 		if len(query.Filters) > 0 {
