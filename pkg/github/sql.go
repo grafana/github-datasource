@@ -242,34 +242,34 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 	return searchQualifiers
 }
 
-func resolveTimeField(queryType, value string) (int, bool) {
+func resolveTimeField(queryType, value string) (any, bool) {
 	switch queryType {
 	case models.QueryTypeIssues:
 		switch value {
 		case "created":
-			return int(models.IssueCreatedAt), true
+			return models.IssueCreatedAt, true
 		case "closed":
-			return int(models.IssueClosedAt), true
+			return models.IssueClosedAt, true
 		case "updated":
-			return int(models.IssueUpdatedAt), true
+			return models.IssueUpdatedAt, true
 		}
 	case models.QueryTypePullRequests, models.QueryTypePullRequestReviews:
 		switch value {
 		case "closed":
-			return int(models.PullRequestClosedAt), true
+			return models.PullRequestClosedAt, true
 		case "created":
-			return int(models.PullRequestCreatedAt), true
+			return models.PullRequestCreatedAt, true
 		case "merged":
-			return int(models.PullRequestMergedAt), true
+			return models.PullRequestMergedAt, true
 		case "updated":
-			return int(models.PullRequestUpdatedAt), true
+			return models.PullRequestUpdatedAt, true
 		}
 	case models.QueryTypeWorkflows:
 		switch value {
 		case "created":
-			return int(models.WorkflowCreatedAt), true
+			return models.WorkflowCreatedAt, true
 		case "updated":
-			return int(models.WorkflowUpdatedAt), true
+			return models.WorkflowUpdatedAt, true
 		}
 	}
 	return 0, false
