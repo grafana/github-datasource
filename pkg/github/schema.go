@@ -379,8 +379,8 @@ func getAllTables() []schemas.Table {
 				{Name: "cvssScore", Type: schemas.ColumnTypeFloat64},
 				{Name: "cvssVector", Type: schemas.ColumnTypeString},
 				{Name: "permalink", Type: schemas.ColumnTypeString},
-				{Name: "severity", Type: schemas.ColumnTypeString, Operators: equalityOperators},
-				{Name: "state", Type: schemas.ColumnTypeString, Operators: equalityOperators},
+				{Name: "severity", Type: schemas.ColumnTypeString},
+				{Name: "state", Type: schemas.ColumnTypeString},
 			},
 		},
 		{

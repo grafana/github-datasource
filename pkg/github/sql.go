@@ -139,8 +139,6 @@ func applyFilters(queryType string, options map[string]interface{}, filters []sc
 				}
 			case models.QueryTypePullRequests, models.QueryTypePullRequestReviews:
 				switch f.Name {
-				case "state":
-					appendEqualitySearchQualifier("state", condition.Operator, values, false)
 				case "author_login":
 					appendEqualitySearchQualifier("author", condition.Operator, values, false)
 				case "labels":
