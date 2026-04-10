@@ -361,6 +361,8 @@ func normalizeGrafanaSQLRequest(req *backend.QueryDataRequest) *backend.QueryDat
 			if tfStr := strings.TrimSpace(anyToString(query.TableParameterValues["timeField"])); tfStr != "" {
 				if tf, ok := resolveTimeField(queryType, tfStr); ok {
 					opts["timeField"] = tf
+				} else {
+					opts["timeField"] = defaultTimeField(queryType)
 				}
 			} else {
 				opts["timeField"] = defaultTimeField(queryType)
