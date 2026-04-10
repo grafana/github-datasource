@@ -236,7 +236,7 @@ func getAllTables() []schemas.Table {
 				{Name: "additions", Type: schemas.ColumnTypeInt64},
 				{Name: "deletions", Type: schemas.ColumnTypeInt64},
 				{Name: "repository", Type: schemas.ColumnTypeString},
-				{Name: "state", Type: schemas.ColumnTypeEnum, Values: []string{"OPEN", "CLOSED", "MERGED"}, Operators: equalityOperators},
+				{Name: "state", Type: schemas.ColumnTypeEnum, Values: []string{"OPEN", "CLOSED", "MERGED"}},
 				{Name: "author_name", Type: schemas.ColumnTypeString},
 				{Name: "author_login", Type: schemas.ColumnTypeString, Operators: equalityOperators},
 				{Name: "author_email", Type: schemas.ColumnTypeString},
