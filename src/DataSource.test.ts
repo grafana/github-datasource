@@ -2,7 +2,7 @@ import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, toData
 import { lastValueFrom, of } from 'rxjs';
 import { GithubVariableSupport } from 'variables';
 import { GitHubDataSource } from 'DataSource';
-import type { GitHubVariableQuery } from 'types/query';
+import type { GitHubQuery, GitHubVariableQuery } from 'types/query';
 
 describe('DataSource', () => {
   describe('GithubVariableSupport', () => {
@@ -20,7 +20,7 @@ describe('DataSource', () => {
       const vs = new GithubVariableSupport(ds);
       const query = {} as GitHubVariableQuery;
       jest.spyOn(ds, 'query').mockReturnValue(of({ data: [] }));
-      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest));
+      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest<GitHubQuery>));
       expect(res?.data.map((d) => d.value)).toEqual([]);
       expect(res?.data.map((d) => d.text)).toEqual([]);
     });
@@ -29,7 +29,7 @@ describe('DataSource', () => {
       const vs = new GithubVariableSupport(ds);
       const query = {} as GitHubVariableQuery;
       jest.spyOn(ds, 'query').mockReturnValue(of({} as DataQueryResponse));
-      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest));
+      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest<GitHubQuery>));
       expect(res?.data.map((d) => d.value)).toEqual([]);
       expect(res?.data.map((d) => d.text)).toEqual([]);
     });
@@ -39,7 +39,7 @@ describe('DataSource', () => {
       const query = { key: 'test', field: 'test' } as GitHubVariableQuery;
       const data = [toDataFrame({ fields: [{ name: 'test', values: ['value1', 'value2'] }] })];
       jest.spyOn(ds, 'query').mockReturnValue(of({ data }));
-      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest));
+      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest<GitHubQuery>));
       expect(res?.data.map((d) => d.value)).toEqual(['value1', 'value2']);
       expect(res?.data.map((d) => d.text)).toEqual(['value1', 'value2']);
     });
@@ -49,7 +49,7 @@ describe('DataSource', () => {
       const query = { key: 'foo' } as GitHubVariableQuery;
       const data = SAMPLE_RESPONSE_WITH_MULTIPLE_FIELDS;
       jest.spyOn(ds, 'query').mockReturnValue(of({ data }));
-      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest));
+      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest<GitHubQuery>));
       expect(res?.data.map((d) => d.value)).toEqual(['foo1', 'foo2']);
       expect(res?.data.map((d) => d.text)).toEqual(['foo1', 'foo2']);
     });
@@ -59,7 +59,7 @@ describe('DataSource', () => {
       const query = { key: 'bar', field: 'foo' } as GitHubVariableQuery;
       const data = SAMPLE_RESPONSE_WITH_MULTIPLE_FIELDS;
       jest.spyOn(ds, 'query').mockReturnValue(of({ data }));
-      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest));
+      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest<GitHubQuery>));
       expect(res?.data.map((d) => d.value)).toEqual(['bar1', 'bar2']);
       expect(res?.data.map((d) => d.text)).toEqual(['foo1', 'foo2']);
     });
@@ -69,7 +69,7 @@ describe('DataSource', () => {
       const query = { field: 'foo' } as GitHubVariableQuery;
       const data = SAMPLE_RESPONSE_WITH_MULTIPLE_FIELDS;
       jest.spyOn(ds, 'query').mockReturnValue(of({ data }));
-      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest));
+      const res = await lastValueFrom(vs.query({ targets: [query] } as DataQueryRequest<GitHubQuery>));
       expect(res?.data.map((d) => d.value)).toEqual(['foo1', 'foo2']);
       expect(res?.data.map((d) => d.text)).toEqual(['foo1', 'foo2']);
     });

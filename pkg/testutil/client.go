@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	googlegithub "github.com/google/go-github/v81/github"
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 
 	"github.com/grafana/github-datasource/pkg/models"
@@ -84,5 +84,15 @@ func (c *TestClient) ListDeployments(ctx context.Context, owner, repo string, op
 
 // ListAllOrgRepositories is not implemented because it is not being used in tests at the moment.
 func (c *TestClient) ListAllOrgRepositories(ctx context.Context, opts *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// GetCommitFiles is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) GetCommitFiles(ctx context.Context, owner, repo, sha string, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// ListPullRequestFiles is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
 	panic("unimplemented")
 }

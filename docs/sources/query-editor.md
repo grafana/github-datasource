@@ -32,6 +32,7 @@ This document describes the query types and response fields available in the Git
 Select a query type from the **Query Type** drop-down in the query editor:
 
 - [**Code scanning**](#code-scanning): Query code scanning alerts for a repository or organization.
+- [**Commit files**](#commit-files): List files changed in a specific commit.
 - [**Commits**](#commits): Retrieve a list of commits for a branch or ref within a repository, including commit message, author, and timestamp.
 - [**Contributors**](#contributors): Get a list of contributors to a repository.
 - [**Deployments**](#deployments): List deployments for a repository, including environment, ref, and task information.
@@ -40,6 +41,7 @@ Select a query type from the **Query Type** drop-down in the query editor:
 - [**Milestones**](#milestones): Retrieve milestones for a repository, which can be used to group issues and pull requests.
 - [**Packages**](#packages): List packages published from a repository in an organization.
 - [**Projects**](#projects): List projects associated with a user or organization.
+- [**Pull request files**](#pull-request-files): List files changed in a specific pull request.
 - [**Pull requests**](#pull-requests): List pull requests for a repository, using the GitHub query syntax to filter the response.
 - [**Pull request reviews**](#pull-request-reviews): List reviews for pull requests in a repository.
 - [**Releases**](#releases): List created releases for a repository.
@@ -117,6 +119,7 @@ Retrieve a list of commits for a branch or ref within a repository, including co
 | Owner | The GitHub user or organization that owns the repository | Yes |
 | Repository | The name of the repository | Yes |
 | Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
+| Include files | Enrich commits with their changed files. Refer to [Response with Include files enabled](#response-with-include-files-enabled). | No |
 
 ##### Sample queries
 
@@ -144,6 +147,60 @@ Show all commits against a tag:
 | committed_at | When the change was committed: YYYY-MM-DD HH:MM:SS |
 | pushed_at | When the commit was pushed: YYYY-MM-DD HH:MM:SS |
 | message | The commit message |
+
+#### Response with Include files enabled
+
+{{< admonition type="warning" >}}
+This option makes one additional API call per commit. Avoid enabling it over large time ranges to prevent rate limiting.
+{{< /admonition >}}
+
+When **Include files** is enabled, the response changes to a flattened table with one row per commit per changed file:
+
+| Name | Description |
+|------|-------------|
+| id | Commit ID |
+| author | Name of the commit author |
+| author_login | GitHub handle of the commit author |
+| author_email | Email address of the commit author |
+| author_company | Company name of the commit author |
+| committed_at | When the change was committed: YYYY-MM-DD HH:MM:SS |
+| pushed_at | When the commit was pushed: YYYY-MM-DD HH:MM:SS |
+| message | The commit message |
+| file_path | Path of the changed file |
+| file_additions | Number of lines added in this file |
+| file_deletions | Number of lines deleted in this file |
+| file_changes | Total number of line changes in this file |
+| file_status | Change type: `added`, `modified`, `renamed`, etc. |
+| previous_filename | Original path for renamed files |
+
+### Commit files
+
+List files changed in a specific commit.
+
+{{< admonition type="note" >}}
+The GitHub API returns at most 300 files for a single commit.
+{{< /admonition >}}
+
+#### Query options
+
+| Name | Description | Required |
+|------|-------------|----------|
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Commit SHA | The SHA of the commit to retrieve changed files for | Yes |
+
+#### Response
+
+The response includes one row per changed file:
+
+| Name | Description |
+|------|-------------|
+| path | Path of the changed file |
+| additions | Number of lines added |
+| deletions | Number of lines deleted |
+| changes | Total number of line changes |
+| status | Change type: `added`, `modified`, `renamed`, etc. |
+| previous_filename | Original path for renamed files |
 
 ### Contributors
 
@@ -542,6 +599,31 @@ Show open pull requests with a specific label:
 | created_at | When the pull request was created: YYYY-MM-DD HH:MM:SS |
 | open_time | Duration in seconds the pull request has been open |
 | labels | Array of labels assigned to the pull request, for example: `["bug", "priority/high"]` |
+
+### Pull request files
+
+List all files changed in a specific pull request.
+
+#### Query options
+
+| Name | Description | Required |
+|------|-------------|----------|
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Pull Request Number | The number of the pull request | Yes |
+
+#### Response
+
+The response includes one row per changed file:
+
+| Name | Description |
+|------|-------------|
+| path | Path of the changed file |
+| additions | Number of lines added |
+| deletions | Number of lines deleted |
+| changes | Total number of line changes |
+| status | Change type: `added`, `modified`, `renamed`, etc. |
+| previous_filename | Original path for renamed files |
 
 ### Pull request reviews
 

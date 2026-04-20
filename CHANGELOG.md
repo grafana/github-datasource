@@ -1,5 +1,34 @@
 # Change Log
 
+## 2.8.1
+
+⚙️ Updating experimental schemas.
+
+⚙️ Updated frontend & backend dependencies
+
+## 2.8.0
+
+### Minor Changes
+
+🚀 Add additional commit types that enable users to query for file changes alongside pull request or commit queries
+🚀 minimum required Grafana version is now set to 11.6.7
+
+### Patch Changes
+
+🐛 Updated query editor to use EditorField component for consistency with other plugins
+🐛 Migrated select component to combobox
+🐛 Chore: strict query type options
+
+## 2.7.2
+
+⚙️ Updating experimental schemas.
+
+⚙️ Updated frontend & backend dependencies
+
+## 2.7.1
+
+⚙️ Updating experimental schemas.
+
 ## 2.7.0
 
 🚀 Adding support for experimental schemas.

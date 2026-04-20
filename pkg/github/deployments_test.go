@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	googlegithub "github.com/google/go-github/v81/github"
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
@@ -51,6 +51,12 @@ func (m *mockDeploymentsClient) ListDeployments(ctx context.Context, owner, repo
 }
 
 func (m *mockDeploymentsClient) ListAllOrgRepositories(ctx context.Context, opts *googlegithub.ListOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+func (m *mockDeploymentsClient) GetCommitFiles(_ context.Context, _, _, _ string, _ *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+func (m *mockDeploymentsClient) ListPullRequestFiles(_ context.Context, _, _ string, _ int, _ *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
 	return nil, nil, nil
 }
 
