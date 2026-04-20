@@ -119,7 +119,7 @@ Retrieve a list of commits for a branch or ref within a repository, including co
 | Owner | The GitHub user or organization that owns the repository | Yes |
 | Repository | The name of the repository | Yes |
 | Ref (Branch/Tag) | The branch or tag to list commits against | Yes |
-| Include files | Enrich commits with their changed files. Refer to [Response with Include files enabled](#response-with-include-files-enabled). | No |
+| Include files | Include file-level change details for each commit. For details, refer to [Response with Include files enabled](#response-with-include-files-enabled). | No |
 
 ##### Sample queries
 
@@ -154,7 +154,7 @@ Show all commits against a tag:
 This option makes one additional API call per commit. Avoid enabling it over large time ranges to prevent rate limiting.
 {{< /admonition >}}
 
-When **Include files** is enabled, the response changes to a flattened table with one row per commit per changed file:
+When **Include files** is enabled, the response returns one row for each changed file in each commit:
 
 | Name | Description |
 |------|-------------|
@@ -187,7 +187,7 @@ The GitHub API returns at most 300 files for a single commit.
 |------|-------------|----------|
 | Owner | The GitHub user or organization that owns the repository | Yes |
 | Repository | The name of the repository | Yes |
-| Commit SHA | The SHA of the commit to retrieve changed files for | Yes |
+| Commit SHA | The SHA of the target commit | Yes |
 
 #### Response
 
