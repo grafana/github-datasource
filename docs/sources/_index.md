@@ -35,7 +35,7 @@ Watch the following video to learn more about setting up the GitHub data source 
 To use the GitHub data source plugin, you need:
 
 - A [GitHub](https://github.com/) account or a [GitHub Enterprise](https://github.com/enterprise) account.
-- Grafana version 10.4.8 or later (OSS, Enterprise, or Cloud).
+- Grafana version 11.6.7 or later (OSS, Enterprise, or Cloud).
 
 ## Key capabilities
 
