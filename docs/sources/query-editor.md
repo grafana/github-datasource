@@ -918,6 +918,7 @@ Show workflow runs for a specific branch (useful for monitoring release branch C
 | head_sha | Commit SHA that triggered the workflow run |
 | created_at | When the workflow run was created: YYYY-MM-DD HH:MM:SS |
 | updated_at | When the workflow run was last updated: YYYY-MM-DD HH:MM:SS |
+| run_started_at | When the workflow run started executing: YYYY-MM-DD HH:MM:SS |
 | html_url | URL to the workflow run in the GitHub web UI |
 | url | API URL for the workflow run |
 | status | Current status: `queued`, `in_progress`, `completed`, `waiting`, `requested`, or `pending` |

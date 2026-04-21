@@ -41,7 +41,7 @@ To use the GitHub data source plugin, you need:
 
 The GitHub data source supports:
 
-- **Query 19 resource types:** Commits, issues, pull requests, pull request reviews, workflows, workflow runs, deployments, code scanning alerts, and more.
+- **Query 20+ resource types:** Commits, issues, pull requests, pull request reviews, workflows, workflow runs, deployments, code scanning alerts, and more.
 - **Template variables and macros:** Create dynamic, reusable dashboards with variable-driven queries and built-in macros.
 - **Annotations:** Overlay GitHub events (commits, issues, pull requests, releases, tags) on dashboard panels.
 - **Alerting:** Create alert rules based on GitHub query results.
