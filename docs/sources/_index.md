@@ -1,7 +1,7 @@
 ---
 aliases:
   - ./sample-dashboards/
-title:  GitHub data source
+title: GitHub data source
 menuTitle: GitHub data source
 description: The GitHub data source lets you visualize GitHub data in Grafana dashboards.
 keywords:
