@@ -25,7 +25,7 @@ review_date: "2026-03-11"
 
 # GitHub query editor
 
-This document describes the query types and response fields available in the GitHub data source query editor. All query types share common **Owner** and **Repository** fields, and some support additional filtering through the **Query** field using [GitHub search syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
+This document describes the query types and response fields available in the GitHub data source query editor. Most query types use common **Owner** and **Repository** fields, and some support additional filtering through the **Query** field using [GitHub search syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests).
 
 ## Query types
 
