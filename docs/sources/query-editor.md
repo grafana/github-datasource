@@ -579,7 +579,7 @@ Show open pull requests with a specific label:
 | additions | Total number of lines of code added or altered in the pull request |
 | deletions | Total number of lines of code removed or altered in the pull request |
 | repository | Repository for the pull request |
-| state | Can be `open`, `closed`, or `merged` |
+| state | Can be `OPEN`, `CLOSED`, or `MERGED` |
 | author_name | Name of the GitHub user who created the pull request |
 | author_login | GitHub handle of the GitHub user who created the pull request |
 | author_email | Email address of the GitHub user who created the pull request |
