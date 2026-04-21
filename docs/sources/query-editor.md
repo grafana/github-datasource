@@ -346,7 +346,7 @@ Show issues created in the last 7 days using the `$__toDay` macro:
 | author_company | Company name of the commit author |
 | repo | Issue repository |
 | number | Issue number |
-| state | Issue state: `OPEN` or `CLOSED` |
+| state | Issue state: `open` or `closed` |
 | closed | `true` or `false` |
 | created_at | When the issue was created: YYYY-MM-DD HH:MM:SS |
 | closed_at | When the issue was closed: YYYY-MM-DD HH:MM:SS |
