@@ -96,7 +96,7 @@
     "@openfeature/core": "1.9.2",
     "serialize-javascript": "7.0.5",
     "i18next": "26.0.4",
-    "dompurify": "3.3.3"
+    "dompurify": "3.4.0"
   },
   "packageManager": "yarn@4.13.0"
 }
