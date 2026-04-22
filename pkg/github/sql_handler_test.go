@@ -6,12 +6,13 @@ import (
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/config"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/featuretoggles"
 )
 
 func pluginCtxWithFeatureToggle() backend.PluginContext {
 	return backend.PluginContext{
-		GrafanaConfig: backend.NewGrafanaCfg(map[string]string{
+		GrafanaConfig: config.NewGrafanaCfg(map[string]string{
 			featuretoggles.EnabledFeatures: "dsAbstractionApp",
 		}),
 	}
@@ -808,7 +809,7 @@ func TestNormalizeGrafanaSQLRequestWithoutFeatureToggle(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana"}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: backend.PluginContext{
-				GrafanaConfig: backend.NewGrafanaCfg(map[string]string{}),
+				GrafanaConfig: config.NewGrafanaCfg(map[string]string{}),
 			},
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
@@ -827,7 +828,7 @@ func TestNormalizeGrafanaSQLRequestWithoutFeatureToggle(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","queryType":"Pull_Requests","owner":"grafana","repository":"grafana"}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: backend.PluginContext{
-				GrafanaConfig: backend.NewGrafanaCfg(map[string]string{}),
+				GrafanaConfig: config.NewGrafanaCfg(map[string]string{}),
 			},
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: queryJSON},
@@ -847,7 +848,7 @@ func TestNormalizeGrafanaSQLRequestWithoutFeatureToggle(t *testing.T) {
 		normalQueryJSON := []byte(`{"refId":"B","queryType":"Pull_Requests","owner":"grafana","repository":"grafana"}`)
 		req := &backend.QueryDataRequest{
 			PluginContext: backend.PluginContext{
-				GrafanaConfig: backend.NewGrafanaCfg(map[string]string{}),
+				GrafanaConfig: config.NewGrafanaCfg(map[string]string{}),
 			},
 			Queries: []backend.DataQuery{
 				{RefID: "A", JSON: sqlQueryJSON},
