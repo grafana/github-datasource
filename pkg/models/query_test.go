@@ -52,7 +52,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeTags),
 		GoType:         reflect.TypeFor[*TagsQuery](),
 		Examples: []data.QueryExample{
@@ -64,7 +64,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeLabels),
 		GoType:         reflect.TypeFor[*LabelsQuery](),
 		Examples: []data.QueryExample{
@@ -76,7 +76,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeReleases),
 		GoType:         reflect.TypeFor[*ReleasesQuery](),
 		Examples: []data.QueryExample{
@@ -88,7 +88,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeContributors),
 		GoType:         reflect.TypeFor[*ContributorsQuery](),
 		Examples: []data.QueryExample{
@@ -100,7 +100,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeRepositories),
 		GoType:         reflect.TypeFor[*RepositoriesQuery](),
 		Examples: []data.QueryExample{
@@ -113,7 +113,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeIssues),
 		GoType:         reflect.TypeFor[*IssuesQuery](),
 		Examples: []data.QueryExample{
@@ -131,7 +131,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypePackages),
 		GoType:         reflect.TypeFor[*PackagesQuery](),
 		Examples: []data.QueryExample{
@@ -145,7 +145,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeMilestones),
 		GoType:         reflect.TypeFor[*MilestonesQuery](),
 		Examples: []data.QueryExample{
@@ -156,7 +156,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeVulnerabilities),
 		GoType:         reflect.TypeFor[*VulnerabilityQuery](),
 		Examples: []data.QueryExample{
@@ -167,7 +167,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeStargazers),
 		GoType:         reflect.TypeFor[*StargazersQuery](),
 		Examples: []data.QueryExample{
@@ -178,7 +178,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeWorkflows),
 		GoType:         reflect.TypeFor[*WorkflowsQuery](),
 		Examples: []data.QueryExample{
@@ -190,7 +190,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeWorkflowUsage),
 		GoType:         reflect.TypeFor[*WorkflowUsageQuery](),
 		Examples: []data.QueryExample{
@@ -202,7 +202,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeCodeScanning),
 		GoType:         reflect.TypeFor[*CodeScanningQuery](),
 		Examples: []data.QueryExample{
@@ -214,7 +214,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeCommitFiles),
 		GoType:         reflect.TypeFor[*CommitFilesQuery](),
 		Examples: []data.QueryExample{
@@ -226,7 +226,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypePullRequestReviews),
 		GoType:         reflect.TypeFor[*PullRequestReviewsQuery](),
 		Examples: []data.QueryExample{
@@ -238,7 +238,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypePullRequestFiles),
 		GoType:         reflect.TypeFor[*PullRequestFilesQuery](),
 		Examples: []data.QueryExample{
@@ -250,7 +250,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeWorkflowRuns),
 		GoType:         reflect.TypeFor[*WorkflowRunsQuery](),
 		Examples: []data.QueryExample{
@@ -262,7 +262,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeDeployments),
 		GoType:         reflect.TypeFor[*DeploymentsQuery](),
 		Examples: []data.QueryExample{

@@ -557,10 +557,6 @@ func getAllTables() []schemas.Table {
 	}
 }
 
-func normalizeTableNames(table models.QueryType) string {
-	return strings.ToLower(strings.ReplaceAll(string(table), "_", "-"))
-}
-
 func timeFieldValuesForTable(tableName string) []string {
 	switch tableName {
 	case normalizeTableNames(models.QueryTypeIssues):
@@ -572,4 +568,8 @@ func timeFieldValuesForTable(tableName string) []string {
 		return []string{"created", "updated"}
 	}
 	return nil
+}
+
+func normalizeTableNames(table models.QueryType) string {
+	return strings.ToLower(strings.ReplaceAll(string(table), "_", "-"))
 }
