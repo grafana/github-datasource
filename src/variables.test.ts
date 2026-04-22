@@ -1,5 +1,5 @@
 import { replaceVariables } from './variables';
-import { GitHubQuery } from './types';
+import type { GitHubQuery } from './types/query';
 
 describe('variables', () => {
   it('should not interpolate refId', () => {
@@ -9,7 +9,7 @@ describe('variables', () => {
       updateTimeRange: jest.fn(),
       containsTemplate: jest.fn(),
     };
-    const query: GitHubQuery = { refId: 'A', foo: 'bar', foo1: 123.45, query: 'myQuery', foo2: 'bar2' };
+    const query: GitHubQuery = { refId: 'A', foo: 'bar', foo1: 123.45, query: 'myQuery', foo2: 'bar2' } as any as GitHubQuery;
     expect(replaceVariables(t, query, {})).toStrictEqual({ ...query });
     expect(t.replace).toHaveBeenCalledTimes(3);
     expect(t.replace).toHaveBeenNthCalledWith(1, 'bar', {}, undefined);
@@ -31,7 +31,7 @@ describe('variables', () => {
       query: 'myQuery',
       foo2: 'bar2',
       options: { foo: 'options_bar', foo1: 123.45, query: 'options_myQuery', foo2: 'options_bar2' },
-    };
+    } as any as GitHubQuery;
     expect(replaceVariables(t, query, {})).toStrictEqual({ ...query });
     expect(t.replace).toHaveBeenCalledTimes(6);
     expect(t.replace).toHaveBeenNthCalledWith(1, 'bar', {}, undefined);
@@ -54,8 +54,8 @@ describe('variables', () => {
       foo: '$bar',
       query: 'myQuery',
       options: { foo: '$options_bar' },
-    };
-    const result = replaceVariables(t, query, {});
+    } as any as GitHubQuery;
+    const result: any = replaceVariables(t, query, {});
     expect(result['foo']).toBe('bar');
     expect(result.options?.['foo']).toBe('options_bar');
   });

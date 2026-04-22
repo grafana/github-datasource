@@ -6,8 +6,10 @@ import "time"
 type WorkflowTimeField uint32
 
 const (
+	// WorkflowTimeFieldNone indicates no time filtering should be applied
+	WorkflowTimeFieldNone WorkflowTimeField = iota
 	// WorkflowCreatedAt is used when filtering when an workflow was created
-	WorkflowCreatedAt WorkflowTimeField = iota
+	WorkflowCreatedAt
 	// WorkflowUpdatedAt is used when filtering when an Workflow was updated
 	WorkflowUpdatedAt
 )
@@ -34,7 +36,12 @@ type WorkflowUsageOptions struct {
 
 	// Workflow is the id or the workflow file name.
 	Workflow string `json:"workflow"`
+
+	// Branch is the branch to filter the runs by.
+	Branch string `json:"branch"`
 }
+
+type WorkflowRunsOptions = WorkflowUsageOptions
 
 // WorkflowUsage contains a specific workflow usage information.
 type WorkflowUsage struct {
@@ -50,4 +57,5 @@ type WorkflowUsage struct {
 	P95RunDuration     time.Duration
 	RunsPerWeekday     map[time.Weekday]uint64
 	UsagePerRunner     map[string]time.Duration
+	Name               string
 }

@@ -1,14 +1,34 @@
 import { isEmpty } from 'lodash';
-import { GitHubQuery, ProjectQueryType, QueryType } from './types';
+import { ProjectQueryType } from './constants';
+import type { GitHubQuery } from './types/query';
 
 export const isValid = (query: GitHubQuery): boolean => {
-  // The current requirement is that the query has a querytype
-  // TODO: have each option implement a validation function
-  if (query.queryType === QueryType.Projects) {
-    if (isEmpty(query.options?.organization) && query.options?.kind === ProjectQueryType.ORG) {
+  if (query.queryType === "Repositories" || query.queryType === "Code_Scanning") {
+    if (isEmpty(query.owner)) {
       return false;
     }
+  }
+  if (
+    query.queryType === "Commits" ||
+    query.queryType === 'Commit_Files' ||
+    query.queryType === "Contributors" ||
+    query.queryType === "Tags" ||
+    query.queryType === "Releases" ||
+    query.queryType === "Labels" ||
+    query.queryType === "Milestones" ||
+    query.queryType === "Vulnerabilities" ||
+    query.queryType === "Pull_Request_Files" ||
+    query.queryType === "Stargazers"
+  ) {
+    if (isEmpty(query.owner) || isEmpty(query.repository)) {
+      return false;
+    }
+  }
+  if (query.queryType === "Projects") {
     if (isEmpty(query.options?.user) && query.options?.kind === ProjectQueryType.USER) {
+      return false;
+    }
+    if (isEmpty(query.options?.organization)) {
       return false;
     }
   }

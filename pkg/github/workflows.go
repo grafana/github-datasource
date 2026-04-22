@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/go-github/v53/github"
-	googlegithub "github.com/google/go-github/v53/github"
-	"github.com/grafana/github-datasource/pkg/models"
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
+
+	"github.com/grafana/github-datasource/pkg/models"
 )
 
 // WorkflowsWrapper is a list of GitHub workflows
@@ -56,42 +56,74 @@ func GetWorkflows(ctx context.Context, client models.Client, opts models.ListWor
 	}
 
 	// Fetch this many workflows per page because this API endpoint does not allow filtering by time.
-	// It's unlikely a repository will have more workflows than this.
-	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &github.ListOptions{Page: 0, PerPage: 1000})
+	// 100 is the maximum number of workflows that can be retrieved per request as specified in the GitHub API documentation.
+	// Also, it's unlikely a repository will have more workflows than this.
+	data, _, err := client.ListWorkflows(ctx, opts.Owner, opts.Repository, &googlegithub.ListOptions{Page: 1, PerPage: 100})
 	if err != nil {
-		return nil, fmt.Errorf("listing workflows: opts=%+v %w", opts, err)
+		return nil, fmt.Errorf("listing workflows: opts=%+v: %v", opts, err)
 	}
 
+	// If time field is None, return all workflows without filtering
+	if opts.TimeField == models.WorkflowTimeFieldNone {
+		return WorkflowsWrapper(data.Workflows), nil
+	}
+
+	// Otherwise, apply time filtering based on the selected time field
 	workflows, err := keepWorkflowsInTimeRange(data.Workflows, opts.TimeField, timeRange)
 	if err != nil {
-		return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v %w", opts.TimeField, timeRange, err)
+		return nil, fmt.Errorf("filtering workflows by time range: timeField=%d timeRange=%+v: %v", opts.TimeField, timeRange, err)
 	}
 
 	return WorkflowsWrapper(workflows), nil
 }
 
 func keepWorkflowsInTimeRange(workflows []*googlegithub.Workflow, timeField models.WorkflowTimeField, timeRange backend.TimeRange) ([]*googlegithub.Workflow, error) {
+	// If time range is empty/unset, return all workflows (similar to Tags, Releases, etc.)
+	if timeRange.From.Unix() <= 0 && timeRange.To.Unix() <= 0 {
+		return workflows, nil
+	}
+
 	out := make([]*googlegithub.Workflow, 0)
+	nilCount := 0
+	excludedCount := 0
 
 	for _, workflow := range workflows {
+		var shouldInclude bool
+
 		switch timeField {
 		case models.WorkflowCreatedAt:
-			if workflow.CreatedAt.Before(timeRange.From) || workflow.CreatedAt.After(timeRange.To) {
+			if workflow.CreatedAt == nil {
+				// If filtering by CreatedAt but CreatedAt is nil, exclude the workflow
+				nilCount++
 				continue
+			}
+			// Include if CreatedAt is within the time range (inclusive)
+			createdAtTime := workflow.CreatedAt.Time
+			shouldInclude = !createdAtTime.Before(timeRange.From) && !createdAtTime.After(timeRange.To)
+			if !shouldInclude {
+				excludedCount++
 			}
 
 		case models.WorkflowUpdatedAt:
-			if workflow.UpdatedAt != nil {
-				if workflow.UpdatedAt.Before(timeRange.From) || workflow.UpdatedAt.After(timeRange.To) {
-					continue
-				}
+			if workflow.UpdatedAt == nil {
+				// If filtering by UpdatedAt but UpdatedAt is nil, exclude the workflow
+				nilCount++
+				continue
+			}
+			// Include if UpdatedAt is within the time range (inclusive)
+			updatedAtTime := workflow.UpdatedAt.Time
+			shouldInclude = !updatedAtTime.Before(timeRange.From) && !updatedAtTime.After(timeRange.To)
+			if !shouldInclude {
+				excludedCount++
 			}
 
 		default:
-			return nil, fmt.Errorf("unexpected time field: %d", timeField)
+			return nil, backend.DownstreamError(fmt.Errorf("unexpected time field: %d", timeField))
 		}
 
-		out = append(out, workflow)
+		if shouldInclude {
+			out = append(out, workflow)
+		}
 	}
 
 	return out, nil
@@ -104,6 +136,7 @@ type WorkflowUsageWrapper models.WorkflowUsage
 func (usage WorkflowUsageWrapper) Frames() data.Frames {
 	frame := data.NewFrame(
 		"workflow",
+		data.NewField("name", nil, []string{}),
 		data.NewField("unique triggering actors", nil, []uint64{}),
 		data.NewField("runs", nil, []uint64{}),
 		data.NewField("current billing cycle cost (approx.)", nil, []string{}),
@@ -146,6 +179,7 @@ func (usage WorkflowUsageWrapper) Frames() data.Frames {
 
 	frame.InsertRow(
 		0,
+		usage.Name,
 		usage.UniqueActors,
 		usage.Runs,
 		fmt.Sprintf("$ %.2f", usage.CostUSD),
@@ -182,4 +216,65 @@ func GetWorkflowUsage(ctx context.Context, client models.Client, opts models.Wor
 	}
 
 	return WorkflowUsageWrapper(data), nil
+}
+
+// WorkflowRunsWrapper is a list of GitHub workflow runs
+type WorkflowRunsWrapper []*googlegithub.WorkflowRun
+
+// Frames converts the list of workflow runs to a Grafana DataFrame
+func (workflowRuns WorkflowRunsWrapper) Frames() data.Frames {
+	frame := data.NewFrame(
+		"workflow_run",
+		data.NewField("id", nil, []*int64{}),
+		data.NewField("name", nil, []*string{}),
+		data.NewField("head_branch", nil, []*string{}),
+		data.NewField("head_sha", nil, []*string{}),
+		data.NewField("created_at", nil, []*time.Time{}),
+		data.NewField("updated_at", nil, []*time.Time{}),
+		data.NewField("run_started_at", nil, []*time.Time{}),
+		data.NewField("html_url", nil, []*string{}),
+		data.NewField("url", nil, []*string{}),
+		data.NewField("status", nil, []*string{}),
+		data.NewField("conclusion", nil, []*string{}),
+		data.NewField("event", nil, []*string{}),
+		data.NewField("workflow_id", nil, []*int64{}),
+		data.NewField("run_number", nil, []int64{}),
+	)
+
+	for _, workflowRun := range workflowRuns {
+		frame.InsertRow(
+			0,
+			workflowRun.ID,
+			workflowRun.Name,
+			workflowRun.HeadBranch,
+			workflowRun.HeadSHA,
+			workflowRun.CreatedAt.GetTime(),
+			workflowRun.UpdatedAt.GetTime(),
+			workflowRun.RunStartedAt.GetTime(),
+			workflowRun.HTMLURL,
+			workflowRun.URL,
+			workflowRun.Status,
+			workflowRun.Conclusion,
+			workflowRun.Event,
+			workflowRun.WorkflowID,
+			int64(*workflowRun.RunNumber),
+		)
+	}
+
+	frame.Meta = &data.FrameMeta{PreferredVisualization: data.VisTypeTable}
+	return data.Frames{frame}
+}
+
+// GetWorkflowRuns gets all workflows runs for a GitHub repository and workflow
+func GetWorkflowRuns(ctx context.Context, client models.Client, opts models.WorkflowRunsOptions, timeRange backend.TimeRange) (WorkflowRunsWrapper, error) {
+	if opts.Owner == "" || opts.Repository == "" {
+		return nil, nil
+	}
+
+	workflowRuns, err := client.GetWorkflowRuns(ctx, opts.Owner, opts.Repository, opts.Workflow, opts.Branch, timeRange)
+	if err != nil {
+		return nil, err
+	}
+
+	return WorkflowRunsWrapper(workflowRuns), nil
 }

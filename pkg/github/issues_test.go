@@ -49,10 +49,18 @@ func TestIssuesDataframe(t *testing.T) {
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
 			},
+			UpdatedAt: githubv4.DateTime{
+				Time: createdAt,
+			},
 			Closed: false,
-			Author: struct {
-				models.User "graphql:\"... on User\""
-			}{
+			State:  "OPEN",
+			Labels: struct { Nodes []struct{ Name string } }{
+				Nodes: []struct{ Name string }{
+					{ Name: "bug" },
+					{ Name: "help wanted" },
+				},
+			},
+			Author: struct { models.User "graphql:\"... on User\"" }{
 				User: models.User{
 					ID:      "1",
 					Login:   "firstUser",
@@ -62,6 +70,13 @@ func TestIssuesDataframe(t *testing.T) {
 					URL:     "",
 				},
 			},
+			Assignees: struct { Nodes []struct { models.User } }{
+				Nodes: []struct { models.User }{
+					{ User: models.User{ Login: "firstUser" } },
+					{ User: models.User{ Login: "secondUser" } },
+				},
+			},
+			Milestone: struct{ Title string }{Title: "v1.0"},
 			Repository: Repository{
 				Name: "grafana",
 				Owner: struct{ Login string }{
@@ -87,10 +102,17 @@ func TestIssuesDataframe(t *testing.T) {
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
 			},
+			UpdatedAt: githubv4.DateTime{
+				Time: createdAt.Add(time.Hour * 6),
+			},
 			Closed: true,
-			Author: struct {
-				models.User "graphql:\"... on User\""
-			}{
+			State:  "CLOSED",
+			Labels: struct { Nodes []struct{ Name string } }{
+				Nodes: []struct{ Name string }{
+					{ Name: "enhancement" },
+				},
+			},
+			Author: struct { models.User "graphql:\"... on User\"" }{
 				User: models.User{
 					ID:      "2",
 					Login:   "secondUser",
@@ -100,6 +122,12 @@ func TestIssuesDataframe(t *testing.T) {
 					URL:     "",
 				},
 			},
+			Assignees: struct { Nodes []struct { models.User } }{
+				Nodes: []struct { models.User }{
+					{ User: models.User{ Login: "firstUser" } },
+				},
+			},
+			Milestone: struct{ Title string }{Title: "v1.0"},
 			Repository: Repository{
 				Name: "grafana",
 				Owner: struct{ Login string }{
@@ -125,10 +153,15 @@ func TestIssuesDataframe(t *testing.T) {
 			CreatedAt: githubv4.DateTime{
 				Time: createdAt,
 			},
+			UpdatedAt: githubv4.DateTime{
+				Time: createdAt,
+			},
 			Closed: false,
-			Author: struct {
-				models.User "graphql:\"... on User\""
-			}{
+			State:  "OPEN",
+			Labels: struct { Nodes []struct{ Name string } }{
+				Nodes: []struct{ Name string }{},
+			},
+			Author: struct { models.User "graphql:\"... on User\"" }{
 				User: models.User{
 					ID:      "3",
 					Login:   "firstUser",
@@ -137,6 +170,9 @@ func TestIssuesDataframe(t *testing.T) {
 					Email:   "first@example.com",
 					URL:     "",
 				},
+			},
+			Assignees: struct { Nodes []struct { models.User }}{
+				Nodes: []struct { models.User }{},
 			},
 			Repository: Repository{
 				Name: "grafana",

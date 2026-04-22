@@ -1,6 +1,7 @@
 import { CoreApp, DataQueryRequest } from '@grafana/data';
 import { reportInteraction } from '@grafana/runtime';
-import { GitHubQuery, IssueTimeField, PullRequestTimeField, WorkflowsTimeField } from 'types';
+import { IssueTimeField, PullRequestTimeField, WorkflowsTimeField } from './constants';
+import type { GitHubQuery, Options } from 'types/query';
 
 export const trackRequest = (request: DataQueryRequest<GitHubQuery>) => {
   if (request.app === CoreApp.Dashboard || request.app === CoreApp.PanelViewer) {
@@ -8,7 +9,7 @@ export const trackRequest = (request: DataQueryRequest<GitHubQuery>) => {
   }
 
   request.targets.forEach((target) => {
-    let properties: Partial<GitHubQuery> = { app: request.app, queryType: target.queryType };
+    let properties: Options = { app: request.app, queryType: target.queryType };
 
     if (target.queryType === 'Issues') {
       properties.timeField = IssueTimeField[target.options?.timeField ?? 0];

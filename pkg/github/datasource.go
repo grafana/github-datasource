@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
+
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	githubclient "github.com/grafana/github-datasource/pkg/github/client"
 	"github.com/grafana/github-datasource/pkg/github/projects"
 	"github.com/grafana/github-datasource/pkg/models"
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
 // Make sure Datasource implements required interfaces.
@@ -42,7 +43,28 @@ func (d *Datasource) HandleIssuesQuery(ctx context.Context, query *models.Issues
 // HandleCommitsQuery is the query handler for listing GitHub Commits
 func (d *Datasource) HandleCommitsQuery(ctx context.Context, query *models.CommitsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.CommitsOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	if opt.IncludeFiles {
+		return GetCommitsWithFilesInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+	}
 	return GetCommitsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
+// HandleCommitFilesQuery is the query handler for listing files changed in a GitHub commit
+func (d *Datasource) HandleCommitFilesQuery(ctx context.Context, query *models.CommitFilesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.CommitFilesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetCommitFiles(ctx, d.client, opt)
+}
+
+// HandlePullRequestFilesQuery is the query handler for listing files changed in a GitHub pull request
+func (d *Datasource) HandlePullRequestFilesQuery(ctx context.Context, query *models.PullRequestFilesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.PullRequestFilesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetPullRequestFiles(ctx, d.client, opt)
+}
+
+// HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository
+func (d *Datasource) HandleCodeScanningQuery(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.CodeScanningOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetCodeScanningAlerts(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
 // HandleTagsQuery is the query handler for listing GitHub Tags
@@ -82,6 +104,16 @@ func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.
 	return GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleReviewsQuery is the query handler for listing GitHub Pull Request Reviews
+func (d *Datasource) HandleReviewsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.PullRequestOptionsWithRepo(query.Options, query.Owner, query.Repository)
+
+	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
+		return GetAllPullRequestReviews(ctx, d.client, opt)
+	}
+	return GetPullRequestReviewsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
 // HandleContributorsQuery is the query handler for listing GitHub Contributors
 func (d *Datasource) HandleContributorsQuery(ctx context.Context, query *models.ContributorsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListContributorsOptions{
@@ -117,7 +149,10 @@ func (d *Datasource) HandleMilestonesQuery(ctx context.Context, query *models.Mi
 
 // HandlePackagesQuery is the query handler for listing GitHub Packages
 func (d *Datasource) HandlePackagesQuery(ctx context.Context, query *models.PackagesQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	opt, err := models.PackagesOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	if err != nil {
+		return nil, err
+	}
 
 	return GetAllPackages(ctx, d.client, opt)
 }
@@ -127,7 +162,6 @@ func (d *Datasource) HandleVulnerabilitiesQuery(ctx context.Context, query *mode
 	opt := models.ListVulnerabilitiesOptions{
 		Repository: query.Repository,
 		Owner:      query.Owner,
-		Query:      query.Options.Query,
 	}
 
 	return GetAllVulnerabilities(ctx, d.client, opt)
@@ -181,6 +215,44 @@ func (d *Datasource) HandleWorkflowUsageQuery(ctx context.Context, query *models
 	return GetWorkflowUsage(ctx, d.client, opt, req.TimeRange)
 }
 
+// HandleWorkflowRunsQuery is the query handler for listing workflow runs of a GitHub repository
+func (d *Datasource) HandleWorkflowRunsQuery(ctx context.Context, query *models.WorkflowRunsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.WorkflowRunsOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		Workflow:   query.Options.Workflow,
+		Branch:     query.Options.Branch,
+	}
+
+	return GetWorkflowRuns(ctx, d.client, opt, req.TimeRange)
+}
+
+// HandleDeploymentsQuery is the query handler for listing GitHub Deployments
+func (d *Datasource) HandleDeploymentsQuery(ctx context.Context, query *models.DeploymentsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListDeploymentsOptions{
+		Repository:  query.Repository,
+		Owner:       query.Owner,
+		SHA:         query.Options.SHA,
+		GitRef:      query.Options.GitRef,
+		Task:        query.Options.Task,
+		Environment: query.Options.Environment,
+	}
+
+	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
+		return GetAllDeployments(ctx, d.client, opt)
+	}
+	return GetDeploymentsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
+// HandleOrganizationsQuery is the query handler for listing GitHub Organizations
+func (d *Datasource) HandleOrganizationsQuery(ctx context.Context, query *models.OrganizationsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	orgs, err := GetAllOrganizations(ctx, d.client)
+	if err != nil {
+		return nil, err
+	}
+	return Organizations(orgs), nil
+}
+
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
@@ -189,9 +261,15 @@ func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRe
 	})
 	if err != nil {
 		if strings.Contains(err.Error(), "401 Unauthorized") {
-			return newHealthResult(backend.HealthStatusError, "401 Unauthorized. check your API key/Access token")
+			return newHealthResult(backend.HealthStatusError, "401 Unauthorized. Check your API key/Access token")
 		}
-		return newHealthResult(backend.HealthStatusError, "Health check failed")
+		if strings.Contains(err.Error(), "404 Not Found") {
+			return newHealthResult(backend.HealthStatusError, "404 Not Found. Check the Github Enterprise Server URL")
+		}
+		if strings.HasSuffix(err.Error(), "no such host") {
+			return newHealthResult(backend.HealthStatusError, "Unable to reach the Github Enterprise Server URL from the Grafana server. Check the Github Enterprise Server URL and/or proxy settings")
+		}
+		return newHealthResult(backend.HealthStatusError, fmt.Sprintf("Health check failed. %s", err.Error()))
 	}
 
 	return newHealthResult(backend.HealthStatusOk, "Data source is working")
@@ -199,6 +277,7 @@ func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRe
 
 // QueryData runs the query
 func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataRequest) (*backend.QueryDataResponse, error) {
+	req = normalizeGrafanaSQLRequest(req)
 	m := GetQueryHandlers(&QueryHandler{
 		Datasource: *d,
 	})
@@ -210,7 +289,7 @@ func (d *Datasource) QueryData(ctx context.Context, req *backend.QueryDataReques
 func NewDatasource(ctx context.Context, settings models.Settings) (*Datasource, error) {
 	client, err := githubclient.New(ctx, settings)
 	if err != nil {
-		return nil, fmt.Errorf("instantiating github client: %w", err)
+		return nil, err
 	}
 	return &Datasource{client: client}, nil
 }

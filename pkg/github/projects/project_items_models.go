@@ -44,7 +44,7 @@ type QueryProject struct {
 	} `graphql:"organization(login: $login)"`
 }
 
-// QueryProjectByUser lists Github projects by User
+// QueryProjectByUser lists GitHub projects by User
 type QueryProjectByUser struct {
 	User struct {
 		ProjectV2 struct {

@@ -1,5 +1,231 @@
 # Change Log
 
+## 2.8.1
+
+⚙️ Updating experimental schemas.
+
+⚙️ Updated frontend & backend dependencies
+
+## 2.8.0
+
+### Minor Changes
+
+🚀 Add additional commit types that enable users to query for file changes alongside pull request or commit queries
+🚀 minimum required Grafana version is now set to 11.6.7
+
+### Patch Changes
+
+🐛 Updated query editor to use EditorField component for consistency with other plugins
+🐛 Migrated select component to combobox
+🐛 Chore: strict query type options
+
+## 2.7.2
+
+⚙️ Updating experimental schemas.
+
+⚙️ Updated frontend & backend dependencies
+
+## 2.7.1
+
+⚙️ Updating experimental schemas.
+
+## 2.7.0
+
+🚀 Adding support for experimental schemas.
+
+## 2.6.0
+
+🚀 Add deployments query type
+
+⚙️ Updated backend/go version to 1.26.0 from 1.25.6 which resolves CVE-2025-68121
+
+⚙️ Updated frontend & backend dependencies
+
+## 2.5.1
+
+🐛 Fixed a panic when GitHub REST API returns error responses (e.g. 404, 401, 403)
+
+## 2.5.0
+
+🚀 Update dependencies for react-19 upgrade preparations
+🚀 Feature: Add labels to Pull Requests query type
+
+## 2.4.1
+
+🐛 Update create-plugin configs
+🐛 Fixed the broken E2E tests with updated plugin-e2e package
+
+## 2.4.0
+
+### Minor Changes
+
+🚀 Add support for PDC
+
+### Patch Changes
+
+🐛 Fix empty results in Workflows query type. Added nil check for CreatedAt/UpdatedAt timestamps and added "None" option to Time Field dropdown (default) to return all workflows without time filtering.
+
+## 2.3.0
+
+🚀 Add UpdatedAt time field to pull request queries
+
+🐛 Add runStartedAt field for workflow runs query response
+
+## 2.2.0
+
+🚀 Adds support for Pull Request Review queries
+
+⚙️ Bump form-data from 4.0.0 to 4.0.4 (#490)
+
+⚙️ Add alternate "rate limit exceeded" error handling (#494)
+
+🐛 Remove <base target="_blank"> from readme (#497)
+
+⚙️ Bump @grafana/create-plugin configuration to 5.25.8 (#496)
+
+## 2.1.7
+
+🐛 Return assignees with issues queries
+
+## 2.1.6
+
+🐛 Documentation links will open in a new tab
+🐛 Removed unused annotations method (replaced with new annotations support in [#196](https://github.com/grafana/github-datasource/pull/196))
+🐛 Fixes error parsing app id / client id through provisioning via environment variables. Fixes [#477](https://github.com/grafana/github-datasource/issues/477)
+🐛 Replaced the deprecated `setVariableQueryEditor` with `CustomVariableSupport`
+
+## 2.1.5
+
+🐛 Update golang-jwt/jwt dependency to v4.5.2
+🐛 Get default http transport from plugin-sdk-go
+
+## [2.1.4]
+
+- **Fix** - Workflow runs - date filter now filters by time
+- **Fix** - Panic in project query
+- **Security** - Bump prismjs to 1.30.0
+
+## [2.1.3]
+
+- **Fix** - Add mutex protection to prevent data races in datasource cache
+- **Chore** - Add validation for package types
+
+## [2.1.2]
+
+- **Fix** - GitHub enterprise url missing /api/v3
+
+## [2.1.1]
+
+- **Fix** - GitHub enterprise url wrong with app authentication
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.268.1
+
+## [2.1.0]
+
+- **Feature** - Add a new query to retrieve Workflow runs
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.266.0
+- **Chore** - Bump dompurify to 3.2.4
+
+## [2.0.2]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go to 0.265.0
+
+## [2.0.1]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.260.3 to 0.261.0
+
+## [2.0.0]
+
+- **Chore**: Plugin now requires Grafana 10.4.8 or newer
+
+## [1.9.2]
+
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.255.0 to 0.258.0
+- **Chore** - Update uplot dependency to 1.6.31
+
+## [1.9.1]
+
+- **Docs** - Add video tutorial to the README
+- **Docs** - Update documentation for permissions and provisioning
+- **Docs** - Update documentation plugin setup
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.252.0 to 0.255.0
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.251.0 to 0.252.0
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.250.0 to 0.251.0
+
+## [1.9.0]
+
+- **Feature** - Add support for GitHub App authentication
+- **Fix** - Fix error source for saml error and limit error
+- **Fix** - Hide package types that are not supported by the GraphQL API
+- **Chore** - Update spelling of GitHub
+- **Chore** - Bump github.com/grafana/grafana-plugin-sdk-go from 0.247.0 to 0.250.0
+- **Chore** - Bump path-to-regexp from 1.8.0 to 1.9.0
+
+## [1.8.2]
+
+- **Chore** - Bump grafana-plugin-sdk-go to v0.247.0
+
+## [1.8.1]
+
+- **Chore** - Bump micromatch from 4.0.5 to 4.0.8
+- **Chore** - Bump webpack from 5.91.0 to 5.94.0
+- **Chore** - Bump grafana-plugin-sdk-go to v0.245.0
+
+## [1.8.0]
+
+- **Feature** - Add additional user field to results in `Pull Request` query
+- **Chore** - Update documentation, new and updated documentation available on official website
+
+## [1.7.4]
+
+- **Chore** - Update documentation
+
+## [1.7.3]
+
+- **Fix** - Fix error in `Packages` query where no package type was initially selected
+- **Chore** - Update documentation
+- **Chore** - Bump grafana-plugin-sdk-go to v0.241.0
+- **Chore** - Mark downstream errors
+
+## [1.7.2]
+
+- **Chore** - Bump grafana-plugin-sdk-go to v0.240.0
+
+## [1.7.1]
+
+- **Chore** - Add provisioning folder to .gitignore
+- **Chore** - Add error source to error response
+
+## [1.7.0]
+
+- **Feature** - Add `updated_at` field to results in `Issue` query
+- **Feature** - Add `UpdatedAt` field to query options in `Issue` query
+- **Fix** - Fix error when response has data with empty array in templating
+- **Fix** - Fix per page limit to 100 in `Workflows` query as it is max supported value
+- **Fix** - Remove query input in `Vulnerabilities` query as API does not support it
+- **Chore** - Move e2e from cypress to playwright
+- **Chore** - Update dependencies
+
+## [1.6.0]
+
+- **Feature** - Add `message` field to `Commit` query
+- **Feature** - Add `name` field to `Workflow status` query
+- **Fix** - Variable editor to support all query types
+
+## [1.5.7]
+
+- **Chore** - Update dependencies
+
+## [1.5.6]
+
+- **Chore** - Build with go 1.22.2
+- **Chore** - Bump grafana-plugin-sdk-go to v0.220.0 (latest)
+- **Bug Fix** - Prevent partial queries running on change of query type
+
+## [1.5.5]
+
+- **Chore** - Build with go 1.22
+- **Fix** - Make health check faster by using github-datasource repository instead of grafana
+
 ## [1.5.4]
 
 - **Chore** - Bump grafana-plugin-sdk-go to v0.198.0 (latest)
@@ -9,7 +235,7 @@
 ## [1.5.3]
 
 - **Chore** - Bump grafana-plugin-sdk-go to latest
-- **Chore** - Added lint github workflow
+- **Chore** - Added lint GitHub workflow
 - **Chore** - Remove legacy form styling
 
 ## [1.5.2]
@@ -74,12 +300,12 @@
 
 ## [1.3.0] 2022-11-3
 
-- **Feature** - Github projects - query items, user projects
+- **Feature** - GitHub projects - query items, user projects
 - **Chore** - Updated build to use go 1.19.3
 
 ## [1.2.0] 2022-10-20
 
-- **Feature** - Github projects
+- **Feature** - GitHub projects
 
 ## [1.1.0] - next
 

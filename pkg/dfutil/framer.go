@@ -21,9 +21,12 @@ func FrameResponse(f Framer) backend.DataResponse {
 // This function is particularly useful if you have a function that returns `(Framer, error)`, which is a very common pattern
 func FrameResponseWithError(f Framer, err error) backend.DataResponse {
 	if err != nil {
-		return backend.DataResponse{
-			Error: err,
+		if backend.IsDownstreamHTTPError(err) {
+			err = backend.DownstreamError(err)
 		}
+		res := backend.ErrorResponseWithErrorSource(err)
+		backend.Logger.Debug("Error response", "errorsource", res.ErrorSource, "error", res.Error)
+		return res
 	}
 
 	return FrameResponse(f)

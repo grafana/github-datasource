@@ -1,7 +1,0 @@
-{
-  "extends": "./.config/.eslintrc",
-  "plugins": ["prettier"],
-  "rules": {
-    "prettier/prettier": "error"
-  }
-}

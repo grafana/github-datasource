@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
+import { Input, Combobox, ComboboxOption } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
+import { PullRequestTimeField } from '../constants';
+import type { Pull_RequestsOptions } from '../types/query';
 
-import { Input, Select, InlineField } from '@grafana/ui';
-import { SelectableValue } from '@grafana/data';
-
-import { PullRequestsOptions, PullRequestTimeField } from '../types';
-
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-
-interface Props extends PullRequestsOptions {
-  onChange: (value: PullRequestsOptions) => void;
+interface Props extends Pull_RequestsOptions {
+  onChange: (value: Pull_RequestsOptions) => void;
 }
 
-const timeFieldOptions: Array<SelectableValue<PullRequestTimeField>> = Object.keys(PullRequestTimeField)
+const timeFieldOptions: Array<ComboboxOption<PullRequestTimeField>> = Object.keys(PullRequestTimeField)
   .filter((_, i) => PullRequestTimeField[i] !== undefined)
   .map((_, i) => {
     return {
@@ -22,12 +20,11 @@ const timeFieldOptions: Array<SelectableValue<PullRequestTimeField>> = Object.ke
 
 const defaultTimeField = timeFieldOptions[0].value;
 
-const QueryEditorPullRequests = (props: Props) => {
+export const QueryEditorPullRequests = (props: Props) => {
   const [query, setQuery] = useState<string>(props.query || '');
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
+    <EditorRow>
+      <EditorField
         label="Query"
         tooltip={() => (
           <>
@@ -41,11 +38,10 @@ const QueryEditorPullRequests = (props: Props) => {
             </a>
           </>
         )}
-        interactive={true}
       >
         <Input
           value={query}
-          width={RightColumnWidth}
+          width={RightColumnWidth * 2 + 2}
           onChange={(el) => setQuery(el.currentTarget.value)}
           onBlur={(el) =>
             props.onChange({
@@ -54,13 +50,12 @@ const QueryEditorPullRequests = (props: Props) => {
             })
           }
         />
-      </InlineField>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
+      </EditorField>
+      <EditorField
         label="Time Field"
         tooltip="The time field to filter on the time range. WARNING: If selecting 'None', be mindful of the amount of data being queried. On larger repositories, querying all pull requests could easily cause rate limiting"
       >
-        <Select
+        <Combobox
           width={RightColumnWidth}
           options={timeFieldOptions}
           value={props.timeField || defaultTimeField}
@@ -71,9 +66,7 @@ const QueryEditorPullRequests = (props: Props) => {
             })
           }
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorPullRequests;

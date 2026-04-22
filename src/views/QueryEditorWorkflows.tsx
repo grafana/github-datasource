@@ -1,14 +1,15 @@
 import React from 'react';
-import { Select, InlineField } from '@grafana/ui';
-import { RightColumnWidth, LeftColumnWidth } from './QueryEditor';
-import { WorkflowsOptions, WorkflowsTimeField } from 'types';
-import { SelectableValue } from '@grafana/data';
+import { Combobox, ComboboxOption } from '@grafana/ui';
+import { EditorField, EditorRow } from '@grafana/plugin-ui';
+import { RightColumnWidth } from './QueryEditor';
+import { WorkflowsTimeField } from './../constants';
+import type { WorkflowsOptions } from 'types/query';
 
 interface Props extends WorkflowsOptions {
   onChange: (value: WorkflowsOptions) => void;
 }
 
-const timeFieldOptions: Array<SelectableValue<WorkflowsTimeField>> = Object.keys(WorkflowsTimeField)
+const timeFieldOptions: Array<ComboboxOption<WorkflowsTimeField>> = Object.keys(WorkflowsTimeField)
   .filter((_, i) => WorkflowsTimeField[i] !== undefined)
   .map((_, i) => {
     return {
@@ -17,20 +18,19 @@ const timeFieldOptions: Array<SelectableValue<WorkflowsTimeField>> = Object.keys
     };
   });
 
-const defaultTimeField = 0 as WorkflowsTimeField;
+const defaultTimeField = WorkflowsTimeField.None;
 
-const QueryEditorWorkflows = (props: Props) => {
+export const QueryEditorWorkflows = (props: Props) => {
   return (
-    <>
-      <InlineField
-        labelWidth={LeftColumnWidth * 2}
+    <EditorRow>
+      <EditorField
         label="Time Field"
-        tooltip="The time field to filter on the time range"
+        tooltip="Select 'None' to return all workflows, or choose a time field to filter by the dashboard time range"
       >
-        <Select
+        <Combobox
           width={RightColumnWidth}
           options={timeFieldOptions}
-          value={props.timeField || defaultTimeField}
+          value={props.timeField !== undefined ? props.timeField : defaultTimeField}
           onChange={(opt) => {
             props.onChange({
               ...props,
@@ -38,9 +38,7 @@ const QueryEditorWorkflows = (props: Props) => {
             });
           }}
         />
-      </InlineField>
-    </>
+      </EditorField>
+    </EditorRow>
   );
 };
-
-export default QueryEditorWorkflows;
