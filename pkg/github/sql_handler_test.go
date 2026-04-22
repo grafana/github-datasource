@@ -18,7 +18,7 @@ func pluginCtxWithFeatureToggle() backend.PluginContext {
 }
 
 func TestTableToQueryTypeCoversAllTypes(t *testing.T) {
-	allQueryTypes := []string{
+	allQueryTypes := []models.QueryType{
 		models.QueryTypeCommits, models.QueryTypeIssues,
 		models.QueryTypePullRequests, models.QueryTypePullRequestReviews,
 		models.QueryTypeRepositories, models.QueryTypeContributors,
@@ -43,7 +43,7 @@ func TestNormalizeAllTableTypes(t *testing.T) {
 	tests := []struct {
 		name      string
 		table     string
-		wantType  string
+		wantType  models.QueryType
 		wantOwner string
 		wantRepo  string
 		unchanged bool
@@ -90,8 +90,8 @@ func TestNormalizeAllTableTypes(t *testing.T) {
 				}
 				return
 			}
-			if q.QueryType != tt.wantType {
-				t.Errorf("queryType: got %q, want %q", q.QueryType, tt.wantType)
+			if q.QueryType != string(tt.wantType) {
+				t.Errorf("queryType: got %q, want %q", q.QueryType, string(tt.wantType))
 			}
 			var raw map[string]interface{}
 			if err := json.Unmarshal(q.JSON, &raw); err != nil {
@@ -121,14 +121,14 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 			t.Fatalf("expected one query, got %v", out)
 		}
 		q := out.Queries[0]
-		if q.QueryType != models.QueryTypePullRequests {
+		if q.QueryType != string(models.QueryTypePullRequests) {
 			t.Errorf("queryType: got %q, want %q", q.QueryType, models.QueryTypePullRequests)
 		}
-		var raw map[string]interface{}
+		var raw map[string]any
 		if err := json.Unmarshal(q.JSON, &raw); err != nil {
 			t.Fatal(err)
 		}
-		if raw["queryType"] != models.QueryTypePullRequests {
+		if raw["queryType"] != string(models.QueryTypePullRequests) {
 			t.Errorf("JSON queryType: got %v", raw["queryType"])
 		}
 		if raw["owner"] != "grafana" || raw["repository"] != "grafana" {
@@ -149,8 +149,8 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 			t.Fatalf("expected one query")
 		}
 		q := out.Queries[0]
-		if q.QueryType != models.QueryTypeIssues {
-			t.Errorf("queryType: got %q, want %q", q.QueryType, models.QueryTypeIssues)
+		if q.QueryType != string(models.QueryTypeIssues) {
+			t.Errorf("queryType: got %q, want %q", q.QueryType, string(models.QueryTypeIssues))
 		}
 		var raw map[string]interface{}
 		if err := json.Unmarshal(q.JSON, &raw); err != nil {
@@ -173,8 +173,8 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 		if out == nil || len(out.Queries) != 1 {
 			t.Fatalf("expected one query")
 		}
-		if out.Queries[0].QueryType != models.QueryTypeCommits {
-			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, models.QueryTypeCommits)
+		if out.Queries[0].QueryType != string(models.QueryTypeCommits) {
+			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, string(models.QueryTypeCommits))
 		}
 	})
 
@@ -190,8 +190,8 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 		if out == nil || len(out.Queries) != 1 {
 			t.Fatalf("expected one query")
 		}
-		if out.Queries[0].QueryType != models.QueryTypeCodeScanning {
-			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, models.QueryTypeCodeScanning)
+		if out.Queries[0].QueryType != string(models.QueryTypeCodeScanning) {
+			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, string(models.QueryTypeCodeScanning))
 		}
 	})
 
@@ -208,8 +208,8 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 			t.Fatalf("expected one query")
 		}
 		q := out.Queries[0]
-		if q.QueryType != models.QueryTypeOrganizations {
-			t.Errorf("queryType: got %q, want %q", q.QueryType, models.QueryTypeOrganizations)
+		if q.QueryType != string(models.QueryTypeOrganizations) {
+			t.Errorf("queryType: got %q, want %q", q.QueryType, string(models.QueryTypeOrganizations))
 		}
 		var raw map[string]interface{}
 		if err := json.Unmarshal(q.JSON, &raw); err != nil {
@@ -235,8 +235,8 @@ func TestNormalizeGrafanaSQLRequest(t *testing.T) {
 		if out == nil || len(out.Queries) != 1 {
 			t.Fatalf("expected one query")
 		}
-		if out.Queries[0].QueryType != models.QueryTypeWorkflowRuns {
-			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, models.QueryTypeWorkflowRuns)
+		if out.Queries[0].QueryType != string(models.QueryTypeWorkflowRuns) {
+			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, string(models.QueryTypeWorkflowRuns))
 		}
 	})
 
@@ -781,8 +781,8 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 		if out == nil || len(out.Queries) != 1 {
 			t.Fatalf("expected one query")
 		}
-		if out.Queries[0].QueryType != models.QueryTypeIssues {
-			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, models.QueryTypeIssues)
+		if out.Queries[0].QueryType != string(models.QueryTypeIssues) {
+			t.Errorf("queryType: got %q, want %q", out.Queries[0].QueryType, string(models.QueryTypeIssues))
 		}
 	})
 }

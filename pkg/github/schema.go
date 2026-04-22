@@ -570,6 +570,6 @@ func timeFieldValuesForTable(tableName string) []string {
 	return nil
 }
 
-func normalizeTableNames(table string) string {
-	return strings.ToLower(strings.ReplaceAll(table, "_", "-"))
+func normalizeTableNames(table models.QueryType) string {
+	return strings.ToLower(strings.ReplaceAll(string(table), "_", "-"))
 }
