@@ -6,15 +6,19 @@
     "mage_output_file.go",
     "package.json",
     "renovate.json",
+    "query.panel.schema.json",
+    "query.request.schema.json",
+    "query.types.json",
     "yarn.lock"
   ],
-  "ignoreRegExpList": [
-    "import\\s*\\((.|[\r\n])*?\\)",
-    "import\\s*.*\".*?\""
-  ],
+  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
   "words": [
+    "apiserver",
+    "dataplane",
     "araddon",
     "bmike",
+    "combobox",
+    "confg",
     "CTAV",
     "combobox",
     "Dataframe",
@@ -26,6 +30,7 @@
     "dompurify",
     "dserrors",
     "errorsource",
+    "featuretoggles",
     "ghinstallation",
     "githubclient",
     "githubv",
@@ -36,6 +41,7 @@
     "healthcheck",
     "httpclient",
     "HTMLURL",
+    "httpclient",
     "instancemgmt",
     "jackspeak",
     "kminehart",
@@ -43,6 +49,9 @@
     "Mergeable",
     "mjseaman",
     "nazzzzz",
+    "octocat",
+    "oldorg",
+    "oldrepo",
     "prismjs",
     "promop",
     "PTRACE",
@@ -52,6 +61,8 @@
     "querytype",
     "rgba",
     "RUBYGEMS",
+    "schemabuilder",
+    "schemads",
     "seccomp",
     "shurcoo",
     "stretchr",
@@ -71,11 +82,6 @@
     "vals",
     "vladimirdotk",
     "Wrapf",
-    "confg",
-    "octocat",
-    "schemads",
-    "featuretoggles",
-    "oldorg",
-    "oldrepo"
+    "yesoreyeram"
   ]
 }
