@@ -2,14 +2,14 @@
   "kind": "QueryTypeDefinitionList",
   "apiVersion": "datasource.grafana.app/v0alpha1",
   "metadata": {
-    "resourceVersion": "1775589227943"
+    "resourceVersion": "1776862963042"
   },
   "items": [
     {
       "metadata": {
         "name": "Pull_Requests",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -62,28 +62,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "Simple",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "repository": "",
-                "timeField": 0
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Commits",
-        "resourceVersion": "1775575194984",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -134,29 +120,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "CommitsQuery",
-            "saveModel": {
-              "options": {
-                "gitRef": "",
-                "includeFiles": false,
-                "owner": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Tags",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -201,27 +172,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "TagsQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Labels",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -271,28 +229,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "LabelsQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "query": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Releases",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -337,27 +281,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "ReleasesQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Contributors",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -405,27 +336,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "ContributorsQuery",
-            "saveModel": {
-              "options": {
-                "owner": "yesoreyeram",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Repositories",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -451,23 +369,14 @@
             "owner"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "RepositoriesQuery",
-            "saveModel": {
-              "owner": "yesoreyeram",
-              "repository": ""
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Issues",
-        "resourceVersion": "1775575194984",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -561,33 +470,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "IssuesQuery",
-            "saveModel": {
-              "options": {
-                "filters": {
-                  "states": [
-                    "OPEN"
-                  ]
-                },
-                "owner": "",
-                "repository": "",
-                "timeField": 0
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Packages",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -638,29 +528,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "PackagesQuery",
-            "saveModel": {
-              "options": {
-                "names": "",
-                "owner": "",
-                "packageType": "DOCKER",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Milestones",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -710,28 +585,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "MilestonesQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "query": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Vulnerabilities",
-        "resourceVersion": "1775575194984",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -776,27 +637,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "VulnerabilityQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Stargazers",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -822,23 +670,14 @@
             "owner"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "StargazersQuery",
-            "saveModel": {
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Workflows",
-        "resourceVersion": "1709529769877",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -888,28 +727,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "WorkflowsQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "repository": "",
-                "timeField": 0
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Workflow_Usage",
-        "resourceVersion": "1775575194984",
-        "creationTimestamp": "2024-03-04T05:22:49Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -964,29 +789,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "WorkflowUsageQuery",
-            "saveModel": {
-              "options": {
-                "branch": "",
-                "owner": "",
-                "repository": "",
-                "workflow": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Code_Scanning",
-        "resourceVersion": "1775589227943",
-        "creationTimestamp": "2026-04-07T19:13:47Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -1041,29 +851,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "CodeScanningQuery",
-            "saveModel": {
-              "options": {
-                "gitRef": "",
-                "owner": "",
-                "repository": "",
-                "state": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Commit_Files",
-        "resourceVersion": "1775589227943",
-        "creationTimestamp": "2026-04-07T19:13:47Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -1111,28 +906,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "CommitFilesQuery",
-            "saveModel": {
-              "options": {
-                "commitSha": "",
-                "owner": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Pull_Request_Reviews",
-        "resourceVersion": "1775589227943",
-        "creationTimestamp": "2026-04-07T19:13:47Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -1185,28 +966,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "PullRequestReviewsQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "repository": "",
-                "timeField": 0
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Pull_Request_Files",
-        "resourceVersion": "1775589227943",
-        "creationTimestamp": "2026-04-07T19:13:47Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -1254,28 +1021,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "PullRequestFilesQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "prNumber": 0,
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Workflow_Runs",
-        "resourceVersion": "1775589227943",
-        "creationTimestamp": "2026-04-07T19:13:47Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -1330,29 +1083,14 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "WorkflowRunsQuery",
-            "saveModel": {
-              "options": {
-                "branch": "",
-                "owner": "",
-                "repository": "",
-                "workflow": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     },
     {
       "metadata": {
         "name": "Deployments",
-        "resourceVersion": "1775589227943",
-        "creationTimestamp": "2026-04-07T19:13:47Z"
+        "resourceVersion": "1776862963042",
+        "creationTimestamp": "2026-04-22T13:02:43Z"
       },
       "spec": {
         "discriminators": [
@@ -1413,20 +1151,7 @@
             "options"
           ],
           "type": "object"
-        },
-        "examples": [
-          {
-            "name": "DeploymentsQuery",
-            "saveModel": {
-              "options": {
-                "owner": "",
-                "repository": ""
-              },
-              "owner": "grafana",
-              "repository": "github-datasource"
-            }
-          }
-        ]
+        }
       }
     }
   ]

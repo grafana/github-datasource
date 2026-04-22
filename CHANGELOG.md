@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.8.1
+
+⚙️ Updating experimental schemas.
+
+⚙️ Updated frontend & backend dependencies
+
 ## 2.8.0
 
 ### Minor Changes

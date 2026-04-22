@@ -28,7 +28,7 @@ func TestSchemaDefinitions(t *testing.T) {
 	}
 
 	require.NoError(t, err)
-	err = builder.AddQueries(schemabuilder.QueryTypeInfo{
+	err = builder.AddQueries([]schemabuilder.QueryTypeInfo{{
 		GoType:         reflect.TypeFor[*PullRequestsQuery](),
 		Discriminators: data.NewDiscriminators("queryType", QueryTypePullRequests),
 		Examples: []data.QueryExample{
@@ -40,7 +40,7 @@ func TestSchemaDefinitions(t *testing.T) {
 				}),
 			},
 		},
-	}, schemabuilder.QueryTypeInfo{
+	}, {
 		Discriminators: data.NewDiscriminators("queryType", QueryTypeCommits),
 		GoType:         reflect.TypeFor[*CommitsQuery](),
 		Examples: []data.QueryExample{
@@ -306,11 +306,10 @@ func TestSchemaDefinitions(t *testing.T) {
 		// 			}),
 		// 		},
 		// 	},
-	},
-	)
+	}})
 
 	require.NoError(t, err)
 
 	// Update the query schemas resource
-	builder.UpdateQueryDefinition(t, "../../src/static/schema/")
+	builder.UpdateProviderFiles(t, "v0alpha1", "../../src/schema/")
 }

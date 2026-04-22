@@ -1,0 +1,259 @@
+{
+  "examples": [
+    {
+      "name": "Simple",
+      "queryType": "Pull_Requests",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "repository": "",
+          "timeField": 0
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "CommitsQuery",
+      "queryType": "Commits",
+      "saveModel": {
+        "options": {
+          "gitRef": "",
+          "includeFiles": false,
+          "owner": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "TagsQuery",
+      "queryType": "Tags",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "LabelsQuery",
+      "queryType": "Labels",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "query": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "ReleasesQuery",
+      "queryType": "Releases",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "ContributorsQuery",
+      "queryType": "Contributors",
+      "saveModel": {
+        "options": {
+          "owner": "yesoreyeram",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "RepositoriesQuery",
+      "queryType": "Repositories",
+      "saveModel": {
+        "owner": "yesoreyeram",
+        "repository": ""
+      }
+    },
+    {
+      "name": "IssuesQuery",
+      "queryType": "Issues",
+      "saveModel": {
+        "options": {
+          "filters": {
+            "states": [
+              "OPEN"
+            ]
+          },
+          "owner": "",
+          "repository": "",
+          "timeField": 0
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "PackagesQuery",
+      "queryType": "Packages",
+      "saveModel": {
+        "options": {
+          "names": "",
+          "owner": "",
+          "packageType": "DOCKER",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "MilestonesQuery",
+      "queryType": "Milestones",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "query": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "VulnerabilityQuery",
+      "queryType": "Vulnerabilities",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "StargazersQuery",
+      "queryType": "Stargazers",
+      "saveModel": {
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "WorkflowsQuery",
+      "queryType": "Workflows",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "repository": "",
+          "timeField": 0
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "WorkflowUsageQuery",
+      "queryType": "Workflow_Usage",
+      "saveModel": {
+        "options": {
+          "branch": "",
+          "owner": "",
+          "repository": "",
+          "workflow": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "CodeScanningQuery",
+      "queryType": "Code_Scanning",
+      "saveModel": {
+        "options": {
+          "gitRef": "",
+          "owner": "",
+          "repository": "",
+          "state": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "CommitFilesQuery",
+      "queryType": "Commit_Files",
+      "saveModel": {
+        "options": {
+          "commitSha": "",
+          "owner": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "PullRequestReviewsQuery",
+      "queryType": "Pull_Request_Reviews",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "repository": "",
+          "timeField": 0
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "PullRequestFilesQuery",
+      "queryType": "Pull_Request_Files",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "prNumber": 0,
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "WorkflowRunsQuery",
+      "queryType": "Workflow_Runs",
+      "saveModel": {
+        "options": {
+          "branch": "",
+          "owner": "",
+          "repository": "",
+          "workflow": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    },
+    {
+      "name": "DeploymentsQuery",
+      "queryType": "Deployments",
+      "saveModel": {
+        "options": {
+          "owner": "",
+          "repository": ""
+        },
+        "owner": "grafana",
+        "repository": "github-datasource"
+      }
+    }
+  ]
+}

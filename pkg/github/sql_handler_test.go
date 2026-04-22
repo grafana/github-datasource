@@ -28,8 +28,8 @@ func TestTableToQueryTypeCoversAllTypes(t *testing.T) {
 		models.QueryTypeProjects,
 		models.QueryTypeStargazers, models.QueryTypeWorkflows,
 		models.QueryTypeWorkflowUsage, models.QueryTypeWorkflowRuns,
-		models.QueryTypeCodeScanning, models.QueryTypeOrganizations,
-		models.QueryTypeGraphQL,
+		models.QueryTypeCodeScanning, models.QueryTypeDeployments,
+		models.QueryTypeOrganizations, models.QueryTypeGraphQL,
 	}
 	for _, qt := range allQueryTypes {
 		tableName := normalizeTableNames(qt)
@@ -64,6 +64,7 @@ func TestNormalizeAllTableTypes(t *testing.T) {
 		{name: "tags", table: "tags_grafana_grafana", wantType: models.QueryTypeTags, wantOwner: "grafana", wantRepo: "grafana"},
 		{name: "releases", table: "releases_grafana_grafana", wantType: models.QueryTypeReleases, wantOwner: "grafana", wantRepo: "grafana"},
 		{name: "workflows", table: "workflows_grafana_grafana", wantType: models.QueryTypeWorkflows, wantOwner: "grafana", wantRepo: "grafana"},
+		{name: "deployments", table: "deployments_grafana_grafana", wantType: models.QueryTypeDeployments, wantOwner: "grafana", wantRepo: "grafana"},
 		{name: "repositories owner only", table: "repositories_grafana", wantType: models.QueryTypeRepositories, wantOwner: "grafana", wantRepo: ""},
 		{name: "projects owner only", table: "projects_grafana", wantType: models.QueryTypeProjects, wantOwner: "grafana", wantRepo: ""},
 		{name: "organizations no table parameters", table: "organizations", wantType: models.QueryTypeOrganizations, wantOwner: "", wantRepo: ""},
@@ -672,6 +673,63 @@ func TestNormalizeGrafanaSQLRequestWithFilters(t *testing.T) {
 		}
 	})
 
+	t.Run("pushes down is_fork filter for repositories", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"repositories_grafana","filters":[{"name":"is_fork","conditions":[{"operator":"=","value":"true"}]}]}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		repo, _ := raw["repository"].(string)
+		if repo != "fork:only" {
+			t.Errorf("expected repository 'fork:only', got %q", repo)
+		}
+	})
+
+	t.Run("pushes down is_private filter for repositories", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"repositories_grafana","filters":[{"name":"is_private","conditions":[{"operator":"=","value":"true"}]}]}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		repo, _ := raw["repository"].(string)
+		if repo != "is:private" {
+			t.Errorf("expected repository 'is:private', got %q", repo)
+		}
+	})
+
+	t.Run("pushes down is_private false as is:public", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"repositories_grafana","filters":[{"name":"is_private","conditions":[{"operator":"=","value":"false"}]}]}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries: []backend.DataQuery{
+				{RefID: "A", JSON: queryJSON},
+			},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		repo, _ := raw["repository"].(string)
+		if repo != "is:public" {
+			t.Errorf("expected repository 'is:public', got %q", repo)
+		}
+	})
+
 	t.Run("pushes down tool_name filter for code-scanning", func(t *testing.T) {
 		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"code-scanning_grafana_grafana","filters":[{"name":"tool_name","conditions":[{"operator":"=","value":"CodeQL"}]}]}`)
 		req := &backend.QueryDataRequest{
@@ -802,6 +860,136 @@ func TestNormalizeGrafanaSQLRequestWithoutFeatureToggle(t *testing.T) {
 		}
 		if out.Queries[0].RefID != "B" {
 			t.Errorf("expected preserved query to be refId B, got %s", out.Queries[0].RefID)
+		}
+	})
+}
+
+func TestTimeFieldDefaults(t *testing.T) {
+	t.Run("issues default timeField is created (0)", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues_grafana_grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		tf, ok := opts["timeField"].(float64)
+		if !ok {
+			t.Fatal("expected timeField to be set")
+		}
+		if int(tf) != int(models.IssueCreatedAt) {
+			t.Errorf("expected timeField %d (IssueCreatedAt), got %d", models.IssueCreatedAt, int(tf))
+		}
+	})
+
+	t.Run("pull-requests default timeField is created (1)", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"pull-requests_grafana_grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		tf := int(opts["timeField"].(float64))
+		if tf != int(models.PullRequestCreatedAt) {
+			t.Errorf("expected timeField %d (PullRequestCreatedAt), got %d", models.PullRequestCreatedAt, tf)
+		}
+	})
+
+	t.Run("workflows default timeField is none (0)", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflows_grafana_grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		tf := int(opts["timeField"].(float64))
+		if tf != int(models.WorkflowTimeFieldNone) {
+			t.Errorf("expected timeField %d (WorkflowTimeFieldNone), got %d", models.WorkflowTimeFieldNone, tf)
+		}
+	})
+
+	t.Run("timeField table parameter overrides default for PRs", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"pull-requests","tableParameterValues":{"organization":"grafana","repository":"grafana","timeField":"merged"}}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		tf := int(opts["timeField"].(float64))
+		if tf != int(models.PullRequestMergedAt) {
+			t.Errorf("expected timeField %d (PullRequestMergedAt), got %d", models.PullRequestMergedAt, tf)
+		}
+	})
+
+	t.Run("timeField table parameter sets closed for issues", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"issues","tableParameterValues":{"organization":"grafana","repository":"grafana","timeField":"closed"}}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		tf := int(opts["timeField"].(float64))
+		if tf != int(models.IssueClosedAt) {
+			t.Errorf("expected timeField %d (IssueClosedAt), got %d", models.IssueClosedAt, tf)
+		}
+	})
+
+	t.Run("timeField table parameter sets updated for workflows", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"workflows","tableParameterValues":{"organization":"grafana","repository":"grafana","timeField":"updated"}}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		tf := int(opts["timeField"].(float64))
+		if tf != int(models.WorkflowUpdatedAt) {
+			t.Errorf("expected timeField %d (WorkflowUpdatedAt), got %d", models.WorkflowUpdatedAt, tf)
+		}
+	})
+
+	t.Run("commits does not get timeField set", func(t *testing.T) {
+		queryJSON := []byte(`{"refId":"A","grafanaSql":true,"table":"commits_grafana_grafana"}`)
+		req := &backend.QueryDataRequest{
+			PluginContext: pluginCtxWithFeatureToggle(),
+			Queries:       []backend.DataQuery{{RefID: "A", JSON: queryJSON}},
+		}
+		out := normalizeGrafanaSQLRequest(req)
+		var raw map[string]interface{}
+		if err := json.Unmarshal(out.Queries[0].JSON, &raw); err != nil {
+			t.Fatal(err)
+		}
+		opts := raw["options"].(map[string]interface{})
+		if _, exists := opts["timeField"]; exists {
+			t.Error("expected no timeField for commits")
 		}
 	})
 }

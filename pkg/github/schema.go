@@ -10,12 +10,6 @@ import (
 )
 
 var (
-	timeRangeOperators = []schemas.Operator{
-		schemas.OperatorGreaterThan,
-		schemas.OperatorGreaterThanOrEqual,
-		schemas.OperatorLessThan,
-		schemas.OperatorLessThanOrEqual,
-	}
 	equalityOperators = []schemas.Operator{
 		schemas.OperatorEquals,
 		schemas.OperatorIn,
@@ -27,6 +21,12 @@ var (
 	repoScopedTableParameters = []schemas.TableParameter{
 		{Name: "organization", Root: true, Required: true},
 		{Name: "repository", DependsOn: []string{"organization"}, Required: true},
+	}
+
+	repoScopedWithTimeFieldTableParameters = []schemas.TableParameter{
+		{Name: "organization", Root: true, Required: true},
+		{Name: "repository", DependsOn: []string{"organization"}, Required: true},
+		{Name: "timeField", Root: true},
 	}
 
 	orgOnlyTableParameters = []schemas.TableParameter{
@@ -61,14 +61,31 @@ func (p *SchemaProvider) Schema(ctx context.Context, req *schemas.SchemaRequest)
 	tables := getAllTables()
 
 	var tableParamValues map[string]map[string][]string
-	if len(orgRepos.Orgs) > 0 {
-		tableParamValues = make(map[string]map[string][]string)
-		for _, t := range tables {
-			for _, tp := range t.TableParameters {
-				if tp.Root && tp.Name == "organization" {
-					tableParamValues[t.Name] = map[string][]string{
-						"organization": orgRepos.Orgs,
+	for _, t := range tables {
+		for _, tp := range t.TableParameters {
+			if !tp.Root {
+				continue
+			}
+			switch tp.Name {
+			case "organization":
+				if len(orgRepos.Orgs) > 0 {
+					if tableParamValues == nil {
+						tableParamValues = make(map[string]map[string][]string)
 					}
+					if tableParamValues[t.Name] == nil {
+						tableParamValues[t.Name] = make(map[string][]string)
+					}
+					tableParamValues[t.Name]["organization"] = orgRepos.Orgs
+				}
+			case "timeField":
+				if vals := timeFieldValuesForTable(t.Name); len(vals) > 0 {
+					if tableParamValues == nil {
+						tableParamValues = make(map[string]map[string][]string)
+					}
+					if tableParamValues[t.Name] == nil {
+						tableParamValues[t.Name] = make(map[string][]string)
+					}
+					tableParamValues[t.Name]["timeField"] = vals
 				}
 			}
 		}
@@ -141,6 +158,10 @@ func (p *SchemaProvider) TableParameterValues(ctx context.Context, req *schemas.
 			names[i] = r.Name
 		}
 		result[param] = names
+	case "timeField":
+		if vals := timeFieldValuesForTable(stripTableParameterValues(req.Table)); len(vals) > 0 {
+			result[param] = vals
+		}
 	case "workflow":
 		org := req.DependencyValues["organization"]
 		repo := req.DependencyValues["repository"]
@@ -202,14 +223,14 @@ func getAllTables() []schemas.Table {
 				{Name: "author_login", Type: schemas.ColumnTypeString},
 				{Name: "author_email", Type: schemas.ColumnTypeString},
 				{Name: "author_company", Type: schemas.ColumnTypeString},
-				{Name: "committed_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "committed_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "pushed_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "message", Type: schemas.ColumnTypeString},
 			},
 		},
 		{
 			Name:            normalizeTableNames(models.QueryTypeIssues),
-			TableParameters: repoScopedTableParameters,
+			TableParameters: repoScopedWithTimeFieldTableParameters,
 			Columns: []schemas.Column{
 				{Name: "title", Type: schemas.ColumnTypeString},
 				{Name: "author", Type: schemas.ColumnTypeString, Operators: equalityOperators},
@@ -218,9 +239,9 @@ func getAllTables() []schemas.Table {
 				{Name: "number", Type: schemas.ColumnTypeInt64},
 				{Name: "state", Type: schemas.ColumnTypeEnum, Values: []string{"open", "closed"}, Operators: equalityOperators},
 				{Name: "closed", Type: schemas.ColumnTypeBoolean},
-				{Name: "created_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
-				{Name: "closed_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
-				{Name: "updated_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
+				{Name: "closed_at", Type: schemas.ColumnTypeDatetime},
+				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "labels", Type: schemas.ColumnTypeJSON, Operators: equalityOperators},
 				{Name: "assignees", Type: schemas.ColumnTypeJSON, Operators: equalityOperators},
 				{Name: "milestone", Type: schemas.ColumnTypeString, Operators: equalityOperators},
@@ -228,7 +249,7 @@ func getAllTables() []schemas.Table {
 		},
 		{
 			Name:            normalizeTableNames(models.QueryTypePullRequests),
-			TableParameters: repoScopedTableParameters,
+			TableParameters: repoScopedWithTimeFieldTableParameters,
 			Columns: []schemas.Column{
 				{Name: "number", Type: schemas.ColumnTypeInt64},
 				{Name: "title", Type: schemas.ColumnTypeString},
@@ -236,7 +257,7 @@ func getAllTables() []schemas.Table {
 				{Name: "additions", Type: schemas.ColumnTypeInt64},
 				{Name: "deletions", Type: schemas.ColumnTypeInt64},
 				{Name: "repository", Type: schemas.ColumnTypeString},
-				{Name: "state", Type: schemas.ColumnTypeEnum, Values: []string{"OPEN", "CLOSED", "MERGED"}, Operators: equalityOperators},
+				{Name: "state", Type: schemas.ColumnTypeEnum, Values: []string{"OPEN", "CLOSED", "MERGED"}},
 				{Name: "author_name", Type: schemas.ColumnTypeString},
 				{Name: "author_login", Type: schemas.ColumnTypeString, Operators: equalityOperators},
 				{Name: "author_email", Type: schemas.ColumnTypeString},
@@ -246,21 +267,21 @@ func getAllTables() []schemas.Table {
 				{Name: "locked", Type: schemas.ColumnTypeBoolean},
 				{Name: "merged", Type: schemas.ColumnTypeBoolean},
 				{Name: "mergeable", Type: schemas.ColumnTypeString},
-				{Name: "closed_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
-				{Name: "merged_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "closed_at", Type: schemas.ColumnTypeDatetime},
+				{Name: "merged_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "merged_by_name", Type: schemas.ColumnTypeString},
 				{Name: "merged_by_login", Type: schemas.ColumnTypeString},
 				{Name: "merged_by_email", Type: schemas.ColumnTypeString},
 				{Name: "merged_by_company", Type: schemas.ColumnTypeString},
-				{Name: "updated_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
-				{Name: "created_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
+				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "open_time", Type: schemas.ColumnTypeFloat64},
 				{Name: "labels", Type: schemas.ColumnTypeJSON, Operators: equalityOperators},
 			},
 		},
 		{
 			Name:            normalizeTableNames(models.QueryTypePullRequestReviews),
-			TableParameters: repoScopedTableParameters,
+			TableParameters: repoScopedWithTimeFieldTableParameters,
 			Columns: []schemas.Column{
 				{Name: "pull_request_number", Type: schemas.ColumnTypeInt64},
 				{Name: "pull_request_title", Type: schemas.ColumnTypeString},
@@ -278,8 +299,8 @@ func getAllTables() []schemas.Table {
 				{Name: "review_url", Type: schemas.ColumnTypeString},
 				{Name: "review_state", Type: schemas.ColumnTypeString},
 				{Name: "review_comment_count", Type: schemas.ColumnTypeInt64},
-				{Name: "review_updated_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
-				{Name: "review_created_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "review_updated_at", Type: schemas.ColumnTypeDatetime},
+				{Name: "review_created_at", Type: schemas.ColumnTypeDatetime},
 			},
 		},
 		{
@@ -318,7 +339,7 @@ func getAllTables() []schemas.Table {
 				{Name: "author_login", Type: schemas.ColumnTypeString},
 				{Name: "author_email", Type: schemas.ColumnTypeString},
 				{Name: "author_company", Type: schemas.ColumnTypeString},
-				{Name: "date", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "date", Type: schemas.ColumnTypeDatetime},
 			},
 		},
 		{
@@ -332,7 +353,7 @@ func getAllTables() []schemas.Table {
 				{Name: "tag", Type: schemas.ColumnTypeString},
 				{Name: "url", Type: schemas.ColumnTypeString},
 				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
-				{Name: "published_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "published_at", Type: schemas.ColumnTypeDatetime},
 			},
 		},
 		{
@@ -385,8 +406,8 @@ func getAllTables() []schemas.Table {
 				{Name: "cvssScore", Type: schemas.ColumnTypeFloat64},
 				{Name: "cvssVector", Type: schemas.ColumnTypeString},
 				{Name: "permalink", Type: schemas.ColumnTypeString},
-				{Name: "severity", Type: schemas.ColumnTypeString, Operators: equalityOperators},
-				{Name: "state", Type: schemas.ColumnTypeString, Operators: equalityOperators},
+				{Name: "severity", Type: schemas.ColumnTypeString},
+				{Name: "state", Type: schemas.ColumnTypeString},
 			},
 		},
 		{
@@ -408,7 +429,7 @@ func getAllTables() []schemas.Table {
 			Name:            normalizeTableNames(models.QueryTypeStargazers),
 			TableParameters: repoScopedTableParameters,
 			Columns: []schemas.Column{
-				{Name: "starred_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "starred_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "star_count", Type: schemas.ColumnTypeInt64},
 				{Name: "id", Type: schemas.ColumnTypeString},
 				{Name: "login", Type: schemas.ColumnTypeString},
@@ -420,14 +441,14 @@ func getAllTables() []schemas.Table {
 		},
 		{
 			Name:            normalizeTableNames(models.QueryTypeWorkflows),
-			TableParameters: repoScopedTableParameters,
+			TableParameters: repoScopedWithTimeFieldTableParameters,
 			Columns: []schemas.Column{
 				{Name: "id", Type: schemas.ColumnTypeInt64},
 				{Name: "name", Type: schemas.ColumnTypeString},
 				{Name: "path", Type: schemas.ColumnTypeString},
 				{Name: "state", Type: schemas.ColumnTypeString},
-				{Name: "created_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
-				{Name: "updated_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
+				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "url", Type: schemas.ColumnTypeString},
 				{Name: "html_url", Type: schemas.ColumnTypeString},
 				{Name: "badge_url", Type: schemas.ColumnTypeString},
@@ -466,7 +487,7 @@ func getAllTables() []schemas.Table {
 				{Name: "name", Type: schemas.ColumnTypeString},
 				{Name: "head_branch", Type: schemas.ColumnTypeString, Operators: []schemas.Operator{schemas.OperatorEquals}},
 				{Name: "head_sha", Type: schemas.ColumnTypeString},
-				{Name: "created_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "run_started_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "html_url", Type: schemas.ColumnTypeString},
@@ -514,8 +535,8 @@ func getAllTables() []schemas.Table {
 				{Name: "environment", Type: schemas.ColumnTypeString},
 				{Name: "description", Type: schemas.ColumnTypeString},
 				{Name: "creator", Type: schemas.ColumnTypeString},
-				{Name: "created_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
-				{Name: "updated_at", Type: schemas.ColumnTypeDatetime, Operators: timeRangeOperators},
+				{Name: "created_at", Type: schemas.ColumnTypeDatetime},
+				{Name: "updated_at", Type: schemas.ColumnTypeDatetime},
 				{Name: "url", Type: schemas.ColumnTypeString},
 				{Name: "statuses_url", Type: schemas.ColumnTypeString},
 			},
@@ -538,4 +559,17 @@ func getAllTables() []schemas.Table {
 
 func normalizeTableNames(table models.QueryType) string {
 	return strings.ToLower(strings.ReplaceAll(string(table), "_", "-"))
+}
+
+func timeFieldValuesForTable(tableName string) []string {
+	switch tableName {
+	case normalizeTableNames(models.QueryTypeIssues):
+		return []string{"created", "closed", "updated"}
+	case normalizeTableNames(models.QueryTypePullRequests),
+		normalizeTableNames(models.QueryTypePullRequestReviews):
+		return []string{"created", "closed", "merged", "updated"}
+	case normalizeTableNames(models.QueryTypeWorkflows):
+		return []string{"created", "updated"}
+	}
+	return nil
 }
