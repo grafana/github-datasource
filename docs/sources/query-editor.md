@@ -235,13 +235,11 @@ Search for contributors with `bob` in their name or handle:
 
 | Name | Description |
 |------|-------------|
-| name | Name of the contributor |
-| author | Name of the commit author |
-| author_login | GitHub handle of the commit author |
-| author_company | Company name of the commit author |
-| committed_at | When the commit was made: YYYY-MM-DD HH:MM:SS |
-| pushed_at | When the commit was pushed: YYYY-MM-DD HH:MM:SS |
-| message | Commit message |
+| name | Display name of the contributor |
+| login | GitHub handle of the contributor |
+| email | Email address of the contributor |
+| company | Company name of the contributor |
+| url | URL to the contributor's GitHub profile |
 
 ### Deployments
 
@@ -800,6 +798,7 @@ Show all tags created for the `grafana/grafana` repository within the currently 
 | id | SHA for the tag |
 | author | Name of the user who created the tag |
 | author_login | GitHub handle of the user who created the tag |
+| author_email | Email address of the user who created the tag |
 | author_company | Company name of the user who created the tag |
 | date | When the tag was created: YYYY-MM-DD HH:MM:SS |
 
@@ -828,8 +827,8 @@ Show all security advisories for the `grafana/grafana` repository:
 | value | Custom field which allows for counting or aggregation, always returns `1` |
 | created_at | When the vulnerability alert was created: YYYY-MM-DD HH:MM:SS |
 | dismissed_at | When the vulnerability alert was dismissed, if applicable: YYYY-MM-DD HH:MM:SS |
-| dismissed_reason | Reason the vulnerability alert was dismissed (for example, false positive, won't fix), if applicable |
-| withdrawn_at | When the advisory was withdrawn, if applicable: YYYY-MM-DD HH:MM:SS |
+| dismissReason | Reason the vulnerability alert was dismissed (for example, false positive, won't fix), if applicable |
+| withdrawnAt | When the advisory was withdrawn, if applicable: YYYY-MM-DD HH:MM:SS |
 | packageName | Name of the affected package |
 | advisoryDescription | Description of the vulnerability or advisory |
 | firstPatchedVersion | The first version of the package where the vulnerability is fixed |
