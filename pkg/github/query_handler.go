@@ -4,11 +4,11 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/grafana/grafana-plugin-sdk-go/backend"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 	"github.com/pkg/errors"
 
 	"github.com/grafana/github-datasource/pkg/models"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/datasource"
 )
 
 // QueryHandler is the main handler for datasource queries.
@@ -42,29 +42,32 @@ func UnmarshalQuery(b []byte, v interface{}) *backend.DataResponse {
 // GetQueryHandlers creates the QueryTypeMux type for handling queries
 func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	mux := datasource.NewQueryTypeMux()
+	register := func(qt models.QueryType, handler backend.QueryDataHandlerFunc) {
+		mux.HandleFunc(string(qt), handler)
+	}
 
-	mux.HandleFunc(models.QueryTypeCommits, s.HandleCommits)
-	mux.HandleFunc(models.QueryTypeIssues, s.HandleIssues)
-	mux.HandleFunc(models.QueryTypeContributors, s.HandleContributors)
-	mux.HandleFunc(models.QueryTypeLabels, s.HandleLabels)
-	mux.HandleFunc(models.QueryTypePullRequests, s.HandlePullRequests)
-	mux.HandleFunc(models.QueryTypePullRequestReviews, s.HandlePullRequestReviews)
-	mux.HandleFunc(models.QueryTypeReleases, s.HandleReleases)
-	mux.HandleFunc(models.QueryTypeTags, s.HandleTags)
-	mux.HandleFunc(models.QueryTypePackages, s.HandlePackages)
-	mux.HandleFunc(models.QueryTypeMilestones, s.HandleMilestones)
-	mux.HandleFunc(models.QueryTypeRepositories, s.HandleRepositories)
-	mux.HandleFunc(models.QueryTypeVulnerabilities, s.HandleVulnerabilities)
-	mux.HandleFunc(models.QueryTypeProjects, s.HandleProjects)
-	mux.HandleFunc(models.QueryTypeStargazers, s.HandleStargazers)
-	mux.HandleFunc(models.QueryTypeWorkflows, s.HandleWorkflows)
-	mux.HandleFunc(models.QueryTypeWorkflowUsage, s.HandleWorkflowUsage)
-	mux.HandleFunc(models.QueryTypeWorkflowRuns, s.HandleWorkflowRuns)
-	mux.HandleFunc(models.QueryTypeCodeScanning, s.HandleCodeScanning)
-	mux.HandleFunc(models.QueryTypeDeployments, s.HandleDeployments)
-	mux.HandleFunc(models.QueryTypeOrganizations, s.HandleOrganizations)
-	mux.HandleFunc(models.QueryTypeCommitFiles, s.HandleCommitFiles)
-	mux.HandleFunc(models.QueryTypePullRequestFiles, s.HandlePullRequestFiles)
+	register(models.QueryTypeCommits, s.HandleCommits)
+	register(models.QueryTypeIssues, s.HandleIssues)
+	register(models.QueryTypeContributors, s.HandleContributors)
+	register(models.QueryTypeLabels, s.HandleLabels)
+	register(models.QueryTypePullRequests, s.HandlePullRequests)
+	register(models.QueryTypePullRequestReviews, s.HandlePullRequestReviews)
+	register(models.QueryTypeReleases, s.HandleReleases)
+	register(models.QueryTypeTags, s.HandleTags)
+	register(models.QueryTypePackages, s.HandlePackages)
+	register(models.QueryTypeMilestones, s.HandleMilestones)
+	register(models.QueryTypeRepositories, s.HandleRepositories)
+	register(models.QueryTypeVulnerabilities, s.HandleVulnerabilities)
+	register(models.QueryTypeProjects, s.HandleProjects)
+	register(models.QueryTypeStargazers, s.HandleStargazers)
+	register(models.QueryTypeWorkflows, s.HandleWorkflows)
+	register(models.QueryTypeWorkflowUsage, s.HandleWorkflowUsage)
+	register(models.QueryTypeWorkflowRuns, s.HandleWorkflowRuns)
+	register(models.QueryTypeCodeScanning, s.HandleCodeScanning)
+	register(models.QueryTypeDeployments, s.HandleDeployments)
+	register(models.QueryTypeOrganizations, s.HandleOrganizations)
+	register(models.QueryTypeCommitFiles, s.HandleCommitFiles)
+	register(models.QueryTypePullRequestFiles, s.HandlePullRequestFiles)
 
 	return mux
 }
