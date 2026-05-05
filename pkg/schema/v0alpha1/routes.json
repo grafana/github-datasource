@@ -1,0 +1,24 @@
+{
+  "paths": {
+    "/resources/labels": {
+      "get": {
+        "summary": "List GitHub labels matching the given query",
+        "parameters": [
+          { "name": "owner", "in": "query", "required": true, "schema": { "type": "string" }, "description": "Owner of the repository" },
+          { "name": "repository", "in": "query", "required": true, "schema": { "type": "string" }, "description": "Repository name" },
+          { "name": "query", "in": "query", "required": false, "schema": { "type": "string" }, "description": "Substring filter on label name" }
+        ]
+      }
+    },
+    "/resources/milestones": {
+      "get": {
+        "summary": "List GitHub milestones matching the given query",
+        "parameters": [
+          { "name": "owner", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "repository", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "query", "in": "query", "required": false, "schema": { "type": "string" } }
+        ]
+      }
+    }
+  }
+}
