@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/json"
+	"os"
 	"reflect"
 	"testing"
 
@@ -8,6 +10,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	data "github.com/grafana/grafana-plugin-sdk-go/experimental/apis/datasource/v0alpha1"
+	"github.com/grafana/grafana-plugin-sdk-go/experimental/pluginschema"
 	"github.com/grafana/grafana-plugin-sdk-go/experimental/schemabuilder"
 )
 
@@ -309,6 +312,15 @@ func TestSchemaDefinitions(t *testing.T) {
 	}})
 
 	require.NoError(t, err)
+
+	// load existing routes.json (manually authored) and register them with the
+	// builder so UpdateProviderFiles doesn't see them as removed and delete the
+	// file. routes.json is hand-authored, not generated from Go types.
+	if routesData, err := os.ReadFile("../schema/v0alpha1/routes.json"); err == nil {
+		var routes pluginschema.Routes
+		require.NoError(t, json.Unmarshal(routesData, &routes))
+		require.NoError(t, builder.SetRoutes(&routes))
+	}
 
 	// update the query schemas resource
 	builder.UpdateProviderFiles(t, "v0alpha1", "../schema/")
