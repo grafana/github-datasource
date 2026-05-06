@@ -23,6 +23,7 @@ func main() {
 	mcpServer := mcp.NewServer(mcp.ServerOpts{
 		Name:    dsID,
 		Version: "1.0.0",
+		Addr:    "127.0.0.1:7401",
 	})
 
 	// build the instance manager once, bind to MCP, then pass to Manage.
