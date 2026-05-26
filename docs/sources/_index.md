@@ -93,8 +93,6 @@ To import the dashboard from within Grafana:
 
 You can also import the [GitHub Default dashboard from grafana.com](https://grafana.com/grafana/dashboards/14000) (dashboard ID `14000`). For instructions, refer to [Import a dashboard](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/).
 
-{{< docs/play title="GitHub data source plugin demo" url="https://play.grafana.org/dashboards/f/bb613d16-7ee5-4cf4-89ac-60dd9405fdd7/demo-github" >}}
-
 ## Caching
 
 Caching is always enabled for this plugin.
