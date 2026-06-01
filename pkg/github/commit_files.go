@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	googlegithub "github.com/google/go-github/v84/github"
+	googlegithub "github.com/google/go-github/v88/github"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 
 	"github.com/grafana/github-datasource/pkg/models"
@@ -141,4 +141,3 @@ func (c CommitsWithFiles) Frames() data.Frames {
 	frame.Meta = &data.FrameMeta{PreferredVisualization: data.VisTypeTable}
 	return data.Frames{frame}
 }
-

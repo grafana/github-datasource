@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	googlegithub "github.com/google/go-github/v84/github"
+	googlegithub "github.com/google/go-github/v88/github"
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 	"github.com/shurcooL/githubv4"
@@ -55,6 +55,7 @@ func (c Commits) Frames() data.Frames {
 }
 
 // QueryListCommits is the object representation of the graphql query for retrieving a paginated list of commits for a project
+//
 //	query {
 //		repository(name:"$name", owner:"$owner") {
 //			object(expression: "master") {
