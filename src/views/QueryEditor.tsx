@@ -24,6 +24,7 @@ import { QueryEditorWorkflowUsage } from './QueryEditorWorkflowUsage';
 import { QueryEditorWorkflowRuns } from './QueryEditorWorkflowRuns';
 import { QueryEditorCodeScanning } from './QueryEditorCodeScanning';
 import { QueryEditorDeployments } from './QueryEditorDeployments';
+import { QueryEditorBranches } from './QueryEditorBranches';
 
 import { DefaultQueryType, QueryTypes } from '../constants';
 
@@ -42,6 +43,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
   ['Organizations']: { component: () => <></> },
   ['ProjectItems']: { component: () => <></> },
   ['Tags']: { component: () => <></> },
+  ['Branches']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorBranches {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
   ['Releases']: { component: () => <></> },
   ['Vulnerabilities']: { component: () => <></> },
   ['Stargazers']: { component: () => <></> },
