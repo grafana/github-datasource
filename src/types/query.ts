@@ -52,6 +52,13 @@ export type TagsOptions = Options & {}
 type TagsQuery = BaseQuery<'Tags', TagsOptions>
 //#endregion
 
+//#region Branches Query
+export type BranchesOptions = Options & {
+  query?: string;
+}
+type BranchesQuery = BaseQuery<'Branches', BranchesOptions>
+//#endregion
+
 //#region Releases Query
 export type ReleasesOptions = Options & {}
 type ReleasesQuery = BaseQuery<'Releases', ReleasesOptions>
@@ -194,7 +201,8 @@ export type GitHubQuery =
   Workflow_RunsQuery |
   Workflow_UsageQuery |
   WorkflowsQuery |
-  DeploymentsQuery
+  DeploymentsQuery |
+  BranchesQuery
 
 export type GitHubVariableQuery = { key?: string; field?: string; } & GitHubQuery
 
