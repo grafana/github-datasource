@@ -81,6 +81,16 @@ func (d *Datasource) HandleTagsQuery(ctx context.Context, query *models.TagsQuer
 	return GetTagsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandleBranchesQuery is the query handler for listing GitHub Branches
+func (d *Datasource) HandleBranchesQuery(ctx context.Context, query *models.BranchesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListBranchesOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		Query:      query.Options.Query,
+	}
+	return GetAllBranches(ctx, d.client, opt)
+}
+
 // HandleReleasesQuery is the query handler for listing GitHub Releases
 func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListReleasesOptions{
