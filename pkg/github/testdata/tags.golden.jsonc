@@ -1,0 +1,109 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: tags
+//  Dimensions: 7 Fields by 2 Rows
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
+//  | Name: name     | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: date                      |
+//  | Labels:        | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                         |
+//  | Type: []string | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               |
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
+//  | v1.0.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 |
+//  | v1.1.0         |                | First Committer | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 |
+//  +----------------+----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "tags",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "id",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author_login",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author_email",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author_company",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "date",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "v1.0.0",
+            "v1.1.0"
+          ],
+          [
+            "",
+            ""
+          ],
+          [
+            "First Committer",
+            "First Committer"
+          ],
+          [
+            "firstCommitter",
+            "firstCommitter"
+          ],
+          [
+            "first@example.com",
+            "first@example.com"
+          ],
+          [
+            "ACME Corp",
+            "ACME Corp"
+          ],
+          [
+            1598372516000,
+            1598372516000
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: project_items
+//  Dimensions: 7 Fields by 1 Rows
+//  +----------------+----------------+----------------+-------------------------------+-------------------------------+--------------------+-----------------+
+//  | Name: id       | Name: archived | Name: type     | Name: updated_at              | Name: created_at              | Name: closed_at    | Name: Field1    |
+//  | Labels:        | Labels:        | Labels:        | Labels:                       | Labels:                       | Labels:            | Labels:         |
+//  | Type: []string | Type: []bool   | Type: []string | Type: []time.Time             | Type: []time.Time             | Type: []*time.Time | Type: []*string |
+//  +----------------+----------------+----------------+-------------------------------+-------------------------------+--------------------+-----------------+
+//  | Foo            | false          | ISSUE          | 2021-11-22 00:00:00 +0000 UTC | 2021-11-22 00:00:00 +0000 UTC | null               | Test            |
+//  +----------------+----------------+----------------+-------------------------------+-------------------------------+--------------------+-----------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "project_items",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "archived",
+            "type": "boolean",
+            "typeInfo": {
+              "frame": "bool"
+            }
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "updated_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "closed_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Field1",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "Foo"
+          ],
+          [
+            false
+          ],
+          [
+            "ISSUE"
+          ],
+          [
+            1637539200000
+          ],
+          [
+            1637539200000
+          ],
+          [
+            null
+          ],
+          [
+            "Test"
+          ]
+        ]
+      }
+    }
+  ]
+}

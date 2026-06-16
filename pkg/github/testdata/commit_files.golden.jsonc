@@ -1,0 +1,111 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "preferredVisualisationType": "table"
+//  }
+//  Name: commit_files
+//  Dimensions: 6 Fields by 2 Rows
+//  +----------------+-----------------+-----------------+---------------+----------------+-------------------------+
+//  | Name: path     | Name: additions | Name: deletions | Name: changes | Name: status   | Name: previous_filename |
+//  | Labels:        | Labels:         | Labels:         | Labels:       | Labels:        | Labels:                 |
+//  | Type: []string | Type: []int64   | Type: []int64   | Type: []int64 | Type: []string | Type: []string          |
+//  +----------------+-----------------+-----------------+---------------+----------------+-------------------------+
+//  | src/main.go    | 10              | 2               | 12            | modified       |                         |
+//  | src/renamed.go | 0               | 0               | 0             | renamed        | src/old.go              |
+//  +----------------+-----------------+-----------------+---------------+----------------+-------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "commit_files",
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "preferredVisualisationType": "table"
+        },
+        "fields": [
+          {
+            "name": "path",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "additions",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "deletions",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "changes",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "previous_filename",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "src/main.go",
+            "src/renamed.go"
+          ],
+          [
+            10,
+            0
+          ],
+          [
+            2,
+            0
+          ],
+          [
+            12,
+            0
+          ],
+          [
+            "modified",
+            "renamed"
+          ],
+          [
+            "",
+            "src/old.go"
+          ]
+        ]
+      }
+    }
+  ]
+}

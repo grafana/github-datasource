@@ -1,0 +1,234 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "preferredVisualisationType": "table"
+//  }
+//  Name: workflow
+//  Dimensions: 19 Fields by 1 Rows
+//  +----------------+--------------------------------+----------------+--------------------------------------------+----------------+-----------------+----------------+-----------------+------------------------------------+--------------------------------------+--------------------------------------+----------------------------------+----------------------+----------------------+-----------------------+-------------------------+------------------------+----------------------+------------------------+
+//  | Name: name     | Name: unique triggering actors | Name: runs     | Name: current billing cycle cost (approx.) | Name: skipped  | Name: successes | Name: failures | Name: cancelled | Name: total run duration (approx.) | Name: longest run duration (approx.) | Name: average run duration (approx.) | Name: p95 run duration (approx.) | Name: runs on Sunday | Name: runs on Monday | Name: runs on Tuesday | Name: runs on Wednesday | Name: runs on Thursday | Name: runs on Friday | Name: runs on Saturday |
+//  | Labels:        | Labels:                        | Labels:        | Labels:                                    | Labels:        | Labels:         | Labels:        | Labels:         | Labels:                            | Labels:                              | Labels:                              | Labels:                          | Labels:              | Labels:              | Labels:               | Labels:                 | Labels:                | Labels:              | Labels:                |
+//  | Type: []string | Type: []uint64                 | Type: []uint64 | Type: []string                             | Type: []string | Type: []string  | Type: []string | Type: []string  | Type: []string                     | Type: []string                       | Type: []string                       | Type: []string                   | Type: []uint64       | Type: []uint64       | Type: []uint64        | Type: []uint64          | Type: []uint64         | Type: []uint64       | Type: []uint64         |
+//  +----------------+--------------------------------+----------------+--------------------------------------------+----------------+-----------------+----------------+-----------------+------------------------------------+--------------------------------------+--------------------------------------+----------------------------------+----------------------+----------------------+-----------------------+-------------------------+------------------------+----------------------+------------------------+
+//  | workflow       | 100                            | 200            | $ 10.00                                    | 40 (20.00%)    | 150 (93.75%)    | 5 (3.12%)      | 5 (3.12%)       | 20h0m0s                            | 10m0s                                | 7m30s                                | 9m0s                             | 5                    | 45                   | 45                    | 50                      | 40                     | 10                   | 5                      |
+//  +----------------+--------------------------------+----------------+--------------------------------------------+----------------+-----------------+----------------+-----------------+------------------------------------+--------------------------------------+--------------------------------------+----------------------------------+----------------------+----------------------+-----------------------+-------------------------+------------------------+----------------------+------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "workflow",
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "preferredVisualisationType": "table"
+        },
+        "fields": [
+          {
+            "name": "name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "unique triggering actors",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "runs",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "current billing cycle cost (approx.)",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "skipped",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "successes",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "failures",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "cancelled",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "total run duration (approx.)",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "longest run duration (approx.)",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "average run duration (approx.)",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "p95 run duration (approx.)",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "runs on Sunday",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "runs on Monday",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "runs on Tuesday",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "runs on Wednesday",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "runs on Thursday",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "runs on Friday",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          },
+          {
+            "name": "runs on Saturday",
+            "type": "number",
+            "typeInfo": {
+              "frame": "uint64"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "workflow"
+          ],
+          [
+            100
+          ],
+          [
+            200
+          ],
+          [
+            "$ 10.00"
+          ],
+          [
+            "40 (20.00%)"
+          ],
+          [
+            "150 (93.75%)"
+          ],
+          [
+            "5 (3.12%)"
+          ],
+          [
+            "5 (3.12%)"
+          ],
+          [
+            "20h0m0s"
+          ],
+          [
+            "10m0s"
+          ],
+          [
+            "7m30s"
+          ],
+          [
+            "9m0s"
+          ],
+          [
+            5
+          ],
+          [
+            45
+          ],
+          [
+            45
+          ],
+          [
+            50
+          ],
+          [
+            40
+          ],
+          [
+            10
+          ],
+          [
+            5
+          ]
+        ]
+      }
+    }
+  ]
+}

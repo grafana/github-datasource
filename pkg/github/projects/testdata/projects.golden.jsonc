@@ -1,0 +1,122 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: projects
+//  Dimensions: 9 Fields by 1 Rows
+//  +---------------+----------------+----------------+--------------+--------------+--------------------+-------------------------------+-------------------------------+-------------------------+
+//  | Name: number  | Name: title    | Name: url      | Name: closed | Name: public | Name: closed_at    | Name: updated_at              | Name: created_at              | Name: short_description |
+//  | Labels:       | Labels:        | Labels:        | Labels:      | Labels:      | Labels:            | Labels:                       | Labels:                       | Labels:                 |
+//  | Type: []int64 | Type: []string | Type: []string | Type: []bool | Type: []bool | Type: []*time.Time | Type: []time.Time             | Type: []time.Time             | Type: []string          |
+//  +---------------+----------------+----------------+--------------+--------------+--------------------+-------------------------------+-------------------------------+-------------------------+
+//  | 1             | foo            |                | false        | false        | null               | 2021-11-22 00:00:00 +0000 UTC | 2021-11-22 00:00:00 +0000 UTC |                         |
+//  +---------------+----------------+----------------+--------------+--------------+--------------------+-------------------------------+-------------------------------+-------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "projects",
+        "fields": [
+          {
+            "name": "number",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "closed",
+            "type": "boolean",
+            "typeInfo": {
+              "frame": "bool"
+            }
+          },
+          {
+            "name": "public",
+            "type": "boolean",
+            "typeInfo": {
+              "frame": "bool"
+            }
+          },
+          {
+            "name": "closed_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "updated_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "short_description",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            1
+          ],
+          [
+            "foo"
+          ],
+          [
+            ""
+          ],
+          [
+            false
+          ],
+          [
+            false
+          ],
+          [
+            null
+          ],
+          [
+            1637539200000
+          ],
+          [
+            1637539200000
+          ],
+          [
+            ""
+          ]
+        ]
+      }
+    }
+  ]
+}

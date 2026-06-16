@@ -1,0 +1,121 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: releases
+//  Dimensions: 8 Fields by 2 Rows
+//  +----------------+------------------+----------------+---------------------+----------------+----------------------------+---------------------------------+---------------------------------+
+//  | Name: name     | Name: created_by | Name: is_draft | Name: is_prerelease | Name: tag      | Name: url                  | Name: created_at                | Name: published_at              |
+//  | Labels:        | Labels:          | Labels:        | Labels:             | Labels:        | Labels:                    | Labels:                         | Labels:                         |
+//  | Type: []string | Type: []string   | Type: []bool   | Type: []bool        | Type: []string | Type: []string             | Type: []time.Time               | Type: []*time.Time              |
+//  +----------------+------------------+----------------+---------------------+----------------+----------------------------+---------------------------------+---------------------------------+
+//  | Release #1     | exampleUser      | true           | false               | v1.0.0         | https://example.com/v1.0.0 | 2020-08-25 16:21:56 +0000 +0000 | null                            |
+//  | Release #2     | exampleUser      | true           | false               | v1.1.0         | https://example.com/v1.1.0 | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 17:21:56 +0000 +0000 |
+//  +----------------+------------------+----------------+---------------------+----------------+----------------------------+---------------------------------+---------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "releases",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "created_by",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "is_draft",
+            "type": "boolean",
+            "typeInfo": {
+              "frame": "bool"
+            }
+          },
+          {
+            "name": "is_prerelease",
+            "type": "boolean",
+            "typeInfo": {
+              "frame": "bool"
+            }
+          },
+          {
+            "name": "tag",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "published_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "Release #1",
+            "Release #2"
+          ],
+          [
+            "exampleUser",
+            "exampleUser"
+          ],
+          [
+            true,
+            true
+          ],
+          [
+            false,
+            false
+          ],
+          [
+            "v1.0.0",
+            "v1.1.0"
+          ],
+          [
+            "https://example.com/v1.0.0",
+            "https://example.com/v1.1.0"
+          ],
+          [
+            1598372516000,
+            1598372516000
+          ],
+          [
+            null,
+            1598376116000
+          ]
+        ]
+      }
+    }
+  ]
+}

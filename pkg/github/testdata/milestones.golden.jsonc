@@ -1,0 +1,119 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: milestones
+//  Dimensions: 7 Fields by 3 Rows
+//  +------------------+----------------+--------------+----------------+---------------------------------+---------------------------------+---------------------------------+
+//  | Name: title      | Name: author   | Name: closed | Name: state    | Name: created_at                | Name: closed_at                 | Name: due_at                    |
+//  | Labels:          | Labels:        | Labels:      | Labels:        | Labels:                         | Labels:                         | Labels:                         |
+//  | Type: []string   | Type: []string | Type: []bool | Type: []string | Type: []time.Time               | Type: []*time.Time              | Type: []*time.Time              |
+//  +------------------+----------------+--------------+----------------+---------------------------------+---------------------------------+---------------------------------+
+//  | first milestone  | testUser       | false        | OPEN           | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-29 20:21:56 +0000 +0000 |
+//  | second milestone | testUser2      | true         | CLOSED         | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-26 02:21:56 +0000 +0000 | 2020-08-29 20:21:56 +0000 +0000 |
+//  | third milestone  | testUser2      | false        | OPEN           | 2020-08-25 16:21:56 +0000 +0000 | null                            | 2020-08-30 16:21:56 +0000 +0000 |
+//  +------------------+----------------+--------------+----------------+---------------------------------+---------------------------------+---------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "milestones",
+        "fields": [
+          {
+            "name": "title",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "author",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "closed",
+            "type": "boolean",
+            "typeInfo": {
+              "frame": "bool"
+            }
+          },
+          {
+            "name": "state",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "closed_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "due_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "first milestone",
+            "second milestone",
+            "third milestone"
+          ],
+          [
+            "testUser",
+            "testUser2",
+            "testUser2"
+          ],
+          [
+            false,
+            true,
+            false
+          ],
+          [
+            "OPEN",
+            "CLOSED",
+            "OPEN"
+          ],
+          [
+            1598372516000,
+            1598372516000,
+            1598372516000
+          ],
+          [
+            null,
+            1598408516000,
+            null
+          ],
+          [
+            1598732516000,
+            1598732516000,
+            1598804516000
+          ]
+        ]
+      }
+    }
+  ]
+}

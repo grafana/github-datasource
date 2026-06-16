@@ -1,0 +1,142 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "preferredVisualisationType": "graph"
+//  }
+//  Name: stargazers
+//  Dimensions: 8 Fields by 3 Rows
+//  +---------------------------------+------------------+----------------+----------------+----------------+----------------+----------------------------+---------------------------------------------+
+//  | Name: starred_at                | Name: star_count | Name: id       | Name: login    | Name: git_name | Name: company  | Name: email                | Name: url                                   |
+//  | Labels:                         | Labels:          | Labels:        | Labels:        | Labels:        | Labels:        | Labels:                    | Labels:                                     |
+//  | Type: []time.Time               | Type: []int64    | Type: []string | Type: []string | Type: []string | Type: []string | Type: []string             | Type: []string                              |
+//  +---------------------------------+------------------+----------------+----------------+----------------+----------------+----------------------------+---------------------------------------------+
+//  | 2023-01-14 10:21:41 +0000 +0000 | 3                | NEVER          | gonna          | Run            | Around         | and_desert_you@example.org | https://www.youtube.com/watch?v=dQw4w9WgXcQ |
+//  | 2023-01-14 10:23:41 +0000 +0000 | 2                | NEVER          | gonna          | Let            | You            | down@example.org           |                                             |
+//  | 2023-01-14 10:25:41 +0000 +0000 | 1                | NEVER          | gonna          | Give           | You            | up@example.org             |                                             |
+//  +---------------------------------+------------------+----------------+----------------+----------------+----------------+----------------------------+---------------------------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "stargazers",
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "preferredVisualisationType": "graph"
+        },
+        "fields": [
+          {
+            "name": "starred_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "star_count",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "id",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "login",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "git_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "company",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            1673691701000,
+            1673691821000,
+            1673691941000
+          ],
+          [
+            3,
+            2,
+            1
+          ],
+          [
+            "NEVER",
+            "NEVER",
+            "NEVER"
+          ],
+          [
+            "gonna",
+            "gonna",
+            "gonna"
+          ],
+          [
+            "Run",
+            "Let",
+            "Give"
+          ],
+          [
+            "Around",
+            "You",
+            "You"
+          ],
+          [
+            "and_desert_you@example.org",
+            "down@example.org",
+            "up@example.org"
+          ],
+          [
+            "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            "",
+            ""
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+node_modules/
+coverage/
+ci/
+dist/
+.idea/
+.vscode/
+
+# e2e test directories
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+.eslintcache
+__debug_bin
+mage_output_file.go
+
+# provisioning
+/provisioning/
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

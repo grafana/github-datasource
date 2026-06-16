@@ -1,0 +1,109 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: users
+//  Dimensions: 7 Fields by 2 Rows
+//  +----------------+----------------+----------------+-------------------+-------------------+----------------+--------------------------+
+//  | Name: name     | Name: git_name | Name: login    | Name: email       | Name: git_email   | Name: company  | Name: url                |
+//  | Labels:        | Labels:        | Labels:        | Labels:           | Labels:           | Labels:        | Labels:                  |
+//  | Type: []string | Type: []string | Type: []string | Type: []string    | Type: []string    | Type: []string | Type: []string           |
+//  +----------------+----------------+----------------+-------------------+-------------------+----------------+--------------------------+
+//  | Example User   | Example User   | exUser1        | user1@example.com | user1@example.com | ACME Corp      | https://github.com/user1 |
+//  | Example User2  | Example User2  | exUser2        | user2@example.com | user2@example.com | ACME Corp      | https://github.com/user2 |
+//  +----------------+----------------+----------------+-------------------+-------------------+----------------+--------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "users",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "git_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "login",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "email",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "git_email",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "company",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "Example User",
+            "Example User2"
+          ],
+          [
+            "Example User",
+            "Example User2"
+          ],
+          [
+            "exUser1",
+            "exUser2"
+          ],
+          [
+            "user1@example.com",
+            "user2@example.com"
+          ],
+          [
+            "user1@example.com",
+            "user2@example.com"
+          ],
+          [
+            "ACME Corp",
+            "ACME Corp"
+          ],
+          [
+            "https://github.com/user1",
+            "https://github.com/user2"
+          ]
+        ]
+      }
+    }
+  ]
+}
