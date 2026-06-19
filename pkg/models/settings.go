@@ -29,7 +29,7 @@ type Settings struct {
 	// github-app auth related settings
 	AppId               string `json:"appId,omitempty"` // legacy config and provisioning, appId is stored as either number or string. But string should be desired format. So custom UnmarshalJSON function added to support this
 	AppIdInt64          int64
-	InstallationId      string `json:"installationId,omitempty"` // legacy config and provisioning, appId is stored as either number or string. But string should be desired format. So custom UnmarshalJSON function added to support this
+	InstallationId      string `json:"installationId,omitempty"` // legacy config and provisioning: installationId may be stored as either number or string; UnmarshalJSON normalizes it to a string
 	InstallationIdInt64 int64
 	PrivateKey          string
 }
