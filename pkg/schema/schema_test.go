@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// generateArtifacts is set by `go generateArtifacts ./pkg/schema`, which runs this test package
-// with the -generateArtifacts flag to (re)write the committed schema artifacts. When the
+// generateArtifacts is set by `go generate ./pkg/schema`, which runs this test package
+// with the -generate flag to (re)write the committed schema artifacts. When the
 // flag is not set, TestGenerateArtifacts is skipped during normal test runs.
 var generateArtifacts = flag.Bool("generate", false, "write the schema artifacts to disk instead of running tests")
 
