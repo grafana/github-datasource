@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.8.2
+
+⚙️ Chore: Added plugin schema and artifacts
+
+⚙️ Chore: Refactored the appId and installationId parsing to support legacy configuration
+
 ## 2.8.1
 
 ⚙️ Updating experimental schemas.
@@ -8,15 +14,14 @@
 
 ## 2.8.0
 
-### Minor Changes
-
 🚀 Add additional commit types that enable users to query for file changes alongside pull request or commit queries
+
 🚀 minimum required Grafana version is now set to 11.6.7
 
-### Patch Changes
-
 🐛 Updated query editor to use EditorField component for consistency with other plugins
+
 🐛 Migrated select component to combobox
+
 🐛 Chore: strict query type options
 
 ## 2.7.2
@@ -48,20 +53,18 @@
 ## 2.5.0
 
 🚀 Update dependencies for react-19 upgrade preparations
+
 🚀 Feature: Add labels to Pull Requests query type
 
 ## 2.4.1
 
 🐛 Update create-plugin configs
+
 🐛 Fixed the broken E2E tests with updated plugin-e2e package
 
 ## 2.4.0
 
-### Minor Changes
-
 🚀 Add support for PDC
-
-### Patch Changes
 
 🐛 Fix empty results in Workflows query type. Added nil check for CreatedAt/UpdatedAt timestamps and added "None" option to Time Field dropdown (default) to return all workflows without time filtering.
 
@@ -79,7 +82,7 @@
 
 ⚙️ Add alternate "rate limit exceeded" error handling (#494)
 
-🐛 Remove <base target="_blank"> from readme (#497)
+🐛 Remove `<base target="_blank">` from readme (#497)
 
 ⚙️ Bump @grafana/create-plugin configuration to 5.25.8 (#496)
 
@@ -90,8 +93,11 @@
 ## 2.1.6
 
 🐛 Documentation links will open in a new tab
+
 🐛 Removed unused annotations method (replaced with new annotations support in [#196](https://github.com/grafana/github-datasource/pull/196))
+
 🐛 Fixes error parsing app id / client id through provisioning via environment variables. Fixes [#477](https://github.com/grafana/github-datasource/issues/477)
+
 🐛 Replaced the deprecated `setVariableQueryEditor` with `CustomVariableSupport`
 
 ## 2.1.5
