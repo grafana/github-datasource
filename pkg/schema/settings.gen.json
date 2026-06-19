@@ -1,0 +1,59 @@
+{
+  "spec": {
+    "type": "object",
+    "properties": {
+      "jsonData": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "description": "GitHub App ID.",
+            "type": "string",
+            "x-dsconfig-depends-on": "jsonData.selectedAuthType == 'github-app'"
+          },
+          "cachingEnabled": {
+            "description": "Enable caching",
+            "type": "boolean"
+          },
+          "githubPlan": {
+            "description": "GitHub license type.",
+            "type": "string",
+            "enum": [
+              "github-basic",
+              "github-enterprise-cloud",
+              "github-enterprise-server"
+            ]
+          },
+          "githubUrl": {
+            "description": "GitHub Enterprise Server URL. Leave empty for github.com.",
+            "type": "string",
+            "x-dsconfig-depends-on": "jsonData.githubPlan == 'github-enterprise-server'"
+          },
+          "installationId": {
+            "description": "GitHub App installation ID.",
+            "type": "string",
+            "x-dsconfig-depends-on": "jsonData.selectedAuthType == 'github-app'"
+          },
+          "selectedAuthType": {
+            "description": "GitHub authentication method.",
+            "type": "string",
+            "default": "personal-access-token",
+            "enum": [
+              "personal-access-token",
+              "github-app"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "secureValues": [
+    {
+      "key": "accessToken",
+      "description": "GitHub personal access token."
+    },
+    {
+      "key": "privateKey",
+      "description": "GitHub App private key (PEM format)."
+    }
+  ]
+}
