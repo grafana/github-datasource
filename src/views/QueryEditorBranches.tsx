@@ -20,7 +20,6 @@ export const QueryEditorBranches = ({ query = '', onChange }: Props) => {
       >
         <Input
           aria-label="Branch filter"
-          placeholder="release/"
           value={filter}
           onChange={(e) => setFilter(e.currentTarget.value)}
           onBlur={() => onChange({ query: filter })}
