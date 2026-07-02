@@ -1933,7 +1933,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/sign-plugin@npm:^3.2.2":
+"@grafana/sign-plugin@npm:3.3.0":
   version: 3.3.0
   resolution: "@grafana/sign-plugin@npm:3.3.0"
   dependencies:
@@ -7941,7 +7941,7 @@ __metadata:
     "@grafana/plugin-ui": "npm:0.13.1"
     "@grafana/runtime": "npm:12.4.2"
     "@grafana/schema": "npm:12.4.2"
-    "@grafana/sign-plugin": "npm:^3.2.2"
+    "@grafana/sign-plugin": "npm:3.3.0"
     "@grafana/tsconfig": "npm:2.1.0"
     "@grafana/ui": "npm:12.4.2"
     "@openfeature/web-sdk": "npm:1.8.0"
