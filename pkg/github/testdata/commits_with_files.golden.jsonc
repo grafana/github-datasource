@@ -12,7 +12,7 @@
 //  +----------------+----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+----------------------+----------------------+----------------------+--------------------+-------------------+-------------------------+
 //  | Name: id       | Name: author   | Name: author_login | Name: author_email | Name: author_company | Name: committed_at              | Name: pushed_at                 | Name: message  | Name: file_path      | Name: file_additions | Name: file_deletions | Name: file_changes | Name: file_status | Name: previous_filename |
 //  | Labels:        | Labels:        | Labels:            | Labels:            | Labels:              | Labels:                         | Labels:                         | Labels:        | Labels:              | Labels:              | Labels:              | Labels:            | Labels:           | Labels:                 |
-//  | Type: []string | Type: []string | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               | Type: []time.Time               | Type: []string | Type: []string       | Type: []int64        | Type: []int64        | Type: []int64      | Type: []string    | Type: []string          |
+//  | Type: []string | Type: []string | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               | Type: []*time.Time              | Type: []string | Type: []string       | Type: []int64        | Type: []int64        | Type: []int64      | Type: []string    | Type: []string          |
 //  +----------------+----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+----------------------+----------------------+----------------------+--------------------+-------------------+-------------------------+
 //  | abc123def456   | firstCommitter | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:23:56 +0000 +0000 | initial commit | pkg/server/server.go | 10                   | 2                    | 12                 | modified          |                         |
 //  | abc123def456   | firstCommitter | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:23:56 +0000 +0000 | initial commit | pkg/renamed.go       | 0                    | 0                    | 0                  | renamed           | pkg/old.go              |
@@ -80,7 +80,8 @@
             "name": "pushed_at",
             "type": "time",
             "typeInfo": {
-              "frame": "time.Time"
+              "frame": "time.Time",
+              "nullable": true
             }
           },
           {

@@ -24,6 +24,17 @@ type Commit struct {
 // Commits is a slice of git commits
 type Commits []Commit
 
+// nullableTime returns nil for a zero time so an absent value is emitted as a
+// null cell instead of the Go zero date (0001-01-01). GitHub deprecated the
+// GraphQL Commit.pushedDate field and now always returns null for it, which
+// otherwise surfaced as a bogus 0001-01-01 pushed_at (issue #469).
+func nullableTime(t time.Time) *time.Time {
+	if t.IsZero() {
+		return nil
+	}
+	return &t
+}
+
 // Frames converts the list of commits to a Grafana DataFrame
 func (c Commits) Frames() data.Frames {
 	frame := data.NewFrame(
@@ -34,7 +45,7 @@ func (c Commits) Frames() data.Frames {
 		data.NewField("author_email", nil, []string{}),
 		data.NewField("author_company", nil, []string{}),
 		data.NewField("committed_at", nil, []time.Time{}),
-		data.NewField("pushed_at", nil, []time.Time{}),
+		data.NewField("pushed_at", nil, []*time.Time{}),
 		data.NewField("message", nil, []string{}),
 	)
 
@@ -46,7 +57,7 @@ func (c Commits) Frames() data.Frames {
 			v.Author.Email,
 			v.Author.User.Company,
 			v.CommittedDate.Time,
-			v.PushedDate.Time,
+			nullableTime(v.PushedDate.Time),
 			string(v.Message),
 		)
 	}
