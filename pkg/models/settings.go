@@ -9,6 +9,8 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
+const PluginID = "grafana-github-datasource"
+
 type AuthType string
 
 const (
@@ -88,4 +90,24 @@ func stringToInt64(v string, m string) (out int64, err error) {
 		return 0, fmt.Errorf("error parsing %s", m)
 	}
 	return out, nil
+}
+
+type SecureJsonDataKey string
+
+const (
+	// SecureJsonDataKeyAccessToken is set when the user authenticates with a
+	// GitHub personal access token.
+	SecureJsonDataKeyAccessToken SecureJsonDataKey = "accessToken"
+	// SecureJsonDataKeyPrivateKey is set when the user authenticates as a
+	// GitHub App installation (PEM-encoded RSA private key).
+	SecureJsonDataKeyPrivateKey SecureJsonDataKey = "privateKey"
+)
+
+// SecureJsonDataConfig lists the secret key names stored in secureJsonData.
+type SecureJsonDataConfig []SecureJsonDataKey
+
+// SecureJsonDataKeys are the secret keys used by the plugin.
+var SecureJsonDataKeys = SecureJsonDataConfig{
+	SecureJsonDataKeyAccessToken,
+	SecureJsonDataKeyPrivateKey,
 }

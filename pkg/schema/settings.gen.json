@@ -6,16 +6,16 @@
         "type": "object",
         "properties": {
           "appId": {
-            "description": "GitHub App ID.",
             "type": "string",
-            "x-dsconfig-depends-on": "jsonData.selectedAuthType == 'github-app'"
+            "x-dsconfig-depends-on": "jsonData_selectedAuthType == 'github-app'",
+            "x-dsconfig-required-when": "jsonData_selectedAuthType == 'github-app'"
           },
           "cachingEnabled": {
-            "description": "Enable caching",
-            "type": "boolean"
+            "description": "Enables the query caching wrapper in the plugin backend. Not exposed in the configuration editor; the backend currently enables caching for every datasource instance.",
+            "type": "boolean",
+            "default": true
           },
           "githubPlan": {
-            "description": "GitHub license type.",
             "type": "string",
             "enum": [
               "github-basic",
@@ -24,17 +24,16 @@
             ]
           },
           "githubUrl": {
-            "description": "GitHub Enterprise Server URL. Leave empty for github.com.",
             "type": "string",
-            "x-dsconfig-depends-on": "jsonData.githubPlan == 'github-enterprise-server'"
+            "x-dsconfig-depends-on": "virtual_selectedLicense == 'github-enterprise-server'",
+            "x-dsconfig-required-when": "jsonData_githubPlan == 'github-enterprise-server'"
           },
           "installationId": {
-            "description": "GitHub App installation ID.",
             "type": "string",
-            "x-dsconfig-depends-on": "jsonData.selectedAuthType == 'github-app'"
+            "x-dsconfig-depends-on": "jsonData_selectedAuthType == 'github-app'",
+            "x-dsconfig-required-when": "jsonData_selectedAuthType == 'github-app'"
           },
           "selectedAuthType": {
-            "description": "GitHub authentication method.",
             "type": "string",
             "default": "personal-access-token",
             "enum": [
@@ -48,12 +47,10 @@
   },
   "secureValues": [
     {
-      "key": "accessToken",
-      "description": "GitHub personal access token."
+      "key": "accessToken"
     },
     {
-      "key": "privateKey",
-      "description": "GitHub App private key (PEM format)."
+      "key": "privateKey"
     }
   ]
 }

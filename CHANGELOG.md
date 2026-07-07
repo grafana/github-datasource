@@ -1,11 +1,5 @@
 # Change Log
 
-## 2.8.2
-
-⚙️ Chore: Added plugin schema and artifacts
-
-⚙️ Chore: Refactored the appId and installationId parsing to support legacy configuration
-
 ## 2.8.1
 
 ⚙️ Updating experimental schemas.

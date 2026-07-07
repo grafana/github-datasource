@@ -8,32 +8,11 @@ const config = async (env: Env): Promise<Configuration> => {
     return merge(baseConfig, {
         plugins: [new CopyWebpackPlugin({
             patterns: [
-                {
-                    from: '../skills/**/*',
-                    to: './skills',
-                    noErrorOnMissing: true
-                },
-                {
-                    from: '../pkg/schema/dsconfig.json',
-                    to: './schema/settings.schema.json',
-                    noErrorOnMissing: true
-                },
-                {
-                    from: '../pkg/schema/schema.gen.json',
-                    to: './schema/v0alpha1.json',
-                    noErrorOnMissing: true
-                },
-                {
-                    from: '../pkg/schema/settings.gen.json',
-                    to: './schema/v0alpha1/settings.json',
-                    noErrorOnMissing: true
-                },
-                {
-                    from: '../pkg/schema/settings.examples.gen.json',
-                    to: './schema/v0alpha1/settings.examples.json',
-                    noErrorOnMissing: true
-                },
-            ]
+                { from: '../pkg/schema/dsconfig.json', to: './schema/dsconfig.json' },
+                { from: '../pkg/schema/schema.gen.json', to: './schema/v0alpha1.json' },
+                { from: '../pkg/schema/settings.gen.json', to: './schema/v0alpha1/settings.json' },
+                { from: '../pkg/schema/settings.examples.gen.json', to: './schema/v0alpha1/settings.examples.json' },
+            ],
         })],
     });
 };
