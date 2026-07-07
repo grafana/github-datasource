@@ -53,6 +53,8 @@ const (
 	QueryTypeCommitFiles QueryType = "Commit_Files"
 	// QueryTypePullRequestFiles is used when querying files changed in a specific pull request
 	QueryTypePullRequestFiles QueryType = "Pull_Request_Files"
+	// QueryTypeBranches is used when querying branches in a GitHub repository
+	QueryTypeBranches QueryType = "Branches"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -184,4 +186,10 @@ type CommitFilesQuery struct {
 type PullRequestFilesQuery struct {
 	Query
 	Options PullRequestFilesOptions `json:"options"`
+}
+
+// BranchesQuery is used when querying for branches in a GitHub repository
+type BranchesQuery struct {
+	Query
+	Options ListBranchesOptions `json:"options"`
 }

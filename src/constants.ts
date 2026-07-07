@@ -7,6 +7,7 @@ export const QueryTypes = [
   'Issues',
   'Contributors',
   'Tags',
+  'Branches',
   'Releases',
   'Pull_Requests',
   'Pull_Request_Reviews',

@@ -31,6 +31,7 @@ This document describes the query types and response fields available in the Git
 
 Select a query type from the **Query Type** drop-down in the query editor:
 
+- [**Branches**](#branches): List branches for a repository, with optional name filtering.
 - [**Code scanning**](#code-scanning): Query code scanning alerts for a repository or organization.
 - [**Commit files**](#commit-files): List files changed in a specific commit.
 - [**Commits**](#commits): Retrieve a list of commits for a branch or ref within a repository, including commit message, author, and timestamp.
@@ -771,6 +772,41 @@ Show all stargazers for the `grafana/grafana` repository within the current time
 | company | Company name of the GitHub user who starred the repository |
 | email | Email address of the GitHub user who starred the repository |
 | url | URL to the GitHub profile for the user who starred the repository |
+
+### Branches
+
+List branches for a repository.
+
+#### Query options
+
+| Name | Description | Required |
+|------|-------------|----------|
+| Owner | The GitHub user or organization that owns the repository | Yes |
+| Repository | The name of the repository | Yes |
+| Filter | Filter branches by name prefix (e.g. `release/` matches all `release/*` branches). Leave empty to list all branches. | No |
+
+##### Sample queries
+
+Show all branches for the `grafana/grafana` repository:
+
+- Owner: `grafana`
+- Repository: `grafana`
+
+Show only release branches:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Filter: `release/`
+
+#### Response
+
+| Name | Description |
+|------|-------------|
+| name | Name of the branch |
+| commit_sha | SHA of the latest commit on the branch |
+| author | Name of the user who authored the latest commit |
+| author_login | GitHub handle of the commit author |
+| commit_date | Date of the latest commit: YYYY-MM-DD HH:MM:SS |
 
 ### Tags
 
