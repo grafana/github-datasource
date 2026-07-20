@@ -11,7 +11,7 @@
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
     "e2e": "playwright test",
     "lint": "eslint --cache .",
-    "lint:fix": "yarn run lint --fix && prettier --write --list-different .",
+    "lint:fix": "npm run lint -- --fix && prettier --write --list-different .",
     "server": "docker compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
@@ -91,12 +91,12 @@
     "webpack-subresource-integrity": "5.1.0",
     "webpack-virtual-modules": "0.6.2"
   },
-  "resolutions": {
+  "overrides": {
     "@remix-run/router": "1.23.3",
     "@openfeature/core": "1.11.0",
     "serialize-javascript": "7.0.7",
     "i18next": "26.3.6",
     "dompurify": "3.4.11"
   },
-  "packageManager": "yarn@4.17.1"
+  "packageManager": "npm@11.18.0"
 }

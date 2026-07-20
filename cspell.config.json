@@ -9,7 +9,7 @@
     "query.panel.schema.json",
     "query.request.schema.json",
     "query.types.json",
-    "yarn.lock"
+    "package-lock.json"
   ],
   "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
   "words": [

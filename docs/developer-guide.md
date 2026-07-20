@@ -14,7 +14,7 @@ For this standard execution, you will need the following tools:
 
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- [Yarn](https://classic.yarnpkg.com/en/docs/install)
+- [npm](https://www.npmjs.com)
 - [Grafana Toolkit](https://www.npmjs.com/package/@grafana/toolkit)
 
 ## Running the development version
@@ -29,17 +29,17 @@ mage build:linux && mage reloadPlugin
 
 ### Compiling the Frontend
 
-After you made the desired changes, you can build and test the new version of the plugin using `yarn`:
+After you made the desired changes, you can build and test the new version of the plugin using `npm`:
 
 ```sh
-yarn test # run all test cases
-yarn dev # builds and puts the output at ./dist
+npm test # run all test cases
+npm run dev # builds and puts the output at ./dist
 ```
 
-Alternatively, you can have yarn watch for changes and automatically recompile them.
+Alternatively, you can have npm watch for changes and automatically recompile them.
 
 ```sh
-yarn watch
+npm run watch
 ```
 
 Now that you have a `./dist` folder, you are ready to run a fresh Grafana instance and put the new version of the datasource into [Grafana plugin folder](https://grafana.com/docs/grafana/latest/plugins/installation/).
@@ -68,10 +68,10 @@ You can find example dashboard that uses GitHub data source in [dashboards folde
 
 ## Submitting PR
 
-If you are creating a PR, ensure to run `yarn changeset` from your branch. Provide the details accordingly. It will create `*.md` file inside `./.changeset` folder. Later during the release, based on these changesets, package version will be bumped and changelog will be generated.
+If you are creating a PR, ensure to run `npx changeset` from your branch. Provide the details accordingly. It will create `*.md` file inside `./.changeset` folder. Later during the release, based on these changesets, package version will be bumped and changelog will be generated.
 
 ## Releasing & Bumping version
 
-To create a new release, execute `yarn changeset version`. This will update the Changelog and bump the version in `package.json` file. Commit those changes. Run the `Plugins - CD` GitHub Action to publish the new release.
+To create a new release, execute `npx changeset version`. This will update the Changelog and bump the version in `package.json` file. Commit those changes. Run the `Plugins - CD` GitHub Action to publish the new release.
 
 ## Development resources
