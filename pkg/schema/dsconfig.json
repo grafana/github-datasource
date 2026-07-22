@@ -1,0 +1,296 @@
+{
+    "$schema": "https://raw.githubusercontent.com/grafana/dsconfig/refs/tags/dsconfig/v0.0.10/dsconfig/schema.json",
+    "schemaVersion": "v1",
+    "pluginType": "grafana-github-datasource",
+    "pluginName": "GitHub",
+    "docURL": "https://grafana.com/docs/plugins/grafana-github-datasource",
+    "fields": [
+        {
+            "id": "virtual_selectedLicense",
+            "key": "selectedLicense",
+            "label": "GitHub License Type",
+            "valueType": "string",
+            "kind": "virtual",
+            "defaultValue": "github-basic",
+            "validations": [
+                {
+                    "type": "allowedValues",
+                    "values": [
+                        "github-basic",
+                        "github-enterprise-cloud",
+                        "github-enterprise-server"
+                    ]
+                }
+            ],
+            "ui": {
+                "component": "radio",
+                "options": [
+                    {
+                        "label": "Free, Pro & Team",
+                        "value": "github-basic"
+                    },
+                    {
+                        "label": "Enterprise Cloud",
+                        "value": "github-enterprise-cloud"
+                    },
+                    {
+                        "label": "Enterprise Server",
+                        "value": "github-enterprise-server"
+                    }
+                ]
+            },
+            "storage": {
+                "type": "computed",
+                "read": "jsonData.githubPlan == 'github-enterprise-server' || jsonData.githubUrl != '' ? 'github-enterprise-server' : (jsonData.githubPlan != '' ? jsonData.githubPlan : 'github-basic')"
+            },
+            "effects": [
+                {
+                    "when": "value == 'github-basic'",
+                    "set": {
+                        "jsonData_githubPlan": "github-basic",
+                        "jsonData_githubUrl": ""
+                    }
+                },
+                {
+                    "when": "value == 'github-enterprise-cloud'",
+                    "set": {
+                        "jsonData_githubPlan": "github-enterprise-cloud",
+                        "jsonData_githubUrl": ""
+                    }
+                },
+                {
+                    "when": "value == 'github-enterprise-server'",
+                    "set": {
+                        "jsonData_githubPlan": "github-enterprise-server"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "jsonData_githubPlan",
+            "key": "githubPlan",
+            "valueType": "string",
+            "target": "jsonData",
+            "validations": [
+                {
+                    "type": "allowedValues",
+                    "values": [
+                        "github-basic",
+                        "github-enterprise-cloud",
+                        "github-enterprise-server"
+                    ]
+                }
+            ],
+            "tags": [
+                "managed-by:virtual_selectedLicense",
+                "frontend-only"
+            ]
+        },
+        {
+            "id": "jsonData_githubUrl",
+            "key": "githubUrl",
+            "label": "GitHub Enterprise Server URL",
+            "valueType": "string",
+            "target": "jsonData",
+            "role": "endpoint.baseUrl",
+            "dependsOn": "virtual_selectedLicense == 'github-enterprise-server'",
+            "requiredWhen": "jsonData_githubPlan == 'github-enterprise-server'",
+            "ui": {
+                "component": "input",
+                "placeholder": "http(s)://HOSTNAME/"
+            }
+        },
+        {
+            "id": "jsonData_selectedAuthType",
+            "key": "selectedAuthType",
+            "label": "Authentication Type",
+            "valueType": "string",
+            "target": "jsonData",
+            "role": "auth.discriminator",
+            "defaultValue": "personal-access-token",
+            "validations": [
+                {
+                    "type": "allowedValues",
+                    "values": [
+                        "personal-access-token",
+                        "github-app"
+                    ]
+                }
+            ],
+            "ui": {
+                "component": "radio",
+                "options": [
+                    {
+                        "label": "Personal Access Token",
+                        "value": "personal-access-token"
+                    },
+                    {
+                        "label": "GitHub App",
+                        "value": "github-app"
+                    }
+                ]
+            }
+        },
+        {
+            "id": "secureJsonData_accessToken",
+            "key": "accessToken",
+            "label": "Personal Access Token",
+            "valueType": "string",
+            "target": "secureJsonData",
+            "role": "auth.bearer.token",
+            "dependsOn": "jsonData_selectedAuthType == 'personal-access-token'",
+            "requiredWhen": "jsonData_selectedAuthType == 'personal-access-token'",
+            "ui": {
+                "component": "input",
+                "placeholder": "Personal Access Token"
+            },
+            "help": {
+                "title": "Access Token & Permissions",
+                "markdown": "#### How to create a access token\n\nTo create a new fine grained access token, navigate to [Personal Access Tokens](https://github.com/settings/personal-access-tokens/new) or refer the guidelines from [the Github documentation.](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token)\n\n#### Repository access\n\nIn the **Repository access** section, Select the required repositories you want to use with the plugin.\n\n#### Permissions\n\nIn the repository permissions, Ensure to provide **read-only access** to the necessary section which you want to use with the plugin. **The plugin does not require any write access.**\nAlong with other permissions such as `Issues`, `Pull Requests`, ensure to provide read-only access to `Meta data` section as well.\nThis plugin does not require any org level permissions",
+                "docURL": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token"
+            }
+        },
+        {
+            "id": "jsonData_appId",
+            "key": "appId",
+            "label": "App ID",
+            "valueType": "string",
+            "target": "jsonData",
+            "dependsOn": "jsonData_selectedAuthType == 'github-app'",
+            "requiredWhen": "jsonData_selectedAuthType == 'github-app'",
+            "ui": {
+                "component": "input",
+                "placeholder": "App ID"
+            }
+        },
+        {
+            "id": "jsonData_installationId",
+            "key": "installationId",
+            "label": "Installation ID",
+            "valueType": "string",
+            "target": "jsonData",
+            "dependsOn": "jsonData_selectedAuthType == 'github-app'",
+            "requiredWhen": "jsonData_selectedAuthType == 'github-app'",
+            "ui": {
+                "component": "input",
+                "placeholder": "Installation ID"
+            }
+        },
+        {
+            "id": "secureJsonData_privateKey",
+            "key": "privateKey",
+            "label": "Private Key",
+            "valueType": "string",
+            "target": "secureJsonData",
+            "role": "auth.jwt.signingKey",
+            "dependsOn": "jsonData_selectedAuthType == 'github-app'",
+            "requiredWhen": "jsonData_selectedAuthType == 'github-app'",
+            "ui": {
+                "component": "textarea",
+                "multiline": true,
+                "rows": 7,
+                "placeholder": "-----BEGIN CERTIFICATE-----"
+            }
+        },
+        {
+            "id": "jsonData_cachingEnabled",
+            "key": "cachingEnabled",
+            "description": "Enables the query caching wrapper in the plugin backend. Not exposed in the configuration editor; the backend currently enables caching for every datasource instance.",
+            "valueType": "boolean",
+            "target": "jsonData",
+            "defaultValue": true,
+            "tags": [
+                "backend-only"
+            ]
+        }
+    ],
+    "groups": [
+        {
+            "id": "connection",
+            "title": "Connection",
+            "order": 1,
+            "optional": true,
+            "fieldRefs": [
+                "virtual_selectedLicense",
+                "jsonData_githubUrl"
+            ]
+        },
+        {
+            "id": "authentication",
+            "title": "Authentication",
+            "order": 2,
+            "fieldRefs": [
+                "jsonData_selectedAuthType",
+                "secureJsonData_accessToken",
+                "jsonData_appId",
+                "jsonData_installationId",
+                "secureJsonData_privateKey"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "type": "group",
+            "fields": [
+                "jsonData_appId",
+                "jsonData_installationId",
+                "secureJsonData_privateKey"
+            ],
+            "description": "GitHub App credentials"
+        },
+        {
+            "type": "pair",
+            "fields": [
+                "jsonData_githubPlan",
+                "jsonData_githubUrl"
+            ],
+            "description": "GitHub license type and the Enterprise Server base URL it enables"
+        }
+    ],
+    "instructions": [
+        {
+            "msg": "Two authentication methods are available, selected via jsonData.selectedAuthType: 'personal-access-token' (the default) and 'github-app'. Configure exactly one method; only the credentials of the selected method are used. Switching methods does not clear the other method's fields or secrets \u2014 stale values are harmless but confusing.",
+            "tags": [
+                "llm",
+                "auth"
+            ]
+        },
+        {
+            "msg": "To configure Personal Access Token authentication, set jsonData.selectedAuthType to 'personal-access-token' and put the token in secureJsonData.accessToken. Minimal payload: {\"jsonData\":{\"selectedAuthType\":\"personal-access-token\"},\"secureJsonData\":{\"accessToken\":\"<token>\"}}. Use a fine grained personal access token with read-only repository permissions, including the 'Metadata' permission; no write or org-level permissions are needed.",
+            "tags": [
+                "llm",
+                "auth"
+            ]
+        },
+        {
+            "msg": "To configure GitHub App authentication, set jsonData.selectedAuthType to 'github-app', provide jsonData.appId and jsonData.installationId (numeric values, as JSON strings or numbers), and put the app's private key in secureJsonData.privateKey. Minimal payload: {\"jsonData\":{\"selectedAuthType\":\"github-app\",\"appId\":\"<app id>\",\"installationId\":\"<installation id>\"},\"secureJsonData\":{\"privateKey\":\"<PEM>\"}}. The private key must be the complete PEM text including the BEGIN/END lines (despite the editor placeholder showing '-----BEGIN CERTIFICATE-----', it is an RSA private key, not a certificate). All three values are mandatory: a missing or non-numeric appId/installationId makes the backend fail to load the datasource.",
+            "tags": [
+                "llm",
+                "auth"
+            ]
+        },
+        {
+            "msg": "Legacy auth interpretation: datasources created before selectedAuthType was introduced store only secureJsonData.accessToken with no auth type; the backend treats them as 'personal-access-token'. Do not assume a missing selectedAuthType means the datasource is unconfigured.",
+            "tags": [
+                "llm",
+                "auth",
+                "legacy"
+            ]
+        },
+        {
+            "msg": "secureJsonData values (accessToken, privateKey) are write-only: they can be set or reset but never read back. To check whether a secret is already configured on an existing datasource, read the secureJsonFields object (e.g. secureJsonFields.accessToken == true) instead of secureJsonData.",
+            "tags": [
+                "llm",
+                "auth",
+                "secure"
+            ]
+        },
+        {
+            "msg": "For GitHub.com (Free, Pro & Team) and GitHub Enterprise Cloud, do NOT set jsonData.githubUrl \u2014 the backend treats any non-empty githubUrl as an on-prem Enterprise Server. Only set jsonData.githubUrl (with jsonData.githubPlan='github-enterprise-server') for an on-prem instance, e.g. {\"jsonData\":{\"githubPlan\":\"github-enterprise-server\",\"githubUrl\":\"https://github.example.com\"}}, and clear githubUrl to an empty string when switching away. Prefer omitting the trailing slash: the backend string-concatenates '/api/v3' and '/api/graphql' onto githubUrl.",
+            "tags": [
+                "llm",
+                "connection"
+            ]
+        }
+    ]
+}

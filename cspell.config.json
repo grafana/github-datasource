@@ -11,9 +11,14 @@
     "query.types.json",
     "yarn.lock"
   ],
-  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
+  "ignoreRegExpList": [
+    "import\\s*\\((.|[\r\n])*?\\)",
+    "import\\s*.*\".*?\""
+  ],
   "words": [
     "apiserver",
+    "dsconfig",
+    "dsschema",
     "dataplane",
     "araddon",
     "bmike",
@@ -52,6 +57,8 @@
     "octocat",
     "oldorg",
     "oldrepo",
+    "pluginschema",
+    "unconfigured",
     "prismjs",
     "promop",
     "PTRACE",
