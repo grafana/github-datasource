@@ -9,9 +9,13 @@
     "query.panel.schema.json",
     "query.request.schema.json",
     "query.types.json",
-    "yarn.lock"
+    "yarn.lock",
+    "jest.config.js"
   ],
-  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
+  "ignoreRegExpList": [
+    "import\\s*\\((.|[\r\n])*?\\)",
+    "import\\s*.*\".*?\""
+  ],
   "words": [
     "apiserver",
     "dataplane",
