@@ -11,6 +11,7 @@ import (
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/pkg/errors"
+	"golang.org/x/sync/singleflight"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
 	"github.com/grafana/github-datasource/pkg/models"
@@ -51,6 +52,8 @@ type CachedDatasource struct {
 
 	mu    sync.RWMutex // protects the cache map against concurrent access
 	cache map[string]CachedResult
+
+	deploymentRequests singleflight.Group
 }
 
 func (c *CachedDatasource) getCache(req backend.DataQuery) (dfutil.Framer, error) {
@@ -268,8 +271,21 @@ func (c *CachedDatasource) HandleDeploymentsQuery(ctx context.Context, q *models
 		return value, err
 	}
 
-	f, err := c.datasource.HandleDeploymentsQuery(ctx, q, req)
-	return c.saveCache(req, f, err)
+	key, err := getCacheKey(req)
+	if err != nil {
+		return nil, err
+	}
+	value, err, _ := c.deploymentRequests.Do(key, func() (interface{}, error) {
+		if value, err := c.getCache(req); err == nil {
+			return value, nil
+		}
+		f, err := c.datasource.HandleDeploymentsQuery(context.WithoutCancel(ctx), q, req)
+		return c.saveCache(req, f, err)
+	})
+	if value == nil {
+		return nil, err
+	}
+	return value.(dfutil.Framer), err
 }
 
 // HandleOrganizationsQuery is the cache wrapper for the organizations query handler
