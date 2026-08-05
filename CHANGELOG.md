@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.9.0
+
+### Minor Changes
+
+🚀 Add Branches query type for listing repository branches
+
+### Patch Changes
+
+⚙️ Chore: Updated frontend & backend dependencies
+📝 Docs: Updated GitHub data source docs
+🐛 Emit null pushed_at instead of a zero date for commits
+🐛 Paginate Code Scanning alerts instead of returning only the first page
+🐛 Security: bump out-of-SLO react-router to 6.30.4
+
 ## 2.8.1
 
 ⚙️ Updating experimental schemas.

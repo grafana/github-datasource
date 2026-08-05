@@ -1,6 +1,6 @@
 {
   "name": "grafana-github-datasource",
-  "version": "2.8.1",
+  "version": "2.9.0",
   "private": true,
   "description": "Grafana data source plugin for Github",
   "repository": "github:grafana/github-datasource",
@@ -92,6 +92,7 @@
     "webpack-virtual-modules": "0.6.2"
   },
   "resolutions": {
+    "react-router@npm:6.30.3": "6.30.4",
     "@remix-run/router": "1.23.3",
     "@openfeature/core": "1.11.0",
     "serialize-javascript": "7.0.7",
