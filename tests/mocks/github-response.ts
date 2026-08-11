@@ -84,3 +84,46 @@ export const githubResponse = {
     },
   },
 };
+
+export const githubVariableResponse = {
+  results: {
+    metricFindQuery: {
+      ...githubResponse.results.A,
+      frames: githubResponse.results.A.frames.map((frame) => ({
+        ...frame,
+        schema: {
+          ...frame.schema,
+          refId: 'metricFindQuery',
+        },
+      })),
+    },
+  },
+};
+
+export const githubBranchesResponse = {
+  results: {
+    A: {
+      status: 200,
+      frames: [
+        {
+          schema: {
+            name: 'branches',
+            refId: 'A',
+            fields: [
+              {
+                name: 'name',
+                type: 'string',
+                typeInfo: {
+                  frame: 'string',
+                },
+              },
+            ],
+          },
+          data: {
+            values: [['release/2.9']],
+          },
+        },
+      ],
+    },
+  },
+};
