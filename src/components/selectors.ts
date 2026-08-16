@@ -29,6 +29,10 @@ export const components = {
     Issues: {
       timeFieldInput: 'Query editor issues time field',
     },
+    WebhookDeliveries: {
+      hookIdInput: 'Query editor webhook hook id',
+      eventInput: 'Query editor webhook event',
+    },
   },
   AnnotationEditor: {
     container: 'Annotation editor container',
