@@ -59,6 +59,8 @@ const (
 	QueryTypeCheckRuns QueryType = "Check_Runs"
 	// QueryTypePullRequestsForBranches is used when looking up the pull requests opened from a list of branches in a GitHub repository
 	QueryTypePullRequestsForBranches QueryType = "Pull_Requests_For_Branches"
+	// QueryTypeWebhookDeliveries is used when querying deliveries of an organization or repository webhook
+	QueryTypeWebhookDeliveries QueryType = "Webhook_Deliveries"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -208,4 +210,10 @@ type CheckRunsQuery struct {
 type PullRequestsForBranchesQuery struct {
 	Query
 	Options ListPullRequestsForBranchesOptions `json:"options"`
+}
+
+// WebhookDeliveriesQuery is used when querying for deliveries of a GitHub webhook
+type WebhookDeliveriesQuery struct {
+	Query
+	Options ListWebhookDeliveriesOptions `json:"options"`
 }
