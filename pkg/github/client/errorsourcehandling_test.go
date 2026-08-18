@@ -95,6 +95,15 @@ func TestAddErrorSourceToError(t *testing.T) {
 			resp:     nil,
 			expected: backend.DownstreamError(errors.New("Resource not accessible by integration")),
 		},
+		{
+			// go-github's Response embeds a *http.Response that can be nil, even
+			// when the Response wrapper is not nil. Then resp.StatusCode panics.
+			// The function must return the error as-is. It must not crash.
+			name:     "response wrapper with nil inner http.Response does not panic",
+			err:      errors.New("some transport error"),
+			resp:     &googlegithub.Response{},
+			expected: errors.New("some transport error"),
+		},
 	}
 
 	for _, tt := range tests {

@@ -74,8 +74,10 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 			return backend.PluginError(err)
 		}
 	}
-	// If we have response we can use the status code from it
-	if resp != nil {
+	// If there is a response, use the status code from it.
+	// resp.StatusCode reads go-github's embedded *http.Response. That pointer can
+	// be nil even when resp is not nil. Guard it to avoid a nil-pointer panic.
+	if resp != nil && resp.Response != nil {
 		if resp.StatusCode/100 != 2 {
 			if backend.ErrorSourceFromHTTPStatus(resp.StatusCode) == backend.ErrorSourceDownstream {
 				return backend.DownstreamError(err)
