@@ -47,13 +47,13 @@ func sanitizeGitHubError(err error) error {
 		rateErr   *googlegithub.RateLimitError
 		abuseErr  *googlegithub.AbuseRateLimitError
 		acceptErr *googlegithub.AcceptedError
-		redirErr  *googlegithub.RedirectionError
+		redirectErr  *googlegithub.RedirectionError
 	)
 	if errors.As(err, &errResp) ||
 		errors.As(err, &rateErr) ||
 		errors.As(err, &abuseErr) ||
 		errors.As(err, &acceptErr) ||
-		errors.As(err, &redirErr) {
+		errors.As(err, &redirectErr) {
 		return fmt.Errorf("%s", err.Error())
 	}
 	return err
