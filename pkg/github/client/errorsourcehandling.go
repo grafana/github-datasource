@@ -36,8 +36,24 @@ var (
 //
 // See TestGitHubErrorResponseWithTypedNilErrorsIs for a reproduction of the panic.
 func sanitizeGitHubError(err error) error {
-	var ghErr *googlegithub.ErrorResponse
-	if errors.As(err, &ghErr) {
+	// go-github's error types implement Is(target) by calling errors.As(target, &v).
+	// The SDK's guessErrorStatus calls errors.Is(err, (*url.Error)(nil)) with a typed
+	// nil target, which makes that errors.As call (*url.Error).Unwrap on a nil
+	// receiver and panic. Flatten any of these to a plain error: that drops the
+	// unsafe Is method from the chain while preserving the message. This list
+	// mirrors every go-github error type that defines such an Is method (github.go).
+	var (
+		errResp   *googlegithub.ErrorResponse
+		rateErr   *googlegithub.RateLimitError
+		abuseErr  *googlegithub.AbuseRateLimitError
+		acceptErr *googlegithub.AcceptedError
+		redirErr  *googlegithub.RedirectionError
+	)
+	if errors.As(err, &errResp) ||
+		errors.As(err, &rateErr) ||
+		errors.As(err, &abuseErr) ||
+		errors.As(err, &acceptErr) ||
+		errors.As(err, &redirErr) {
 		return fmt.Errorf("%s", err.Error())
 	}
 	return err
