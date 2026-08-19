@@ -244,6 +244,15 @@ func (client *Client) ListPullRequestFiles(ctx context.Context, owner, repo stri
 	return files, resp, nil
 }
 
+// ListCheckRunsForRef sends a request to the GitHub rest API to list the check runs for a git reference.
+func (client *Client) ListCheckRunsForRef(ctx context.Context, owner, repo, ref string, opts *googlegithub.ListCheckRunsOptions) (*googlegithub.ListCheckRunsResults, *googlegithub.Response, error) {
+	results, resp, err := client.restClient.Checks.ListCheckRunsForRef(ctx, owner, repo, ref, opts)
+	if err != nil {
+		return nil, nil, addErrorSourceToError(err, resp)
+	}
+	return results, resp, nil
+}
+
 // GetWorkflowUsage returns the workflow usage for a specific workflow.
 func (client *Client) GetWorkflowUsage(ctx context.Context, owner, repo, workflow string, timeRange backend.TimeRange) (models.WorkflowUsage, error) {
 	actors := make(map[string]struct{}, 0)
