@@ -1,0 +1,224 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] {
+//      "typeVersion": [
+//          0,
+//          0
+//      ],
+//      "preferredVisualisationType": "table"
+//  }
+//  Name: check_runs
+//  Dimensions: 16 Fields by 2 Rows
+//  +---------------+----------------+----------------+----------------+------------------+-------------------------------+-------------------------------+------------------------+-----------------------------------------------------+-------------------------------------------------------------+----------------+----------------+----------------------+--------------------+----------------------+-------------------------+
+//  | Name: id      | Name: name     | Name: head_sha | Name: status   | Name: conclusion | Name: started_at              | Name: completed_at            | Name: duration_seconds | Name: html_url                                      | Name: details_url                                           | Name: app_name | Name: app_slug | Name: check_suite_id | Name: output_title | Name: output_summary | Name: annotations_count |
+//  | Labels:       | Labels:        | Labels:        | Labels:        | Labels:          | Labels:                       | Labels:                       | Labels:                | Labels:                                             | Labels:                                                     | Labels:        | Labels:        | Labels:              | Labels:            | Labels:              | Labels:                 |
+//  | Type: []int64 | Type: []string | Type: []string | Type: []string | Type: []string   | Type: []*time.Time            | Type: []*time.Time            | Type: []*int64         | Type: []string                                      | Type: []string                                              | Type: []string | Type: []string | Type: []int64        | Type: []string     | Type: []string       | Type: []int64           |
+//  +---------------+----------------+----------------+----------------+------------------+-------------------------------+-------------------------------+------------------------+-----------------------------------------------------+-------------------------------------------------------------+----------------+----------------+----------------------+--------------------+----------------------+-------------------------+
+//  | 1             | build          | abc123def456   | completed      | success          | 2024-01-01 10:00:00 +0000 UTC | 2024-01-01 10:05:00 +0000 UTC | 300                    | https://github.com/grafana/github-datasource/runs/1 | https://github.com/grafana/github-datasource/actions/runs/1 | GitHub Actions | github-actions | 10                   | Build succeeded    | All targets built    | 0                       |
+//  | 2             | lint           | abc123def456   | in_progress    |                  | 2024-01-01 10:00:00 +0000 UTC | null                          | null                   |                                                     |                                                             |                |                | 0                    |                    |                      | 0                       |
+//  +---------------+----------------+----------------+----------------+------------------+-------------------------------+-------------------------------+------------------------+-----------------------------------------------------+-------------------------------------------------------------+----------------+----------------+----------------------+--------------------+----------------------+-------------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "check_runs",
+        "meta": {
+          "typeVersion": [
+            0,
+            0
+          ],
+          "preferredVisualisationType": "table"
+        },
+        "fields": [
+          {
+            "name": "id",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "head_sha",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "conclusion",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "started_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "completed_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "duration_seconds",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64",
+              "nullable": true
+            }
+          },
+          {
+            "name": "html_url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "details_url",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "app_name",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "app_slug",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "check_suite_id",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "output_title",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "output_summary",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "annotations_count",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            1,
+            2
+          ],
+          [
+            "build",
+            "lint"
+          ],
+          [
+            "abc123def456",
+            "abc123def456"
+          ],
+          [
+            "completed",
+            "in_progress"
+          ],
+          [
+            "success",
+            ""
+          ],
+          [
+            1704103200000,
+            1704103200000
+          ],
+          [
+            1704103500000,
+            null
+          ],
+          [
+            300,
+            null
+          ],
+          [
+            "https://github.com/grafana/github-datasource/runs/1",
+            ""
+          ],
+          [
+            "https://github.com/grafana/github-datasource/actions/runs/1",
+            ""
+          ],
+          [
+            "GitHub Actions",
+            ""
+          ],
+          [
+            "github-actions",
+            ""
+          ],
+          [
+            10,
+            0
+          ],
+          [
+            "Build succeeded",
+            ""
+          ],
+          [
+            "All targets built",
+            ""
+          ],
+          [
+            0,
+            0
+          ]
+        ]
+      }
+    }
+  ]
+}

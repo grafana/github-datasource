@@ -23,6 +23,7 @@ import { QueryEditorWorkflows } from './QueryEditorWorkflows';
 import { QueryEditorWorkflowUsage } from './QueryEditorWorkflowUsage';
 import { QueryEditorWorkflowRuns } from './QueryEditorWorkflowRuns';
 import { QueryEditorCodeScanning } from './QueryEditorCodeScanning';
+import { QueryEditorCheckRuns } from './QueryEditorCheckRuns';
 import { QueryEditorDeployments } from './QueryEditorDeployments';
 import { QueryEditorBranches } from './QueryEditorBranches';
 
@@ -64,6 +65,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
   ['Code_Scanning']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorCodeScanning {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  ['Check_Runs']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCheckRuns {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   ['Commits']: {
