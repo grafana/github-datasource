@@ -67,23 +67,7 @@ func GetAllDeployments(ctx context.Context, client models.Client, opts models.Li
 
 	deployments := []*googlegithub.Deployment{}
 
-	// Build the list options with filters
-	listOpts := &googlegithub.DeploymentsListOptions{
-		ListOptions: googlegithub.ListOptions{PerPage: 100},
-	}
-
-	if opts.SHA != "" {
-		listOpts.SHA = opts.SHA
-	}
-	if opts.GitRef != "" {
-		listOpts.Ref = opts.GitRef
-	}
-	if opts.Task != "" {
-		listOpts.Task = opts.Task
-	}
-	if opts.Environment != "" {
-		listOpts.Environment = opts.Environment
-	}
+	listOpts := toDeploymentsListOptions(opts)
 
 	page := 1
 	for page != 0 {
@@ -104,20 +88,53 @@ func GetAllDeployments(ctx context.Context, client models.Client, opts models.Li
 	return DeploymentsWrapper(deployments), nil
 }
 
-// GetDeploymentsInRange retrieves every deployment from the repository and then returns the ones that fall within the given time range.
+// GetDeploymentsInRange retrieves deployments in the given time range.
 func GetDeploymentsInRange(ctx context.Context, client models.Client, opts models.ListDeploymentsOptions, from time.Time, to time.Time) (DeploymentsWrapper, error) {
-	deployments, err := GetAllDeployments(ctx, client, opts)
-	if err != nil {
-		return nil, err
+	if opts.Owner == "" || opts.Repository == "" {
+		return nil, nil
 	}
 
 	filtered := []*googlegithub.Deployment{}
+	listOpts := toDeploymentsListOptions(opts)
 
-	for _, deployment := range deployments {
-		if createdAt := deployment.CreatedAt.GetTime(); createdAt != nil && !createdAt.Before(from) && !createdAt.After(to) {
-			filtered = append(filtered, deployment)
+	page := 1
+	for page != 0 {
+		listOpts.Page = page
+		deployments, resp, err := client.ListDeployments(ctx, opts.Owner, opts.Repository, listOpts)
+		if err != nil {
+			return nil, fmt.Errorf("listing deployments: opts=%+v: %v", opts, err)
 		}
+
+		olderDeployment := false
+		for _, deployment := range deployments {
+			createdAt := deployment.CreatedAt.GetTime()
+			if createdAt == nil {
+				continue
+			}
+			if !createdAt.Before(from) && !createdAt.After(to) {
+				filtered = append(filtered, deployment)
+			}
+			if createdAt.Before(from) {
+				olderDeployment = true
+			}
+		}
+
+		// GitHub lists deployments newest-first, so later pages cannot be in range.
+		if olderDeployment || resp == nil {
+			break
+		}
+		page = resp.NextPage
 	}
 
 	return DeploymentsWrapper(filtered), nil
+}
+
+func toDeploymentsListOptions(opts models.ListDeploymentsOptions) *googlegithub.DeploymentsListOptions {
+	return &googlegithub.DeploymentsListOptions{
+		SHA:         opts.SHA,
+		Ref:         opts.GitRef,
+		Task:        opts.Task,
+		Environment: opts.Environment,
+		ListOptions: googlegithub.ListOptions{PerPage: 100},
+	}
 }
