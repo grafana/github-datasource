@@ -95,6 +95,15 @@ func TestAddErrorSourceToError(t *testing.T) {
 			resp:     nil,
 			expected: backend.DownstreamError(errors.New("Resource not accessible by integration")),
 		},
+		{
+			// go-github's Response embeds a *http.Response that can be nil, even
+			// when the Response wrapper is not nil. Then resp.StatusCode panics.
+			// The function must return the error as-is. It must not crash.
+			name:     "response wrapper with nil inner http.Response does not panic",
+			err:      errors.New("some transport error"),
+			resp:     &googlegithub.Response{},
+			expected: errors.New("some transport error"),
+		},
 	}
 
 	for _, tt := range tests {
@@ -241,4 +250,28 @@ func TestExtractStatusCode(t *testing.T) {
 			}
 		})
 	}
+}
+
+// TestSanitizeGitHubError_RateLimitErrorNoPanic checks that a rate-limit error does
+// not crash the SDK's error classification. go-github's *RateLimitError has an Is
+// method that calls errors.As(target, &v). The SDK classifies errors with
+// errors.Is(err, (*url.Error)(nil)), where the target is a typed nil. That makes the
+// errors.As call (*url.Error).Unwrap on a nil receiver and panic. sanitizeGitHubError
+// flattens the error so this cannot happen.
+func TestSanitizeGitHubError_RateLimitErrorNoPanic(t *testing.T) {
+	req, _ := http.NewRequest("GET", "https://api.github.com/x", nil)
+	ghResp := &http.Response{StatusCode: 403, Request: req}
+	rle := &googlegithub.RateLimitError{
+		Response: ghResp,
+		Message:  "API rate limit exceeded",
+	}
+
+	// What the plugin returns up the chain for a rate-limit error.
+	classified := addErrorSourceToError(rle, &googlegithub.Response{Response: ghResp})
+
+	// Exactly what the SDK's guessErrorStatus does (status.go:112).
+	var connErr *url.Error
+	require.NotPanics(t, func() {
+		_ = errors.Is(classified, connErr)
+	}, "errors.Is with a typed-nil *url.Error target must not panic")
 }
