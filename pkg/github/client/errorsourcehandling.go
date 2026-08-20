@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	googlegithub "github.com/google/go-github/v84/github"
+	googlegithub "github.com/google/go-github/v90/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
@@ -39,11 +39,11 @@ func sanitizeGitHubError(err error) error {
 	// Flatten to a plain error to drop the unsafe Is method while keeping the
 	// message. These are every go-github error type that defines such an Is (github.go).
 	var (
-		errResp   *googlegithub.ErrorResponse
-		rateErr   *googlegithub.RateLimitError
-		abuseErr  *googlegithub.AbuseRateLimitError
-		acceptErr *googlegithub.AcceptedError
-		redirectErr  *googlegithub.RedirectionError
+		errResp     *googlegithub.ErrorResponse
+		rateErr     *googlegithub.RateLimitError
+		abuseErr    *googlegithub.AbuseRateLimitError
+		acceptErr   *googlegithub.AcceptedError
+		redirectErr *googlegithub.RedirectionError
 	)
 	if errors.As(err, &errResp) ||
 		errors.As(err, &rateErr) ||
