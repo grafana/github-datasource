@@ -11,9 +11,9 @@
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
     "e2e": "playwright test",
     "lint": "eslint --cache .",
-    "lint:fix": "yarn run lint --fix && prettier --write --list-different .",
+    "lint:fix": "npm run lint -- --fix && prettier --write --list-different .",
     "server": "docker compose up --build",
-    "sign": "npx --yes @grafana/sign-plugin@latest",
+    "sign": "sign-plugin",
     "spellcheck": "cspell -c cspell.config.json \"**/*.{ts,tsx,js,go,md,mdx,yml,yaml,json,scss,css}\"",
     "test": "jest --watch --onlyChanged",
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
@@ -39,6 +39,7 @@
     "@grafana/eslint-config": "9.0.0",
     "@grafana/plugin-e2e": "3.11.0",
     "@grafana/plugin-meta-extractor": "0.13.0",
+    "@grafana/sign-plugin": "3.3.3",
     "@grafana/tsconfig": "2.2.0",
     "@openfeature/web-sdk": "1.9.0",
     "@playwright/test": "1.61.1",
@@ -91,13 +92,17 @@
     "webpack-subresource-integrity": "5.1.0",
     "webpack-virtual-modules": "0.6.2"
   },
-  "resolutions": {
-    "react-router@npm:6.30.3": "6.30.4",
+  "overrides": {
+    "react-router": "6.30.4",
     "@remix-run/router": "1.23.3",
     "@openfeature/core": "1.11.0",
     "serialize-javascript": "7.0.7",
     "i18next": "26.3.6",
     "dompurify": "3.4.11"
   },
-  "packageManager": "yarn@4.17.1"
+  "engines": {
+    "node": ">=24",
+    "npm": ">=11.16.0"
+  },
+  "packageManager": "npm@11.18.0"
 }
