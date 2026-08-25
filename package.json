@@ -93,7 +93,7 @@
     "webpack-virtual-modules": "0.6.2"
   },
   "overrides": {
-    "react-router": "6.30.4",
+    "react-router": "7.18.0",
     "@remix-run/router": "1.23.3",
     "@openfeature/core": "1.11.0",
     "serialize-javascript": "7.0.7",
