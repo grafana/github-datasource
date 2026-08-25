@@ -96,3 +96,8 @@ func (c *TestClient) GetCommitFiles(ctx context.Context, owner, repo, sha string
 func (c *TestClient) ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
+
+// ListCheckRunsForRef is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListCheckRunsForRef(ctx context.Context, owner, repo, ref string, opts *googlegithub.ListCheckRunsOptions) (*googlegithub.ListCheckRunsResults, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
