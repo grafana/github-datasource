@@ -13,6 +13,8 @@ import (
 type mockDeploymentsClient struct {
 	mockDeployments []*googlegithub.Deployment
 	mockResponse    *googlegithub.Response
+	pages           map[int]deploymentPage
+	requests        []*googlegithub.DeploymentsListOptions
 	expectedOwner   string
 	expectedRepo    string
 	t               *testing.T
@@ -42,11 +44,22 @@ func (m *mockDeploymentsClient) ListAlertsForOrg(ctx context.Context, owner stri
 	return nil, nil, nil
 }
 
+type deploymentPage struct {
+	deployments []*googlegithub.Deployment
+	nextPage    int
+}
+
 func (m *mockDeploymentsClient) ListDeployments(ctx context.Context, owner, repo string, opts *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error) {
 	if owner != m.expectedOwner || repo != m.expectedRepo {
 		m.t.Errorf("Expected owner/repo to be %s/%s, got %s/%s", m.expectedOwner, m.expectedRepo, owner, repo)
 	}
+	request := *opts
+	m.requests = append(m.requests, &request)
 
+	if m.pages != nil {
+		page := m.pages[opts.Page]
+		return page.deployments, &googlegithub.Response{NextPage: page.nextPage}, nil
+	}
 	return m.mockDeployments, m.mockResponse, nil
 }
 
@@ -236,6 +249,48 @@ func TestGetDeploymentsInRange(t *testing.T) {
 
 	if deployments[0].GetID() != 1 {
 		t.Errorf("Expected deployment ID 1, got %d", deployments[0].GetID())
+	}
+}
+
+func TestGetDeploymentsInRangePaginatesUntilOlderDeployment(t *testing.T) {
+	from := time.Date(2025, 1, 10, 0, 0, 0, 0, time.UTC)
+	to := time.Date(2025, 1, 20, 0, 0, 0, 0, time.UTC)
+	createdAt := func(id int64, at *time.Time) *googlegithub.Deployment {
+		deployment := &googlegithub.Deployment{ID: googlegithub.Ptr(id)}
+		if at != nil {
+			deployment.CreatedAt = &googlegithub.Timestamp{Time: *at}
+		}
+		return deployment
+	}
+	afterTo := to.Add(time.Hour)
+	inRange := from.Add(time.Hour)
+	beforeFrom := from.Add(-time.Hour)
+	opts := models.ListDeploymentsOptions{
+		Repository: "repo", Owner: "owner", SHA: "sha", GitRef: "main", Task: "deploy", Environment: "production",
+	}
+	client := &mockDeploymentsClient{
+		expectedOwner: "owner", expectedRepo: "repo", t: t,
+		pages: map[int]deploymentPage{
+			1: {deployments: []*googlegithub.Deployment{createdAt(1, &afterTo), createdAt(2, nil), createdAt(3, &inRange)}, nextPage: 2},
+			2: {deployments: []*googlegithub.Deployment{createdAt(4, &inRange), createdAt(5, &beforeFrom)}, nextPage: 3},
+			3: {deployments: []*googlegithub.Deployment{createdAt(6, &inRange)}},
+		},
+	}
+
+	deployments, err := GetDeploymentsInRange(context.Background(), client, opts, from, to)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(deployments) != 2 || deployments[0].GetID() != 3 || deployments[1].GetID() != 4 {
+		t.Fatalf("expected in-range deployments 3 and 4, got %+v", deployments)
+	}
+	if len(client.requests) != 2 || client.requests[0].Page != 1 || client.requests[1].Page != 2 {
+		t.Fatalf("expected requests for pages 1 and 2 only, got %+v", client.requests)
+	}
+	for _, request := range client.requests {
+		if request.PerPage != 100 || request.SHA != opts.SHA || request.Ref != opts.GitRef || request.Task != opts.Task || request.Environment != opts.Environment {
+			t.Errorf("deployment filters were not preserved: %+v", request)
+		}
 	}
 }
 
