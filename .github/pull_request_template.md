@@ -69,7 +69,7 @@ Closes #
 
 _If there is no open issue, please specify the versions where the bug occurs._
 
-- **ClickHouse version**:
+- **Backend/data source version (if applicable)**:
 - **Grafana version**:
 - **Plugin version**:
 
