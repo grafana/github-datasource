@@ -6,9 +6,9 @@
 //  +----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+
 //  | Name: id       | Name: author    | Name: author_login | Name: author_email | Name: author_company | Name: committed_at              | Name: pushed_at                 | Name: message  |
 //  | Labels:        | Labels:         | Labels:            | Labels:            | Labels:              | Labels:                         | Labels:                         | Labels:        |
-//  | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               | Type: []time.Time               | Type: []string |
+//  | Type: []string | Type: []string  | Type: []string     | Type: []string     | Type: []string       | Type: []time.Time               | Type: []*time.Time              | Type: []string |
 //  +----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+
-//  |                | firstCommitter  | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 | 2020-08-25 16:23:56 +0000 +0000 | commit #1      |
+//  |                | firstCommitter  | firstCommitter     | first@example.com  | ACME Corp            | 2020-08-25 16:21:56 +0000 +0000 | null                            | commit #1      |
 //  |                | secondCommitter | secondCommitter    | second@example.com | ACME Corp            | 2020-08-25 17:21:56 +0000 +0000 | 2020-08-25 18:21:56 +0000 +0000 | commit #2      |
 //  +----------------+-----------------+--------------------+--------------------+----------------------+---------------------------------+---------------------------------+----------------+
 //  
@@ -67,7 +67,8 @@
             "name": "pushed_at",
             "type": "time",
             "typeInfo": {
-              "frame": "time.Time"
+              "frame": "time.Time",
+              "nullable": true
             }
           },
           {
@@ -106,7 +107,7 @@
             1598376116000
           ],
           [
-            1598372636000,
+            null,
             1598379716000
           ],
           [

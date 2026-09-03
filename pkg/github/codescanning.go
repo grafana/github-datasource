@@ -156,32 +156,42 @@ func (alerts CodeScanningWrapper) Frames() data.Frames {
 // https://docs.github.com/en/rest/reference/code-scanning#get-a-list-of-code-scanning-alerts-for-a-repository
 func GetCodeScanningAlerts(context context.Context, c models.Client, opt models.CodeScanningOptions, from time.Time, to time.Time) (CodeScanningWrapper, error) {
 	var alerts []*googlegithub.Alert
-	var err error
 
-	// if there is no repository provided show alerts in organization level
-	if opt.Repository == "" {
-		alerts, _, err = c.ListAlertsForOrg(
-			context,
-			opt.Owner,
-			&googlegithub.AlertListOptions{
-				State: opt.State,
-				Ref:   opt.Ref,
-			},
-		)
-	} else {
-		alerts, _, err = c.ListAlertsForRepo(
-			context,
-			opt.Owner,
-			opt.Repository,
-			&googlegithub.AlertListOptions{
-				State: opt.State,
-				Ref:   opt.Ref,
-			},
-		)
+	listOpts := &googlegithub.AlertListOptions{
+		State: opt.State,
+		Ref:   opt.Ref,
 	}
+	// Use offset pagination with a large page size. ListOptions is embedded
+	// explicitly (AlertListOptions also embeds ListCursorOptions) so Page/PerPage
+	// are unambiguous.
+	listOpts.ListOptions.PerPage = 100
 
-	if err != nil {
-		return nil, err
+	page := 1
+	for page != 0 {
+		listOpts.ListOptions.Page = page
+
+		var (
+			pageAlerts []*googlegithub.Alert
+			resp       *googlegithub.Response
+			err        error
+		)
+
+		// if there is no repository provided show alerts in organization level
+		if opt.Repository == "" {
+			pageAlerts, resp, err = c.ListAlertsForOrg(context, opt.Owner, listOpts)
+		} else {
+			pageAlerts, resp, err = c.ListAlertsForRepo(context, opt.Owner, opt.Repository, listOpts)
+		}
+		if err != nil {
+			return nil, err
+		}
+
+		alerts = append(alerts, pageAlerts...)
+
+		if resp == nil || resp.NextPage == 0 {
+			break
+		}
+		page = resp.NextPage
 	}
 
 	return CodeScanningWrapper(alerts), nil

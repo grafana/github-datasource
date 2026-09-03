@@ -115,9 +115,8 @@ func TestCommitsDataframe(t *testing.T) {
 	commits := Commits{
 		Commit{
 			OID: "",
-			PushedDate: githubv4.DateTime{
-				Time: committedAt.Add(time.Minute * 2),
-			},
+			// PushedDate intentionally left zero: GitHub deprecated Commit.pushedDate
+			// and returns null, which must surface as a null pushed_at (issue #469).
 			AuthoredDate: githubv4.DateTime{
 				Time: committedAt,
 			},

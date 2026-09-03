@@ -36,8 +36,20 @@ var (
 //
 // See TestGitHubErrorResponseWithTypedNilErrorsIs for a reproduction of the panic.
 func sanitizeGitHubError(err error) error {
-	var ghErr *googlegithub.ErrorResponse
-	if errors.As(err, &ghErr) {
+	// Flatten to a plain error to drop the unsafe Is method while keeping the
+	// message. These are every go-github error type that defines such an Is (github.go).
+	var (
+		errResp   *googlegithub.ErrorResponse
+		rateErr   *googlegithub.RateLimitError
+		abuseErr  *googlegithub.AbuseRateLimitError
+		acceptErr *googlegithub.AcceptedError
+		redirectErr  *googlegithub.RedirectionError
+	)
+	if errors.As(err, &errResp) ||
+		errors.As(err, &rateErr) ||
+		errors.As(err, &abuseErr) ||
+		errors.As(err, &acceptErr) ||
+		errors.As(err, &redirectErr) {
 		return fmt.Errorf("%s", err.Error())
 	}
 	return err
@@ -74,8 +86,10 @@ func addErrorSourceToError(err error, resp *googlegithub.Response) error {
 			return backend.PluginError(err)
 		}
 	}
-	// If we have response we can use the status code from it
-	if resp != nil {
+	// If there is a response, use the status code from it.
+	// resp.StatusCode reads go-github's embedded *http.Response. That pointer can
+	// be nil even when resp is not nil. Guard it to avoid a nil-pointer panic.
+	if resp != nil && resp.Response != nil {
 		if resp.StatusCode/100 != 2 {
 			if backend.ErrorSourceFromHTTPStatus(resp.StatusCode) == backend.ErrorSourceDownstream {
 				return backend.DownstreamError(err)
