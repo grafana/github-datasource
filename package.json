@@ -1,14 +1,14 @@
 {
   "name": "grafana-github-datasource",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "private": true,
   "description": "Grafana data source plugin for Github",
   "repository": "github:grafana/github-datasource",
   "license": "Apache-2.0",
   "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
   "scripts": {
-    "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
-    "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
+    "build": "webpack -c ./webpack.config.ts --env production",
+    "dev": "webpack -w -c ./webpack.config.ts --env development",
     "e2e": "playwright test",
     "lint": "eslint --cache .",
     "lint:fix": "npm run lint -- --fix && prettier --write --list-different .",

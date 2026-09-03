@@ -9,6 +9,8 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 )
 
+const PluginID = "grafana-github-datasource"
+
 type AuthType string
 
 const (
@@ -18,18 +20,38 @@ const (
 
 type Settings struct {
 	// General settings
-	GitHubURL      string `json:"githubUrl,omitempty"`
+	GitHubURL string `json:"githubUrl,omitempty"`
+	// GitHubPlan: Not used in the backend. Adding here for frontend parity
+	GitHubPlan     string `json:"githubPlan,omitempty"`
 	CachingEnabled bool   `json:"cachingEnabled,omitempty"`
 	// Auth type related settings
 	SelectedAuthType AuthType `json:"selectedAuthType,omitempty"`
 	// personal-access-token auth related settings
 	AccessToken string
 	// github-app auth related settings
-	AppId               json.RawMessage `json:"appId,omitempty"`
+	AppId               string `json:"appId,omitempty"` // legacy config and provisioning, appId is stored as either number or string. But string should be desired format. So custom UnmarshalJSON function added to support this
 	AppIdInt64          int64
-	InstallationId      json.RawMessage `json:"installationId,omitempty"`
+	InstallationId      string `json:"installationId,omitempty"` // legacy config and provisioning: installationId may be stored as either number or string; UnmarshalJSON normalizes it to a string
 	InstallationIdInt64 int64
 	PrivateKey          string
+}
+
+// UnmarshalJSON decodes the settings while tolerating the appId and installationId
+// fields being stored either as JSON strings (e.g. "1111") or, for legacy configs,
+// as JSON numbers (e.g. 1111). Both are normalized to their string representation.
+func (s *Settings) UnmarshalJSON(data []byte) error {
+	type Alias Settings
+	aux := struct {
+		AppId          json.RawMessage `json:"appId,omitempty"`
+		InstallationId json.RawMessage `json:"installationId,omitempty"`
+		*Alias
+	}{Alias: (*Alias)(s)}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	s.AppId = rawMessageToString(aux.AppId)
+	s.InstallationId = rawMessageToString(aux.InstallationId)
+	return nil
 }
 
 func LoadSettings(settings backend.DataSourceInstanceSettings) (s Settings, err error) {
@@ -37,10 +59,10 @@ func LoadSettings(settings backend.DataSourceInstanceSettings) (s Settings, err 
 		return s, err
 	}
 	if s.SelectedAuthType == AuthTypeGithubApp {
-		if s.AppIdInt64, err = rawMessageToInt64(s.AppId, "app id"); err != nil {
+		if s.AppIdInt64, err = stringToInt64(s.AppId, "app id"); err != nil {
 			return s, err
 		}
-		if s.InstallationIdInt64, err = rawMessageToInt64(s.InstallationId, "installation id"); err != nil {
+		if s.InstallationIdInt64, err = stringToInt64(s.InstallationId, "installation id"); err != nil {
 			return s, err
 		}
 		if val, ok := settings.DecryptedSecureJSONData["privateKey"]; ok {
@@ -58,10 +80,34 @@ func LoadSettings(settings backend.DataSourceInstanceSettings) (s Settings, err 
 	return s, nil
 }
 
-func rawMessageToInt64(r json.RawMessage, m string) (out int64, err error) {
-	out, err = strconv.ParseInt(strings.ReplaceAll(string(r), `"`, ""), 10, 64)
+func rawMessageToString(r json.RawMessage) string {
+	return strings.Trim(string(r), `"`)
+}
+
+func stringToInt64(v string, m string) (out int64, err error) {
+	out, err = strconv.ParseInt(v, 10, 64)
 	if err != nil {
 		return 0, fmt.Errorf("error parsing %s", m)
 	}
 	return out, nil
+}
+
+type SecureJsonDataKey string
+
+const (
+	// SecureJsonDataKeyAccessToken is set when the user authenticates with a
+	// GitHub personal access token.
+	SecureJsonDataKeyAccessToken SecureJsonDataKey = "accessToken"
+	// SecureJsonDataKeyPrivateKey is set when the user authenticates as a
+	// GitHub App installation (PEM-encoded RSA private key).
+	SecureJsonDataKeyPrivateKey SecureJsonDataKey = "privateKey"
+)
+
+// SecureJsonDataConfig lists the secret key names stored in secureJsonData.
+type SecureJsonDataConfig []SecureJsonDataKey
+
+// SecureJsonDataKeys are the secret keys used by the plugin.
+var SecureJsonDataKeys = SecureJsonDataConfig{
+	SecureJsonDataKeyAccessToken,
+	SecureJsonDataKeyPrivateKey,
 }

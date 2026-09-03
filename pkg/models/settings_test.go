@@ -44,9 +44,9 @@ func TestLoadSettings(t *testing.T) {
 			want: models.Settings{
 				GitHubURL:           "https://foo.com",
 				SelectedAuthType:    models.AuthTypeGithubApp,
-				AppId:               []byte(`"1111"`),
+				AppId:               "1111",
 				AppIdInt64:          1111,
-				InstallationId:      []byte(`"2222"`),
+				InstallationId:      "2222",
 				InstallationIdInt64: 2222,
 				PrivateKey:          "foo",
 			},
@@ -63,9 +63,9 @@ func TestLoadSettings(t *testing.T) {
 			want: models.Settings{
 				GitHubURL:           "https://foo.com",
 				SelectedAuthType:    models.AuthTypeGithubApp,
-				AppId:               []byte(`1111`),
+				AppId:               "1111",
 				AppIdInt64:          1111,
-				InstallationId:      []byte(`2222`),
+				InstallationId:      "2222",
 				InstallationIdInt64: 2222,
 				PrivateKey:          "foo",
 			},
