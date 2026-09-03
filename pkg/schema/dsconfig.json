@@ -249,7 +249,7 @@
     ],
     "instructions": [
         {
-            "msg": "Two authentication methods are available, selected via jsonData.selectedAuthType: 'personal-access-token' (the default) and 'github-app'. Configure exactly one method; only the credentials of the selected method are used. Switching methods does not clear the other method's fields or secrets \u2014 stale values are harmless but confusing.",
+            "msg": "Two authentication methods are available, selected via jsonData.selectedAuthType: 'personal-access-token' (the default) and 'github-app'. Configure exactly one method; only the credentials of the selected method are used. Switching methods does not clear the other method's fields or secrets — stale values are harmless but confusing.",
             "tags": [
                 "llm",
                 "auth"
@@ -286,7 +286,7 @@
             ]
         },
         {
-            "msg": "For GitHub.com (Free, Pro & Team) and GitHub Enterprise Cloud, do NOT set jsonData.githubUrl \u2014 the backend treats any non-empty githubUrl as an on-prem Enterprise Server. Only set jsonData.githubUrl (with jsonData.githubPlan='github-enterprise-server') for an on-prem instance, e.g. {\"jsonData\":{\"githubPlan\":\"github-enterprise-server\",\"githubUrl\":\"https://github.example.com\"}}, and clear githubUrl to an empty string when switching away. Prefer omitting the trailing slash: the backend string-concatenates '/api/v3' and '/api/graphql' onto githubUrl.",
+            "msg": "For GitHub.com (Free, Pro & Team) and GitHub Enterprise Cloud, do NOT set jsonData.githubUrl — the backend treats any non-empty githubUrl as an on-prem Enterprise Server. Only set jsonData.githubUrl (with jsonData.githubPlan='github-enterprise-server') for an on-prem instance, e.g. {\"jsonData\":{\"githubPlan\":\"github-enterprise-server\",\"githubUrl\":\"https://github.example.com\"}}, and clear githubUrl to an empty string when switching away. Prefer omitting the trailing slash: the backend string-concatenates '/api/v3' and '/api/graphql' onto githubUrl.",
             "tags": [
                 "llm",
                 "connection"
