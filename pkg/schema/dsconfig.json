@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/grafana/dsconfig/refs/tags/dsconfig/v0.0.10/dsconfig/schema.json",
+    "$schema": "https://raw.githubusercontent.com/grafana/dsconfig/refs/tags/dsconfig/v0.0.12/dsconfig/schema.json",
     "schemaVersion": "v1",
     "pluginType": "grafana-github-datasource",
     "pluginName": "GitHub",
