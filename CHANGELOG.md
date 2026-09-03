@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.9.1
+
+🚀 Added plugin schema and artifacts
+
 ## 2.9.0
 
 ### Minor Changes
