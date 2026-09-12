@@ -20,4 +20,5 @@ type Client interface {
 	ListDeployments(ctx context.Context, owner, repo string, opts *googlegithub.DeploymentsListOptions) ([]*googlegithub.Deployment, *googlegithub.Response, error)
 	GetCommitFiles(ctx context.Context, owner, repo, sha string, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error)
 	ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error)
+	ListCheckRunsForRef(ctx context.Context, owner, repo, ref string, opts *googlegithub.ListCheckRunsOptions) (*googlegithub.ListCheckRunsResults, *googlegithub.Response, error)
 }
