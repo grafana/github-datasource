@@ -1,5 +1,5 @@
 import { type DataQuery } from '@grafana/schema';
-import { PullRequestTimeField, IssueTimeField, WorkflowsTimeField, PackageType, ProjectQueryType, QueryTypes } from '../constants';
+import { PullRequestTimeField, IssueTimeField, WorkflowsTimeField, PackageType, ProjectQueryType, QueryTypes, WebhookDeliveryStatus } from '../constants';
 import type { Filter } from 'components/Filters';
 
 export type QueryType = typeof QueryTypes[number]
@@ -177,6 +177,15 @@ export type DeploymentsOptions = Options & {
 type DeploymentsQuery = BaseQuery<'Deployments', DeploymentsOptions>
 //#endregion
 
+//#region Webhook_Deliveries Query
+export type WebhookDeliveriesOptions = Options & {
+  hookId?: string;
+  event?: string;
+  status?: WebhookDeliveryStatus;
+}
+type Webhook_DeliveriesQuery = BaseQuery<'Webhook_Deliveries', WebhookDeliveriesOptions>
+//#endregion
+
 export type GitHubQuery =
   Code_ScanningQuery |
   CommitsQuery |
@@ -202,7 +211,8 @@ export type GitHubQuery =
   Workflow_UsageQuery |
   WorkflowsQuery |
   DeploymentsQuery |
-  BranchesQuery
+  BranchesQuery |
+  Webhook_DeliveriesQuery
 
 export type GitHubVariableQuery = { key?: string; field?: string; } & GitHubQuery
 

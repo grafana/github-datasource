@@ -251,3 +251,11 @@ func TestCommitsWithFilesDataframe(t *testing.T) {
 
 	testutil.CheckGoldenFramer(t, "commits_with_files", cwf)
 }
+
+func (m *commitsWithFilesMockClient) ListOrgHookDeliveries(_ context.Context, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
+func (m *commitsWithFilesMockClient) ListRepoHookDeliveries(_ context.Context, _, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}

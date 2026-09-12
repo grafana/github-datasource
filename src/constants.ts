@@ -26,6 +26,7 @@ export const QueryTypes = [
   'Workflow_Usage',
   'Workflow_Runs',
   'Deployments',
+  'Webhook_Deliveries',
 ] as const;
 
 
@@ -64,4 +65,10 @@ export enum WorkflowsTimeField {
 export enum ProjectQueryType {
   ORG = 0,
   USER = 1,
+}
+
+export enum WebhookDeliveryStatus {
+  All = 'all',
+  Success = 'success',
+  Failure = 'failure',
 }

@@ -256,3 +256,11 @@ func TestCommitFilesFrames(t *testing.T) {
 
 	testutil.CheckGoldenFramer(t, "commit_files", files)
 }
+
+func (m *commitFilesMockClient) ListOrgHookDeliveries(_ context.Context, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
+func (m *commitFilesMockClient) ListRepoHookDeliveries(_ context.Context, _, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
