@@ -69,6 +69,7 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	register(models.QueryTypeOrganizations, s.HandleOrganizations)
 	register(models.QueryTypeCommitFiles, s.HandleCommitFiles)
 	register(models.QueryTypePullRequestFiles, s.HandlePullRequestFiles)
+	register(models.QueryTypeCheckRuns, s.HandleCheckRuns)
 
 	return mux
 }
