@@ -337,3 +337,11 @@ func TestDeploymentsWrapperFrames(t *testing.T) {
 		}
 	}
 }
+
+func (m *mockDeploymentsClient) ListOrgHookDeliveries(_ context.Context, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
+func (m *mockDeploymentsClient) ListRepoHookDeliveries(_ context.Context, _, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}

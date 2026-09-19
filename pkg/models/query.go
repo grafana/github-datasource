@@ -55,6 +55,8 @@ const (
 	QueryTypePullRequestFiles QueryType = "Pull_Request_Files"
 	// QueryTypeBranches is used when querying branches in a GitHub repository
 	QueryTypeBranches QueryType = "Branches"
+	// QueryTypeWebhookDeliveries is used when querying deliveries of an organization or repository webhook
+	QueryTypeWebhookDeliveries QueryType = "Webhook_Deliveries"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -192,4 +194,10 @@ type PullRequestFilesQuery struct {
 type BranchesQuery struct {
 	Query
 	Options ListBranchesOptions `json:"options"`
+}
+
+// WebhookDeliveriesQuery is used when querying for deliveries of a GitHub webhook
+type WebhookDeliveriesQuery struct {
+	Query
+	Options ListWebhookDeliveriesOptions `json:"options"`
 }
