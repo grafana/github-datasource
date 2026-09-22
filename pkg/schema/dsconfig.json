@@ -249,48 +249,16 @@
     ],
     "instructions": [
         {
-            "msg": "Two authentication methods are available, selected via jsonData.selectedAuthType: 'personal-access-token' (the default) and 'github-app'. Configure exactly one method; only the credentials of the selected method are used. Switching methods does not clear the other method's fields or secrets — stale values are harmless but confusing.",
-            "tags": [
-                "llm",
-                "auth"
-            ]
+            "msg": "Supported authentication methods: personal-access-token (default) and github-app.",
+            "tags": ["llm", "auth"]
         },
         {
-            "msg": "To configure Personal Access Token authentication, set jsonData.selectedAuthType to 'personal-access-token' and put the token in secureJsonData.accessToken. Minimal payload: {\"jsonData\":{\"selectedAuthType\":\"personal-access-token\"},\"secureJsonData\":{\"accessToken\":\"<token>\"}}. Use a fine grained personal access token with read-only repository permissions, including the 'Metadata' permission; no write or org-level permissions are needed.",
-            "tags": [
-                "llm",
-                "auth"
-            ]
+            "msg": "Legacy datasources with an access token and no selectedAuthType use personal-access-token authentication.",
+            "tags": ["llm", "auth", "legacy"]
         },
         {
-            "msg": "To configure GitHub App authentication, set jsonData.selectedAuthType to 'github-app', provide jsonData.appId and jsonData.installationId (numeric values, as JSON strings or numbers), and put the app's private key in secureJsonData.privateKey. Minimal payload: {\"jsonData\":{\"selectedAuthType\":\"github-app\",\"appId\":\"<app id>\",\"installationId\":\"<installation id>\"},\"secureJsonData\":{\"privateKey\":\"<PEM>\"}}. The private key must be the complete PEM text including the BEGIN/END lines (despite the editor placeholder showing '-----BEGIN CERTIFICATE-----', it is an RSA private key, not a certificate). All three values are mandatory: a missing or non-numeric appId/installationId makes the backend fail to load the datasource.",
-            "tags": [
-                "llm",
-                "auth"
-            ]
-        },
-        {
-            "msg": "Legacy auth interpretation: datasources created before selectedAuthType was introduced store only secureJsonData.accessToken with no auth type; the backend treats them as 'personal-access-token'. Do not assume a missing selectedAuthType means the datasource is unconfigured.",
-            "tags": [
-                "llm",
-                "auth",
-                "legacy"
-            ]
-        },
-        {
-            "msg": "secureJsonData values (accessToken, privateKey) are write-only: they can be set or reset but never read back. To check whether a secret is already configured on an existing datasource, read the secureJsonFields object (e.g. secureJsonFields.accessToken == true) instead of secureJsonData.",
-            "tags": [
-                "llm",
-                "auth",
-                "secure"
-            ]
-        },
-        {
-            "msg": "For GitHub.com (Free, Pro & Team) and GitHub Enterprise Cloud, do NOT set jsonData.githubUrl — the backend treats any non-empty githubUrl as an on-prem Enterprise Server. Only set jsonData.githubUrl (with jsonData.githubPlan='github-enterprise-server') for an on-prem instance, e.g. {\"jsonData\":{\"githubPlan\":\"github-enterprise-server\",\"githubUrl\":\"https://github.example.com\"}}, and clear githubUrl to an empty string when switching away. Prefer omitting the trailing slash: the backend string-concatenates '/api/v3' and '/api/graphql' onto githubUrl.",
-            "tags": [
-                "llm",
-                "connection"
-            ]
+            "msg": "Leave githubUrl unset for GitHub.com and Enterprise Cloud. Any non-empty githubUrl routes requests to Enterprise Server; omit its trailing slash.",
+            "tags": ["llm", "connection"]
         }
     ]
 }

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
 const PluginID = "grafana-github-datasource"
@@ -49,8 +50,8 @@ func (s *Settings) UnmarshalJSON(data []byte) error {
 	if err := json.Unmarshal(data, &aux); err != nil {
 		return err
 	}
-	s.AppId = rawMessageToString(aux.AppId)
-	s.InstallationId = rawMessageToString(aux.InstallationId)
+	s.AppId = rawMessageToString(aux.AppId, "appId")
+	s.InstallationId = rawMessageToString(aux.InstallationId, "installationId")
 	return nil
 }
 
@@ -80,7 +81,12 @@ func LoadSettings(settings backend.DataSourceInstanceSettings) (s Settings, err 
 	return s, nil
 }
 
-func rawMessageToString(r json.RawMessage) string {
+func rawMessageToString(r json.RawMessage, field string) string {
+	// Keep the original numeric text so large IDs do not lose precision.
+	if len(r) > 0 && (r[0] == '-' || (r[0] >= '0' && r[0] <= '9')) {
+		log.DefaultLogger.Warn("datasource jsonData value does not match its declared type",
+			"field", field, "from", "number", "to", "string", "outcome", "coerced")
+	}
 	return strings.Trim(string(r), `"`)
 }
 
