@@ -297,3 +297,11 @@ func equalInts(a, b []int) bool {
 	}
 	return true
 }
+
+func (m *mockClient) ListOrgHookDeliveries(_ context.Context, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
+func (m *mockClient) ListRepoHookDeliveries(_ context.Context, _, _ string, _ int64, _ *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	return nil, nil, nil
+}

@@ -91,6 +91,18 @@ func (d *Datasource) HandleBranchesQuery(ctx context.Context, query *models.Bran
 	return GetAllBranches(ctx, d.client, opt)
 }
 
+// HandleWebhookDeliveriesQuery is the query handler for listing the deliveries of a GitHub webhook
+func (d *Datasource) HandleWebhookDeliveriesQuery(ctx context.Context, query *models.WebhookDeliveriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListWebhookDeliveriesOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		HookID:     query.Options.HookID,
+		Event:      query.Options.Event,
+		Status:     query.Options.Status,
+	}
+	return GetWebhookDeliveries(ctx, d.client, opt, req.TimeRange)
+}
+
 // HandleReleasesQuery is the query handler for listing GitHub Releases
 func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.ReleasesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.ListReleasesOptions{
