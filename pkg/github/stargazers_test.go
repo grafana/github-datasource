@@ -44,6 +44,10 @@ func TestStargazersDataframe(t *testing.T) {
 		t.Fatal(err)
 	}
 
+	// Force a fixed +0000 zone so the rendered time is deterministic across
+	// environments/Go versions (always "+0000" instead of "UTC"/"GMT").
+	starredAt = starredAt.In(time.FixedZone("", 0))
+
 	stargazers := StargazersWrapper{
 		StargazerWrapper{
 			Stargazer: Stargazer{

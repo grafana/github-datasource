@@ -1,0 +1,72 @@
+{
+  "examples": {
+    "": {
+      "summary": "Default configuration",
+      "description": "The defaults a new datasource starts with: GitHub.com (Free, Pro \u0026 Team) and personal access token authentication. The token still has to be supplied before the datasource can load.",
+      "value": {
+        "jsonData": {
+          "githubPlan": "github-basic",
+          "selectedAuthType": "personal-access-token"
+        },
+        "secureJsonData": {
+          "accessToken": ""
+        }
+      }
+    },
+    "enterpriseCloud": {
+      "summary": "GitHub Enterprise Cloud",
+      "description": "Enterprise Cloud is still served from github.com, so only jsonData.githubPlan changes. Leave jsonData.githubUrl unset — setting it would route the backend at an on-prem Enterprise Server instead.",
+      "value": {
+        "jsonData": {
+          "githubPlan": "github-enterprise-cloud",
+          "selectedAuthType": "personal-access-token"
+        },
+        "secureJsonData": {
+          "accessToken": "REPLACE_WITH_ACCESS_TOKEN"
+        }
+      }
+    },
+    "enterpriseServer": {
+      "summary": "GitHub Enterprise Server (on-prem)",
+      "description": "Point the datasource at a self-hosted GitHub Enterprise Server. jsonData.githubUrl is required when jsonData.githubPlan is 'github-enterprise-server'. Omit the trailing slash: the backend concatenates '/api/v3' and '/api/graphql' onto the value.",
+      "value": {
+        "jsonData": {
+          "githubPlan": "github-enterprise-server",
+          "githubUrl": "https://github.example.com",
+          "selectedAuthType": "personal-access-token"
+        },
+        "secureJsonData": {
+          "accessToken": "REPLACE_WITH_ACCESS_TOKEN"
+        }
+      }
+    },
+    "githubApp": {
+      "summary": "GitHub App authentication",
+      "description": "Authenticate as a GitHub App installation. appId and installationId are numeric values (accepted as JSON strings or numbers) and privateKey is the complete PEM text including the BEGIN/END lines. All three are mandatory: a missing or non-numeric id makes the backend fail to load the datasource.",
+      "value": {
+        "jsonData": {
+          "appId": "123456",
+          "githubPlan": "github-basic",
+          "installationId": "12345678",
+          "selectedAuthType": "github-app"
+        },
+        "secureJsonData": {
+          "privateKey": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
+        }
+      }
+    },
+    "personalAccessToken": {
+      "summary": "Personal access token on GitHub.com",
+      "description": "Authenticate against GitHub.com with a fine grained personal access token. Grant read-only repository permissions plus 'Metadata'; the plugin never writes. Do not set jsonData.githubUrl — any non-empty value makes the backend treat the instance as on-prem Enterprise Server.",
+      "value": {
+        "jsonData": {
+          "githubPlan": "github-basic",
+          "selectedAuthType": "personal-access-token"
+        },
+        "secureJsonData": {
+          "accessToken": "REPLACE_WITH_ACCESS_TOKEN"
+        }
+      }
+    }
+  }
+}

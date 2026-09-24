@@ -18,6 +18,8 @@
   ],
   "words": [
     "apiserver",
+    "dsconfig",
+    "dsschema",
     "dataplane",
     "araddon",
     "bmike",
@@ -56,6 +58,8 @@
     "octocat",
     "oldorg",
     "oldrepo",
+    "pluginschema",
+    "unconfigured",
     "prismjs",
     "promop",
     "PTRACE",

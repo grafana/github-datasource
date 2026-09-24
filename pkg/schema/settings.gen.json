@@ -1,0 +1,56 @@
+{
+  "spec": {
+    "type": "object",
+    "properties": {
+      "jsonData": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string",
+            "x-dsconfig-depends-on": "jsonData_selectedAuthType == 'github-app'",
+            "x-dsconfig-required-when": "jsonData_selectedAuthType == 'github-app'"
+          },
+          "cachingEnabled": {
+            "description": "Enables the query caching wrapper in the plugin backend. Not exposed in the configuration editor; the backend currently enables caching for every datasource instance.",
+            "type": "boolean",
+            "default": true
+          },
+          "githubPlan": {
+            "type": "string",
+            "enum": [
+              "github-basic",
+              "github-enterprise-cloud",
+              "github-enterprise-server"
+            ]
+          },
+          "githubUrl": {
+            "type": "string",
+            "x-dsconfig-depends-on": "virtual_selectedLicense == 'github-enterprise-server'",
+            "x-dsconfig-required-when": "jsonData_githubPlan == 'github-enterprise-server'"
+          },
+          "installationId": {
+            "type": "string",
+            "x-dsconfig-depends-on": "jsonData_selectedAuthType == 'github-app'",
+            "x-dsconfig-required-when": "jsonData_selectedAuthType == 'github-app'"
+          },
+          "selectedAuthType": {
+            "type": "string",
+            "default": "personal-access-token",
+            "enum": [
+              "personal-access-token",
+              "github-app"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "secureValues": [
+    {
+      "key": "accessToken"
+    },
+    {
+      "key": "privateKey"
+    }
+  ]
+}
