@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.9.2
+
+### Patch Changes
+
+⚙️ Chore: Updated backend dependencies.
+⚙️ Chore: Publish data source configuration schemas for provisioning and automation.
+
 ## 2.9.1
 
 ⚙️ Chore: Updated frontend & backend dependencies
