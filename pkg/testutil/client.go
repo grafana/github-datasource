@@ -96,3 +96,13 @@ func (c *TestClient) GetCommitFiles(ctx context.Context, owner, repo, sha string
 func (c *TestClient) ListPullRequestFiles(ctx context.Context, owner, repo string, prNumber int, opts *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
+
+// ListOrgHookDeliveries is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListOrgHookDeliveries(ctx context.Context, org string, hookID int64, opts *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// ListRepoHookDeliveries is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListRepoHookDeliveries(ctx context.Context, owner, repo string, hookID int64, opts *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
