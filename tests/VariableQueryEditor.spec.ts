@@ -2,7 +2,7 @@ import { test, expect } from '@grafana/plugin-e2e';
 import { components } from '../src/components/selectors';
 import { githubVariableResponse } from './mocks/github-response';
 
-const type = 'grafana-github-datasource';
+const type = 'rwe-github-datasource';
 let datasourceName = '';
 
 test.beforeAll(async ({ createDataSource }) => {

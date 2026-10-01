@@ -37,6 +37,7 @@ To configure the data source, you need:
 - **GitHub credentials** (one of the following):
   - A personal access token (classic or fine-grained) with the [required scopes](#personal-access-token-permissions).
   - A registered GitHub App with the **App ID**, **Installation ID**, and **private key**. Refer to [Register and configure a GitHub App](#register-and-configure-a-github-app) for setup steps.
+- **GitHub API URL** (for Enterprise Cloud with data residency): The dedicated `https://api.SUBDOMAIN.ghe.com` endpoint.
 - **GitHub Enterprise Server URL** (if applicable): The URL of your GitHub Enterprise Server instance.
 
 ### Security best practices
@@ -66,7 +67,8 @@ The following table describes the GitHub-specific configuration settings.
 
 | Setting | Description |
 |---------|-------------|
-| **GitHub License Type** | Select your GitHub plan: **Free, Pro & Team**, **Enterprise Cloud**, or **Enterprise Server**. |
+| **GitHub License Type** | Select your GitHub plan: **Free, Pro & Team**, **Enterprise Cloud**, **Enterprise Cloud with data residency**, or **Enterprise Server**. |
+| **GitHub API URL** | The dedicated API base for GitHub Enterprise Cloud with data residency, for example `https://api.rwe.ghe.com`. Only visible when **Enterprise Cloud with data residency** is selected. |
 | **GitHub Enterprise Server URL** | The URL of your GitHub Enterprise Server instance. Only visible when **Enterprise Server** is selected as the GitHub license. |
 
 ### Private data source connect
@@ -192,7 +194,7 @@ apiVersion: 1
 
 datasources:
   - name: GitHub
-    type: grafana-github-datasource
+    type: rwe-github-datasource
     jsonData:
       selectedAuthType: personal-access-token
     secureJsonData:
@@ -206,7 +208,7 @@ apiVersion: 1
 
 datasources:
   - name: GitHub
-    type: grafana-github-datasource
+    type: rwe-github-datasource
     jsonData:
       selectedAuthType: github-app
       appId: <APP_ID>
@@ -222,13 +224,33 @@ apiVersion: 1
 
 datasources:
   - name: GitHub Enterprise
-    type: grafana-github-datasource
+    type: rwe-github-datasource
     jsonData:
       selectedAuthType: personal-access-token
       githubPlan: github-enterprise-server
       githubUrl: https://github.example.com
     secureJsonData:
       accessToken: <ACCESS_TOKEN>
+```
+
+### GitHub Enterprise Cloud with data residency example
+
+Use the dedicated API hostname, not the tenant's web hostname. For RWE, REST requests and GitHub App token exchange use `https://api.rwe.ghe.com` directly, while GraphQL uses `https://api.rwe.ghe.com/graphql`.
+
+```yaml
+apiVersion: 1
+
+datasources:
+  - name: GitHub Enterprise Cloud
+    type: rwe-github-datasource
+    jsonData:
+      selectedAuthType: github-app
+      githubPlan: github-enterprise-cloud-data-residency
+      githubUrl: https://api.rwe.ghe.com
+      appId: <APP_ID>
+      installationId: <INSTALLATION_ID>
+    secureJsonData:
+      privateKey: <PRIVATE_KEY>
 ```
 
 ## Provision with Terraform
@@ -239,7 +261,7 @@ You can provision the GitHub data source using the [Grafana Terraform provider](
 
 ```hcl
 resource "grafana_data_source" "github" {
-  type = "grafana-github-datasource"
+  type = "rwe-github-datasource"
   name = "GitHub"
 
   json_data_encoded = jsonencode({
@@ -256,7 +278,7 @@ resource "grafana_data_source" "github" {
 
 ```hcl
 resource "grafana_data_source" "github" {
-  type = "grafana-github-datasource"
+  type = "rwe-github-datasource"
   name = "GitHub"
 
   json_data_encoded = jsonencode({

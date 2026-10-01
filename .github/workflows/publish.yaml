@@ -1,38 +1,115 @@
-name: Plugins - CD
-run-name: Deploy ${{ inputs.branch }} to ${{ inputs.environment }} by @${{ github.actor }}
-permissions:
-  attestations: write
-  contents: write
-  id-token: write
-  pull-requests: read
+name: Private plugin release
+run-name: Release private plugin from ${{ github.ref_name }} by @${{ github.actor }}
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: Branch to publish from. Can be used to deploy PRs to dev
-        default: main
-      environment:
-        description: Environment to publish to
-        required: true
-        type: choice
-        options:
-          - 'dev'
-          - 'ops'
-          - 'prod'
-      docs-only:
-        description: Only publish docs, do not publish the plugin
-        default: false
-        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: private-plugin-release
+  cancel-in-progress: false
 
 jobs:
-  cd:
-    name: CD
-    uses: grafana/plugin-ci-workflows/.github/workflows/cd.yml@ci-cd-workflows/v10.1.0
-    with:
-      branch: ${{ github.event.inputs.branch }}
-      environment: ${{ github.event.inputs.environment }}
-      docs-only: ${{ fromJSON(github.event.inputs.docs-only) }}
-      run-playwright: true
-      run-playwright-with-skip-grafana-dev-image: true
-      github-draft-release: false
+  release:
+    name: Build, sign, and release
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: plugin-signing
+
+    env:
+      ROOT_URLS: https://grafana.sre.test.aws-eu1.energy.local,https://grafana.sre.aws-eu1.energy.local
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Set up Go
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test source
+        run: |
+          npm run test:ci
+          npm run typecheck
+          npm run lint
+          go test ./pkg/...
+
+      - name: Build plugin
+        run: |
+          npm run build
+          go run github.com/magefile/mage -v build:linux
+          go run github.com/magefile/mage -v build:linuxARM64
+
+      - name: Verify release metadata
+        id: metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          plugin_id=$(jq -r '.id' dist/plugin.json)
+          version=$(jq -r '.info.version' dist/plugin.json)
+          package_version=$(jq -r '.version' package.json)
+
+          [[ "$plugin_id" == "rwe-github-datasource" ]]
+          [[ "$version" == "$package_version" ]]
+          [[ "$version" != *-dev* ]]
+
+          {
+            echo "plugin_id=$plugin_id"
+            echo "version=$version"
+            echo "tag=v$version"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Sign private plugin
+        env:
+          GRAFANA_ACCESS_POLICY_TOKEN: ${{ secrets.GRAFANA_ACCESS_POLICY_TOKEN }}
+        run: npm run sign -- --rootUrls "$ROOT_URLS"
+
+      - name: Verify and package signed plugin
+        id: package
+        shell: bash
+        env:
+          PLUGIN_ID: ${{ steps.metadata.outputs.plugin_id }}
+          VERSION: ${{ steps.metadata.outputs.version }}
+        run: |
+          set -euo pipefail
+          test -s dist/MANIFEST.txt
+          test -x dist/gpx_github_linux_amd64
+          test -x dist/gpx_github_linux_arm64
+
+          archive="${PLUGIN_ID}-${VERSION}.zip"
+          mkdir -p package
+          cp -a dist "package/${PLUGIN_ID}"
+          (
+            cd package
+            zip -qr "../${archive}" "${PLUGIN_ID}"
+          )
+          sha256sum "$archive" > "${archive}.sha256"
+          zipinfo -1 "$archive" | grep -qx "${PLUGIN_ID}/MANIFEST.txt"
+
+          echo "archive=$archive" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.metadata.outputs.tag }}
+          ARCHIVE: ${{ steps.package.outputs.archive }}
+        run: |
+          gh release create "$TAG" \
+            "$ARCHIVE" \
+            "${ARCHIVE}.sha256" \
+            --target "$GITHUB_SHA" \
+            --title "$TAG" \
+            --generate-notes

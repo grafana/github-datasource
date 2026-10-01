@@ -2,7 +2,7 @@ import { test, expect } from '@grafana/plugin-e2e';
 import { components } from '../src/components/selectors';
 import semver from 'semver';
 
-const type = 'grafana-github-datasource';
+const type = 'rwe-github-datasource';
 
 test('ConfigEditor smoke test', async ({ createDataSourceConfigPage, page, selectors, grafanaVersion }) => {
   const configPage = await createDataSourceConfigPage({ type });

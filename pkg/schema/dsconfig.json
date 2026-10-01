@@ -1,9 +1,9 @@
 {
     "$schema": "https://raw.githubusercontent.com/grafana/dsconfig/refs/tags/dsconfig/v0.0.12/dsconfig/schema.json",
     "schemaVersion": "v1",
-    "pluginType": "grafana-github-datasource",
-    "pluginName": "GitHub",
-    "docURL": "https://grafana.com/docs/plugins/grafana-github-datasource",
+    "pluginType": "rwe-github-datasource",
+    "pluginName": "GitHub (RWE)",
+    "docURL": "https://github.com/rwe-supply-and-trading/github-datasource/tree/main/docs",
     "fields": [
         {
             "id": "virtual_selectedLicense",
@@ -18,6 +18,7 @@
                     "values": [
                         "github-basic",
                         "github-enterprise-cloud",
+                        "github-enterprise-cloud-data-residency",
                         "github-enterprise-server"
                     ]
                 }
@@ -34,6 +35,10 @@
                         "value": "github-enterprise-cloud"
                     },
                     {
+                        "label": "Enterprise Cloud with data residency",
+                        "value": "github-enterprise-cloud-data-residency"
+                    },
+                    {
                         "label": "Enterprise Server",
                         "value": "github-enterprise-server"
                     }
@@ -41,7 +46,7 @@
             },
             "storage": {
                 "type": "computed",
-                "read": "jsonData.githubPlan == 'github-enterprise-server' || jsonData.githubUrl != '' ? 'github-enterprise-server' : (jsonData.githubPlan != '' ? jsonData.githubPlan : 'github-basic')"
+                "read": "jsonData.githubPlan == 'github-enterprise-cloud-data-residency' ? 'github-enterprise-cloud-data-residency' : (jsonData.githubPlan == 'github-enterprise-server' || (jsonData.githubUrl != '' && jsonData.githubPlan == '') ? 'github-enterprise-server' : (jsonData.githubPlan != '' ? jsonData.githubPlan : 'github-basic'))"
             },
             "effects": [
                 {
@@ -59,9 +64,17 @@
                     }
                 },
                 {
+                    "when": "value == 'github-enterprise-cloud-data-residency'",
+                    "set": {
+                        "jsonData_githubPlan": "github-enterprise-cloud-data-residency",
+                        "jsonData_githubUrl": ""
+                    }
+                },
+                {
                     "when": "value == 'github-enterprise-server'",
                     "set": {
-                        "jsonData_githubPlan": "github-enterprise-server"
+                        "jsonData_githubPlan": "github-enterprise-server",
+                        "jsonData_githubUrl": ""
                     }
                 }
             ]
@@ -77,6 +90,7 @@
                     "values": [
                         "github-basic",
                         "github-enterprise-cloud",
+                        "github-enterprise-cloud-data-residency",
                         "github-enterprise-server"
                     ]
                 }
@@ -89,15 +103,15 @@
         {
             "id": "jsonData_githubUrl",
             "key": "githubUrl",
-            "label": "GitHub Enterprise Server URL",
+            "label": "GitHub API or Enterprise Server URL",
             "valueType": "string",
             "target": "jsonData",
             "role": "endpoint.baseUrl",
-            "dependsOn": "virtual_selectedLicense == 'github-enterprise-server'",
-            "requiredWhen": "jsonData_githubPlan == 'github-enterprise-server'",
+            "dependsOn": "virtual_selectedLicense == 'github-enterprise-server' || virtual_selectedLicense == 'github-enterprise-cloud-data-residency'",
+            "requiredWhen": "jsonData_githubPlan == 'github-enterprise-server' || jsonData_githubPlan == 'github-enterprise-cloud-data-residency'",
             "ui": {
                 "component": "input",
-                "placeholder": "http(s)://HOSTNAME/"
+                "placeholder": "https://api.SUBDOMAIN.ghe.com or https://HOSTNAME"
             }
         },
         {
@@ -244,7 +258,7 @@
                 "jsonData_githubPlan",
                 "jsonData_githubUrl"
             ],
-            "description": "GitHub license type and the Enterprise Server base URL it enables"
+            "description": "GitHub connection type and the custom API or Enterprise Server base URL it enables"
         }
     ],
     "instructions": [
@@ -286,7 +300,7 @@
             ]
         },
         {
-            "msg": "For GitHub.com (Free, Pro & Team) and GitHub Enterprise Cloud, do NOT set jsonData.githubUrl — the backend treats any non-empty githubUrl as an on-prem Enterprise Server. Only set jsonData.githubUrl (with jsonData.githubPlan='github-enterprise-server') for an on-prem instance, e.g. {\"jsonData\":{\"githubPlan\":\"github-enterprise-server\",\"githubUrl\":\"https://github.example.com\"}}, and clear githubUrl to an empty string when switching away. Prefer omitting the trailing slash: the backend string-concatenates '/api/v3' and '/api/graphql' onto githubUrl.",
+            "msg": "For standard GitHub.com and GitHub Enterprise Cloud, leave jsonData.githubUrl unset. For GitHub Enterprise Cloud with data residency, set jsonData.githubPlan='github-enterprise-cloud-data-residency' and githubUrl to the dedicated API base, e.g. https://api.SUBDOMAIN.ghe.com; REST and app token exchange use that base directly and GraphQL uses '/graphql'. For GitHub Enterprise Server, set githubPlan='github-enterprise-server' and githubUrl to the server base, e.g. https://github.example.com; REST/app auth use '/api/v3' and GraphQL uses '/api/graphql'.",
             "tags": [
                 "llm",
                 "connection"

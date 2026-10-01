@@ -1,11 +1,11 @@
 {
-  "name": "grafana-github-datasource",
-  "version": "2.9.2",
+  "name": "rwe-github-datasource",
+  "version": "2.9.2-rwe.1",
   "private": true,
   "description": "Grafana data source plugin for Github",
-  "repository": "github:grafana/github-datasource",
+  "repository": "github:rwe-supply-and-trading/github-datasource",
   "license": "Apache-2.0",
-  "author": "Grafana Labs <team@grafana.com> (https://grafana.com)",
+  "author": "RWE Supply & Trading",
   "scripts": {
     "build": "webpack -c ./webpack.config.ts --env production",
     "dev": "webpack -w -c ./webpack.config.ts --env development",

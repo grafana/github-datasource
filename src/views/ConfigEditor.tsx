@@ -41,18 +41,17 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   const licenseOptions: Array<SelectableValue<GitHubLicenseType>> = [
     { label: 'Free, Pro & Team', value: 'github-basic' },
     { label: 'Enterprise Cloud', value: 'github-enterprise-cloud' },
+    { label: 'Enterprise Cloud with data residency', value: 'github-enterprise-cloud-data-residency' },
     { label: 'Enterprise Server', value: 'github-enterprise-server' },
   ];
 
   const [isOpen, setIsOpen] = useState(true);
 
-  // Previously we used only githubUrl property to determine if the github plan is enterprise which is incorrect way
-  // Also only on prem github enterprise will be having their own base URLs where as cloud will be having common URL and this causes confusions to the user
-  // So we are adding a new prop called githubPlan to determine if the github instance is on-prem / cloud / basic plan
-  // Also if no plan exist and no url exist, we need to fallback to github-basic
-  // https://docs.github.com/en/get-started/using-github-docs/about-versions-of-github-docs
+  // Preserve URL-only configurations created before githubPlan was introduced as Enterprise Server.
   const [selectedLicense, setSelectedLicense] = useState<GitHubLicenseType>(
-    jsonData.githubPlan === 'github-enterprise-server' || jsonData.githubUrl
+    jsonData.githubPlan === 'github-enterprise-cloud-data-residency'
+      ? 'github-enterprise-cloud-data-residency'
+      : jsonData.githubPlan === 'github-enterprise-server' || (jsonData.githubUrl && !jsonData.githubPlan)
       ? 'github-enterprise-server'
       : jsonData?.githubPlan || 'github-basic'
   );
@@ -91,7 +90,7 @@ const ConfigEditor = (props: ConfigEditorProps) => {
       jsonData: {
         ...jsonData,
         githubPlan,
-        githubUrl: githubPlan === 'github-enterprise-server' ? jsonData.githubUrl : '',
+        githubUrl: githubPlan === selectedLicense ? jsonData.githubUrl : '',
       },
     });
     setSelectedLicense(githubPlan);
@@ -107,8 +106,8 @@ const ConfigEditor = (props: ConfigEditorProps) => {
   return (
     <>
       <DataSourceDescription
-        dataSourceName="GitHub"
-        docsLink="https://grafana.com/docs/plugins/grafana-github-datasource"
+        dataSourceName="GitHub (RWE)"
+        docsLink="https://github.com/rwe-supply-and-trading/github-datasource/tree/main/docs"
         hasRequiredFields={false}
       />
 
@@ -221,10 +220,21 @@ const ConfigEditor = (props: ConfigEditorProps) => {
           className={styles.radioButton}
         />
 
-        {selectedLicense === 'github-enterprise-server' && (
-          <Field label="GitHub Enterprise Server URL">
+        {(selectedLicense === 'github-enterprise-server' ||
+          selectedLicense === 'github-enterprise-cloud-data-residency') && (
+          <Field
+            label={
+              selectedLicense === 'github-enterprise-cloud-data-residency'
+                ? 'GitHub API URL'
+                : 'GitHub Enterprise Server URL'
+            }
+          >
             <Input
-              placeholder="http(s)://HOSTNAME/"
+              placeholder={
+                selectedLicense === 'github-enterprise-cloud-data-residency'
+                  ? 'https://api.SUBDOMAIN.ghe.com'
+                  : 'http(s)://HOSTNAME/'
+              }
               value={jsonData.githubUrl}
               onChange={onUpdateDatasourceJsonDataOption(props, 'githubUrl')}
               width={WIDTH_LONG}

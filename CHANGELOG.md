@@ -1,11 +1,10 @@
 # Change Log
 
-## 2.9.2
+## 2.9.2-rwe.1
 
-### Patch Changes
-
-⚙️ Chore: Updated backend dependencies.
-⚙️ Chore: Publish data source configuration schemas for provisioning and automation.
+- Rebase the private fork release on upstream 2.9.2, including published data source configuration schemas.
+- Add GitHub Enterprise Cloud data-residency endpoints for REST, GraphQL, and GitHub App token exchange.
+- Change the plugin ID to `rwe-github-datasource` for private distribution and signing.
 
 ## 2.9.1
 

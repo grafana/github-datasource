@@ -1,6 +1,10 @@
 import type { DataSourceJsonData } from '@grafana/data';
 
-export type GitHubLicenseType = 'github-basic' | 'github-enterprise-cloud' | 'github-enterprise-server';
+export type GitHubLicenseType =
+  | 'github-basic'
+  | 'github-enterprise-cloud'
+  | 'github-enterprise-cloud-data-residency'
+  | 'github-enterprise-server';
 
 export type GitHubAuthType = 'personal-access-token' | 'github-app';
 

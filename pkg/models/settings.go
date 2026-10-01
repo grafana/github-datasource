@@ -10,7 +10,14 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 )
 
-const PluginID = "grafana-github-datasource"
+const PluginID = "rwe-github-datasource"
+
+const (
+	GitHubPlanBasic                        = "github-basic"
+	GitHubPlanEnterpriseCloud              = "github-enterprise-cloud"
+	GitHubPlanEnterpriseCloudDataResidency = "github-enterprise-cloud-data-residency"
+	GitHubPlanEnterpriseServer             = "github-enterprise-server"
+)
 
 type AuthType string
 
@@ -21,8 +28,7 @@ const (
 
 type Settings struct {
 	// General settings
-	GitHubURL string `json:"githubUrl,omitempty"`
-	// GitHubPlan: Not used in the backend. Adding here for frontend parity
+	GitHubURL      string `json:"githubUrl,omitempty"`
 	GitHubPlan     string `json:"githubPlan,omitempty"`
 	CachingEnabled bool   `json:"cachingEnabled,omitempty"`
 	// Auth type related settings

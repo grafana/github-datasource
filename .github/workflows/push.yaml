@@ -1,7 +1,4 @@
 name: Plugins - CI
-permissions:
-  contents: read
-  id-token: write
 
 on:
   push:
@@ -11,11 +8,44 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   ci:
-    name: CI
-    uses: grafana/plugin-ci-workflows/.github/workflows/ci.yml@ci-cd-workflows/v10.1.0
-    with:
-      plugin-version-suffix: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || '' }}
-      run-playwright: true
-      run-playwright-with-skip-grafana-dev-image: true
+    name: Test and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Set up Go
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test source
+        run: |
+          npm run test:ci
+          npm run typecheck
+          npm run lint
+          npm run spellcheck
+          go test ./pkg/...
+
+      - name: Build plugin
+        run: |
+          npm run build
+          go run github.com/magefile/mage -v build:linux
+          go run github.com/magefile/mage -v build:linuxARM64

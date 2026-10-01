@@ -5,7 +5,7 @@
       "label": "GitHub",
       "description": "",
       "type": "datasource",
-      "pluginId": "grafana-github-datasource",
+      "pluginId": "rwe-github-datasource",
       "pluginName": "GitHub"
     }
   ],
@@ -19,7 +19,7 @@
     },
     {
       "type": "datasource",
-      "id": "grafana-github-datasource",
+      "id": "rwe-github-datasource",
       "name": "GitHub",
       "version": "1.0.8"
     },
@@ -139,7 +139,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "grafana-github-datasource",
+        "type": "rwe-github-datasource",
         "uid": "${DS_GITHUB}"
       },
       "gridPos": {
@@ -348,7 +348,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "grafana-github-datasource",
+        "type": "rwe-github-datasource",
         "uid": "${DS_GITHUB}"
       },
       "gridPos": {
@@ -651,7 +651,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "grafana-github-datasource",
+        "type": "rwe-github-datasource",
         "uid": "${DS_GITHUB}"
       },
       "gridPos": {
@@ -954,7 +954,7 @@
     {
       "collapsed": false,
       "datasource": {
-        "type": "grafana-github-datasource",
+        "type": "rwe-github-datasource",
         "uid": "${DS_GITHUB}"
       },
       "gridPos": {
@@ -1573,7 +1573,7 @@
         "multi": false,
         "name": "datasource",
         "options": [],
-        "query": "grafana-github-datasource",
+        "query": "rwe-github-datasource",
         "queryValue": "",
         "refresh": 1,
         "regex": "",
@@ -1603,7 +1603,7 @@
       {
         "current": {},
         "datasource": {
-          "type": "grafana-github-datasource",
+          "type": "rwe-github-datasource",
           "uid": "${DS_GITHUB}"
         },
         "definition": "GitHub - Repositories",
@@ -1632,7 +1632,7 @@
         "allValue": "",
         "current": {},
         "datasource": {
-          "type": "grafana-github-datasource",
+          "type": "rwe-github-datasource",
           "uid": "${DS_GITHUB}"
         },
         "definition": "GitHub - Labels",
@@ -1683,7 +1683,7 @@
       {
         "current": {},
         "datasource": {
-          "type": "grafana-github-datasource",
+          "type": "rwe-github-datasource",
           "uid": "${DS_GITHUB}"
         },
         "definition": "GitHub - Milestones",

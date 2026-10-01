@@ -66,6 +66,8 @@ If you are creating a PR, ensure to run `npx changeset` from your branch. Provid
 
 ## Releasing & Bumping version
 
-To create a new release, execute `npx changeset version`. This will update the Changelog and bump the version in `package.json` file. Commit those changes. Run the `Plugins - CD` GitHub Action to publish the new release.
+This private fork does not use Grafana's public plugin publication workflow. Use a fork-specific semantic version, update the changelog, merge the release commit to `main`, and run the protected **Private plugin release** workflow.
+
+Follow [Release and deploy the private GitHub data source](private-plugin-release.md) for the complete signing, packaging, sphere deployment, migration, and verification procedure.
 
 ## Development resources

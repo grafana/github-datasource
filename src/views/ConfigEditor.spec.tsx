@@ -11,6 +11,7 @@ describe('Config Editor', () => {
     await waitFor(() => expect(screen.getByText('Connection')).toBeInTheDocument());
     onOptionsChange.mockClear(); // this is called on component render, so we need to clear it to avoid false positives
     expect(screen.getByLabelText('Free, Pro & Team')).toBeChecked();
+    expect(screen.getByLabelText('Enterprise Cloud with data residency')).not.toBeChecked();
     expect(screen.getByLabelText('Enterprise Server')).not.toBeChecked();
     expect(screen.queryByText('GitHub Enterprise Server URL')).not.toBeInTheDocument();
     expect(onOptionsChange).toHaveBeenCalledTimes(0);
@@ -41,5 +42,37 @@ describe('Config Editor', () => {
     });
     await userEvent.click(screen.getByLabelText('Enterprise Server'));
     expect(screen.queryByText('GitHub Enterprise Server URL')).toBeInTheDocument();
+  });
+
+  it('should configure Enterprise Cloud with data residency using its API URL', async () => {
+    const onOptionsChange = jest.fn();
+    const options = {
+      jsonData: {
+        githubPlan: 'github-enterprise-cloud-data-residency',
+        githubUrl: 'https://api.rwe.ghe.com',
+      },
+      secureJsonFields: {},
+    } as any;
+
+    render(<ConfigEditor options={options} onOptionsChange={onOptionsChange} />);
+    await waitFor(() => expect(screen.getByText('Connection')).toBeInTheDocument());
+    onOptionsChange.mockClear();
+
+    expect(screen.getByLabelText('Enterprise Cloud with data residency')).toBeChecked();
+    expect(screen.getByText('GitHub API URL')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('https://api.rwe.ghe.com')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByLabelText('Enterprise Server'));
+    expect(onOptionsChange).toHaveBeenCalledWith({
+      jsonData: { githubPlan: 'github-enterprise-server', githubUrl: '' },
+      secureJsonFields: {},
+    });
+
+    onOptionsChange.mockClear();
+    await userEvent.click(screen.getByLabelText('Enterprise Cloud'));
+    expect(onOptionsChange).toHaveBeenCalledWith({
+      jsonData: { githubPlan: 'github-enterprise-cloud', githubUrl: '' },
+      secureJsonFields: {},
+    });
   });
 });

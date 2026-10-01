@@ -1,7 +1,7 @@
 services:
   grafana:
     user: root
-    container_name: 'grafana-github-datasource'
+    container_name: 'rwe-github-datasource'
 
     build:
       context: .
@@ -19,13 +19,13 @@ services:
     cap_add:
       - SYS_PTRACE
     volumes:
-      - ../dist:/var/lib/grafana/plugins/grafana-github-datasource
+      - ../dist:/var/lib/grafana/plugins/rwe-github-datasource
       - ../provisioning:/etc/grafana/provisioning
       - ..:/root/grafana-github-datasource
 
     environment:
       NODE_ENV: development
-      GF_LOG_FILTERS: plugin.grafana-github-datasource:debug
+      GF_LOG_FILTERS: plugin.rwe-github-datasource:debug
       GF_LOG_LEVEL: debug
       GF_DATAPROXY_LOGGING: 1
-      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: grafana-github-datasource
+      GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: rwe-github-datasource

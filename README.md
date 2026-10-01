@@ -1,10 +1,31 @@
-# Grafana GitHub data source
+# RWE Grafana GitHub data source
 
 The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.
 
 ## Documentation
 
-For the plugin documentation, visit <a href="https://grafana.com/docs/plugins/grafana-github-datasource" target="_blank">plugin documentation website</a>
+This fork adds GitHub Enterprise Cloud data-residency support to the upstream Grafana GitHub data source. See the [configuration guide](docs/sources/configure.md) for supported connection modes.
+
+## Build and sign
+
+Use the Node version from `.nvmrc` and the Go version declared in `go.mod`:
+
+```bash
+npm ci
+npm run test:ci
+npm run build
+go run github.com/magefile/mage -v build:linux
+```
+
+Grafana requires a signature for production plugins. Set `GRAFANA_ACCESS_POLICY_TOKEN` in the release environment, then sign for the exact externally visible Grafana URLs:
+
+```bash
+npm run sign -- --rootUrls https://grafana.example.com/
+```
+
+Do not commit the signing token. Unsigned loading with `GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS=rwe-github-datasource` is intended only for local development and test environments.
+
+Follow [Release and deploy the private GitHub data source](docs/private-plugin-release.md) for the one-time Grafana/GitHub setup, release procedure, sphere rollout, datasource migration, verification, and token rotation steps.
 
 ## Video Tutorial
 

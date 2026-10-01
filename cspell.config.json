@@ -12,10 +12,7 @@
     "package-lock.json",
     "jest.config.js"
   ],
-  "ignoreRegExpList": [
-    "import\\s*\\((.|[\r\n])*?\\)",
-    "import\\s*.*\".*?\""
-  ],
+  "ignoreRegExpList": ["import\\s*\\((.|[\r\n])*?\\)", "import\\s*.*\".*?\""],
   "words": [
     "apiserver",
     "dsconfig",
@@ -51,6 +48,7 @@
     "instancemgmt",
     "jackspeak",
     "kminehart",
+    "magefile",
     "mergeable",
     "Mergeable",
     "mjseaman",
@@ -69,6 +67,7 @@
     "querytype",
     "rgba",
     "RUBYGEMS",
+    "rwest",
     "schemabuilder",
     "schemads",
     "seccomp",
@@ -91,6 +90,7 @@
     "vladimirdotk",
     "Wrapf",
     "yesoreyeram",
-    "jsonencode"
+    "jsonencode",
+    "zipinfo"
   ]
 }

@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
@@ -26,6 +27,12 @@ type Client struct {
 	restClient    *googlegithub.Client
 	graphqlClient *githubv4.Client
 	authType      models.AuthType
+}
+
+type enterpriseEndpoints struct {
+	restBaseURL     string
+	graphqlURL      string
+	appTokenBaseURL string
 }
 
 const (
@@ -83,7 +90,7 @@ func createAppClient(settings models.Settings, opts httpclient.Options) (*Client
 	}
 
 	httpClient.Transport = itr
-	if settings.GitHubURL == "" {
+	if usesDefaultGitHubEndpoints(settings) {
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
 			graphqlClient: githubv4.NewClient(httpClient),
@@ -91,9 +98,13 @@ func createAppClient(settings models.Settings, opts httpclient.Options) (*Client
 		}, nil
 	}
 
-	itr.BaseURL = fmt.Sprintf("%s/api/v3", settings.GitHubURL)
+	endpoints, err := resolveEnterpriseEndpoints(settings)
+	if err != nil {
+		return nil, err
+	}
+	itr.BaseURL = endpoints.appTokenBaseURL
 
-	return useGitHubEnterprise(httpClient, settings, models.AuthTypeGithubApp)
+	return useGitHubEnterprise(httpClient, endpoints, models.AuthTypeGithubApp)
 }
 
 func createAccessTokenClient(ctx context.Context, settings models.Settings, opts httpclient.Options) (*Client, error) {
@@ -116,7 +127,7 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings, opts
 			Source: oauth2.ReuseTokenSource(nil, src),
 		}
 	}
-	if settings.GitHubURL == "" {
+	if usesDefaultGitHubEndpoints(settings) {
 		return &Client{
 			restClient:    googlegithub.NewClient(httpClient),
 			graphqlClient: githubv4.NewClient(httpClient),
@@ -124,23 +135,57 @@ func createAccessTokenClient(ctx context.Context, settings models.Settings, opts
 		}, nil
 	}
 
-	return useGitHubEnterprise(httpClient, settings, models.AuthTypePAT)
-}
-
-func useGitHubEnterprise(httpClient *http.Client, settings models.Settings, authType models.AuthType) (*Client, error) {
-	_, err := url.Parse(settings.GitHubURL)
+	endpoints, err := resolveEnterpriseEndpoints(settings)
 	if err != nil {
-		return nil, backend.DownstreamError(errors.New("incorrect enterprise url"))
+		return nil, err
 	}
 
-	restClient, err := googlegithub.NewClient(httpClient).WithEnterpriseURLs(settings.GitHubURL, settings.GitHubURL)
+	return useGitHubEnterprise(httpClient, endpoints, models.AuthTypePAT)
+}
+
+func usesDefaultGitHubEndpoints(settings models.Settings) bool {
+	switch settings.GitHubPlan {
+	case models.GitHubPlanEnterpriseServer, models.GitHubPlanEnterpriseCloudDataResidency:
+		return false
+	case models.GitHubPlanBasic, models.GitHubPlanEnterpriseCloud:
+		return true
+	default:
+		return settings.GitHubURL == ""
+	}
+}
+
+func resolveEnterpriseEndpoints(settings models.Settings) (enterpriseEndpoints, error) {
+	baseURL := strings.TrimRight(settings.GitHubURL, "/")
+	parsedURL, err := url.Parse(baseURL)
+	if err != nil || parsedURL.Scheme == "" || parsedURL.Host == "" {
+		return enterpriseEndpoints{}, backend.DownstreamError(errors.New("incorrect enterprise url"))
+	}
+
+	if settings.GitHubPlan == models.GitHubPlanEnterpriseCloudDataResidency {
+		return enterpriseEndpoints{
+			restBaseURL:     baseURL,
+			graphqlURL:      fmt.Sprintf("%s/graphql", baseURL),
+			appTokenBaseURL: baseURL,
+		}, nil
+	}
+
+	apiBaseURL := fmt.Sprintf("%s/api/v3", baseURL)
+	return enterpriseEndpoints{
+		restBaseURL:     apiBaseURL,
+		graphqlURL:      fmt.Sprintf("%s/api/graphql", baseURL),
+		appTokenBaseURL: apiBaseURL,
+	}, nil
+}
+
+func useGitHubEnterprise(httpClient *http.Client, endpoints enterpriseEndpoints, authType models.AuthType) (*Client, error) {
+	restClient, err := googlegithub.NewClient(httpClient).WithEnterpriseURLs(endpoints.restBaseURL, endpoints.restBaseURL)
 	if err != nil {
 		return nil, backend.DownstreamError(errors.New("instantiating enterprise rest client"))
 	}
 
 	return &Client{
 		restClient:    restClient,
-		graphqlClient: githubv4.NewEnterpriseClient(fmt.Sprintf("%s/api/graphql", settings.GitHubURL), httpClient),
+		graphqlClient: githubv4.NewEnterpriseClient(endpoints.graphqlURL, httpClient),
 		authType:      authType,
 	}, nil
 }

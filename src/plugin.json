@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
   "type": "datasource",
-  "name": "GitHub",
-  "id": "grafana-github-datasource",
+  "name": "GitHub (RWE)",
+  "id": "rwe-github-datasource",
   "backend": true,
   "executable": "gpx_github",
   "annotations": true,
@@ -18,8 +18,8 @@
   "info": {
     "description": "The GitHub data source plugin for Grafana lets you to query the GitHub API in Grafana so you can visualize your GitHub repositories and projects.",
     "author": {
-      "name": "Grafana Labs",
-      "url": "https://grafana.com"
+      "name": "RWE Supply & Trading",
+      "url": "https://github.com/rwe-supply-and-trading"
     },
     "keywords": [
       "github",
@@ -36,15 +36,15 @@
     "links": [
       {
         "name": "Docs",
-        "url": "https://grafana.com/docs/plugins/grafana-github-datasource"
+        "url": "https://github.com/rwe-supply-and-trading/github-datasource/tree/main/docs"
       },
       {
         "name": "Website",
-        "url": "https://github.com/grafana/github-datasource"
+        "url": "https://github.com/rwe-supply-and-trading/github-datasource"
       },
       {
         "name": "Report bug",
-        "url": "https://github.com/grafana/github-datasource/issues"
+        "url": "https://github.com/rwe-supply-and-trading/github-datasource/issues"
       }
     ],
     "screenshots": [],

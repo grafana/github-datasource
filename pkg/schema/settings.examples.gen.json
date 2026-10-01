@@ -26,6 +26,22 @@
         }
       }
     },
+    "enterpriseCloudDataResidency": {
+      "summary": "GitHub Enterprise Cloud with data residency",
+      "description": "Point the datasource at the tenant's dedicated GHE.com API base. REST and GitHub App token exchange use this base directly; GraphQL uses the /graphql path.",
+      "value": {
+        "jsonData": {
+          "appId": "123456",
+          "githubPlan": "github-enterprise-cloud-data-residency",
+          "githubUrl": "https://api.rwe.ghe.com",
+          "installationId": "12345678",
+          "selectedAuthType": "github-app"
+        },
+        "secureJsonData": {
+          "privateKey": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"
+        }
+      }
+    },
     "enterpriseServer": {
       "summary": "GitHub Enterprise Server (on-prem)",
       "description": "Point the datasource at a self-hosted GitHub Enterprise Server. jsonData.githubUrl is required when jsonData.githubPlan is 'github-enterprise-server'. Omit the trailing slash: the backend concatenates '/api/v3' and '/api/graphql' onto the value.",

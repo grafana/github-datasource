@@ -105,6 +105,24 @@ func TestPlugin(t *testing.T) {
 						},
 					},
 				},
+				"enterpriseCloudDataResidency": {
+					ExampleProps: spec3.ExampleProps{
+						Summary:     "GitHub Enterprise Cloud with data residency",
+						Description: "Point the datasource at the tenant's dedicated GHE.com API base. REST and GitHub App token exchange use this base directly; GraphQL uses the /graphql path.",
+						Value: map[string]any{
+							"jsonData": map[string]any{
+								"githubPlan":       models.GitHubPlanEnterpriseCloudDataResidency,
+								"githubUrl":        "https://api.rwe.ghe.com",
+								"selectedAuthType": string(models.AuthTypeGithubApp),
+								"appId":            "123456",
+								"installationId":   "12345678",
+							},
+							"secureJsonData": map[string]any{
+								"privateKey": "-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----",
+							},
+						},
+					},
+				},
 			},
 		},
 	})

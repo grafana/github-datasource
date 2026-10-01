@@ -20,13 +20,14 @@
             "enum": [
               "github-basic",
               "github-enterprise-cloud",
+              "github-enterprise-cloud-data-residency",
               "github-enterprise-server"
             ]
           },
           "githubUrl": {
             "type": "string",
-            "x-dsconfig-depends-on": "virtual_selectedLicense == 'github-enterprise-server'",
-            "x-dsconfig-required-when": "jsonData_githubPlan == 'github-enterprise-server'"
+            "x-dsconfig-depends-on": "virtual_selectedLicense == 'github-enterprise-server' || virtual_selectedLicense == 'github-enterprise-cloud-data-residency'",
+            "x-dsconfig-required-when": "jsonData_githubPlan == 'github-enterprise-server' || jsonData_githubPlan == 'github-enterprise-cloud-data-residency'"
           },
           "installationId": {
             "type": "string",
