@@ -302,6 +302,16 @@ func (c *CachedDatasource) HandlePullRequestFilesQuery(ctx context.Context, q *m
 	return c.saveCache(req, f, err)
 }
 
+// HandleCheckRunsQuery is the cache wrapper for the check runs query handler
+func (c *CachedDatasource) HandleCheckRunsQuery(ctx context.Context, q *models.CheckRunsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleCheckRunsQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // CheckHealth forwards the request to the datasource and does not perform any caching
 func (c *CachedDatasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
 	return c.datasource.CheckHealth(ctx, req)
