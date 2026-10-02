@@ -215,8 +215,8 @@ func TestGetCheckRunsFilterOptions(t *testing.T) {
 	if client.lastOpts.GetFilter() != "all" {
 		t.Errorf("expected filter 'all', got %q", client.lastOpts.GetFilter())
 	}
-	if client.lastOpts.ListOptions.PerPage != 100 {
-		t.Errorf("expected per page 100, got %d", client.lastOpts.ListOptions.PerPage)
+	if client.lastOpts.PerPage != 100 {
+		t.Errorf("expected per page 100, got %d", client.lastOpts.PerPage)
 	}
 }
 

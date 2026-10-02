@@ -107,7 +107,7 @@ func GetCheckRuns(ctx context.Context, client models.Client, opts models.CheckRu
 	page := 1
 
 	for {
-		listOpts.ListOptions.Page = page
+		listOpts.Page = page
 
 		results, resp, err := client.ListCheckRunsForRef(ctx, opts.Owner, opts.Repository, opts.Ref, listOpts)
 		if err != nil {
