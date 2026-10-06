@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.9.3
+
+### Patch Changes
+
+🐛 Security: Updated frontend dependencies to fix brace-expansion and basic-ftp vulnerabilities.
+⚙️ Chore: Removed obsolete frontend dependency overrides.
+
 ## 2.9.2
 
 ### Patch Changes
