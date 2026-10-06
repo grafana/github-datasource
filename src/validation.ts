@@ -24,6 +24,11 @@ export const isValid = (query: GitHubQuery): boolean => {
       return false;
     }
   }
+  if (query.queryType === "Webhook_Deliveries") {
+    if (isEmpty(query.owner) || isEmpty(query.options?.hookId)) {
+      return false;
+    }
+  }
   if (query.queryType === "Projects") {
     if (isEmpty(query.options?.user) && query.options?.kind === ProjectQueryType.USER) {
       return false;
