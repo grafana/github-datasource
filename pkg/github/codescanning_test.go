@@ -97,6 +97,10 @@ func (m *mockClient) ListPullRequestFiles(ctx context.Context, owner, repo strin
 	return nil, nil, nil
 }
 
+func (m *mockClient) ListCheckRunsForRef(ctx context.Context, owner, repo, ref string, opts *googlegithub.ListCheckRunsOptions) (*googlegithub.ListCheckRunsResults, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
 func TestGetCodeScanningAlerts(t *testing.T) {
 	var (
 		ctx  = context.Background()
