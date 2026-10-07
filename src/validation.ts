@@ -3,10 +3,17 @@ import { ProjectQueryType } from './constants';
 import type { GitHubQuery } from './types/query';
 
 export const isValid = (query: GitHubQuery): boolean => {
-  if (query.queryType === "Repositories" || query.queryType === "Code_Scanning") {
+  if (
+    query.queryType === "Repositories" ||
+    query.queryType === "CustomProperties" ||
+    query.queryType === "Code_Scanning"
+  ) {
     if (isEmpty(query.owner)) {
       return false;
     }
+  }
+  if (query.queryType === "Code_Search" && isEmpty(query.options?.query)) {
+    return false;
   }
   if (
     query.queryType === "Commits" ||

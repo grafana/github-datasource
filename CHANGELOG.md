@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.9.2-rwe.2
+
+- Replace the legacy repository search with paginated organization metadata, custom-property columns, and property filtering.
+- Add organization custom-property schema queries for dashboard variables and inspection.
+- Add generic code search for files and content, with exact-path filtering, text fragments, and optional complete-result enforcement.
+
 ## 2.9.2-rwe.1
 
 - Rebase the private fork release on upstream 2.9.2, including published data source configuration schemas.

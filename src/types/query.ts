@@ -18,6 +18,16 @@ export type CodeScanningOptions = Options & {
 type Code_ScanningQuery = BaseQuery<'Code_Scanning', CodeScanningOptions>
 //#endregion
 
+//#region Code Search Query
+export type CodeSearchOptions = Options & {
+  query?: string;
+  exactPath?: string;
+  includeTextMatches?: boolean;
+  requireComplete?: boolean;
+}
+type Code_SearchQuery = BaseQuery<'Code_Search', CodeSearchOptions>
+//#endregion
+
 //#region Commits Query
 export type CommitsOptions = Options & {
   gitRef?: string;
@@ -95,7 +105,18 @@ type LabelsQuery = BaseQuery<'Labels', LabelsOptions>
 //#endregion
 
 //#region Repositories Query
-type RepositoriesQuery = BaseQuery<'Repositories', {}>
+export type RepositoriesOptions = Options & {
+  propertyName?: string;
+  propertyValue?: string;
+}
+type RepositoriesQuery = BaseQuery<'Repositories', RepositoriesOptions>
+//#endregion
+
+//#region Organization Custom Properties Query
+export type CustomPropertiesOptions = Options & {
+  propertyName?: string;
+}
+type CustomPropertiesQuery = BaseQuery<'CustomProperties', CustomPropertiesOptions>
 //#endregion
 
 //#region Organizations Query
@@ -179,6 +200,7 @@ type DeploymentsQuery = BaseQuery<'Deployments', DeploymentsOptions>
 
 export type GitHubQuery =
   Code_ScanningQuery |
+  Code_SearchQuery |
   CommitsQuery |
   Commit_FilesQuery |
   IssuesQuery |
@@ -190,6 +212,7 @@ export type GitHubQuery =
   Pull_Request_FilesQuery |
   LabelsQuery |
   RepositoriesQuery |
+  CustomPropertiesQuery |
   OrganizationsQuery |
   GraphQLQuery |
   MilestonesQuery |

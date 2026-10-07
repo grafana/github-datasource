@@ -23,6 +23,8 @@ const (
 	QueryTypeLabels QueryType = "Labels"
 	// QueryTypeRepositories is used when querying for a GitHub repository
 	QueryTypeRepositories QueryType = "Repositories"
+	// QueryTypeCustomProperties is used when querying custom property definitions for an organization
+	QueryTypeCustomProperties QueryType = "CustomProperties"
 	// QueryTypeOrganizations is used when querying for GitHub organizations
 	QueryTypeOrganizations QueryType = "Organizations"
 	// QueryTypeGraphQL is used when sending an ad-hoc graphql query
@@ -47,6 +49,8 @@ const (
 	QueryTypeWorkflowRuns QueryType = "Workflow_Runs"
 	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
 	QueryTypeCodeScanning QueryType = "Code_Scanning"
+	// QueryTypeCodeSearch is used when searching repository contents
+	QueryTypeCodeSearch QueryType = "Code_Search"
 	// QueryTypeDeployments is used when querying deployments for a repository
 	QueryTypeDeployments QueryType = "Deployments"
 	// QueryTypeCommitFiles is used when querying files changed in a specific commit
@@ -111,6 +115,38 @@ type ContributorsQuery struct {
 // RepositoriesQuery is used when querying for GitHub repositories
 type RepositoriesQuery struct {
 	Query
+	Options RepositoriesOptions `json:"options"`
+}
+
+// RepositoriesOptions controls optional organization repository enrichment and filtering.
+type RepositoriesOptions struct {
+	PropertyName  string `json:"propertyName"`
+	PropertyValue string `json:"propertyValue"`
+}
+
+// CodeSearchOptions controls a GitHub code search.
+type CodeSearchOptions struct {
+	Query              string `json:"query"`
+	ExactPath          string `json:"exactPath"`
+	IncludeTextMatches bool   `json:"includeTextMatches"`
+	RequireComplete    bool   `json:"requireComplete"`
+}
+
+// CodeSearchQuery is used when searching code across repositories.
+type CodeSearchQuery struct {
+	Query
+	Options CodeSearchOptions `json:"options"`
+}
+
+// CustomPropertiesQuery is used when querying custom property definitions for an organization.
+type CustomPropertiesQuery struct {
+	Query
+	Options CustomPropertiesOptions `json:"options"`
+}
+
+// CustomPropertiesOptions filters organization custom-property definitions.
+type CustomPropertiesOptions struct {
+	PropertyName string `json:"propertyName"`
 }
 
 // IssuesQuery is used when querying for GitHub issues

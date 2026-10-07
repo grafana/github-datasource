@@ -101,6 +101,26 @@ func (c *CachedDatasource) HandleRepositoriesQuery(ctx context.Context, q *model
 	return c.saveCache(req, f, err)
 }
 
+// HandleCodeSearchQuery caches code-search queries.
+func (c *CachedDatasource) HandleCodeSearchQuery(ctx context.Context, q *models.CodeSearchQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleCodeSearchQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
+// HandleCustomPropertiesQuery caches custom-property queries.
+func (c *CachedDatasource) HandleCustomPropertiesQuery(ctx context.Context, q *models.CustomPropertiesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	if value, err := c.getCache(req); err == nil {
+		return value, err
+	}
+
+	f, err := c.datasource.HandleCustomPropertiesQuery(ctx, q, req)
+	return c.saveCache(req, f, err)
+}
+
 // HandleIssuesQuery is the cache wrapper for the issue query handler
 func (c *CachedDatasource) HandleIssuesQuery(ctx context.Context, q *models.IssuesQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	if value, err := c.getCache(req); err == nil {

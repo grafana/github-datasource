@@ -12,6 +12,8 @@ import (
 // The Datasource type handles the requests sent to the datasource backend
 type Datasource interface {
 	HandleRepositoriesQuery(context.Context, *models.RepositoriesQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleCodeSearchQuery(context.Context, *models.CodeSearchQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandleCustomPropertiesQuery(context.Context, *models.CustomPropertiesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleIssuesQuery(context.Context, *models.IssuesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleCommitsQuery(context.Context, *models.CommitsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleCodeScanningQuery(context.Context, *models.CodeScanningQuery, backend.DataQuery) (dfutil.Framer, error)

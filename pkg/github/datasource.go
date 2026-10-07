@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 
 	"github.com/grafana/github-datasource/pkg/dfutil"
@@ -26,12 +27,17 @@ type Datasource struct {
 
 // HandleRepositoriesQuery is the query handler for listing GitHub Repositories
 func (d *Datasource) HandleRepositoriesQuery(ctx context.Context, query *models.RepositoriesQuery, req backend.DataQuery) (dfutil.Framer, error) {
-	opt := models.ListRepositoriesOptions{
-		Owner:      query.Owner,
-		Repository: query.Repository,
-	}
+	return getEnrichedRepositories(ctx, d.client, query.Owner, query.Repository, query.Options.PropertyName, query.Options.PropertyValue)
+}
 
-	return GetAllRepositories(ctx, d.client, opt)
+// HandleCodeSearchQuery searches code across repositories.
+func (d *Datasource) HandleCodeSearchQuery(ctx context.Context, query *models.CodeSearchQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	return getCodeSearch(ctx, d.client, query.Options.Query, query.Options.ExactPath, query.Options.IncludeTextMatches, query.Options.RequireComplete)
+}
+
+// HandleCustomPropertiesQuery lists organization custom-property definitions.
+func (d *Datasource) HandleCustomPropertiesQuery(ctx context.Context, query *models.CustomPropertiesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	return getCustomProperties(ctx, d.client, query.Owner, query.Options.PropertyName)
 }
 
 // HandleIssuesQuery is the query handler for listing GitHub Issues
@@ -265,10 +271,7 @@ func (d *Datasource) HandleOrganizationsQuery(ctx context.Context, query *models
 
 // CheckHealth is the health check for GitHub
 func (d *Datasource) CheckHealth(ctx context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
-	_, err := GetAllRepositories(ctx, d.client, models.ListRepositoriesOptions{
-		Owner:      "grafana",
-		Repository: "github-datasource",
-	})
+	_, _, err := d.client.ListAllOrgRepositories(ctx, &googlegithub.ListOptions{Page: 1, PerPage: 1})
 	if err != nil {
 		if strings.Contains(err.Error(), "401 Unauthorized") {
 			return newHealthResult(backend.HealthStatusError, "401 Unauthorized. Check your API key/Access token")

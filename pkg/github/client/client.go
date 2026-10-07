@@ -243,6 +243,33 @@ func (client *Client) ListAllOrgRepositories(ctx context.Context, opts *googlegi
 	return userRepositories, resp, err
 }
 
+// ListRepositoriesByOrg lists repositories owned by an organization.
+func (client *Client) ListRepositoriesByOrg(ctx context.Context, org string, opts *googlegithub.RepositoryListByOrgOptions) ([]*googlegithub.Repository, *googlegithub.Response, error) {
+	repositories, resp, err := client.restClient.Repositories.ListByOrg(ctx, org, opts)
+	if err != nil {
+		return nil, resp, addErrorSourceToError(err, resp)
+	}
+	return repositories, resp, nil
+}
+
+// GetOrganizationCustomProperties lists custom property definitions for an organization.
+func (client *Client) GetOrganizationCustomProperties(ctx context.Context, org string) ([]*googlegithub.CustomProperty, *googlegithub.Response, error) {
+	properties, resp, err := client.restClient.Organizations.GetAllCustomProperties(ctx, org)
+	if err != nil {
+		return nil, resp, addErrorSourceToError(err, resp)
+	}
+	return properties, resp, nil
+}
+
+// SearchCode searches code visible to the configured GitHub identity.
+func (client *Client) SearchCode(ctx context.Context, query string, opts *googlegithub.SearchOptions) (*googlegithub.CodeSearchResult, *googlegithub.Response, error) {
+	result, resp, err := client.restClient.Search.Code(ctx, query, opts)
+	if err != nil {
+		return nil, resp, addErrorSourceToError(err, resp)
+	}
+	return result, resp, nil
+}
+
 // ListAlertsForRepo sends a request to the GitHub rest API to list the code scanning alerts in a specific repository.
 func (client *Client) ListAlertsForRepo(ctx context.Context, owner, repo string, opts *googlegithub.AlertListOptions) ([]*googlegithub.Alert, *googlegithub.Response, error) {
 	alerts, resp, err := client.restClient.CodeScanning.ListAlertsForRepo(ctx, owner, repo, opts)

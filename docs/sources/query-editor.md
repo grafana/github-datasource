@@ -33,6 +33,7 @@ Select a query type from the **Query Type** drop-down in the query editor:
 
 - [**Branches**](#branches): List branches for a repository, with optional name filtering.
 - [**Code scanning**](#code-scanning): Query code scanning alerts for a repository or organization.
+- [**Code search**](#code-search): Search files and content across repositories using GitHub code-search syntax.
 - [**Commit files**](#commit-files): List files changed in a specific commit.
 - [**Commits**](#commits): Retrieve a list of commits for a branch or ref within a repository, including commit message, author, and timestamp.
 - [**Contributors**](#contributors): Get a list of contributors to a repository.
@@ -46,13 +47,43 @@ Select a query type from the **Query Type** drop-down in the query editor:
 - [**Pull requests**](#pull-requests): List pull requests for a repository, using the GitHub query syntax to filter the response.
 - [**Pull request reviews**](#pull-request-reviews): List reviews for pull requests in a repository.
 - [**Releases**](#releases): List created releases for a repository.
-- [**Repositories**](#repositories): List repositories for a user or organization.
+- [**Repositories**](#repositories): List organization repositories with custom properties.
+- [**Custom properties**](#custom-properties): List custom-property definitions and allowed values.
 - [**Stargazers**](#stargazers): Get a list of users who have starred a repository, including the ability to plot a total count over time.
 - [**Tags**](#tags): List created tags for a repository.
 - [**Vulnerabilities**](#vulnerabilities): Query security vulnerabilities detected in a repository.
 - [**Workflows**](#workflows): List GitHub Actions workflows defined in a repository.
 - [**Workflow runs**](#workflow-runs): List runs for a specific workflow, including status, conclusion, and timing information.
 - [**Workflow usage**](#workflow-usage): Retrieve usage statistics for a workflow, such as run counts and durations.
+
+### Code search
+
+Search repository files and content using GitHub code-search syntax. Queries can use qualifiers such as `org:`, `repo:`, `filename:`, `path:`, and content terms.
+
+#### Query options
+
+| Name | Description | Required |
+|------|-------------|----------|
+| Search query | Raw GitHub code-search query | Yes |
+| Exact path | Optional exact file path applied after GitHub search | No |
+| Text matches | Include matching content fragments | No |
+| Require complete | Fail instead of returning partial results when GitHub search is incomplete or capped | No |
+
+#### Response
+
+| Name | Description |
+|------|-------------|
+| file_name | Matching file name |
+| path | File path in the repository |
+| sha | Matching blob SHA |
+| file_url | URL for the matching file |
+| repository_name | Repository name |
+| full_name | Repository name in `<OWNER>/<REPOSITORY>` format |
+| repository_url | Repository URL |
+| fragments | Matching content fragments when requested |
+| match_count | Number of text-match fragments |
+| total_count | Total results reported by GitHub before exact-path filtering |
+| complete | Whether all GitHub search results were retrieved |
 
 ### Code scanning
 
@@ -297,7 +328,7 @@ Show all deployments for a specific branch:
 List issues in a repository using the GitHub query syntax to filter the response. Useful for tracking open bugs, feature requests, or project tasks.
 
 {{< admonition type="note" >}}
-This query returns a maximum of 1000 results.
+The default GraphQL query returns a maximum of 1000 results. Enabling custom properties uses the paginated organization REST API instead.
 {{< /admonition >}}
 
 #### Query options
@@ -709,18 +740,16 @@ Show all releases for the `grafana/grafana` repository:
 
 ### Repositories
 
-List repositories for a user or organization.
-
-{{< admonition type="note" >}}
-This query returns a maximum of 1000 results.
-{{< /admonition >}}
+List repositories for an organization with extended metadata and custom properties.
 
 #### Query options
 
 | Name | Description | Required |
 |------|-------------|----------|
-| Owner | A GitHub user or organization | Yes |
+| Owner | A GitHub organization | Yes |
 | Repository | Filter on the name of the repository | No |
+| Property name | Custom property used to filter repositories | No |
+| Property value | Exact property value; use `*` or leave empty for all repositories | No |
 
 ##### Sample queries
 
@@ -733,14 +762,49 @@ Show all repositories for the `grafana` organization:
 | Name | Description |
 |------|-------------|
 | name | Name of the repository |
-| owner | Organization or user who owns the repository |
-| name_with_owner | Returns the owner and repository name in the format `<OWNER>/<REPOSITORY>`, for example: `grafana/loki` |
+| id | GitHub repository ID |
+| full_name | Repository name in `<OWNER>/<REPOSITORY>` format |
 | url | URL for the repository |
-| forks | The number of forks for a repository |
-| is_fork | Whether the repository is a fork of another repository: `true` or `false` |
-| is_mirror | Whether the repository is a mirror of another repository: `true` or `false` |
-| is_private | Whether the repository is private: `true` or `false` |
+| visibility | Repository visibility |
+| private | Whether the repository is private |
+| archived | Whether the repository is archived |
+| disabled | Whether the repository is disabled |
+| fork | Whether the repository is a fork |
+| default_branch | Default branch name |
+| language | Primary repository language |
+| description | Repository description |
+| topics | Comma-separated repository topics |
 | created_at | When the repository was created: YYYY-MM-DD HH:MM:SS |
+| updated_at | When the repository was updated: YYYY-MM-DD HH:MM:SS |
+| pushed_at | When content was last pushed: YYYY-MM-DD HH:MM:SS |
+| forks_count | Number of forks |
+| stargazers_count | Number of stargazers |
+| open_issues_count | Number of open issues |
+
+Each custom property definition is appended as a dynamically named column.
+
+### Custom properties
+
+List custom-property definitions for an organization. Select properties produce one row per allowed value, making this query suitable for dashboard variables.
+
+#### Query options
+
+| Name | Description | Required |
+|------|-------------|----------|
+| Owner | The GitHub organization | Yes |
+| Property name | Exact property name; leave empty to return the complete schema | No |
+
+#### Response
+
+| Name | Description |
+|------|-------------|
+| property_name | Custom-property name |
+| value_type | Property type: string, URL, boolean, single select, or multi-select |
+| required | Whether the property is required |
+| default_value | Configured default value |
+| description | Property description |
+| values_editable_by | Actors allowed to edit values |
+| allowed_value | One allowed value per row for select properties |
 
 ### Stargazers
 

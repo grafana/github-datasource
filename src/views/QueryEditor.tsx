@@ -25,6 +25,9 @@ import { QueryEditorWorkflowRuns } from './QueryEditorWorkflowRuns';
 import { QueryEditorCodeScanning } from './QueryEditorCodeScanning';
 import { QueryEditorDeployments } from './QueryEditorDeployments';
 import { QueryEditorBranches } from './QueryEditorBranches';
+import { QueryEditorRepositories } from './QueryEditorRepositories';
+import { QueryEditorCustomProperties } from './QueryEditorCustomProperties';
+import { QueryEditorCodeSearch } from './QueryEditorCodeSearch';
 
 import { DefaultQueryType, QueryTypes } from '../constants';
 
@@ -38,7 +41,16 @@ export const LeftColumnWidth = 12;
 export const RightColumnWidth = 36;
 
 const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val: any) => void) => ReactNode }> = {
-  ['Repositories']: { component: () => <></> },
+  ['Repositories']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorRepositories {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  ['CustomProperties']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCustomProperties {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
   ['GraphQL']: { component: () => <></> },
   ['Organizations']: { component: () => <></> },
   ['ProjectItems']: { component: () => <></> },
@@ -64,6 +76,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
   ['Code_Scanning']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorCodeScanning {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  ['Code_Search']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCodeSearch {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   ['Commits']: {
@@ -187,7 +204,7 @@ const QueryEditor = (props: Props) => {
               />
             </div>
           </EditorField>
-          {hasRepo(props.query.queryType) && (
+          {hasOwner(props.query.queryType) && (
             <QueryEditorOwner
               owner={props.query.owner}
               onChange={(repo) => {
@@ -198,7 +215,7 @@ const QueryEditor = (props: Props) => {
               }}
             />
           )}
-          {hasRepo(props.query.queryType) && (
+          {hasRepository(props.query.queryType) && (
             <QueryEditorRepository
               repository={props.query.repository}
               onChange={(repo) => {
@@ -220,10 +237,15 @@ const QueryEditor = (props: Props) => {
   );
 };
 
-const nonRepoTypes = ['Projects', 'ProjectItems'];
+const noOwnerTypes = ['Projects', 'ProjectItems', 'Code_Search'];
+const noRepositoryTypes = ['Projects', 'ProjectItems', 'Code_Search', 'CustomProperties'];
 
-function hasRepo(qt?: string) {
-  return !nonRepoTypes.includes(qt as QueryType);
+function hasOwner(qt?: string) {
+  return !noOwnerTypes.includes(qt as QueryType);
+}
+
+function hasRepository(qt?: string) {
+  return !noRepositoryTypes.includes(qt as QueryType);
 }
 
 export default QueryEditor;

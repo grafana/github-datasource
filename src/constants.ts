@@ -2,6 +2,7 @@ import { QueryType } from './types/query'
 
 export const QueryTypes = [
   'Code_Scanning',
+  'Code_Search',
   'Commits',
   'Commit_Files',
   'Issues',
@@ -14,6 +15,7 @@ export const QueryTypes = [
   'Pull_Request_Files',
   'Labels',
   'Repositories',
+  'CustomProperties',
   'Organizations',
   'GraphQL',
   'Milestones',
