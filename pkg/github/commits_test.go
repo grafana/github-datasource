@@ -57,6 +57,9 @@ func (m *commitsWithFilesMockClient) ListDeployments(_ context.Context, _, _ str
 func (m *commitsWithFilesMockClient) ListPullRequestFiles(_ context.Context, _, _ string, _ int, _ *googlegithub.ListOptions) ([]*googlegithub.CommitFile, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
+func (m *commitsWithFilesMockClient) ListCheckRunsForRef(_ context.Context, _, _, _ string, _ *googlegithub.ListCheckRunsOptions) (*googlegithub.ListCheckRunsResults, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
 
 func TestGetAllCommits(t *testing.T) {
 	var (

@@ -55,6 +55,8 @@ const (
 	QueryTypePullRequestFiles QueryType = "Pull_Request_Files"
 	// QueryTypeBranches is used when querying branches in a GitHub repository
 	QueryTypeBranches QueryType = "Branches"
+	// QueryTypeCheckRuns is used when querying check runs for a git reference in a GitHub repository
+	QueryTypeCheckRuns QueryType = "Check_Runs"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -192,4 +194,10 @@ type PullRequestFilesQuery struct {
 type BranchesQuery struct {
 	Query
 	Options ListBranchesOptions `json:"options"`
+}
+
+// CheckRunsQuery is used when querying check runs for a git reference in a GitHub repository
+type CheckRunsQuery struct {
+	Query
+	Options CheckRunsOptions `json:"options"`
 }

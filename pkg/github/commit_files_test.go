@@ -74,6 +74,10 @@ func (m *commitFilesMockClient) ListPullRequestFiles(_ context.Context, owner, r
 	return p.files, resp, nil
 }
 
+func (m *commitFilesMockClient) ListCheckRunsForRef(_ context.Context, _, _, _ string, _ *googlegithub.ListCheckRunsOptions) (*googlegithub.ListCheckRunsResults, *googlegithub.Response, error) {
+	return nil, nil, nil
+}
+
 func TestGetCommitFiles(t *testing.T) {
 	ctx := context.Background()
 	opts := models.CommitFilesOptions{

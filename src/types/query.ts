@@ -177,7 +177,18 @@ export type DeploymentsOptions = Options & {
 type DeploymentsQuery = BaseQuery<'Deployments', DeploymentsOptions>
 //#endregion
 
+//#region Check_Runs Query
+export type CheckRunsOptions = Options & {
+  gitRef?: string;
+  checkName?: string;
+  status?: string;
+  filter?: string;
+}
+type Check_RunsQuery = BaseQuery<'Check_Runs', CheckRunsOptions>
+//#endregion
+
 export type GitHubQuery =
+  Check_RunsQuery |
   Code_ScanningQuery |
   CommitsQuery |
   Commit_FilesQuery |
