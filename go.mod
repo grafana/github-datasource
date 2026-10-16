@@ -4,7 +4,7 @@ go 1.26.5
 
 require (
 	github.com/bradleyfalzon/ghinstallation/v2 v2.19.0
-	github.com/google/go-github/v84 v84.0.0
+	github.com/google/go-github/v92 v92.0.0
 	github.com/grafana/dsconfig/schema v0.0.12
 	github.com/grafana/grafana-plugin-sdk-go v0.296.4
 	github.com/influxdata/tdigest v0.0.1
