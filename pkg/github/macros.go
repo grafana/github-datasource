@@ -28,6 +28,15 @@ func trimAll(s []string) []string {
 	return r
 }
 
+// quoteQualifierValue wraps a qualifier value that contains whitespace in double quotes,
+// so GitHub search treats it as one value (ex: label:"good first issue")
+func quoteQualifierValue(v string) string {
+	if !strings.ContainsAny(v, " \t") || (len(v) > 1 && strings.HasPrefix(v, `"`) && strings.HasSuffix(v, `"`)) {
+		return v
+	}
+	return `"` + v + `"`
+}
+
 // InterPolateMacros interpolate macros on a given query string
 func InterPolateMacros(query string) (string, error) {
 	macros := map[string]macroFunc{
@@ -45,7 +54,7 @@ func InterPolateMacros(query string) (string, error) {
 					prop = arg
 					continue
 				}
-				out = strings.Trim(fmt.Sprintf("%s %s:%s", out, prop, arg), " ")
+				out = strings.Trim(fmt.Sprintf("%s %s:%s", out, prop, quoteQualifierValue(arg)), " ")
 			}
 			return out, nil
 		},
