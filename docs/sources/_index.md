@@ -30,6 +30,8 @@ Watch the following video to learn more about setting up the GitHub data source 
 
 {{< youtube id="DW693S3cO48" >}}
 
+{{< docs/play title="GitHub data source" url="https://play.grafana.org/d/d5b56357-1a57-4821-ab27-16fdf79cab57/" >}}
+
 ## Requirements
 
 To use the GitHub data source plugin, you need:
