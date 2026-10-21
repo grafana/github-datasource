@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.9.4
+
+### Patch Changes
+
+⚙️ Chore: Prepare a patch release with the updated Go toolchain and golangci-lint 2.15.0 CI/CD configuration.
+
 ## 2.9.3
 
 ### Patch Changes
