@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-⚙️ Chore: Pin golangci-lint to 2.15.0 in isolated development dependencies, matching CI/CD pipelines.
+⚙️ Chore: Prepare a patch release with the updated Go toolchain and golangci-lint 2.15.0 CI/CD configuration.
 
 ## 2.9.3
 
