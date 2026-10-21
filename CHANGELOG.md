@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.9.4
+
+### Patch Changes
+
+⚙️ Chore: Pin golangci-lint to 2.15.0 in isolated development dependencies, matching CI/CD pipelines.
+
 ## 2.9.3
 
 ### Patch Changes
