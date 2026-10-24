@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	googlegithub "github.com/google/go-github/v84/github"
+	googlegithub "github.com/google/go-github/v93/github"
 	"github.com/stretchr/testify/require"
 )
 
