@@ -5,7 +5,7 @@ go 1.27.3
 require (
 	github.com/araddon/dateparse v0.0.0-20210429162001-6b43995a97de
 	github.com/bradleyfalzon/ghinstallation/v2 v2.19.0
-	github.com/google/go-github/v84 v84.0.0
+	github.com/google/go-github/v93 v93.0.0
 	github.com/grafana/dsconfig/schema v0.0.13
 	github.com/grafana/grafana-plugin-sdk-go v0.297.0
 	github.com/influxdata/tdigest v0.0.1
