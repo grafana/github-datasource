@@ -667,6 +667,35 @@ The response includes one row per changed file:
 | status | Change type: `added`, `modified`, `renamed`, etc. |
 | previous_filename | Original path for renamed files |
 
+### Pull requests for branches
+
+Look up the pull requests opened from a list of branches. This query type has no query editor yet; send it through the data source query API (`/api/ds/query`) with `queryType: "Pull_Requests_For_Branches"`. All branches are looked up in one GitHub GraphQL request.
+
+#### Query options
+
+| Name | Description | Required |
+|------|-------------|----------|
+| `owner` | The GitHub user or organization that owns the repository | Yes |
+| `repository` | The name of the repository | Yes |
+| `options.branches` | Head branch names to look up, at most 100 | Yes |
+
+#### Response
+
+The response includes one row per pull request, with at most the five newest pull requests per branch. Branches without a pull request return no rows.
+
+| Name | Description |
+|------|-------------|
+| repository | Repository the pull requests belong to (`owner/name`) |
+| head_ref | Branch the pull request was opened from |
+| number | Pull request number |
+| state | `OPEN`, `CLOSED`, or `MERGED` |
+| created_at | When the pull request was opened |
+| merged_at | When the pull request was merged, if it was |
+| closed_at | When the pull request was closed, if it was |
+| base_ref | Branch the pull request targets |
+| head_repository | Repository the head branch lives in (`owner/name`); differs from `repository` for forks, empty if the fork was deleted |
+| default_branch | The repository's default branch |
+
 ### Pull request reviews
 
 List reviews for pull requests in a repository. This query returns one row per review, with the associated pull request details included. Useful for tracking review activity, reviewer workload, and review turnaround time.
