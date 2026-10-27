@@ -12,7 +12,7 @@ test.beforeAll(async ({ createDataSource }) => {
 
 test('QueryEditor smoke test', async ({ panelEditPage, page }) => {
   await panelEditPage.mockQueryDataResponse(githubResponse);
-  await panelEditPage.setVisualization('Table');
+  await panelEditPage.toggleTableView();
   await panelEditPage.datasource.set(datasourceName);
   const queryTypeContainer = panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel);
   await queryTypeContainer.getByRole('combobox').click();
@@ -31,7 +31,7 @@ test('QueryEditor smoke test', async ({ panelEditPage, page }) => {
 
 test('Branches query sends its filter and renders the response', async ({ panelEditPage, page }) => {
   await panelEditPage.mockQueryDataResponse(githubBranchesResponse);
-  await panelEditPage.setVisualization('Table');
+  await panelEditPage.toggleTableView();
   await panelEditPage.datasource.set(datasourceName);
 
   const queryTypeContainer = panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel);
