@@ -36,7 +36,7 @@ test('Branches query sends its filter and renders the response', async ({ panelE
 
   const queryTypeContainer = panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel);
   await queryTypeContainer.getByRole('combobox').click();
-  await page.getByRole('listbox').getByRole('option', { name: 'Branches' }).click();
+  await page.getByRole('listbox').getByRole('option', { name: 'Branches', exact: true }).click();
   await panelEditPage.getByGrafanaSelector(components.QueryEditor.Owner.input).fill('grafana');
   await panelEditPage.getByGrafanaSelector(components.QueryEditor.Repository.input).fill('github-datasource');
   await page.getByRole('textbox', { name: 'Branch filter' }).fill('release/');
