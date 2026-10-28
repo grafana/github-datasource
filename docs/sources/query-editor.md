@@ -45,6 +45,7 @@ Select a query type from the **Query Type** drop-down in the query editor:
 - [**Projects**](#projects): List projects associated with a user or organization.
 - [**Pull request files**](#pull-request-files): List files changed in a specific pull request.
 - [**Pull requests**](#pull-requests): List pull requests for a repository, using the GitHub query syntax to filter the response.
+- [**Pull requests for branches**](#pull-requests-for-branches): Look up the pull requests opened from up to 100 branches of a repository.
 - [**Pull request reviews**](#pull-request-reviews): List reviews for pull requests in a repository.
 - [**Releases**](#releases): List created releases for a repository.
 - [**Repositories**](#repositories): List repositories for a user or organization.
@@ -669,7 +670,7 @@ The response includes one row per changed file:
 
 ### Pull requests for branches
 
-Look up the pull requests opened from a list of branches. This query type has no query editor yet; send it through the data source query API (`/api/ds/query`) with `queryType: "Pull_Requests_For_Branches"`. All branches are looked up in one GitHub GraphQL request.
+Look up the pull requests opened from a list of branches. All branches are looked up in one GitHub GraphQL request. In the query editor, enter the branches as a comma-separated list; through the data source query API (`/api/ds/query`), send `queryType: "Pull_Requests_For_Branches"` with `options.branches`.
 
 #### Query options
 
@@ -677,7 +678,7 @@ Look up the pull requests opened from a list of branches. This query type has no
 |------|-------------|----------|
 | `owner` | The GitHub user or organization that owns the repository | Yes |
 | `repository` | The name of the repository | Yes |
-| `options.branches` | Head branch names to look up, at most 100 | Yes |
+| `options.branches` (**Branches**) | Head branch names to look up, at most 100 | Yes |
 
 #### Response
 
