@@ -42,6 +42,23 @@ describe('variables', () => {
     expect(t.replace).toHaveBeenNthCalledWith(6, 'options_bar2', {}, undefined);
   });
 
+  it('should interpolate string arrays and expand multi-value variables', () => {
+    const t = {
+      replace: jest.fn((a: string) => (a === '$branches' ? 'fix/b,fix/c' : a)),
+      getVariables: jest.fn(),
+      updateTimeRange: jest.fn(),
+      containsTemplate: jest.fn(),
+    };
+    const query = {
+      refId: 'A',
+      queryType: 'Pull_Requests_For_Branches',
+      options: { branches: ['feat/a', '$branches'] },
+    } as GitHubQuery;
+    const result: any = replaceVariables(t, query, {});
+    expect(result.options.branches).toEqual(['feat/a', 'fix/b', 'fix/c']);
+    expect(t.replace).toHaveBeenCalledWith('$branches', {}, 'csv');
+  });
+
   it('should interpolate variables in options as well', () => {
     const t = {
       replace: jest.fn((a: string) => a.slice(1, a.length)),

@@ -680,6 +680,8 @@ Look up the pull requests opened from a list of branches. All branches are looke
 | `repository` | The name of the repository | Yes |
 | `options.branches` (**Branches**) | Head branch names to look up, at most 100 | Yes |
 
+The **Branches** field accepts dashboard variables. A multi-value variable such as `$branches` expands to one branch per selected value.
+
 #### Response
 
 The response includes one row per pull request, with at most the five newest pull requests per branch. Branches without a pull request return no rows.
