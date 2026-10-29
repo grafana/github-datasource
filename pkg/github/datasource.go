@@ -113,11 +113,23 @@ func (d *Datasource) HandleReleasesQuery(ctx context.Context, query *models.Rele
 // HandlePullRequestsQuery is the query handler for listing GitHub PullRequests
 func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.PullRequestOptionsWithRepo(query.Options, query.Owner, query.Repository)
-
-	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
-		return GetAllPullRequests(ctx, d.client, opt)
+	if err := opt.ValidateFields(); err != nil {
+		return nil, err
 	}
-	return GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+
+	var (
+		pullRequests PullRequests
+		err          error
+	)
+	if req.TimeRange.From.Unix() <= 0 && req.TimeRange.To.Unix() <= 0 {
+		pullRequests, err = GetAllPullRequests(ctx, d.client, opt)
+	} else {
+		pullRequests, err = GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return pullRequestsFramer(pullRequests, opt), nil
 }
 
 // HandleReviewsQuery is the query handler for listing GitHub Pull Request Reviews

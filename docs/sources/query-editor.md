@@ -580,6 +580,11 @@ List pull requests for a repository, using the GitHub query syntax to filter the
 | Repository | The name of a repository | No |
 | Query | Use GitHub's [query syntax](https://docs.github.com/en/search-github/searching-on-github/searching-issues-and-pull-requests) to filter results | No |
 | Time field | The time field to filter the responses on: `CreatedAt`, `ClosedAt`, `MergedAt`, `UpdatedAt`, or `None` | Yes |
+| Additional fields | Under **Options**. Fields that are slow or large for GitHub to return: Additions / deletions, Mergeable, Author, Merged by, and Labels. All are fetched by default. | No |
+
+On repositories with many pull requests, clearing the additional fields under **Options** > **Additional fields** makes queries several times faster. Additions / deletions is the slowest. Columns for fields that aren't fetched are left out of the response. All other columns are always returned; to hide them, use the [Organize fields](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/transform-data/#organize-fields-by-name) transformation.
+
+If a dashboard variable or transformation uses one of these columns, for example `author_login`, keep its field selected. Otherwise the column is missing and the variable has no values.
 
 ##### Sample queries
 
@@ -611,36 +616,46 @@ Show open pull requests with a specific label:
 - Query: `is:open label:priority/high`
 - Time field: `None`
 
+Count pull requests merged in the selected time range, quickly, on a large repository:
+
+- Owner: `grafana`
+- Repository: `grafana`
+- Query: `is:merged`
+- Time field: `MergedAt`
+- Additional fields: none
+
 #### Response
+
+Columns marked with a field are only returned when that field is selected under **Options** > **Additional fields**.
 
 | Name | Description |
 |------|-------------|
 | number | Pull request number |
 | title | Pull request title |
 | url | URL to the pull request |
-| additions | Total number of lines of code added or altered in the pull request |
-| deletions | Total number of lines of code removed or altered in the pull request |
+| additions | Total number of lines of code added or altered in the pull request (field: Additions / deletions) |
+| deletions | Total number of lines of code removed or altered in the pull request (field: Additions / deletions) |
 | repository | Repository for the pull request |
 | state | Can be `OPEN`, `CLOSED`, or `MERGED` |
-| author_name | Name of the GitHub user who created the pull request |
-| author_login | GitHub handle of the GitHub user who created the pull request |
-| author_email | Email address of the GitHub user who created the pull request |
-| author_company | Company name of the GitHub user who created the pull request |
+| author_name | Name of the GitHub user who created the pull request (field: Author) |
+| author_login | GitHub handle of the GitHub user who created the pull request (field: Author) |
+| author_email | Email address of the GitHub user who created the pull request (field: Author) |
+| author_company | Company name of the GitHub user who created the pull request (field: Author) |
 | closed | Whether the pull request is closed: `true` or `false` |
 | is_draft | Whether the pull request is in draft: `true` or `false` |
 | locked | Whether the pull request has been locked: `true` or `false` |
 | merged | Whether the pull request has been merged |
-| mergeable | Whether the pull request can be automatically merged: `MERGEABLE`, `CONFLICTING`, or `UNKNOWN` |
+| mergeable | Whether the pull request can be automatically merged: `MERGEABLE`, `CONFLICTING`, or `UNKNOWN` (field: Mergeable) |
 | closed_at | When the pull request was closed: YYYY-MM-DD HH:MM:SS |
 | merged_at | When the pull request was merged: YYYY-MM-DD HH:MM:SS |
-| merged_by_name | Name of the GitHub user who merged the pull request |
-| merged_by_login | GitHub handle of the GitHub user who merged the pull request |
-| merged_by_email | Email address of the GitHub user who merged the pull request |
-| merged_by_company | Company name of the GitHub user who merged the pull request |
+| merged_by_name | Name of the GitHub user who merged the pull request (field: Merged by) |
+| merged_by_login | GitHub handle of the GitHub user who merged the pull request (field: Merged by) |
+| merged_by_email | Email address of the GitHub user who merged the pull request (field: Merged by) |
+| merged_by_company | Company name of the GitHub user who merged the pull request (field: Merged by) |
 | updated_at | When the pull request was last updated: YYYY-MM-DD HH:MM:SS |
 | created_at | When the pull request was created: YYYY-MM-DD HH:MM:SS |
 | open_time | Duration in seconds the pull request has been open |
-| labels | Array of labels assigned to the pull request, for example: `["bug", "priority/high"]` |
+| labels | Array of labels assigned to the pull request, for example: `["bug", "priority/high"]` (field: Labels) |
 
 ### Pull request files
 

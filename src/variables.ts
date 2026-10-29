@@ -35,7 +35,9 @@ const interpolateObject = (input: any, t: TemplateSrv, scoped: ScopedVars = {}) 
           newOptions = { ...newOptions, [key]: replaceVariable(t, option, scoped) };
         }
       } else if (Array.isArray(option)) {
-        const replaced = option.map((opt) => interpolateObject(opt, t, scoped));
+        const replaced = option.map((opt) =>
+          typeof opt === 'string' ? replaceVariable(t, opt, scoped) : interpolateObject(opt, t, scoped)
+        );
         newOptions = { ...newOptions, [key]: replaced };
       }
     }
