@@ -19,25 +19,25 @@ jest.mock('@grafana/ui', () => {
 const optionsFor = (values: string[]) => values.map((value) => ({ value }));
 
 describe('QueryEditorPullRequests', () => {
-  it('summarises all fields when fields is unset', () => {
+  it('summarizes all fields when fields is unset', () => {
     render(<QueryEditorPullRequests onChange={jest.fn()} />);
     expect(screen.getByText('Options')).toBeInTheDocument();
     expect(screen.getByText('Additional fields: All')).toBeInTheDocument();
   });
 
-  it('summarises the selected fields', () => {
+  it('summarizes the selected fields', () => {
     render(<QueryEditorPullRequests fields={['labels', 'author']} onChange={jest.fn()} />);
     expect(screen.getByText('Additional fields: Author, Labels')).toBeInTheDocument();
   });
 
-  it('does not summarise a list with duplicates as all fields', () => {
+  it('does not summarize a list with duplicates as all fields', () => {
     render(
       <QueryEditorPullRequests fields={['labels', 'labels', 'author', 'author', 'diffstat']} onChange={jest.fn()} />
     );
     expect(screen.getByText('Additional fields: Additions / deletions, Author, Labels')).toBeInTheDocument();
   });
 
-  it('summarises no additional fields', () => {
+  it('summarizes no additional fields', () => {
     render(<QueryEditorPullRequests fields={[]} onChange={jest.fn()} />);
     expect(screen.getByText('Additional fields: None')).toBeInTheDocument();
   });
