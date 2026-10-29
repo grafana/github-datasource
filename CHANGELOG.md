@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.9.5
+
+⚙️ Chore: Updated backend dependencies
+
 ## 2.9.4
 
 ### Patch Changes
