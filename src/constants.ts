@@ -1,4 +1,4 @@
-import { QueryType } from './types/query'
+import type { PullRequestField, QueryType } from './types/query'
 
 export const QueryTypes = [
   'Check_Runs',
@@ -49,6 +49,13 @@ export enum PullRequestTimeField {
   UpdatedAt,
   None,
 }
+
+// The additional fields of a Pull_Requests query, in the order they are shown and reported
+export const PullRequestFields: PullRequestField[] = ['diffstat', 'mergeable', 'author', 'merged_by', 'labels'];
+
+// Every additional field is fetched when fields is unset, or when it lists them all
+export const hasAllPullRequestFields = (fields?: PullRequestField[]) =>
+  fields === undefined || PullRequestFields.every((f) => fields.includes(f));
 
 export enum IssueTimeField {
   CreatedAt,
