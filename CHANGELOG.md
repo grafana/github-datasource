@@ -1,5 +1,15 @@
 # Change Log
 
+## 2.9.6
+
+### Patch Changes
+
+🐛 Security: Updated frontend dependencies to fix dompurify, zod, source-map-js and launch-editor vulnerabilities.
+
+## 2.9.5
+
+⚙️ Chore: Updated backend dependencies
+
 ## 2.9.4
 
 ### Patch Changes
