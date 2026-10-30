@@ -25,6 +25,8 @@ func TestInterPolateMacros(t *testing.T) {
 		{query: "hello $__multiVar(repo,*) world", want: "hello  world"},
 		{query: "hello $__multiVar(repo,a,b,c)", want: "hello repo:a repo:b repo:c"},
 		{query: "hello $__multiVar(repo,a,b,c) $__multiVar(label,c,b,a) world", want: "hello repo:a repo:b repo:c label:c label:b label:a world"},
+		{query: "is:open $__multiVar(label,good first issue,bug)", want: `is:open label:"good first issue" label:bug`},
+		{query: `is:open $__multiVar(label,"help wanted")`, want: `is:open label:"help wanted"`},
 		{query: "created:$__toDay(today)", wantErr: errors.New("argument for day is not an integer")},
 		{query: "created:$__toDay()", want: "created:" + time.Now().UTC().Format("2006-01-02")},
 		{query: "$__toDay(0)", want: time.Now().UTC().Format("2006-01-02")},
