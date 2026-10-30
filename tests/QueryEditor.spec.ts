@@ -1,4 +1,4 @@
-import { test, expect, satisfies, type PlaywrightArgs } from '@grafana/plugin-e2e';
+import { test, expect } from '@grafana/plugin-e2e';
 import { components } from '../src/components/selectors';
 import { githubBranchesResponse, githubResponse } from './mocks/github-response';
 
@@ -10,25 +10,9 @@ test.beforeAll(async ({ createDataSource }) => {
   datasourceName = datasource.name;
 });
 
-async function setTableVisualization({
-  panelEditPage,
-  grafanaVersion,
-  selectors,
-}: Pick<PlaywrightArgs, 'panelEditPage' | 'grafanaVersion' | 'selectors'>) {
-  if (!satisfies(grafanaVersion, '>=12.4.0 <13.0.0')) {
-    await panelEditPage.setVisualization('Table');
-    return;
-  }
-
-  // Grafana 12.4 reuses the picker toggle selector for its Back button.
-  await panelEditPage.getByGrafanaSelector(selectors.components.Tab.title(selectors.constants.Tab.title)).click();
-  await panelEditPage.getByGrafanaSelector(selectors.components.PluginVisualization.item('Table')).click();
-  await expect(panelEditPage.getVisualizationName()).toHaveText('Table');
-}
-
-test('QueryEditor smoke test', async ({ panelEditPage, page, grafanaVersion, selectors }) => {
+test('QueryEditor smoke test', async ({ panelEditPage, page }) => {
   await panelEditPage.mockQueryDataResponse(githubResponse);
-  await setTableVisualization({ panelEditPage, grafanaVersion, selectors });
+  await panelEditPage.toggleTableView();
   await panelEditPage.datasource.set(datasourceName);
   const queryTypeContainer = panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel);
   await queryTypeContainer.getByRole('combobox').click();
@@ -45,14 +29,9 @@ test('QueryEditor smoke test', async ({ panelEditPage, page, grafanaVersion, sel
   }
 });
 
-test('Branches query sends its filter and renders the response', async ({
-  panelEditPage,
-  page,
-  grafanaVersion,
-  selectors,
-}) => {
+test('Branches query sends its filter and renders the response', async ({ panelEditPage, page }) => {
   await panelEditPage.mockQueryDataResponse(githubBranchesResponse);
-  await setTableVisualization({ panelEditPage, grafanaVersion, selectors });
+  await panelEditPage.toggleTableView();
   await panelEditPage.datasource.set(datasourceName);
 
   const queryTypeContainer = panelEditPage.getByGrafanaSelector(components.QueryEditor.QueryType.container.ariaLabel);
