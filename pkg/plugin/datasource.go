@@ -22,6 +22,7 @@ type Datasource interface {
 	HandleReleasesQuery(context.Context, *models.ReleasesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleContributorsQuery(context.Context, *models.ContributorsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandlePullRequestsQuery(context.Context, *models.PullRequestsQuery, backend.DataQuery) (dfutil.Framer, error)
+	HandlePullRequestsForBranchesQuery(context.Context, *models.PullRequestsForBranchesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleLabelsQuery(context.Context, *models.LabelsQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandlePackagesQuery(context.Context, *models.PackagesQuery, backend.DataQuery) (dfutil.Framer, error)
 	HandleMilestonesQuery(context.Context, *models.MilestonesQuery, backend.DataQuery) (dfutil.Framer, error)

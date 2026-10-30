@@ -37,7 +37,7 @@
     "@changesets/cli": "3.0.3",
     "@grafana/e2e-selectors": "13.1.1",
     "@grafana/eslint-config": "9.0.0",
-    "@grafana/plugin-e2e": "3.12.0",
+    "@grafana/plugin-e2e": "3.15.3",
     "@grafana/plugin-meta-extractor": "0.13.0",
     "@grafana/sign-plugin": "4.0.0",
     "@grafana/tsconfig": "2.2.0",

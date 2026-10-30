@@ -35,7 +35,15 @@ const interpolateObject = (input: any, t: TemplateSrv, scoped: ScopedVars = {}) 
           newOptions = { ...newOptions, [key]: replaceVariable(t, option, scoped) };
         }
       } else if (Array.isArray(option)) {
-        const replaced = option.map((opt) => interpolateObject(opt, t, scoped));
+        // String items (ex: branches) expand multi-value variables into one item per value.
+        const replaced = option.flatMap((opt) =>
+          typeof opt === 'string'
+            ? (replaceVariable(t, opt, scoped, 'csv') ?? '')
+                .split(',')
+                .map((value) => value.trim())
+                .filter(Boolean)
+            : [interpolateObject(opt, t, scoped)]
+        );
         newOptions = { ...newOptions, [key]: replaced };
       }
     }
