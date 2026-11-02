@@ -65,9 +65,12 @@ type ReleasesQuery = BaseQuery<'Releases', ReleasesOptions>
 //#endregion
 
 //#region Pull_Requests Query
+export type PullRequestField = 'diffstat' | 'mergeable' | 'author' | 'merged_by' | 'labels'
 export type Pull_RequestsOptions = Options & {
   timeField?: PullRequestTimeField;
   query?: string;
+  // Optional field groups to fetch. When unset, every group is fetched.
+  fields?: PullRequestField[];
 }
 type Pull_RequestsQuery = BaseQuery<'Pull_Requests', Pull_RequestsOptions>
 //#endregion

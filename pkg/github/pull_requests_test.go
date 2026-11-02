@@ -2,11 +2,13 @@ package github
 
 import (
 	"context"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/github-datasource/pkg/testutil"
+	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/shurcooL/githubv4"
 )
 
@@ -20,7 +22,7 @@ func TestListPullRequests(t *testing.T) {
 		}
 	)
 
-	testVariables := testutil.GetTestVariablesFunction("query", "cursor")
+	testVariables := testutil.GetTestVariablesFunction("query", "cursor", "withDiffstat", "withMergeable", "withAuthor", "withMergedBy", "withLabels")
 
 	client := testutil.NewTestClient(t,
 		testVariables,
@@ -169,6 +171,14 @@ func TestPullRequestsDataFrame(t *testing.T) {
 	}
 
 	testutil.CheckGoldenFramer(t, "pull_requests", pullRequests)
+	testutil.CheckGoldenFramer(t, "pull_requests_selected_fields", PullRequestsWithFields{
+		PullRequests: pullRequests,
+		Options:      models.ListPullRequestsOptions{Fields: []models.PullRequestField{models.PullRequestFieldDiffstat, models.PullRequestFieldLabels}},
+	})
+	testutil.CheckGoldenFramer(t, "pull_requests_no_additional_fields", PullRequestsWithFields{
+		PullRequests: pullRequests,
+		Options:      models.ListPullRequestsOptions{Fields: []models.PullRequestField{}},
+	})
 }
 
 func TestBuildQuery(t *testing.T) {
@@ -202,4 +212,83 @@ func TestBuildQuery(t *testing.T) {
 			t.Fatalf("Unexpected result from buildQuery. Expected '%s', received '%s'", expect, result)
 		}
 	})
+}
+
+func TestListPullRequestsFieldVariables(t *testing.T) {
+	tests := []struct {
+		name   string
+		fields []models.PullRequestField
+		want   map[string]bool
+	}{
+		{
+			name:   "fields unset fetches every group",
+			fields: nil,
+			want:   map[string]bool{"withDiffstat": true, "withMergeable": true, "withAuthor": true, "withMergedBy": true, "withLabels": true},
+		},
+		{
+			name:   "selected fields fetches only those groups",
+			fields: []models.PullRequestField{models.PullRequestFieldLabels},
+			want:   map[string]bool{"withDiffstat": false, "withMergeable": false, "withAuthor": false, "withMergedBy": false, "withLabels": true},
+		},
+		{
+			name:   "empty fields fetches no optional group",
+			fields: []models.PullRequestField{},
+			want:   map[string]bool{"withDiffstat": false, "withMergeable": false, "withAuthor": false, "withMergedBy": false, "withLabels": false},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			opts := models.ListPullRequestsOptions{
+				Repository: "grafana",
+				Owner:      "grafana",
+				TimeField:  models.PullRequestClosedAt,
+				Fields:     tt.fields,
+			}
+			client := testutil.NewTestClient(t,
+				func(t *testing.T, variables map[string]interface{}) {
+					for name, want := range tt.want {
+						if got := variables[name]; got != githubv4.Boolean(want) {
+							t.Errorf("variable %s = %v, want %v", name, got, want)
+						}
+					}
+				},
+				testutil.GetTestQueryFunction(&QueryListPullRequests{}),
+			)
+
+			// GetPullRequestsInRange rebuilds the options, so this also checks that Fields is passed on
+			if _, err := GetPullRequestsInRange(context.Background(), client, opts, time.Now().Add(-24*time.Hour), time.Now()); err != nil {
+				t.Fatal(err)
+			}
+		})
+	}
+}
+
+func TestPullRequestsFramer(t *testing.T) {
+	prs := PullRequests{{Number: 1}}
+
+	if _, ok := pullRequestsFramer(prs, models.ListPullRequestsOptions{}).(PullRequests); !ok {
+		t.Error("fields unset should keep the original PullRequests frame")
+	}
+
+	fields := []models.PullRequestField{models.PullRequestFieldLabels}
+	framer, ok := pullRequestsFramer(prs, models.ListPullRequestsOptions{Fields: fields}).(PullRequestsWithFields)
+	if !ok {
+		t.Fatal("selected fields should use PullRequestsWithFields")
+	}
+	if got := len(framer.Frames()[0].Fields); got != 15 {
+		t.Errorf("labels only frame has %d columns, want 15", got)
+	}
+}
+
+func TestHandlePullRequestsQueryInvalidFields(t *testing.T) {
+	d := &Datasource{}
+	query := &models.PullRequestsQuery{
+		Options: models.ListPullRequestsOptions{Fields: []models.PullRequestField{"Labels"}},
+	}
+
+	// The fields are validated before the client is used, so the Datasource needs no client
+	_, err := d.HandlePullRequestsQuery(context.Background(), query, backend.DataQuery{})
+	if err == nil || !strings.Contains(err.Error(), `invalid pull request field "Labels"`) {
+		t.Fatalf("got error %v, want an invalid field error", err)
+	}
 }

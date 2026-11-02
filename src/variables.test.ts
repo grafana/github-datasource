@@ -2,6 +2,23 @@ import { replaceVariables } from './variables';
 import type { GitHubQuery } from './types/query';
 
 describe('variables', () => {
+  it('should keep string array items as strings', () => {
+    const t = {
+      replace: jest.fn((a) => a),
+      getVariables: jest.fn(),
+      updateTimeRange: jest.fn(),
+      containsTemplate: jest.fn(),
+    };
+    const query: GitHubQuery = {
+      refId: 'A',
+      queryType: 'Pull_Requests',
+      options: { fields: ['author', 'labels'] },
+    } as any as GitHubQuery;
+    expect(replaceVariables(t, query, {})).toStrictEqual({ ...query });
+    expect(t.replace).toHaveBeenCalledWith('author', {}, undefined);
+    expect(t.replace).toHaveBeenCalledWith('labels', {}, undefined);
+  });
+
   it('should not interpolate refId', () => {
     const t = {
       replace: jest.fn((a) => a),
