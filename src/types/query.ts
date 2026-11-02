@@ -72,6 +72,13 @@ export type Pull_RequestsOptions = Options & {
 type Pull_RequestsQuery = BaseQuery<'Pull_Requests', Pull_RequestsOptions>
 //#endregion
 
+//#region Pull_Requests_For_Branches Query
+export type Pull_Requests_For_BranchesOptions = Options & {
+  branches?: string[];
+}
+type Pull_Requests_For_BranchesQuery = BaseQuery<'Pull_Requests_For_Branches', Pull_Requests_For_BranchesOptions>
+//#endregion
+
 //#region Pull_Request_Files Query
 export type Pull_Request_FilesOption = Options & {
   prNumber?: number;
@@ -197,6 +204,7 @@ export type GitHubQuery =
   TagsQuery |
   ReleasesQuery |
   Pull_RequestsQuery |
+  Pull_Requests_For_BranchesQuery |
   Pull_Request_ReviewsQuery |
   Pull_Request_FilesQuery |
   LabelsQuery |

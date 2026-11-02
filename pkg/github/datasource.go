@@ -120,6 +120,16 @@ func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.
 	return GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
 }
 
+// HandlePullRequestsForBranchesQuery is the query handler for looking up GitHub PullRequests by head branch
+func (d *Datasource) HandlePullRequestsForBranchesQuery(ctx context.Context, query *models.PullRequestsForBranchesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListPullRequestsForBranchesOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		Branches:   query.Options.Branches,
+	}
+	return GetPullRequestsForBranches(ctx, d.client, opt)
+}
+
 // HandleReviewsQuery is the query handler for listing GitHub Pull Request Reviews
 func (d *Datasource) HandleReviewsQuery(ctx context.Context, query *models.PullRequestsQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.PullRequestOptionsWithRepo(query.Options, query.Owner, query.Repository)

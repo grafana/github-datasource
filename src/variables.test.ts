@@ -9,7 +9,13 @@ describe('variables', () => {
       updateTimeRange: jest.fn(),
       containsTemplate: jest.fn(),
     };
-    const query: GitHubQuery = { refId: 'A', foo: 'bar', foo1: 123.45, query: 'myQuery', foo2: 'bar2' } as any as GitHubQuery;
+    const query: GitHubQuery = {
+      refId: 'A',
+      foo: 'bar',
+      foo1: 123.45,
+      query: 'myQuery',
+      foo2: 'bar2',
+    } as any as GitHubQuery;
     expect(replaceVariables(t, query, {})).toStrictEqual({ ...query });
     expect(t.replace).toHaveBeenCalledTimes(3);
     expect(t.replace).toHaveBeenNthCalledWith(1, 'bar', {}, undefined);
@@ -40,6 +46,39 @@ describe('variables', () => {
     expect(t.replace).toHaveBeenNthCalledWith(4, 'options_bar', {}, undefined);
     expect(t.replace).toHaveBeenNthCalledWith(5, 'options_myQuery', {}, 'csv');
     expect(t.replace).toHaveBeenNthCalledWith(6, 'options_bar2', {}, undefined);
+  });
+
+  it('should interpolate string arrays and expand multi-value variables', () => {
+    const t = {
+      replace: jest.fn((a: string) => (a === '$branches' ? 'fix/b,fix/c' : a)),
+      getVariables: jest.fn(),
+      updateTimeRange: jest.fn(),
+      containsTemplate: jest.fn(),
+    };
+    const query = {
+      refId: 'A',
+      queryType: 'Pull_Requests_For_Branches',
+      options: { branches: ['feat/a', '$branches'] },
+    } as GitHubQuery;
+    const result: any = replaceVariables(t, query, {});
+    expect(result.options.branches).toEqual(['feat/a', 'fix/b', 'fix/c']);
+    expect(t.replace).toHaveBeenCalledWith('$branches', {}, 'csv');
+  });
+
+  it('should keep literal commas in string array items', () => {
+    const t = {
+      replace: jest.fn((a: string) => a),
+      getVariables: jest.fn(),
+      updateTimeRange: jest.fn(),
+      containsTemplate: jest.fn(),
+    };
+    const query = {
+      refId: 'A',
+      queryType: 'Pull_Requests_For_Branches',
+      options: { branches: ['feat/a,b', ''] },
+    } as GitHubQuery;
+    const result: any = replaceVariables(t, query, {});
+    expect(result.options.branches).toEqual(['feat/a,b', '']);
   });
 
   it('should interpolate variables in options as well', () => {

@@ -11,6 +11,7 @@ export const QueryTypes = [
   'Branches',
   'Releases',
   'Pull_Requests',
+  'Pull_Requests_For_Branches',
   'Pull_Request_Reviews',
   'Pull_Request_Files',
   'Labels',
