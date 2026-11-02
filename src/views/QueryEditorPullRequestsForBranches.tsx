@@ -9,7 +9,10 @@ interface Props extends Pull_Requests_For_BranchesOptions {
 }
 
 export const QueryEditorPullRequestsForBranches = ({ branches = [], onChange }: Props) => {
-  const [value, setValue] = useState<string>(branches.join(', '));
+  // Only what is being typed is kept locally, so branches changed elsewhere (query inspector,
+  // history, dashboard updates) show up as soon as the input is no longer being edited.
+  const [draft, setDraft] = useState<string>();
+  const value = draft ?? branches.join(', ');
 
   return (
     <EditorRow>
@@ -19,15 +22,16 @@ export const QueryEditorPullRequestsForBranches = ({ branches = [], onChange }: 
           width={RightColumnWidth * 2}
           value={value}
           placeholder="e.g. feat/new-panel, fix/typo"
-          onChange={(e) => setValue(e.currentTarget.value)}
-          onBlur={() =>
+          onChange={(e) => setDraft(e.currentTarget.value)}
+          onBlur={() => {
+            setDraft(undefined);
             onChange({
               branches: value
                 .split(',')
                 .map((branch) => branch.trim())
                 .filter(Boolean),
-            })
-          }
+            });
+          }}
         />
       </EditorField>
     </EditorRow>

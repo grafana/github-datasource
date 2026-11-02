@@ -16,4 +16,10 @@ describe('QueryEditorPullRequestsForBranches', () => {
     fireEvent.blur(input);
     expect(onChange).toHaveBeenCalledWith({ branches: ['feat/a', 'fix/b'] });
   });
+
+  it('shows branches changed from outside the editor', () => {
+    const { rerender } = render(<QueryEditorPullRequestsForBranches branches={['feat/a']} onChange={jest.fn()} />);
+    rerender(<QueryEditorPullRequestsForBranches branches={['fix/b']} onChange={jest.fn()} />);
+    expect(screen.getByRole('textbox')).toHaveValue('fix/b');
+  });
 });

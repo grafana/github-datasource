@@ -35,15 +35,22 @@ const interpolateObject = (input: any, t: TemplateSrv, scoped: ScopedVars = {}) 
           newOptions = { ...newOptions, [key]: replaceVariable(t, option, scoped) };
         }
       } else if (Array.isArray(option)) {
-        // String items (ex: branches) expand multi-value variables into one item per value.
-        const replaced = option.flatMap((opt) =>
-          typeof opt === 'string'
-            ? (replaceVariable(t, opt, scoped, 'csv') ?? '')
+        const replaced = option.flatMap((opt) => {
+          if (typeof opt !== 'string') {
+            return [interpolateObject(opt, t, scoped)];
+          }
+          const value = replaceVariable(t, opt, scoped, 'csv') ?? '';
+          // Only an interpolated item is split, so a literal comma (valid in a branch name) survives
+          // while a multi-value variable still expands into one item per value.
+          // shortcut: a single-value variable whose value contains a comma is still split; upgrade to
+          // asking TemplateSrv for the variable's multi-value flag if that ever matters.
+          return value === opt
+            ? [opt]
+            : value
                 .split(',')
-                .map((value) => value.trim())
-                .filter(Boolean)
-            : [interpolateObject(opt, t, scoped)]
-        );
+                .map((v) => v.trim())
+                .filter(Boolean);
+        });
         newOptions = { ...newOptions, [key]: replaced };
       }
     }
