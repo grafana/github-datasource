@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.10.0
+
+🚀 Add Pull Requests for Branches query type
+
+⚙️ Chore: Updated frontend & backend dependencies
+
 ## 2.9.6
 
 ### Patch Changes
