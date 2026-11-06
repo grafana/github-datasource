@@ -101,3 +101,13 @@ func (c *TestClient) ListPullRequestFiles(ctx context.Context, owner, repo strin
 func (c *TestClient) ListCheckRunsForRef(ctx context.Context, owner, repo, ref string, opts *googlegithub.ListCheckRunsOptions) (*googlegithub.ListCheckRunsResults, *googlegithub.Response, error) {
 	panic("unimplemented")
 }
+
+// ListOrgHookDeliveries is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListOrgHookDeliveries(ctx context.Context, org string, hookID int64, opts *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	panic("unimplemented")
+}
+
+// ListRepoHookDeliveries is not implemented because it is not being used in tests at the moment.
+func (c *TestClient) ListRepoHookDeliveries(ctx context.Context, owner, repo string, hookID int64, opts *googlegithub.ListCursorOptions) ([]*googlegithub.HookDelivery, *googlegithub.Response, error) {
+	panic("unimplemented")
+}

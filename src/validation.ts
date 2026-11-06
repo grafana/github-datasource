@@ -29,6 +29,11 @@ export const isValid = (query: GitHubQuery): boolean => {
   if (query.queryType === "Pull_Requests_For_Branches" && isEmpty(query.options?.branches)) {
     return false;
   }
+  if (query.queryType === "Webhook_Deliveries") {
+    if (isEmpty(query.owner) || isEmpty(query.options?.hookId)) {
+      return false;
+    }
+  }
   if (query.queryType === "Projects") {
     if (isEmpty(query.options?.user) && query.options?.kind === ProjectQueryType.USER) {
       return false;
