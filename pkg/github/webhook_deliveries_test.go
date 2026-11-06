@@ -193,6 +193,62 @@ func TestGetWebhookDeliveriesMarksRetentionLimitedResults(t *testing.T) {
 	}
 }
 
+func TestGetWebhookDeliveriesDoesNotMarkRecentRangeAsRetentionLimitedForQuietWebhook(t *testing.T) {
+	var (
+		ctx       = context.Background()
+		now       = time.Now()
+		timeRange = backend.TimeRange{From: now.Add(-1 * time.Hour), To: now}
+	)
+
+	client := &mockHookDeliveriesClient{
+		t:              t,
+		expectedOwner:  "grafana",
+		expectedHookID: 12345,
+		pages: [][]*googlegithub.HookDelivery{
+			{delivery(1, now.Add(-1*time.Minute), "push", googlegithub.Ptr(200))},
+		},
+	}
+
+	deliveries, err := GetWebhookDeliveries(ctx, client, models.ListWebhookDeliveriesOptions{
+		Owner:  "grafana",
+		HookID: "12345",
+	}, timeRange)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if deliveries.retentionLimited {
+		t.Fatal("expected a recent range for a quiet webhook not to be marked as retention limited")
+	}
+}
+
+func TestGetWebhookDeliveriesMarksEmptyOldRangeAsRetentionLimited(t *testing.T) {
+	var (
+		ctx       = context.Background()
+		now       = time.Now()
+		timeRange = backend.TimeRange{From: now.Add(-7 * 24 * time.Hour), To: now.Add(-6 * 24 * time.Hour)}
+	)
+
+	client := &mockHookDeliveriesClient{
+		t:              t,
+		expectedOwner:  "grafana",
+		expectedHookID: 12345,
+		pages:          [][]*googlegithub.HookDelivery{{}},
+	}
+
+	deliveries, err := GetWebhookDeliveries(ctx, client, models.ListWebhookDeliveriesOptions{
+		Owner:  "grafana",
+		HookID: "12345",
+	}, timeRange)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !deliveries.retentionLimited {
+		t.Fatal("expected an empty range older than the retention window to be marked as retention limited")
+	}
+}
+
 func TestGetWebhookDeliveriesFilters(t *testing.T) {
 	var (
 		ctx       = context.Background()

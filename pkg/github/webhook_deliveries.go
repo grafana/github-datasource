@@ -21,6 +21,8 @@ const (
 	// maxWebhookDeliveryPages caps how many requests a single query can send. The endpoint has no time filter,
 	// so a busy webhook would otherwise page through everything GitHub kept and exhaust the rate limit.
 	maxWebhookDeliveryPages = 50
+
+	webhookDeliveryRetention = 3 * 24 * time.Hour
 )
 
 // WebhookDeliveries is a list of deliveries of a GitHub webhook
@@ -109,12 +111,10 @@ func GetWebhookDeliveries(ctx context.Context, client models.Client, opts models
 	}
 
 	var (
-		result   = WebhookDeliveries{}
+		result = WebhookDeliveries{
+			retentionLimited: timeRange.From.Before(time.Now().Add(-webhookDeliveryRetention)),
+		}
 		listOpts = &googlegithub.ListCursorOptions{PerPage: webhookDeliveriesPerPage}
-
-		// oldestDelivered is the delivery time of the last delivery seen, which is the oldest one because the
-		// endpoint returns them from the most recent one
-		oldestDelivered *time.Time
 	)
 
 	// The endpoint has no time filter, so paging always starts at the most recent delivery. A time range that
@@ -145,8 +145,6 @@ func GetWebhookDeliveries(ctx context.Context, client models.Client, opts models
 				reachedStartOfTimeRange = true
 				break
 			}
-			oldestDelivered = deliveredAt
-
 			if matchesWebhookDeliveryFilters(delivery, opts, timeRange) {
 				result.deliveries = append(result.deliveries, delivery)
 			}
@@ -157,9 +155,6 @@ func GetWebhookDeliveries(ctx context.Context, client models.Client, opts models
 		}
 
 		if resp == nil || resp.Cursor == "" {
-			// GitHub has nothing older to return, so the deliveries only reach as far back as its retention
-			// window does
-			result.retentionLimited = oldestDelivered != nil && oldestDelivered.After(timeRange.From)
 			return result, nil
 		}
 		listOpts.Cursor = resp.Cursor
