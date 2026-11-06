@@ -61,6 +61,12 @@ func (d *Datasource) HandlePullRequestFilesQuery(ctx context.Context, query *mod
 	return GetPullRequestFiles(ctx, d.client, opt)
 }
 
+// HandleCheckRunsQuery is the query handler for listing check runs for a git reference in a GitHub repository
+func (d *Datasource) HandleCheckRunsQuery(ctx context.Context, query *models.CheckRunsQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.CheckRunsOptionsWithRepo(query.Options, query.Owner, query.Repository)
+	return GetCheckRuns(ctx, d.client, opt)
+}
+
 // HandleCodeScanningQuery is the query handler for listing code scanning alerts of a GitHub repository
 func (d *Datasource) HandleCodeScanningQuery(ctx context.Context, query *models.CodeScanningQuery, req backend.DataQuery) (dfutil.Framer, error) {
 	opt := models.CodeScanningOptionsWithRepo(query.Options, query.Owner, query.Repository)
@@ -112,6 +118,16 @@ func (d *Datasource) HandlePullRequestsQuery(ctx context.Context, query *models.
 		return GetAllPullRequests(ctx, d.client, opt)
 	}
 	return GetPullRequestsInRange(ctx, d.client, opt, req.TimeRange.From, req.TimeRange.To)
+}
+
+// HandlePullRequestsForBranchesQuery is the query handler for looking up GitHub PullRequests by head branch
+func (d *Datasource) HandlePullRequestsForBranchesQuery(ctx context.Context, query *models.PullRequestsForBranchesQuery, req backend.DataQuery) (dfutil.Framer, error) {
+	opt := models.ListPullRequestsForBranchesOptions{
+		Repository: query.Repository,
+		Owner:      query.Owner,
+		Branches:   query.Options.Branches,
+	}
+	return GetPullRequestsForBranches(ctx, d.client, opt)
 }
 
 // HandleReviewsQuery is the query handler for listing GitHub Pull Request Reviews

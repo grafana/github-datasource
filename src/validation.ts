@@ -11,6 +11,7 @@ export const isValid = (query: GitHubQuery): boolean => {
   if (
     query.queryType === "Commits" ||
     query.queryType === 'Commit_Files' ||
+    query.queryType === 'Check_Runs' ||
     query.queryType === "Contributors" ||
     query.queryType === "Tags" ||
     query.queryType === "Releases" ||
@@ -18,11 +19,15 @@ export const isValid = (query: GitHubQuery): boolean => {
     query.queryType === "Milestones" ||
     query.queryType === "Vulnerabilities" ||
     query.queryType === "Pull_Request_Files" ||
+    query.queryType === "Pull_Requests_For_Branches" ||
     query.queryType === "Stargazers"
   ) {
     if (isEmpty(query.owner) || isEmpty(query.repository)) {
       return false;
     }
+  }
+  if (query.queryType === "Pull_Requests_For_Branches" && isEmpty(query.options?.branches)) {
+    return false;
   }
   if (query.queryType === "Projects") {
     if (isEmpty(query.options?.user) && query.options?.kind === ProjectQueryType.USER) {

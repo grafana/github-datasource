@@ -1,0 +1,157 @@
+//  🌟 This was machine generated.  Do not edit. 🌟
+//  
+//  Frame[0] 
+//  Name: pull_requests_for_branches
+//  Dimensions: 10 Fields by 3 Rows
+//  +------------------+-----------------+---------------+----------------+-------------------------------+-------------------------------+-------------------------------+----------------+-----------------------+----------------------+
+//  | Name: repository | Name: head_ref  | Name: number  | Name: state    | Name: created_at              | Name: merged_at               | Name: closed_at               | Name: base_ref | Name: head_repository | Name: default_branch |
+//  | Labels:          | Labels:         | Labels:       | Labels:        | Labels:                       | Labels:                       | Labels:                       | Labels:        | Labels:               | Labels:              |
+//  | Type: []string   | Type: []string  | Type: []int64 | Type: []string | Type: []time.Time             | Type: []*time.Time            | Type: []*time.Time            | Type: []string | Type: []*string       | Type: []*string      |
+//  +------------------+-----------------+---------------+----------------+-------------------------------+-------------------------------+-------------------------------+----------------+-----------------------+----------------------+
+//  | grafana/sigil    | feat/a          | 12            | MERGED         | 2026-10-01 10:00:00 +0000 UTC | 2026-10-02 10:00:00 +0000 UTC | 2026-10-02 10:00:00 +0000 UTC | main           | grafana/sigil         | main                 |
+//  | grafana/sigil    | feat/a          | 7             | CLOSED         | 2026-09-01 10:00:00 +0000 UTC | null                          | 2026-09-03 10:00:00 +0000 UTC | main           | null                  | main                 |
+//  | grafana/sigil    | fix/"quoted" $x | 30            | OPEN           | 2026-10-05 10:00:00 +0000 UTC | null                          | null                          | release-1.0    | someone/sigil         | main                 |
+//  +------------------+-----------------+---------------+----------------+-------------------------------+-------------------------------+-------------------------------+----------------+-----------------------+----------------------+
+//  
+//  
+//  🌟 This was machine generated.  Do not edit. 🌟
+{
+  "status": 200,
+  "frames": [
+    {
+      "schema": {
+        "name": "pull_requests_for_branches",
+        "fields": [
+          {
+            "name": "repository",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "head_ref",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "number",
+            "type": "number",
+            "typeInfo": {
+              "frame": "int64"
+            }
+          },
+          {
+            "name": "state",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time"
+            }
+          },
+          {
+            "name": "merged_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "closed_at",
+            "type": "time",
+            "typeInfo": {
+              "frame": "time.Time",
+              "nullable": true
+            }
+          },
+          {
+            "name": "base_ref",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string"
+            }
+          },
+          {
+            "name": "head_repository",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "default_branch",
+            "type": "string",
+            "typeInfo": {
+              "frame": "string",
+              "nullable": true
+            }
+          }
+        ]
+      },
+      "data": {
+        "values": [
+          [
+            "grafana/sigil",
+            "grafana/sigil",
+            "grafana/sigil"
+          ],
+          [
+            "feat/a",
+            "feat/a",
+            "fix/\"quoted\" $x"
+          ],
+          [
+            12,
+            7,
+            30
+          ],
+          [
+            "MERGED",
+            "CLOSED",
+            "OPEN"
+          ],
+          [
+            1790848800000,
+            1788256800000,
+            1791194400000
+          ],
+          [
+            1790935200000,
+            null,
+            null
+          ],
+          [
+            1790935200000,
+            1788429600000,
+            null
+          ],
+          [
+            "main",
+            "main",
+            "release-1.0"
+          ],
+          [
+            "grafana/sigil",
+            null,
+            "someone/sigil"
+          ],
+          [
+            "main",
+            "main",
+            "main"
+          ]
+        ]
+      }
+    }
+  ]
+}

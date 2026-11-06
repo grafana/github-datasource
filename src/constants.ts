@@ -1,6 +1,7 @@
 import { QueryType } from './types/query'
 
 export const QueryTypes = [
+  'Check_Runs',
   'Code_Scanning',
   'Commits',
   'Commit_Files',
@@ -10,6 +11,7 @@ export const QueryTypes = [
   'Branches',
   'Releases',
   'Pull_Requests',
+  'Pull_Requests_For_Branches',
   'Pull_Request_Reviews',
   'Pull_Request_Files',
   'Labels',

@@ -72,6 +72,13 @@ export type Pull_RequestsOptions = Options & {
 type Pull_RequestsQuery = BaseQuery<'Pull_Requests', Pull_RequestsOptions>
 //#endregion
 
+//#region Pull_Requests_For_Branches Query
+export type Pull_Requests_For_BranchesOptions = Options & {
+  branches?: string[];
+}
+type Pull_Requests_For_BranchesQuery = BaseQuery<'Pull_Requests_For_Branches', Pull_Requests_For_BranchesOptions>
+//#endregion
+
 //#region Pull_Request_Files Query
 export type Pull_Request_FilesOption = Options & {
   prNumber?: number;
@@ -177,7 +184,18 @@ export type DeploymentsOptions = Options & {
 type DeploymentsQuery = BaseQuery<'Deployments', DeploymentsOptions>
 //#endregion
 
+//#region Check_Runs Query
+export type CheckRunsOptions = Options & {
+  gitRef?: string;
+  checkName?: string;
+  status?: string;
+  filter?: string;
+}
+type Check_RunsQuery = BaseQuery<'Check_Runs', CheckRunsOptions>
+//#endregion
+
 export type GitHubQuery =
+  Check_RunsQuery |
   Code_ScanningQuery |
   CommitsQuery |
   Commit_FilesQuery |
@@ -186,6 +204,7 @@ export type GitHubQuery =
   TagsQuery |
   ReleasesQuery |
   Pull_RequestsQuery |
+  Pull_Requests_For_BranchesQuery |
   Pull_Request_ReviewsQuery |
   Pull_Request_FilesQuery |
   LabelsQuery |

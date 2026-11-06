@@ -7,9 +7,56 @@ import (
 
 	"github.com/grafana/github-datasource/pkg/models"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+type settingsLogger struct {
+	log.Logger
+	warnings []map[string]any
+}
+
+func (l *settingsLogger) Warn(_ string, args ...any) {
+	fields := map[string]any{}
+	for i := 0; i < len(args); i += 2 {
+		fields[args[i].(string)] = args[i+1]
+	}
+	l.warnings = append(l.warnings, fields)
+}
+
+func TestSettingsIDConversionLogging(t *testing.T) {
+	previousLogger := log.DefaultLogger
+	t.Cleanup(func() { log.DefaultLogger = previousLogger })
+	for _, tc := range []struct {
+		name       string
+		jsonData   string
+		appID      string
+		installID  string
+		warnFields []string
+	}{
+		{name: "strings", jsonData: `{"appId":"1111","installationId":"2222"}`, appID: "1111", installID: "2222"},
+		{name: "numbers", jsonData: `{"appId":1111,"installationId":2222}`, appID: "1111", installID: "2222", warnFields: []string{"appId", "installationId"}},
+		{name: "mixed with large ID", jsonData: `{"appId":9007199254740993,"installationId":"2222"}`, appID: "9007199254740993", installID: "2222", warnFields: []string{"appId"}},
+		{name: "missing", jsonData: `{}`},
+		{name: "null", jsonData: `{"appId":null,"installationId":null}`, appID: "null", installID: "null"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			logger := &settingsLogger{Logger: log.NewNullLogger()}
+			log.DefaultLogger = logger
+			var settings models.Settings
+			require.NoError(t, json.Unmarshal([]byte(tc.jsonData), &settings))
+			assert.Equal(t, tc.appID, settings.AppId)
+			assert.Equal(t, tc.installID, settings.InstallationId)
+			require.Len(t, logger.warnings, len(tc.warnFields))
+			for i, field := range tc.warnFields {
+				assert.Equal(t, map[string]any{
+					"field": field, "from": "number", "to": "string", "outcome": "coerced",
+				}, logger.warnings[i])
+			}
+		})
+	}
+}
 
 func TestLoadSettings(t *testing.T) {
 	tests := []struct {
@@ -44,9 +91,9 @@ func TestLoadSettings(t *testing.T) {
 			want: models.Settings{
 				GitHubURL:           "https://foo.com",
 				SelectedAuthType:    models.AuthTypeGithubApp,
-				AppId:               []byte(`"1111"`),
+				AppId:               "1111",
 				AppIdInt64:          1111,
-				InstallationId:      []byte(`"2222"`),
+				InstallationId:      "2222",
 				InstallationIdInt64: 2222,
 				PrivateKey:          "foo",
 			},
@@ -63,9 +110,9 @@ func TestLoadSettings(t *testing.T) {
 			want: models.Settings{
 				GitHubURL:           "https://foo.com",
 				SelectedAuthType:    models.AuthTypeGithubApp,
-				AppId:               []byte(`1111`),
+				AppId:               "1111",
 				AppIdInt64:          1111,
-				InstallationId:      []byte(`2222`),
+				InstallationId:      "2222",
 				InstallationIdInt64: 2222,
 				PrivateKey:          "foo",
 			},

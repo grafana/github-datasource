@@ -1,5 +1,41 @@
 # Change Log
 
+## 2.10.0
+
+🚀 Add Pull Requests for Branches query type
+
+⚙️ Chore: Updated frontend & backend dependencies
+
+## 2.9.6
+
+### Patch Changes
+
+🐛 Security: Updated frontend dependencies to fix dompurify, zod, source-map-js and launch-editor vulnerabilities.
+
+## 2.9.5
+
+⚙️ Chore: Updated backend dependencies
+
+## 2.9.4
+
+### Patch Changes
+
+⚙️ Chore: Prepare a patch release with the updated Go toolchain and golangci-lint 2.15.0 CI/CD configuration.
+
+## 2.9.3
+
+### Patch Changes
+
+🐛 Security: Updated frontend dependencies to fix brace-expansion and basic-ftp vulnerabilities.
+⚙️ Chore: Removed obsolete frontend dependency overrides.
+
+## 2.9.2
+
+### Patch Changes
+
+⚙️ Chore: Updated backend dependencies.
+⚙️ Chore: Publish data source configuration schemas for provisioning and automation.
+
 ## 2.9.1
 
 ⚙️ Chore: Updated frontend & backend dependencies

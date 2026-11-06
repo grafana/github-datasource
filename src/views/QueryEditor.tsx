@@ -13,6 +13,7 @@ import { QueryEditorCommitFiles } from './QueryEditorCommitFiles';
 import { QueryEditorIssues } from './QueryEditorIssues';
 import { QueryEditorMilestones } from './QueryEditorMilestones';
 import { QueryEditorPullRequests } from './QueryEditorPullRequests';
+import { QueryEditorPullRequestsForBranches } from './QueryEditorPullRequestsForBranches';
 import { QueryEditorPullRequestReviews } from './QueryEditorPullRequestReviews';
 import { QueryEditorPullRequestFiles } from './QueryEditorPullRequestFiles';
 import { QueryEditorContributors } from './QueryEditorContributors';
@@ -23,6 +24,7 @@ import { QueryEditorWorkflows } from './QueryEditorWorkflows';
 import { QueryEditorWorkflowUsage } from './QueryEditorWorkflowUsage';
 import { QueryEditorWorkflowRuns } from './QueryEditorWorkflowRuns';
 import { QueryEditorCodeScanning } from './QueryEditorCodeScanning';
+import { QueryEditorCheckRuns } from './QueryEditorCheckRuns';
 import { QueryEditorDeployments } from './QueryEditorDeployments';
 import { QueryEditorBranches } from './QueryEditorBranches';
 
@@ -66,6 +68,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
       <QueryEditorCodeScanning {...(props.query.options || {})} onChange={onChange} />
     ),
   },
+  ['Check_Runs']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorCheckRuns {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
   ['Commits']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorCommits {...(props.query.options || {})} onChange={onChange} />
@@ -94,6 +101,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
   ['Pull_Requests']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorPullRequests {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  ['Pull_Requests_For_Branches']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorPullRequestsForBranches {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   ['Pull_Request_Reviews']: {
