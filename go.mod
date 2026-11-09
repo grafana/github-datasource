@@ -13,7 +13,7 @@ require (
 	github.com/shurcooL/githubv4 v0.0.0-20260209031235-2402fdf4a9ed
 	github.com/stretchr/testify v1.12.1
 	golang.org/x/oauth2 v0.37.0
-	k8s.io/kube-openapi v0.0.0-20261014044854-ca3452a79603
+	k8s.io/kube-openapi v0.0.0-20261104182252-5bee61fc5225
 	pgregory.net/rapid v1.3.0
 )
 
