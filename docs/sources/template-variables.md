@@ -66,7 +66,7 @@ The GitHub data source provides macros that add dynamic parts to your queries. M
 
 | Macro | Syntax | Description | Example |
 |-------|--------|-------------|---------|
-| **multiVar** | `$__multiVar(qualifier,$var)` | Expands a multi-value variable into GitHub search qualifiers. Each selected value is combined with the qualifier name in `qualifier:value` format. | `$__multiVar(label,$labels)` expands to `label:first-label label:second-label` |
+| **multiVar** | `$__multiVar(qualifier,$var)` | Expands a multi-value variable into GitHub search qualifiers. Each selected value is combined with the qualifier name in `qualifier:value` format. Values that contain spaces are wrapped in double quotes, for example `label:"good first issue"`. | `$__multiVar(label,$labels)` expands to `label:first-label label:second-label` |
 | **toDay** | `$__toDay(diff)` | Returns the current date in UTC, formatted as `YYYY-MM-DD`. An optional `diff` parameter offsets the date by the specified number of days. | `created:$__toDay(-7)` on 2022-01-17 expands to `created:2022-01-10` |
 
 ### Use multiVar with "All" selection
