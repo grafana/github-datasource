@@ -20,6 +20,8 @@ type checkRunPage struct {
 
 // checkRunsMockClient satisfies models.Client for check run tests
 type checkRunsMockClient struct {
+	*testutil.TestClient
+
 	pages         []checkRunPage
 	pageIdx       int
 	lastOpts      *googlegithub.ListCheckRunsOptions
