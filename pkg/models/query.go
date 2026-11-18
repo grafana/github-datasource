@@ -17,6 +17,8 @@ const (
 	QueryTypeReleases QueryType = "Releases"
 	// QueryTypePullRequests is used when querying pull requests in a GitHub repository
 	QueryTypePullRequests QueryType = "Pull_Requests"
+	// QueryTypeMergeQueueTimings is used when querying pull request merge queue attempts.
+	QueryTypeMergeQueueTimings QueryType = "Merge_Queue_Timings"
 	// QueryTypePullRequestReviews is used when querying pull request reviews in a GitHub repository
 	QueryTypePullRequestReviews = "Pull_Request_Reviews"
 	// QueryTypeLabels is used when querying labels in a GitHub repository

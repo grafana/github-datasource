@@ -51,6 +51,7 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	register(models.QueryTypeContributors, s.HandleContributors)
 	register(models.QueryTypeLabels, s.HandleLabels)
 	register(models.QueryTypePullRequests, s.HandlePullRequests)
+	register(models.QueryTypeMergeQueueTimings, s.HandleMergeQueueTimings)
 	register(models.QueryTypePullRequestReviews, s.HandlePullRequestReviews)
 	register(models.QueryTypeReleases, s.HandleReleases)
 	register(models.QueryTypeTags, s.HandleTags)

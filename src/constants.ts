@@ -10,6 +10,7 @@ export const QueryTypes = [
   'Tags',
   'Branches',
   'Releases',
+  'Merge_Queue_Timings',
   'Pull_Requests',
   'Pull_Requests_For_Branches',
   'Pull_Request_Reviews',
