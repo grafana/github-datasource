@@ -1,5 +1,18 @@
 # Change Log
 
+## 2.11.0
+
+### Minor Changes
+
+🚀 Add Webhook Deliveries query type for monitoring webhook delivery success rates and failures
+
+### Patch Changes
+
+🐛 Fix $__multiVar for values that contain spaces
+🐛 Security: bump moment and fast-uri to patched versions, and pin `@grafana/*` packages to 13.1.9
+🐛 Security: update frontend dependencies to fix CVEs
+⚙️ Chore: update frontend & backend dependencies
+
 ## 2.10.0
 
 🚀 Add Pull Requests for Branches query type
