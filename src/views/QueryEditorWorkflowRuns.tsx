@@ -14,9 +14,10 @@ export const QueryEditorWorkflowRuns = (props: Props) => {
 
   return (
     <EditorRow>
-      <EditorField label="Workflow" tooltip="The workflow id number or file name (e.g my-workflow.yml)">
+      <EditorField label="Workflow" tooltip="Leave empty for all workflows, or enter a workflow ID or file name.">
         <Input
-          value={workflow}
+          value={workflow ?? ''}
+          placeholder="All workflows"
           width={RightColumnWidth}
           onChange={(el) => setWorkflow(el.currentTarget.value)}
           onBlur={(el) =>

@@ -153,10 +153,11 @@ type StargazersQuery = BaseQuery<'Stargazers', {}>
 
 //#region Workflow_Runs Query
 export type WorkflowRunsOptions = Options & {
-  workflowID?: string;
+  workflow?: string;
   branch?: string;
 }
 type Workflow_RunsQuery = BaseQuery<'Workflow_Runs', WorkflowRunsOptions>
+type Workflow_Job_StepsQuery = BaseQuery<'Workflow_Job_Steps', WorkflowRunsOptions>
 //#endregion
 
 //#region Workflow_Usage Query
@@ -227,6 +228,7 @@ export type GitHubQuery =
   ProjectItemsQuery |
   StargazersQuery |
   Workflow_RunsQuery |
+  Workflow_Job_StepsQuery |
   Workflow_UsageQuery |
   WorkflowsQuery |
   DeploymentsQuery |

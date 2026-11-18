@@ -139,6 +139,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
       <QueryEditorWorkflowRuns {...(props.query.options || {})} onChange={onChange} />
     ),
   },
+  ['Workflow_Job_Steps']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorWorkflowRuns {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
   ['Deployments']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorDeployments {...(props.query.options || {})} onChange={onChange} />
