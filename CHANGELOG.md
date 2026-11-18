@@ -1,9 +1,27 @@
 # Change Log
 
+## 2.11.0
+
+### Minor Changes
+
+🚀 Add Webhook Deliveries query type for monitoring webhook delivery success rates and failures
+
+### Patch Changes
+
+🐛 Fix $__multiVar for values that contain spaces
+🐛 Security: bump moment and fast-uri to patched versions, and pin `@grafana/*` packages to 13.1.9
+🐛 Security: update frontend dependencies to fix CVEs
+⚙️ Chore: update frontend & backend dependencies
+
 ## 2.10.0
+
+### Minor Changes
 
 🚀 Add Pull Requests for Branches query type
 
+### Patch Changes
+
+🐛 Fix a connection freeze between Grafana and the plugin under heavy query load by updating google.golang.org/grpc to v1.85.0 ([grpc/grpc-go#9330](https://github.com/grpc/grpc-go/issues/9330))
 ⚙️ Chore: Updated frontend & backend dependencies
 
 ## 2.9.6
@@ -17,6 +35,10 @@
 ⚙️ Chore: Updated backend dependencies
 
 ## 2.9.4
+
+### Minor Changes
+
+🚀 Add a Check Runs query type that lists the check runs reported against a commit, branch, or tag, including status, conclusion, and duration
 
 ### Patch Changes
 
