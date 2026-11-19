@@ -54,7 +54,8 @@ Select a query type from the **Query Type** drop-down in the query editor:
 - [**Vulnerabilities**](#vulnerabilities): Query security vulnerabilities detected in a repository.
 - [**Webhook deliveries**](#webhook-deliveries): List deliveries of an organization or repository webhook, including the response status code.
 - [**Workflows**](#workflows): List GitHub Actions workflows defined in a repository.
-- [**Workflow runs**](#workflow-runs): List runs for a specific workflow, including status, conclusion, and timing information.
+- [**Workflow runs**](#workflow-runs): List runs across a repository or filter by workflow, including status, conclusion, and timing information.
+- [**Workflow job steps**](#workflow-job-steps): List individual job steps and their durations across workflow runs.
 - [**Workflow usage**](#workflow-usage): Retrieve usage statistics for a workflow, such as run counts and durations.
 
 ### Code scanning
@@ -1045,7 +1046,7 @@ Show all workflows created within the `grafana/grafana` repository within the cu
 
 ### Workflow runs
 
-List runs for a specific workflow, including status, conclusion, and timing information.
+List runs across a repository or filter by a specific workflow. The Grafana time range selects runs by creation time. GitHub limits time-filtered results to 1,000 runs; use a narrower range for busy repositories.
 
 #### Query options
 
@@ -1053,12 +1054,14 @@ List runs for a specific workflow, including status, conclusion, and timing info
 |------|-------------|----------|
 | Owner | GitHub user or organization that owns the repository | Yes |
 | Repository | Name of the repository | Yes |
-| Workflow | The workflow ID or file name. Use `id` or the filename from `path` from [Workflows](#workflows) queries. | Yes |
+| Workflow | Leave empty for all workflows, or enter a workflow ID or file name from [Workflows](#workflows). | No |
 | Branch | The head branch to filter on | No |
 
 ##### Sample queries
 
-Show all completed runs for the `Levitate` workflow in the `grafana/grafana` repository:
+To compare run outcomes across a repository, set **Owner** and **Repository**, and leave **Workflow** and **Branch** empty. In the panel, use **Group by** on `conclusion` and **Count** on `id`. To compare workflows side by side, also group by `workflow_id`.
+
+Show runs for the `Levitate` workflow in the `grafana/grafana` repository:
 
 - Owner: `grafana`
 - Repository: `grafana`
@@ -1089,6 +1092,12 @@ Show workflow runs for a specific branch (useful for monitoring release branch C
 | event | Event that triggered the workflow run (for example, `push` or `pull_request`). Refer to [Events that trigger workflows](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows). |
 | workflow_id | Unique identifier for the workflow definition |
 | run_number | The run number for this workflow run in the repository |
+
+### Workflow job steps
+
+List individual steps for the latest attempt of each matching workflow run. Use the same owner, repository, optional workflow and branch filters, and run creation time range as [Workflow runs](#workflow-runs). This detail query fetches jobs separately for each run, so it inspects at most the 50 most recent matching runs and reports a warning if the result is truncated. Use **Workflow Runs** for repository-wide run counts.
+
+The table contains one row per step and includes workflow, run and attempt, job and link, step number and name, status, conclusion, start and completion times, and `duration_seconds`. Skipped steps and steps without valid start and completion times have no duration. For a bottleneck panel, group by `workflow_name`, `job_name`, and `step_name`, then calculate the mean or maximum duration.
 
 ### Workflow usage
 

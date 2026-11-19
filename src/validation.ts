@@ -12,6 +12,8 @@ export const isValid = (query: GitHubQuery): boolean => {
     query.queryType === "Commits" ||
     query.queryType === 'Commit_Files' ||
     query.queryType === 'Check_Runs' ||
+    query.queryType === 'Workflow_Runs' ||
+    query.queryType === 'Workflow_Job_Steps' ||
     query.queryType === "Contributors" ||
     query.queryType === "Tags" ||
     query.queryType === "Releases" ||

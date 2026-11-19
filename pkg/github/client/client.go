@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/bradleyfalzon/ghinstallation/v2"
@@ -407,6 +408,15 @@ func (client *Client) getWorkflowUsage(ctx context.Context, owner, repo string, 
 	return client.restClient.Actions.GetWorkflowUsageByFileName(ctx, owner, repo, workflow)
 }
 
+// ListWorkflowJobs lists a page of jobs and their steps for an Actions run.
+func (client *Client) ListWorkflowJobs(ctx context.Context, owner, repo string, id int64, opts *googlegithub.ListWorkflowJobsOptions) (*googlegithub.Jobs, *googlegithub.Response, error) {
+	jobs, response, err := client.restClient.Actions.ListWorkflowJobs(ctx, owner, repo, id, opts)
+	if err != nil {
+		return nil, response, addErrorSourceToError(err, response)
+	}
+	return jobs, response, nil
+}
+
 func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange) ([]*googlegithub.WorkflowRun, error) {
 	workflowRuns := []*googlegithub.WorkflowRun{}
 
@@ -426,9 +436,8 @@ func (client *Client) GetWorkflowRuns(ctx context.Context, owner, repo, workflow
 }
 
 func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow string, branch string, timeRange backend.TimeRange, page int) ([]*googlegithub.WorkflowRun, int, error) {
+	workflow = strings.TrimSpace(workflow)
 	workflowID, _ := strconv.ParseInt(workflow, 10, 64)
-
-	workflowRuns := []*googlegithub.WorkflowRun{}
 
 	format := time.RFC3339
 	created := fmt.Sprintf("%s..%s", timeRange.From.Format(format), timeRange.To.Format(format))
@@ -439,29 +448,27 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 		err      error
 	)
 
-	if workflowID > 0 {
-		runs, response, err = client.restClient.Actions.ListWorkflowRunsByID(ctx, owner, repo, workflowID, &googlegithub.ListWorkflowRunsOptions{
-			Created:     created,
-			ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
-			Branch:      branch,
-		})
-	} else {
-		runs, response, err = client.restClient.Actions.ListWorkflowRunsByFileName(ctx, owner, repo, workflow, &googlegithub.ListWorkflowRunsOptions{
-			Created:     created,
-			ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
-			Branch:      branch,
-		})
+	opts := &googlegithub.ListWorkflowRunsOptions{
+		Created:     created,
+		ListOptions: googlegithub.ListOptions{Page: page, PerPage: 100},
+		Branch:      branch,
+	}
+	switch {
+	case workflow == "":
+		runs, response, err = client.restClient.Actions.ListRepositoryWorkflowRuns(ctx, owner, repo, opts)
+	case workflowID > 0:
+		runs, response, err = client.restClient.Actions.ListWorkflowRunsByID(ctx, owner, repo, workflowID, opts)
+	default:
+		runs, response, err = client.restClient.Actions.ListWorkflowRunsByFileName(ctx, owner, repo, workflow, opts)
 	}
 
 	if err != nil {
 		// If the workflow is not found, return a specific error.
-		if response != nil && response.StatusCode == http.StatusNotFound {
+		if workflow != "" && response != nil && response.StatusCode == http.StatusNotFound {
 			return nil, 0, backend.DownstreamError(errWorkflowNotFound)
 		}
 		return nil, 0, addErrorSourceToError(fmt.Errorf("fetching workflow runs: %w", err), response)
 	}
 
-	workflowRuns = append(workflowRuns, runs.WorkflowRuns...)
-
-	return workflowRuns, response.NextPage, nil
+	return runs.WorkflowRuns, response.NextPage, nil
 }

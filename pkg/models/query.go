@@ -45,6 +45,8 @@ const (
 	QueryTypeWorkflowUsage QueryType = "Workflow_Usage"
 	// QueryTypeWorkflowRuns is used when querying workflow runs for a repository
 	QueryTypeWorkflowRuns QueryType = "Workflow_Runs"
+	// QueryTypeWorkflowJobSteps is used when querying workflow job step durations.
+	QueryTypeWorkflowJobSteps QueryType = "Workflow_Job_Steps"
 	// QueryTypeCodeScanning is used when querying code scanning alerts for a repository
 	QueryTypeCodeScanning QueryType = "Code_Scanning"
 	// QueryTypeDeployments is used when querying deployments for a repository
