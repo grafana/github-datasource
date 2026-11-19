@@ -52,6 +52,7 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
     ),
   },
   ['Releases']: { component: () => <></> },
+  ['Merge_Queue_Timings']: { component: () => <></> },
   ['Vulnerabilities']: { component: () => <></> },
   ['Stargazers']: { component: () => <></> },
   ['Labels']: {

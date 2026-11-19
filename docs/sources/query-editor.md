@@ -40,6 +40,7 @@ Select a query type from the **Query Type** drop-down in the query editor:
 - [**Deployments**](#deployments): List deployments for a repository, including environment, ref, and task information.
 - [**Issues**](#issues): List issues in a repository, using the GitHub query syntax to filter the response.
 - [**Labels**](#labels): List labels defined in a repository.
+- [**Merge queue timings**](#merge-queue-timings): Measure how long each pull request attempt spent in GitHub's merge queue.
 - [**Milestones**](#milestones): Retrieve milestones for a repository, which can be used to group issues and pull requests.
 - [**Packages**](#packages): List packages published from a repository in an organization.
 - [**Projects**](#projects): List projects associated with a user or organization.
@@ -425,6 +426,28 @@ Show all labels for the `grafana/grafana` repository:
 | name | Label name |
 | color | Hexadecimal number |
 | description | Label description |
+
+### Merge queue timings
+
+Measure how long pull requests spend in GitHub's merge queue. Select **Merge Queue Timings** and set **Owner** and **Repository**. The query reads queue entry and removal events from each pull request's [GitHub timeline](https://docs.github.com/en/graphql/reference/pulls), rather than using workflow run or check run timestamps.
+
+The Grafana time range selects pull requests by their **last updated** timestamp. For each matching pull request, the query returns its full queue history, including attempts outside the selected range. A subsequent update can move a pull request out of a historical selection. GitHub search returns up to 1,000 matching pull requests, so use a narrower range for busy repositories.
+
+#### Response
+
+The table contains one row per queue attempt. A pull request that leaves and re-enters the queue has multiple rows; a pull request that never entered the queue has none.
+
+| Name | Description |
+|------|-------------|
+| `repository` | Repository in `owner/name` format |
+| `pull_request_number` | Pull request number |
+| `pull_request_url` | Link to the pull request |
+| `enqueued_at` | Timestamp of the queue entry |
+| `exited_at` | Timestamp of the matching queue removal, or null if no removal was recorded |
+| `exit_reason` | Removal reason reported by GitHub, such as `merged`, or null if unavailable |
+| `duration_seconds` | Seconds between queue entry and removal, or null for an attempt with no matching removal |
+
+To see the distribution of time spent in the queue, use a **Histogram** panel with the `duration_seconds` field. To compare merged attempts only, add a **Filter data by values** transformation that keeps rows where `exit_reason` is `merged`. This measures total time in the queue, not time spent running individual checks.
 
 ### Milestones
 

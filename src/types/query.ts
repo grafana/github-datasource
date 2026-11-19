@@ -72,6 +72,8 @@ export type Pull_RequestsOptions = Options & {
 type Pull_RequestsQuery = BaseQuery<'Pull_Requests', Pull_RequestsOptions>
 //#endregion
 
+type Merge_Queue_TimingsQuery = BaseQuery<'Merge_Queue_Timings', {}>
+
 //#region Pull_Requests_For_Branches Query
 export type Pull_Requests_For_BranchesOptions = Options & {
   branches?: string[];
@@ -212,6 +214,7 @@ export type GitHubQuery =
   ContributorsQuery |
   TagsQuery |
   ReleasesQuery |
+  Merge_Queue_TimingsQuery |
   Pull_RequestsQuery |
   Pull_Requests_For_BranchesQuery |
   Pull_Request_ReviewsQuery |
