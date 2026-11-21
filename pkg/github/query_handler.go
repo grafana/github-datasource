@@ -72,6 +72,7 @@ func GetQueryHandlers(s *QueryHandler) *datasource.QueryTypeMux {
 	register(models.QueryTypeCheckRuns, s.HandleCheckRuns)
 	register(models.QueryTypePullRequestsForBranches, s.HandlePullRequestsForBranches)
 	register(models.QueryTypeWebhookDeliveries, s.HandleWebhookDeliveries)
+	register(models.QueryTypeSecurityAdvisories, s.HandleSecurityAdvisories)
 
 	return mux
 }
