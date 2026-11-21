@@ -28,6 +28,7 @@ import { QueryEditorCheckRuns } from './QueryEditorCheckRuns';
 import { QueryEditorDeployments } from './QueryEditorDeployments';
 import { QueryEditorBranches } from './QueryEditorBranches';
 import { QueryEditorWebhookDeliveries } from './QueryEditorWebhookDeliveries';
+import { QueryEditorSecurityAdvisories } from './QueryEditorSecurityAdvisories';
 
 import { DefaultQueryType, QueryTypes } from '../constants';
 
@@ -142,6 +143,11 @@ const queryEditors: Record<QueryType, { component: (props: Props, onChange: (val
   ['Deployments']: {
     component: (props: Props, onChange: (val: any) => void) => (
       <QueryEditorDeployments {...(props.query.options || {})} onChange={onChange} />
+    ),
+  },
+  ['Security_Advisories']: {
+    component: (props: Props, onChange: (val: any) => void) => (
+      <QueryEditorSecurityAdvisories {...(props.query.options || {})} onChange={onChange} />
     ),
   },
   ['Webhook_Deliveries']: {

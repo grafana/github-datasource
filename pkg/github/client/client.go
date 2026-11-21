@@ -465,3 +465,13 @@ func (client *Client) getWorkflowRuns(ctx context.Context, owner, repo, workflow
 
 	return workflowRuns, response.NextPage, nil
 }
+
+// ListSecurityAdvisories returns one page of repository or organization advisories.
+func (client *Client) ListSecurityAdvisories(ctx context.Context, owner, repo string, opts *googlegithub.ListRepositorySecurityAdvisoriesOptions) ([]*googlegithub.SecurityAdvisory, *googlegithub.Response, error) {
+	if repo == "" {
+		advisories, resp, err := client.restClient.SecurityAdvisories.ListRepositorySecurityAdvisoriesForOrg(ctx, owner, opts)
+		return advisories, resp, addErrorSourceToError(err, resp)
+	}
+	advisories, resp, err := client.restClient.SecurityAdvisories.ListRepositorySecurityAdvisories(ctx, owner, repo, opts)
+	return advisories, resp, addErrorSourceToError(err, resp)
+}

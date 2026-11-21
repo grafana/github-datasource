@@ -52,6 +52,7 @@ Select a query type from the **Query Type** drop-down in the query editor:
 - [**Stargazers**](#stargazers): Get a list of users who have starred a repository, including the ability to plot a total count over time.
 - [**Tags**](#tags): List created tags for a repository.
 - [**Vulnerabilities**](#vulnerabilities): Query security vulnerabilities detected in a repository.
+- [**Security Advisories**](#security-advisories): Monitor repository or organization security advisories.
 - [**Webhook deliveries**](#webhook-deliveries): List deliveries of an organization or repository webhook, including the response status code.
 - [**Workflows**](#workflows): List GitHub Actions workflows defined in a repository.
 - [**Workflow runs**](#workflow-runs): List runs for a specific workflow, including status, conclusion, and timing information.
@@ -1133,3 +1134,15 @@ Show usage statistics for the `Levitate` detect breaking changes workflow in the
 | runs on Thursday | Number of runs started on Thursday |
 | runs on Friday | Number of runs started on Friday |
 | runs on Saturday | Number of runs started on Saturday |
+
+### Security Advisories
+
+Select **Security Advisories** to monitor the current state of advisories reported to GitHub repositories. Set **Owner** and **Repository** for one repository. To monitor an organization, enter its name in **Owner** and leave **Repository** blank.
+
+Use **State** to select **All**, **Triage**, **Draft**, **Published**, or **Closed**. Each row contains the advisory identifiers, summary, state, severity, web URL, and available lifecycle timestamps. Queries show the current state across all creation dates, regardless of the dashboard time range.
+
+To monitor reports awaiting review, select **Triage** and count `ghsa_id` in a Stat panel using the **Reduce** transformation with the **Count** calculation. Select **Draft** in a second query or panel to monitor advisories being prepared for publication.
+
+GitHub applies the configured credential's access. Public repository advisories can be listed without advisory permissions. For private published advisories and accessible unpublished advisories, classic tokens need `repo` or `repository_advisories:read` and fine-grained credentials need **Repository security advisories: Read**. Unpublished advisory access also depends on the caller's role or advisory collaboration.
+
+Organization queries require an organization owner or security manager. GitHub requires `repo` or `repository_advisories:write` for classic tokens, or **Repository security advisories: Write** for fine-grained credentials. See [GitHub's repository advisory API documentation](https://docs.github.com/en/rest/security-advisories/repository-advisories).

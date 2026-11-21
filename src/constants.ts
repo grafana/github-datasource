@@ -29,6 +29,7 @@ export const QueryTypes = [
   'Workflow_Runs',
   'Deployments',
   'Webhook_Deliveries',
+  'Security_Advisories',
 ] as const;
 
 

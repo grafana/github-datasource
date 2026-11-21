@@ -203,6 +203,10 @@ export type WebhookDeliveriesOptions = Options & {
 type Webhook_DeliveriesQuery = BaseQuery<'Webhook_Deliveries', WebhookDeliveriesOptions>
 //#endregion
 
+export type SecurityAdvisoryState = 'triage' | 'draft' | 'published' | 'closed';
+export type SecurityAdvisoriesOptions = { state?: SecurityAdvisoryState };
+type SecurityAdvisoriesQuery = BaseQuery<'Security_Advisories', SecurityAdvisoriesOptions>;
+
 export type GitHubQuery =
   Check_RunsQuery |
   Code_ScanningQuery |
@@ -231,7 +235,8 @@ export type GitHubQuery =
   WorkflowsQuery |
   DeploymentsQuery |
   BranchesQuery |
-  Webhook_DeliveriesQuery
+  Webhook_DeliveriesQuery |
+  SecurityAdvisoriesQuery
 
 export type GitHubVariableQuery = { key?: string; field?: string; } & GitHubQuery
 

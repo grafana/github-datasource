@@ -3,6 +3,9 @@ import { ProjectQueryType } from './constants';
 import type { GitHubQuery } from './types/query';
 
 export const isValid = (query: GitHubQuery): boolean => {
+  if (query.queryType === "Security_Advisories") {
+    return !!query.owner?.trim();
+  }
   if (query.queryType === "Repositories" || query.queryType === "Code_Scanning") {
     if (isEmpty(query.owner)) {
       return false;

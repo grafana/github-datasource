@@ -61,6 +61,8 @@ const (
 	QueryTypePullRequestsForBranches QueryType = "Pull_Requests_For_Branches"
 	// QueryTypeWebhookDeliveries is used when querying deliveries of an organization or repository webhook
 	QueryTypeWebhookDeliveries QueryType = "Webhook_Deliveries"
+	// QueryTypeSecurityAdvisories lists a repository or organization’s security advisories.
+	QueryTypeSecurityAdvisories QueryType = "Security_Advisories"
 )
 
 // Query refers to the structure of a query built using the QueryEditor.
@@ -216,4 +218,15 @@ type PullRequestsForBranchesQuery struct {
 type WebhookDeliveriesQuery struct {
 	Query
 	Options ListWebhookDeliveriesOptions `json:"options"`
+}
+
+// SecurityAdvisoriesQuery lists advisories for a repository or organization.
+type SecurityAdvisoriesQuery struct {
+	Query
+	Options SecurityAdvisoriesOptions `json:"options"`
+}
+
+// SecurityAdvisoriesOptions filters advisories by state.
+type SecurityAdvisoriesOptions struct {
+	State string `json:"state"`
 }
