@@ -11,12 +11,25 @@ import (
 	"syscall"
 	"testing"
 
+	"github.com/bradleyfalzon/ghinstallation/v2"
 	googlegithub "github.com/google/go-github/v84/github"
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/stretchr/testify/require"
 )
 
 func TestAddErrorSourceToError(t *testing.T) {
+	// Built the way the GraphQL client returns it: ghinstallation wraps the refresh failure
+	// with the installation id, and the HTTP client wraps that in a *url.Error.
+	installationRefreshErr := &url.Error{
+		Op:  "Post",
+		URL: "https://api.github.com/graphql",
+		Err: fmt.Errorf("could not refresh installation id 1's token: %w", &ghinstallation.HTTPError{
+			Message:        `received non 2xx response status "401 Unauthorized" when fetching https://api.github.com/app/installations/1/access_tokens`,
+			InstallationID: 1,
+			Response:       &http.Response{StatusCode: http.StatusUnauthorized},
+		}),
+	}
+
 	tests := []struct {
 		name     string
 		err      error
@@ -94,6 +107,34 @@ func TestAddErrorSourceToError(t *testing.T) {
 			err:      errors.New("Resource not accessible by integration"),
 			resp:     nil,
 			expected: backend.DownstreamError(errors.New("Resource not accessible by integration")),
+		},
+		{
+			// The exact text GitHub Enterprise returns when its token policy rejects a classic
+			// personal access token that lives longer than the enterprise allows.
+			name: "enterprise token lifetime policy message",
+			err: errors.New("The 'ExampleEnterprise' enterprise forbids access via a personal access tokens (classic) " +
+				"if the token's lifetime is greater than 30 days. Please adjust your token's lifetime at the following URL: " +
+				"https://github.com/settings/tokens/1"),
+			resp: nil,
+			expected: backend.DownstreamError(errors.New("The 'ExampleEnterprise' enterprise forbids access via a personal access tokens (classic) " +
+				"if the token's lifetime is greater than 30 days. Please adjust your token's lifetime at the following URL: " +
+				"https://github.com/settings/tokens/1")),
+		},
+		{
+			// A GitHub App installation token refresh that GitHub rejects with a 401. The error
+			// reaches the plugin wrapped in the url.Error from the GraphQL HTTP client and has no response.
+			name:     "github app installation token refresh rejected",
+			err:      installationRefreshErr,
+			resp:     nil,
+			expected: backend.DownstreamError(installationRefreshErr),
+		},
+		{
+			// Guard against matching too widely. A refresh-like message that is not about the
+			// installation token stays a plugin error.
+			name:     "unrelated could not refresh message is not reclassified",
+			err:      errors.New("could not refresh dashboard cache"),
+			resp:     nil,
+			expected: errors.New("could not refresh dashboard cache"),
 		},
 		{
 			// go-github's Response embeds a *http.Response that can be nil, even
