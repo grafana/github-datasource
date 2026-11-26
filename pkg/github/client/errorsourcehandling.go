@@ -23,6 +23,13 @@ var (
 		"API rate limit exceeded",
 		"API rate limit already exceeded",
 		"Resource not accessible by integration", // issue with incorrectly set permissions for token/app
+		// ghinstallation wraps every installation token refresh failure with this text, for example
+		// a revoked or invalid GitHub App key, a suspended app or an uninstalled app. The error comes
+		// from the credentials the user configured, so it is not a plugin bug.
+		"could not refresh installation id",
+		// GitHub Enterprise policy rejecting the user's personal access token, for example a classic
+		// token whose lifetime is longer than the enterprise allows.
+		"forbids access via a personal access token",
 	}
 )
 
@@ -39,11 +46,11 @@ func sanitizeGitHubError(err error) error {
 	// Flatten to a plain error to drop the unsafe Is method while keeping the
 	// message. These are every go-github error type that defines such an Is (github.go).
 	var (
-		errResp   *googlegithub.ErrorResponse
-		rateErr   *googlegithub.RateLimitError
-		abuseErr  *googlegithub.AbuseRateLimitError
-		acceptErr *googlegithub.AcceptedError
-		redirectErr  *googlegithub.RedirectionError
+		errResp     *googlegithub.ErrorResponse
+		rateErr     *googlegithub.RateLimitError
+		abuseErr    *googlegithub.AbuseRateLimitError
+		acceptErr   *googlegithub.AcceptedError
+		redirectErr *googlegithub.RedirectionError
 	)
 	if errors.As(err, &errResp) ||
 		errors.As(err, &rateErr) ||
